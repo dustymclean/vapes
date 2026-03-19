@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dab Rigs | Pixie's Pantry</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    
+    <div class="mobile-header">
+        <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+        <h2 style="margin:0; font-size:1.2em; letter-spacing:1px;">Pixie's Pantry</h2>
+        <button class="hamburger" onclick="toggleCart()">🛒 <span class="cart-count" style="font-size:0.7em;">0</span></button>
+    </div>
+
+    <div class="sidebar">
+        <div>
+            <a href="../index.html" style="text-decoration:none; color:inherit;">
+                <h2>Pixie's Pantry</h2>
+                <p style="margin: 5px 0 0 0; font-size: 0.85em; color: #888;">Group Buy Catalog</p>
+            </a>
+        </div>
+        
+        <div style="margin-bottom: 25px;">
+            <h3>Search Catalog</h3>
+            <form action="../shop.html" method="GET">
+                <input type="text" name="q" placeholder="Search..." style="margin-bottom:10px; width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                <button type="submit" style="width:100%; padding:10px; background:#111; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight: bold; text-transform: uppercase;">Search All</button>
+            </form>
+        </div>
+
+        <div>
+            <h3>Categories</h3>
+            <ul class="nav-list">
+                <a href="../index.html" class="nav-item">Home (Featured)</a>
+                <a href="../shop.html" class="nav-item">Shop All Items</a>
+                <a href="../categories/accessories.html" class="nav-item">Accessories</a>
+                <a href="../categories/accessory.html" class="nav-item">Accessory</a>
+                <a href="../categories/adapters-attachments.html" class="nav-item">Adapters & Attachments</a>
+                <a href="../categories/ash-catcher.html" class="nav-item">Ash Catcher</a>
+                <a href="../categories/atomizers-coils.html" class="nav-item">Atomizers & Coils</a>
+                <a href="../categories/banger.html" class="nav-item">Banger</a>
+                <a href="../categories/beaker-bong.html" class="nav-item">Beaker Bong</a>
+                <a href="../categories/bong.html" class="nav-item">Bong</a>
+                <a href="../categories/bongs.html" class="nav-item">Bongs</a>
+                <a href="../categories/bubblers.html" class="nav-item">Bubblers</a>
+                <a href="../categories/budsy-water-bottle-bong.html" class="nav-item">Budsy Water Bottle Bong</a>
+                <a href="../categories/bundle.html" class="nav-item">Bundle</a>
+                <a href="../categories/complete-base-neckpiece.html" class="nav-item">Complete: Base + Neckpiece</a>
+                <a href="../categories/concentrate-pipe.html" class="nav-item">Concentrate Pipe</a>
+                <a href="../categories/cupsy-coffee-cup-bong.html" class="nav-item">Cupsy Coffee Cup Bong</a>
+                <a href="../categories/dab-rig-oil-rig.html" class="nav-item">Dab Rig / Oil Rig</a>
+                <a href="../categories/dab-rig-sets.html" class="nav-item">Dab Rig Sets</a>
+                <a href="../categories/dab-rigs.html" class="nav-item active">Dab Rigs</a>
+                <a href="../categories/dab-straws.html" class="nav-item">Dab Straws</a>
+                <a href="../categories/dab-tools.html" class="nav-item">Dab Tools</a>
+                <a href="../categories/desktop-vaporizer.html" class="nav-item">Desktop Vaporizer</a>
+                <a href="../categories/downstem.html" class="nav-item">Downstem</a>
+                <a href="../categories/electric-rig-e-nail.html" class="nav-item">Electric Rig / E-Nail</a>
+                <a href="../categories/filters-tips.html" class="nav-item">Filters & Tips</a>
+                <a href="../categories/glass-cleaning-solution.html" class="nav-item">Glass Cleaning Solution</a>
+                <a href="../categories/grinder.html" class="nav-item">Grinder</a>
+                <a href="../categories/grinders.html" class="nav-item">Grinders</a>
+                <a href="../categories/hand-pipes.html" class="nav-item">Hand Pipes</a>
+                <a href="../categories/kit.html" class="nav-item">Kit</a>
+                <a href="../categories/maintenance.html" class="nav-item">Maintenance</a>
+                <a href="../categories/mouthpieces-o-rings.html" class="nav-item">Mouthpieces & O-Rings</a>
+                <a href="../categories/oil-rig.html" class="nav-item">Oil Rig</a>
+                <a href="../categories/part.html" class="nav-item">Part</a>
+                <a href="../categories/pollen-box.html" class="nav-item">Pollen Box</a>
+                <a href="../categories/pollen-press.html" class="nav-item">Pollen Press</a>
+                <a href="../categories/portable-vaporizer.html" class="nav-item">Portable Vaporizer</a>
+                <a href="../categories/pre-rolled.html" class="nav-item">Pre-Rolled</a>
+                <a href="../categories/pre-rolled-cones.html" class="nav-item">Pre-rolled Cones</a>
+                <a href="../categories/recycler.html" class="nav-item">Recycler</a>
+                <a href="../categories/rolling-accessories.html" class="nav-item">Rolling Accessories</a>
+                <a href="../categories/rolling-papers.html" class="nav-item">Rolling Papers</a>
+                <a href="../categories/rolling-tray.html" class="nav-item">Rolling Tray</a>
+                <a href="../categories/smoking-accessories.html" class="nav-item">Smoking Accessories</a>
+                <a href="../categories/spoon.html" class="nav-item">Spoon</a>
+                <a href="../categories/stand.html" class="nav-item">Stand</a>
+                <a href="../categories/storage.html" class="nav-item">Storage</a>
+                <a href="../categories/ted.html" class="nav-item">TED</a>
+                <a href="../categories/torches.html" class="nav-item">Torches</a>
+                <a href="../categories/vape-battery-for-cartridges.html" class="nav-item">Vape Battery for Cartridges</a>
+                <a href="../categories/vaporizer.html" class="nav-item">Vaporizer</a>
+                <a href="../categories/vaporizer-pen.html" class="nav-item">Vaporizer Pen</a>
+                <a href="../categories/vaporizers.html" class="nav-item">Vaporizers</a>
+                <a href="../categories/water-pipe.html" class="nav-item">Water Pipe</a>
+                <a href="../categories/water-pipes.html" class="nav-item">Water Pipes</a>
+                <a href="../categories/accessory.html" class="nav-item">accessory</a>
+                <a href="../categories/bong.html" class="nav-item">bong</a>
+                <a href="../categories/bundle.html" class="nav-item">bundle</a>
+                <a href="../categories/dab-rig.html" class="nav-item">dab rig</a>
+                <a href="../categories/downstem.html" class="nav-item">downstem</a>
+                <a href="../categories/mouthpiece.html" class="nav-item">mouthpiece</a>
+                <a href="../categories/rolling-tray.html" class="nav-item">rolling tray</a>
+                <a href="../categories/travel-case.html" class="nav-item">travel case</a>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="banner">DISCORD GROUP BUY SPRINT 001 | FLAT $12 SHIPPING</div>
+        <div class="main-content">
+            <div class="header">
+                <div><h1>Dab Rigs</h1><p>44 items vetted and available.</p></div>
+            </div>
+            <div class="grid">
+    
+                <div class="card" onclick="openModal('WP976')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-core-dab-rig-update.webp?v=1773000901" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar CORE 6” Glass Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$31.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP976')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP954')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/seshgear-spinner-dab-rig-1.png?v=1773000890" loading="lazy"></div>
+                        <div class="brand">SeshGear</div>
+                        <h3 class="title">SeshGear 8.5” Spinner Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$73.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP954')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('PP5164')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/halloween-pumpkin-ball-dab-rig.jpg?v=1760110837" loading="lazy"></div>
+                        <div class="brand">Dyspensr Wholesale</div>
+                        <h3 class="title">Dyspensr Halloween Ball Glass Dab Rig Set</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$79.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('PP5164')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('PP5217')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/haunted-house-dab-rig.jpg?v=1760110836" loading="lazy"></div>
+                        <div class="brand">Dyspensr Wholesale</div>
+                        <h3 class="title">Dyspensr Halloween House Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$55.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('PP5217')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP786')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-pumpkin-patch-glass-dab-rig.jpg?v=1760110846" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar Pumpkin Patch Glass Dab Rig Set</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$49.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP786')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP787')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-haunted-ghosts-dab-rig-set.jpg?v=1760110845" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar Haunted Ghosts Glass Dab Rig Set</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$49.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP787')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP604BL')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-electric-visions-mini-recycler-rig-group.jpg?v=1758214931" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 6.5” Electric Visions Mini Dab Rig</h3>
+                        <div class="variant">Transparent Blue Glass</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$69.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP604BL')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP604AB')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-electric-visions-mini-recycler-rig-group.jpg?v=1758214931" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 6.5” Electric Visions Mini Dab Rig</h3>
+                        <div class="variant">Transparent Amber Glass</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$69.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP604AB')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP604GR')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-electric-visions-mini-recycler-rig-group.jpg?v=1758214931" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 6.5” Electric Visions Mini Dab Rig</h3>
+                        <div class="variant">Transparent Green Glass</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$69.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP604GR')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP648RD')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-coffee-cup-glycerin-dab-rig-group.jpg?v=1758214925" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 6” Coffee Cup Glycerin Dab Rig</h3>
+                        <div class="variant">Glycerin Red</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$79.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP648RD')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP648GR')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-coffee-cup-glycerin-dab-rig-group.jpg?v=1758214925" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 6” Coffee Cup Glycerin Dab Rig</h3>
+                        <div class="variant">Glycerin Green</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$79.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP648GR')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP648BL')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-coffee-cup-glycerin-dab-rig-group.jpg?v=1758214925" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 6” Coffee Cup Glycerin Dab Rig</h3>
+                        <div class="variant">Glycerin Blue</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$79.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP648BL')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP657PU')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-delightful-donut-dab-rig-group.jpg?v=1758214921" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 6.75” Delightful Donut Dab Rig</h3>
+                        <div class="variant">Wildberry Frosted Donut</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$49.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP657PU')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP657BK')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-delightful-donut-dab-rig-group.jpg?v=1758214921" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 6.75” Delightful Donut Dab Rig</h3>
+                        <div class="variant">Chocolate Ganache Donut</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$49.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP657BK')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP657RD')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-delightful-donut-dab-rig-group.jpg?v=1758214921" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 6.75” Delightful Donut Dab Rig</h3>
+                        <div class="variant">Raspberry Jam Donut</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$49.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP657RD')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP652BL')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-supreme-swiss-dab-rig-group.jpg?v=1758214919" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 5.75” Supreme Swiss Mini Dab Rig</h3>
+                        <div class="variant">Transparent Blue Glass</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$55.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP652BL')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP652CL')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-supreme-swiss-dab-rig-group.jpg?v=1758214919" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 5.75” Supreme Swiss Mini Dab Rig</h3>
+                        <div class="variant">Transparent Clear Glass</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$55.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP652CL')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP652GR')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-supreme-swiss-dab-rig-group.jpg?v=1758214919" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 5.75” Supreme Swiss Mini Dab Rig</h3>
+                        <div class="variant">Transparent Green Glass</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$55.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP652GR')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP639')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-opposed-cones-recycler-dab-rig-back.jpg?v=1758214916" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 7.5" Opposed Cones Recycler Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$75.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP639')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('PP4755')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/melting-shroom-glow-dab-rig-side.jpg?v=1758214901" loading="lazy"></div>
+                        <div class="brand">Dyspensr Wholesale</div>
+                        <h3 class="title">Melting Shroom Glow 6" Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$41.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('PP4755')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP631')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-scientific-recycler-dab-rig.jpg?v=1758214937" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 6” Scientific Recycler Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$75.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP631')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP625')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-desert-mirage-dab-rig-set-extra.jpg?v=1758214937" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 5.5” Desert Mirage Dab Rig Set</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$99.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP625')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP615PK')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-triple-stack-donuts-dab-rig-group.jpg?v=1758214941" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 8” Triple Stack Donut Dab Rig</h3>
+                        <div class="variant">Strawberry Donut</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$89.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP615PK')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP615PU')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-triple-stack-donuts-dab-rig-group.jpg?v=1758214941" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 8” Triple Stack Donut Dab Rig</h3>
+                        <div class="variant">Wildberry Donut</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$89.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP615PU')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP615BL')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-triple-stack-donuts-dab-rig-group.jpg?v=1758214941" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 8” Triple Stack Donut Dab Rig</h3>
+                        <div class="variant">Blueberry Donut</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$89.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP615BL')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP640')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-kicked-back-recycler-rig-side.jpg?v=1758214936" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 7.5” Kicked Back Recycler Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$85.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP640')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP681')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-corner-pocket-8-ball-mini-rig-back.jpg?v=1758214935" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 4.5” 'Corner Pocket' 8 Ball Mini Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$59.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP681')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP621GR')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-cosmic-companion-recycler-rig-set-group.jpg?v=1758214934" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 7” Cosmic Companion Recycler Dab Rig Set</h3>
+                        <div class="variant">Transparent Green Glass</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$96.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP621GR')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP621BL')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-cosmic-companion-recycler-rig-set-group.jpg?v=1758214934" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 7” Cosmic Companion Recycler Dab Rig Set</h3>
+                        <div class="variant">Transparent Blue Glass</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$97.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP621BL')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP629')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-divine-recycler-rig.jpg?v=1758214928" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 6.75” Divine Recycler Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$59.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP629')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP638')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-chalice-dab-rig-extra.jpg?v=1758214928" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 7.25” Chalice Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$59.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP638')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP645')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-tea-pot-recycler-rig-extra.jpg?v=1758214926" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 7.75” Tea Pot Recycler Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$75.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP645')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP633')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-enchanted-klein-recycler-rig-side.jpg?v=1758214923" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 7” Enchanted Klein Recycler Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$75.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP633')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP636')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-hexadic-6-arm-recycler-rig-front.jpg?v=1758214920" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 8" Hexadic 6-Arm Recycler Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$85.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP636')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP643')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-super-ball-recycler-dab-rig-back.jpg?v=1758214918" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 7.75” Super Ball Recycler Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$69.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP643')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP685')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-sea-globe-recycler-dab-rig-extra.jpg?v=1758214915" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar 7” Sea Globe Recycler Dab Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$79.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP685')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('PTP2')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Dab-Rig-Bong-Travel-Kit-With-Quartz-Banger-Carb-Cap-Dabber-And-Flower-Bowl_4e798791-6433-443c-a391-327519f3f7d6.jpg?v=1755027246" loading="lazy"></div>
+                        <div class="brand">Honeybee Herb</div>
+                        <h3 class="title">Honeybee Herb Silicone Travel Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$39.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('PTP2')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP728')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-skull-reaper-dab-rig-side.png?v=1749599277" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar Angled Neck 6.25" Dab Rig (Multiple Styles)</h3>
+                        <div class="variant">Skull Reaper</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$39.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP728')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP727')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-skull-reaper-dab-rig-side.png?v=1749599277" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar Angled Neck 6.25" Dab Rig (Multiple Styles)</h3>
+                        <div class="variant">Reaper Madness</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$39.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP727')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP725')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-skull-reaper-dab-rig-side.png?v=1749599277" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar Angled Neck 6.25" Dab Rig (Multiple Styles)</h3>
+                        <div class="variant">Shroom Drip</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$39.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP725')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP726')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-skull-reaper-dab-rig-side.png?v=1749599277" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar Angled Neck 6.25" Dab Rig (Multiple Styles)</h3>
+                        <div class="variant">Frog of the Woods</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$39.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP726')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('WP730')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-skull-reaper-dab-rig-side.png?v=1749599277" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar Angled Neck 6.25" Dab Rig (Multiple Styles)</h3>
+                        <div class="variant">Moto Corgi</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$39.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('WP730')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('PP5155')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-skull-reaper-dab-rig-side.png?v=1749599277" loading="lazy"></div>
+                        <div class="brand">Pulsar</div>
+                        <h3 class="title">Pulsar Angled Neck 6.25" Dab Rig (Multiple Styles)</h3>
+                        <div class="variant">Sub Zero Shredder</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$39.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('PP5155')">Quick Add</button>
+                    </div>
+                </div>
+        
+                <div class="card" onclick="openModal('MJA-DR-ALPNCOL-APEX')">
+                    <div class="card-top">
+                        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/MJ-Arsenal-Apex-Mini-Rig.jpg?v=1749599194" loading="lazy"></div>
+                        <div class="brand">MJ Arsenal</div>
+                        <h3 class="title">MJ Arsenal Apex Mini Rig</h3>
+                        <div class="variant"></div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="price">$77.99</div>
+                        <button class="quick-add-btn" onclick="event.stopPropagation(); addToCart('MJA-DR-ALPNCOL-APEX')">Quick Add</button>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>Pixie's Pantry</h3>
+                <p>The premier Discord Group Buy Hub.<br>We leverage our authorized dealer status to bring you wholesale value and rigorous quality control.</p>
+                <a href="https://discord.gg/WxUAWPAJp" class="discord-btn" target="_blank">Join the Discord</a>
+            </div>
+            <div class="footer-col">
+                <h3>Contact & Support</h3>
+                <p>📞 Text: 601-327-8333</p>
+                <p>✉️ Support@pixies-pantry.com</p>
+                <p>All items backed by manufacturer warranty via Pixie's Pantry.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Catalog Index</h3>
+                <a href="../index.html">Home</a>
+                <a href="../shop.html">Shop All</a>
+                <a href="../categories/bongs.html">Glass & Bongs</a>
+                <a href="../categories/vaporizers.html">Vaporizers</a>
+            </div>
+        </div>
+    </footer>
+
+    </div>
+    
+    <!-- Floating Cart Desktop -->
+    <button class="cart-toggle" onclick="toggleCart()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span class="cart-count">0</span>
+    </button>
+
+    <!-- Slide-out Cart -->
+    <div class="cart-panel" id="cart-panel">
+        <div class="cart-header">
+            <h2>YOUR CART</h2>
+            <button class="close-cart" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="checkout-section">
+            <div class="cart-total"><span>Subtotal:</span><span id="cart-total-price">$0.00</span></div>
+            <p class="instructions">Submit your cart to lock in your spot for Sprint 001. A secure invoice will be DMed to you via Discord.</p>
+            <form action="https://formspree.io/f/xjgaaroa" method="POST">
+                <div class="form-group"><label>Discord Username</label><input type="text" name="discord_username" required placeholder="User#1234"></div>
+                <div class="form-group"><label>Shipping Name</label><input type="text" name="name" required></div>
+                <div class="form-group"><label>Payment Method</label>
+                    <select name="payment_method" required><option>Invoice Emailed (Card/ACH)</option><option>Venmo</option></select>
+                </div>
+                <input type="hidden" name="Order Details" id="order-payload">
+                <input type="hidden" name="Order Total" id="order-total-payload">
+                <button type="submit" class="checkout-btn" onclick="prepareCheckout(event)">Submit Build Sheet</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">✕</span>
+            <div class="modal-img-col"><img id="modal-img" src="" style="margin-bottom:20px;"><div id="modal-gallery" style="display:flex; flex-wrap:wrap; justify-content:center;"></div></div>
+            <div class="modal-info-col">
+                <div class="modal-brand" id="modal-brand"></div>
+                <h2 class="modal-title" id="modal-title"></h2>
+                <div class="modal-variant" id="modal-variant"></div>
+                
+                <div class="modal-price-wrap">
+                    <span class="modal-price" id="modal-price"></span>
+                    <span class="modal-msrp" id="modal-msrp"></span>
+                </div>
+                
+                <div class="modal-desc" id="modal-desc-container">
+                    <!-- Dynamic Auditor Description injected here -->
+                </div>
+                
+                <button class="modal-add-btn" id="modal-add-btn">Add to Build Sheet</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>
+    
