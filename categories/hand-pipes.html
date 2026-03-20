@@ -1,273 +1,1388 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixie's Pantry: Buy Group - Hand Pipes</title>
-    <meta name="description" content="Shop Hand Pipes at absolute wholesale prices. Exclusive Discord Group Buy powered by Dyspensr.">
-    <link rel="stylesheet" href="../css/style.css">
-    
-    <!-- OpenGraph SEO Tags -->
-    <meta property="og:title" content="Hand Pipes | Pixie's Pantry">
-    <meta property="og:description" content="Access premium vaporizers and glass at wholesale prices.">
-    <meta property="og:type" content="website">
+    <title>Pixie's Pantry | Hand Pipes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: sans-serif; background: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; padding: 20px; }
+        .card { position: relative; border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .card img { max-width: 100%; height: 160px; object-fit: contain; }
+        .brand-badge { font-size: 0.7em; color: #aaa; text-transform: uppercase; margin-top: 10px; }
+        .title { font-weight: bold; margin: 5px 0; font-size: 0.9em; height: 2.4em; overflow: hidden; }
+        .price { font-weight: 800; color: #111; }
+        
+        /* The Link Shortcut Icon */
+        .link-shortcut {
+            position: absolute; top: 10px; right: 10px; background: #fff; width: 30px; height: 30px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 0.8em; color: #888; border: 1px solid #eee; z-index: 5; transition: 0.2s;
+        }
+        .link-shortcut:hover { background: #111; color: #fff; border-color: #111; }
+    </style>
 </head>
 <body>
-    
-    <div class="sidebar">
-        <div class="close-btn" onclick="toggleMobileMenu()">×</div>
-        <div class="logo">Pixie's Pantry</div>
-        <div class="search-container mobile-only" style="margin-bottom: 20px;">
-            <span class="search-icon">🔍</span>
-            <input type="text" class="product-search-bar" placeholder="Search products...">
-        </div>
-        <a href="../index.html" class="sidebar-link" style="font-weight:bold; color:#111; background:#f0f0f0; margin-bottom:15px; border-left:4px solid #d4af37;">🏠 HOME / MASTER CATALOG</a><div class="sidebar-section">Advanced Filters</div>
-<div class="filter-group">
-    <div style="font-weight:bold; color:#111; margin-bottom:10px; font-size:0.85em; text-transform:uppercase;">Price</div>
-    <label><input type="checkbox" class="price-filter" value="under50"> Under $50</label>
-    <label><input type="checkbox" class="price-filter" value="50-100"> $50 - $100</label>
-    <label><input type="checkbox" class="price-filter" value="over100"> Over $100</label>
-</div>
-<div class="filter-group">
-    <div style="font-weight:bold; color:#111; margin-bottom:10px; font-size:0.85em; text-transform:uppercase;">Material</div>
-    <label><input type="checkbox" class="mat-filter" value="glass"> Premium Glass</label>
-    <label><input type="checkbox" class="mat-filter" value="silicone"> Silicone</label>
-    <label><input type="checkbox" class="mat-filter" value="metal"> Metal / Alloy</label>
-</div>
-<div class="sidebar-section">Shop By Brand</div><a href="../brands/apex-ancillary.html" class="sidebar-link">Apex Ancillary</a><a href="../brands/blazer.html" class="sidebar-link">Blazer</a><a href="../brands/ccell.html" class="sidebar-link">CCELL</a><a href="../brands/cali-crusher.html" class="sidebar-link">Cali Crusher</a><a href="../brands/chill-steel-pipes.html" class="sidebar-link">Chill Steel Pipes</a><a href="../brands/daze-glass.html" class="sidebar-link">Daze Glass</a><a href="../brands/dr-dabber.html" class="sidebar-link">Dr. Dabber</a><a href="../brands/dynavap.html" class="sidebar-link">DynaVap</a><a href="../brands/dyspensr-wholesale.html" class="sidebar-link">Dyspensr Wholesale</a><a href="../brands/empire-glassworks.html" class="sidebar-link">Empire Glassworks</a><a href="../brands/flower-mill.html" class="sidebar-link">Flower Mill</a><a href="../brands/grav-grav-labs.html" class="sidebar-link">GRAV / Grav Labs</a><a href="../brands/grenco-science.html" class="sidebar-link">Grenco Science</a><a href="../brands/hemper.html" class="sidebar-link">Hemper</a><a href="../brands/honeybee-herb.html" class="sidebar-link">Honeybee Herb</a><a href="../brands/invincibowl.html" class="sidebar-link">Invincibowl</a><a href="../brands/jane-west.html" class="sidebar-link">Jane West</a><a href="../brands/la-pipes.html" class="sidebar-link">LA Pipes</a><a href="../brands/lookah.html" class="sidebar-link">Lookah</a><a href="../brands/mj-arsenal.html" class="sidebar-link">MJ Arsenal</a><a href="../brands/my-bud-vase.html" class="sidebar-link">My Bud Vase</a><a href="../brands/ongrok.html" class="sidebar-link">Ongrok</a><a href="../brands/ooze.html" class="sidebar-link">Ooze</a><a href="../brands/pax.html" class="sidebar-link">PAX</a><a href="../brands/pink-formula.html" class="sidebar-link">Pink Formula</a><a href="../brands/prism-pipes.html" class="sidebar-link">Prism Pipes</a><a href="../brands/puffco.html" class="sidebar-link">Puffco</a><a href="../brands/pulsar.html" class="sidebar-link">Pulsar</a><a href="../brands/raw-rolling-papers.html" class="sidebar-link">RAW Rolling Papers</a><a href="../brands/rhythms-of-life.html" class="sidebar-link">Rhythms of Life</a><a href="../brands/rokin-vapes.html" class="sidebar-link">Rokin Vapes</a><a href="../brands/slx-grinders.html" class="sidebar-link">SLX Grinders</a><a href="../brands/santa-cruz-shredder.html" class="sidebar-link">Santa Cruz Shredder</a><a href="../brands/seshgear.html" class="sidebar-link">SeshGear</a><a href="../brands/sharpstone.html" class="sidebar-link">SharpStone</a><a href="../brands/smoke-source.html" class="sidebar-link">Smoke Source</a><a href="../brands/smokebuddy.html" class="sidebar-link">Smokebuddy</a><a href="../brands/softglass.html" class="sidebar-link">Softglass</a><a href="../brands/stache-products.html" class="sidebar-link">Stache Products</a><a href="../brands/storz-bickel.html" class="sidebar-link">Storz & Bickel</a><a href="../brands/stündenglass.html" class="sidebar-link">Stündenglass</a><a href="../brands/the-kind-pen.html" class="sidebar-link">The Kind Pen</a><a href="../brands/vibes.html" class="sidebar-link">VIBES</a><a href="../brands/wulf-mods.html" class="sidebar-link">Wulf Mods</a><a href="../brands/xvape.html" class="sidebar-link">Xvape</a><a href="../brands/yocan.html" class="sidebar-link">Yocan</a><a href="../brands/zenco.html" class="sidebar-link">Zenco</a><div class="sidebar-section">Shop By Category</div><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/oil-rig.html" class="sidebar-link">Oil Rig</a><a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a><a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a><a href="../categories/rolling-accessories.html" class="sidebar-link">Rolling Accessories</a><a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a>
-    </div>
-
-    
-    <div class="mobile-header">
-        <div class="hamburger" onclick="toggleMobileMenu()">☰</div>
-        <div class="logo" style="font-size:1.1em; letter-spacing:1px;">Pixie's Pantry</div>
-        <div class="cart-icon" onclick="toggleCart()">🛒 <span class="cart-count">0</span></div>
-    </div>
-    
-    <div class="main-wrapper">
-        <div class="banner">DISCORD GROUP BUY SPRINT 001 | FLAT $12 SHIPPING</div>
-        
-        <div class="top-nav">
-            <div class="search-container desktop-only" style="display:none;">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="product-search-bar" placeholder="Search for brands, products, glass...">
-            </div>
-            <div class="cart-icon" onclick="toggleCart()" style="cursor:pointer; font-weight:bold;">🛒 Cart (<span class="cart-count">0</span>)</div>
-        </div>
-        
-        <div class="main-content">
-            <div style="font-size:0.85em; color:#888; margin-bottom:15px;"><a href="../index.html" style="color:#111; text-decoration:none;">Home</a> / Categories / <strong style="color:#d4af37;">Hand Pipes</strong></div>
-            <div class="header" style="border-bottom:none; margin-bottom:20px;">
-                <div><h1 style="font-size:2.8em; color:#111; margin:0;">Hand Pipes</h1></div>
-            </div>
-    
-        <div class="catalog-toolbar" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-bottom: 30px; background:#fff; padding:15px; border-radius:12px; border:1px solid #f0f0f0; box-shadow:0 5px 15px rgba(0,0,0,0.02);">
-            <div class="search-container" style="flex-grow:1; max-width:400px; min-width:250px; margin:0;">
-                <span class="search-icon" style="left:15px;">🔍</span>
-                <input type="text" class="product-search-bar" placeholder="Search catalog..." style="width:100%; padding:12px 20px 12px 40px; border-radius:25px; border:1px solid #eaeaea; background:#fcfcfc; outline:none; transition:0.3s; font-size:0.95em;">
-            </div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap; flex-grow:1; justify-content:flex-end;">
-                <select id="sort-dropdown" onchange="sortCatalog()" style="padding:12px 20px; border-radius:25px; border:1px solid #eaeaea; background:#fcfcfc; font-weight:600; color:#111; outline:none; cursor:pointer; font-size:0.9em;">
-                    <option value="default">Sort: Featured</option>
-                    <option value="price-asc">Price: Low to High</option>
-                    <option value="price-desc">Price: High to Low</option>
-                    <option value="name-asc">Name: A to Z</option>
-                </select>
-                <button class="mobile-only filter-btn" onclick="toggleMobileMenu()" style="padding:12px 20px; border-radius:25px; border:1px solid #111; background:#111; color:#fff; font-weight:600; cursor:pointer; font-size:0.9em;">⚙️ Filters</button>
-            </div>
-        </div>
-    
-        <div class="category-section">
-            <div class="category-header">
-                <h2>Hand Pipes</h2>
-                <a href="../categories/hand-pipes.html">View All ></a>
-            </div>
-            <div class="grid">
-        
-        
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": "Roast & Toast Small Coffee Mug Pipe",
-      "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Roast-and-Toast-Rasta-Stoner-Dad-Coffee-Mug-Pipe.jpg?v=1752273886",
-      "description": "Premium hardware verified by Dyspensr.",
-      "brand": {
-        "@type": "Brand",
-        "name": "Roast & Toast"
-      },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://vapes.pixiespantryshop.com/index.html?p=roast-toast-small-coffee-mug-pipe",
-        "priceCurrency": "USD",
-        "price": "19.99",
-        "itemCondition": "https://schema.org/NewCondition",
-        "availability": "https://schema.org/InStock"
-      }
-    }
-    </script>
-    
-        <div class="card" onclick="openModal('Roast & Toast Small Coffee Mug Pipe')" data-price="19.99" data-material="other">
+    <div class="container">
+        <nav style="padding: 20px 0;"><a href="../index.html">← Master Catalog</a></nav>
+        <h1>Hand Pipes</h1>
+        <div class="grid">
             
-            <div class="card-top">
-                <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Roast-and-Toast-Rasta-Stoner-Dad-Coffee-Mug-Pipe.jpg?v=1752273886" loading="lazy"></div>
-                <div class="stars">⭐⭐⭐⭐<span>4.9 (211)</span></div>
-                <div class="brand">Roast & Toast</div>
-                <h3 class="title">Roast & Toast Small Coffee Mug Pipe</h3>
-                <div class="variant">4 Options</div>
-            </div>
-            <div class="card-bottom">
-                <div class="price">$19.99</div>
-                <button class="add-btn quick-add-btn" onclick="event.stopPropagation(); addToCart('Roast & Toast Small Coffee Mug Pipe');">Add</button>
-            </div>
-        </div>
-    
-            </div>
-        </div>
+    <div class="card" onclick="openModal('Pulsar CORE 5.25” Glass Bubbler')">
         
-        </div>
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar CORE 5.25” Glass Bubbler')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-core-bubbler-update.webp?v=1773000902" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar CORE 5.25” Glass Bubbler</div>
+        <div class="price">From $31.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar CORE 4.25” Glass Sherlock Hand Pipe')">
         
-                <footer class="site-footer">
-            <div class="footer-content">
-                <div class="footer-col">
-                    <h3>Pixie's Pantry</h3>
-                    <p style="max-width: 300px;">Curating the absolute highest tier of vaporization and glass hardware. Direct wholesale access, vetted specifically for the community. Elevate your ritual.</p>
-                </div>
-                <div class="footer-col">
-                    <h3>Explore</h3>
-                    <ul>
-                        <li><a href="../index.html">Master Catalog</a></li>
-                        <li><a href="#" onclick="toggleCart(); return false;">View Cart</a></li>
-                        <li><a href="../about.html">Our Philosophy</a></li>
-                        <li><a href="../faq.html">FAQ & Guide</a></li>
-                        <li><a href="https://dyspensr.com" target="_blank">Dyspensr Network</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Client Services</h3>
-                    <ul>
-                        <li><a href="https://discord.gg/pyTSf569" target="_blank">Discord Support (Fastest)</a></li>
-                        <li><a href="mailto:admin@pixies-pantry.com">Email Concierge</a></li>
-                        <li><a href="../shipping.html">Shipping & Delivery</a></li>
-                        <li><a href="../refunds.html">Returns & Exchanges</a></li>
-                        <li><a href="../privacy.html">Privacy & Terms</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Stay Exquisite</h3>
-                    <p>Join the inner circle for exclusive drops and wholesale restocks.</p>
-                    <form class="newsletter-form" action="https://formspree.io/f/xeoqkzdj" method="POST">
-                        <input type="email" name="Newsletter Email" placeholder="Enter your email address" required>
-                        <button type="submit">Subscribe</button>
-                    </form>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 PIXIE'S PANTRY. ALL RIGHTS RESERVED.</p>
-                <div class="footer-socials">
-                    <a href="https://discord.gg/pyTSf569" target="_blank">Discord</a>
-                    <a href="#">Instagram</a>
-                    <a href="#">Twitter</a>
-                </div>
-            </div>
-        </footer>
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar CORE 4.25” Glass Sherlock Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
     </div>
-    
-    <div id="cart-panel" class="cart-panel">
-        <div class="cart-header">
-            <h2>Your Cart</h2>
-            <div class="close-btn" onclick="toggleCart()">×</div>
-        </div>
-        <div id="cart-items" style="flex-grow:1; overflow-y:auto;"></div>
-        <div class="cart-footer">
-            <div class="cart-total">Total: <span id="cart-total-price">$0.00</span></div>
-            <form action="https://formspree.io/f/xeoqkzdj" method="POST" id="checkout-form" onsubmit="prepareCheckout(event)">
-                <input type="hidden" name="_cc" value="admin@pixies-pantry.com">
-                <input type="hidden" name="_subject" value="New Group Buy Order!">
-                <input type="hidden" name="Order Details" id="order-payload">
-                <input type="hidden" name="Order Total" id="order-total-payload">
-                
-                <div style="font-size:0.85em; color:#666; margin-bottom:15px; background:#f9f9f9; padding:10px; border-radius:6px; border:1px solid #eee;">
-                    <strong>Privacy Note:</strong> Your information is securely protected and used <em>strictly</em> for shipping this order. We will never spam you or sell your data.
-                </div>
-                
-                <input type="text" name="Full Name" id="c-name" placeholder="Full Name *" required class="checkout-input">
-                <input type="email" name="email" id="c-email" placeholder="Email Address *" required class="checkout-input">
-                <input type="tel" name="Phone Number" id="c-phone" placeholder="Phone Number *" required class="checkout-input">
-                <input type="text" name="Discord Username" id="c-discord" placeholder="Discord Username (Optional)" class="checkout-input">
-                
-                <h4 style="margin:15px 0 5px; font-size:0.9em; color:#111;">Shipping Address</h4>
-                <input type="text" name="Shipping Address" id="c-ship" placeholder="Street Address, City, State, Zip *" required class="checkout-input">
-                
-                <h4 style="margin:15px 0 5px; font-size:0.9em; color:#111;">Billing Address</h4>
-                <label style="font-size:0.8em; display:flex; align-items:center; gap:5px; margin-bottom:10px; cursor:pointer;">
-                    <input type="checkbox" id="same-billing" onchange="toggleBilling()" checked> Same as Shipping
-                </label>
-                <input type="text" name="Billing Address" id="c-bill" placeholder="Street Address, City, State, Zip" class="checkout-input" style="display:none;">
-
-                <button type="submit" class="checkout-btn quick-add-btn" style="background:#d4af37; color:#111; border-color:#d4af37; margin-top:15px; font-size:1em; padding:15px;">Secure Checkout</button>
-            </form>
-            
-            <!-- Receipt Container -->
-            <div id="receipt-container" style="display:none; padding:20px; background:#fff; border:2px dashed #d4af37; border-radius:8px; margin-top:20px;">
-                <h3 style="text-align:center; color:#111; margin-top:0;">Order Receipt</h3>
-                <p style="text-align:center; font-size:0.85em; color:#666;">Thank you! A copy has been sent to your email and admin@pixies-pantry.com.</p>
-                <div id="receipt-body" style="font-family:monospace; font-size:0.85em; white-space:pre-wrap; background:#f4f4f4; padding:15px; border-radius:4px; margin-bottom:15px;"></div>
-                <button onclick="window.print()" class="quick-add-btn" style="width:100%; text-align:center;">🖨️ Print / Save as PDF</button>
-            </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-core-sherlock-hand-pipe-update.webp?v=1773000900" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar CORE 4.25” Glass Sherlock Hand Pipe</div>
+        <div class="price">From $22.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar CORE 4.25” Glass Spoon Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar CORE 4.25” Glass Spoon Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-core-spoon-pipe-update.webp?v=1773000898" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar CORE 4.25” Glass Spoon Pipe</div>
+        <div class="price">From $12.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar CORE 3.75” Glass Chillum Pipe | 10ct Display')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar CORE 3.75” Glass Chillum Pipe | 10ct Display')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-core-chillum-display.webp?v=1773000896" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar CORE 3.75” Glass Chillum Pipe | 10ct Display</div>
+        <div class="price">From $69.99</div>
+    </div>
+    <div class="card" onclick="openModal('SeshGear 4.5” Round Ball Glass Mini Bubbler')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('SeshGear 4.5” Round Ball Glass Mini Bubbler')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/seshgear-round-ball-mini-bubbler-1.png?v=1773000893" loading="lazy"></div>
+        <div class="brand-badge">SeshGear</div>
+        <div class="title">SeshGear 4.5” Round Ball Glass Mini Bubbler</div>
+        <div class="price">From $24.99</div>
+    </div>
+    <div class="card" onclick="openModal('SeshGear 3.75” Old School Camera Glass Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('SeshGear 3.75” Old School Camera Glass Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/seshgear-old-school-camera-glass-pipe-1.png?v=1773000894" loading="lazy"></div>
+        <div class="brand-badge">SeshGear</div>
+        <div class="title">SeshGear 3.75” Old School Camera Glass Hand Pipe</div>
+        <div class="price">From $23.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper Weedbrick Glass Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper Weedbrick Glass Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-weedbrick-glass-pipe-1.jpg?v=1771383586" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper Weedbrick Glass Hand Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 5.5” UFO Vortex Glass Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 5.5” UFO Vortex Glass Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-ufo-vortex-glass-pipe-1.jpg?v=1771383585" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 5.5” UFO Vortex Glass Hand Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 4.6” Rager Crushed Can Glass Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 4.6” Rager Crushed Can Glass Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-rager-crushed-can-glass-pipe-1.jpg?v=1771383583" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 4.6” Rager Crushed Can Glass Hand Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 4.5” Sucker 4 Love Lollipop Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 4.5” Sucker 4 Love Lollipop Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-sucker-4-love-lollipop-glass-pipe-1.jpg?v=1771383582" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 4.5” Sucker 4 Love Lollipop Hand Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 5” Bowlman Glass Lighter Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 5” Bowlman Glass Lighter Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-bowlman-lighter-themed-glass-pipe-1.jpg?v=1771383580" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 5” Bowlman Glass Lighter Hand Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 5.6” Alien Glass Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 5.6” Alien Glass Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-alien-glass-pipe-1.jpg?v=1771383579" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 5.6” Alien Glass Hand Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 5” Blue Whale Glass Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 5” Blue Whale Glass Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-blue-whale-glass-pipe-4.jpg?v=1771383578" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 5” Blue Whale Glass Hand Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 5” Gaming Flower Piranha Glass Steamroller Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 5” Gaming Flower Piranha Glass Steamroller Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-gaming-flower-piranha-glass-pipe-1.png?v=1771383576" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 5” Gaming Flower Piranha Glass Steamroller Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Das Boot Glass Sherlock Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Das Boot Glass Sherlock Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-das-boot-glass-sherlock-pipe-1.jpg?v=1771383575" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Das Boot Glass Sherlock Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 4.5” Scare Bears Teddy Bear Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 4.5” Scare Bears Teddy Bear Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/HEMPER_SCARE_BEARS_TEDDY_BEAR_HAND_PIPE_001_ONWHITE_1080x1080_d7657336-d432-4cfc-a60a-9087c032772c.jpg?v=1761154965" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 4.5” Scare Bears Teddy Bear Hand Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Dragon Sphere Glass Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Dragon Sphere Glass Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/empire-glassworks-dragon-sphere-glass-pipe.webp?v=1759771897" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Dragon Sphere Glass Pipe</div>
+        <div class="price">From $54.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Galactic Glass Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Galactic Glass Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/empire-glassworks-galaxy-glass-pipe.jpg?v=1759771896" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Galactic Glass Pipe</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Mossy Log Steamroller Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Mossy Log Steamroller Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/mossy-log-dry-pipe.jpg?v=1759771873" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Mossy Log Steamroller Pipe</div>
+        <div class="price">From $87.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Mushrooms Glass Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Mushrooms Glass Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/empire-glassworks-mushroom-glass-pipe.jpg?v=1759771872" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Mushrooms Glass Pipe</div>
+        <div class="price">From $87.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Pink Sprinkle Donut Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Pink Sprinkle Donut Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pink-Sprinkle-Donut-Glass-Pipe.jpg?v=1759771870" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Pink Sprinkle Donut Pipe</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Retro Highz V2 Sneaker Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Retro Highz V2 Sneaker Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/empire-glassworks-retro-sneaker-v2-hand-pipe-colors.jpg?v=1759771868" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Retro Highz V2 Sneaker Pipe</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Hootie’s Forest Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Hootie’s Forest Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Hooties-Forest-Small-Hand-Pipe.jpg?v=1759771866" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Hootie’s Forest Hand Pipe</div>
+        <div class="price">From $69.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Small Ladybug Spoon Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Small Ladybug Spoon Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Small_Ladybug_Glass_Spoon_Pipe_2_9246c16f-b44d-4261-825e-c5f0b2ee9cd4.png?v=1759771865" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Small Ladybug Spoon Pipe</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal Candy Corn Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal Candy Corn Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/MJ-Arsenal-Candy-Corn-Glass-Pipe.jpg?v=1760196695" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal Candy Corn Pipe</div>
+        <div class="price">From $33.99</div>
+    </div>
+    <div class="card" onclick="openModal('Dyspensr Jack-O-Lantern Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Dyspensr Jack-O-Lantern Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/jack-o-lantern-hand-pipe.jpg?v=1760110844" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Dyspensr Jack-O-Lantern Hand Pipe</div>
+        <div class="price">From $27.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Flavor Saver Bubbler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Flavor Saver Bubbler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/0_flavor-savor-green-side-2.png?v=1758223154" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Flavor Saver Bubbler Bong</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Honeybee Herb Nectar Collectors')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Honeybee Herb Nectar Collectors')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone-Dab-Straw.jpg?v=1755027272" loading="lazy"></div>
+        <div class="brand-badge">Honeybee Herb</div>
+        <div class="title">Honeybee Herb Nectar Collectors</div>
+        <div class="price">From $31.99</div>
+    </div>
+    <div class="card" onclick="openModal('Honeybee Herb Pipe Travel Pack')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Honeybee Herb Pipe Travel Pack')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Travel-Pack-Of-Pipe-Glass-Bowl-Stashbox-Grinder-And-Tray-Packaging-View.png?v=1755027203" loading="lazy"></div>
+        <div class="brand-badge">Honeybee Herb</div>
+        <div class="title">Honeybee Herb Pipe Travel Pack</div>
+        <div class="price">From $31.99</div>
+    </div>
+    <div class="card" onclick="openModal('Honeybee Herb Chillum Set')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Honeybee Herb Chillum Set')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Honeybee-Herb-Chillum-Set.jpg?v=1755027199" loading="lazy"></div>
+        <div class="brand-badge">Honeybee Herb</div>
+        <div class="title">Honeybee Herb Chillum Set</div>
+        <div class="price">From $21.99</div>
+    </div>
+    <div class="card" onclick="openModal('Marley Natural 4.5” Smoked Glass Spoon Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Marley Natural 4.5” Smoked Glass Spoon Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Marley-Natural-Smoked-Glass-Spoon-Pipe-6.jpg?v=1752274165" loading="lazy"></div>
+        <div class="brand-badge">Marley Natural</div>
+        <div class="title">Marley Natural 4.5” Smoked Glass Spoon Pipe</div>
+        <div class="price">From $47.99</div>
+    </div>
+    <div class="card" onclick="openModal('Marley Natural 6.25” Smoked Glass Steamroller')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Marley Natural 6.25” Smoked Glass Steamroller')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Marley-Natural-Smoked-Glass-Steamroller-Pipe-3.jpg?v=1752274156" loading="lazy"></div>
+        <div class="brand-badge">Marley Natural</div>
+        <div class="title">Marley Natural 6.25” Smoked Glass Steamroller</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Small Koi Pond Hand Pipe 🐠')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Small Koi Pond Hand Pipe 🐠')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Small-Koi-Pond-Spoon-Pipe.jpg?v=1752274147" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Small Koi Pond Hand Pipe 🐠</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Marley Natural Smoked Glass Taster Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Marley Natural Smoked Glass Taster Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Marley-Natural-Smoked-Glass-Taster-Pipe-6.jpg?v=1752274138" loading="lazy"></div>
+        <div class="brand-badge">Marley Natural</div>
+        <div class="title">Marley Natural Smoked Glass Taster Pipe</div>
+        <div class="price">From $24.99</div>
+    </div>
+    <div class="card" onclick="openModal('Marley Natural Walnut Spoon Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Marley Natural Walnut Spoon Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Marley-Natural-Walnut-Wood-Spoon-Pipe.jpg?v=1752274128" loading="lazy"></div>
+        <div class="brand-badge">Marley Natural</div>
+        <div class="title">Marley Natural Walnut Spoon Hand Pipe</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Marley Natural Walnut Taster')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Marley Natural Walnut Taster')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Marley-Natural-Taster.png?v=1752274040" loading="lazy"></div>
+        <div class="brand-badge">Marley Natural</div>
+        <div class="title">Marley Natural Walnut Taster</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Marley Natural XL 7” Walnut Steamroller Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Marley Natural XL 7” Walnut Steamroller Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Marley-Natural-Walnut-Wood-Steamroller-Pipe.jpg?v=1752274028" loading="lazy"></div>
+        <div class="brand-badge">Marley Natural</div>
+        <div class="title">Marley Natural XL 7” Walnut Steamroller Pipe</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Eggplant Hand Pipe 🍆')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Eggplant Hand Pipe 🍆')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/EmpireGlassworksEggplantHandPipe.jpg?v=1752274020" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Eggplant Hand Pipe 🍆</div>
+        <div class="price">From $69.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Sprinkles Ice Cream Cone Hand Pipe 🍦')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Sprinkles Ice Cream Cone Hand Pipe 🍦')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Sprinkles_Ice_Cream_Cone_Hand_Pipe_3.jpg?v=1752273990" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Sprinkles Ice Cream Cone Hand Pipe 🍦</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('Grav® 16mm Octo-Taster w. Silicone Body')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Grav® 16mm Octo-Taster w. Silicone Body')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/GRAV_Silicone_Skin_Octo_Taster_Glass_Hand_Pipe_Cali_Connected_9_f53e66f1-af5c-49fd-a23c-494aa11b5912.jpg?v=1752273964" loading="lazy"></div>
+        <div class="brand-badge">GRAV / Grav Labs</div>
+        <div class="title">Grav® 16mm Octo-Taster w. Silicone Body</div>
+        <div class="price">From $12.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks "Walking Bomb" Spoon Pipe 💣')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks "Walking Bomb" Spoon Pipe 💣')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Walking_Bomb_Spoon_Pipes_210a0f7e-e4be-4df2-846b-a98591d42200.png?v=1752273942" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks "Walking Bomb" Spoon Pipe 💣</div>
+        <div class="price">From $54.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks “Climbing Pandas” Hand Pipe 🐼')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks “Climbing Pandas” Hand Pipe 🐼')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Climbing-Pandas-Small-Spoon-Pipe.jpg?v=1752273923" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks “Climbing Pandas” Hand Pipe 🐼</div>
+        <div class="price">From $69.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Small Beehive Spoon Pipe 🐝')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Small Beehive Spoon Pipe 🐝')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Beehive_Honey_Pot_Glass_Spoon_Hand_Pipe_2_8a7830f2-98d9-4270-8678-8d6ad3b5edea.png?v=1752273904" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Small Beehive Spoon Pipe 🐝</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Roast & Toast Small Coffee Mug Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Roast & Toast Small Coffee Mug Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Roast-and-Toast-Rasta-Stoner-Dad-Coffee-Mug-Pipe.jpg?v=1752273886" loading="lazy"></div>
+        <div class="brand-badge">Roast & Toast</div>
+        <div class="title">Roast & Toast Small Coffee Mug Pipe</div>
+        <div class="price">From $19.99</div>
+    </div>
+    <div class="card" onclick="openModal('Roast & Toast Large Ceramic Coffee Mug Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Roast & Toast Large Ceramic Coffee Mug Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Roast_and_Toast_Large_Original_Pipe_Mug_Green.jpg?v=1752273805" loading="lazy"></div>
+        <div class="brand-badge">Roast & Toast</div>
+        <div class="title">Roast & Toast Large Ceramic Coffee Mug Pipe</div>
+        <div class="price">From $22.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Boobies Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Boobies Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Boobies_Hand_Pipe_7.jpg?v=1752273756" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Boobies Hand Pipe</div>
+        <div class="price">From $69.99</div>
+    </div>
+    <div class="card" onclick="openModal('Grav® Aluminum Dugout & One-Hitter Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Grav® Aluminum Dugout & One-Hitter Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/grav-dugout-4_453c465e-7dd8-4301-9308-3642c55e759d.jpg?v=1752273745" loading="lazy"></div>
+        <div class="brand-badge">GRAV / Grav Labs</div>
+        <div class="title">Grav® Aluminum Dugout & One-Hitter Pipe</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks “Agent Orange” Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks “Agent Orange” Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Agent_Orange_Donald_Trump_Hand_Pipe_1_9.51.10_PM_e9566341-7f76-4022-9888-ca28da1c80f8.jpg?v=1752273691" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks “Agent Orange” Hand Pipe</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Great Barrier Reef Hand Pipe 🐠')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Great Barrier Reef Hand Pipe 🐠')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Great-Barrier-Reef-Small-Hand-Pipe.jpg?v=1752273680" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Great Barrier Reef Hand Pipe 🐠</div>
+        <div class="price">From $69.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Small Bug\'s Life Spoon Pipe 🐛')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Small Bug\'s Life Spoon Pipe 🐛')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Bugs-Life-Small-Hand-Pipe.jpg?v=1752273672" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Small Bug's Life Spoon Pipe 🐛</div>
+        <div class="price">From $69.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Garden Critters Hand Pipe 🐛')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Garden Critters Hand Pipe 🐛')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Garden-Critters-Small-Spoon-Pipe.jpg?v=1752273666" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Garden Critters Hand Pipe 🐛</div>
+        <div class="price">From $69.99</div>
+    </div>
+    <div class="card" onclick="openModal('Roast & Toast Cereal Bowl Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Roast & Toast Cereal Bowl Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Roast-Toast-Cereal-Bowl-Pipe.jpg?v=1752273629" loading="lazy"></div>
+        <div class="brand-badge">Roast & Toast</div>
+        <div class="title">Roast & Toast Cereal Bowl Pipe</div>
+        <div class="price">From $26.99</div>
+    </div>
+    <div class="card" onclick="openModal('K. Haring Glass Spoon Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('K. Haring Glass Spoon Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/K-Haring-Hand-Pipe-Spoon-Blue.jpg?v=1752273611" loading="lazy"></div>
+        <div class="brand-badge">K. Haring Collection</div>
+        <div class="title">K. Haring Glass Spoon Pipe</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('K. Haring Glass Taster Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('K. Haring Glass Taster Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/K-Haring-Glass-Taster-Pipe.jpg?v=1752273595" loading="lazy"></div>
+        <div class="brand-badge">K. Haring Collection</div>
+        <div class="title">K. Haring Glass Taster Pipe</div>
+        <div class="price">From $24.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 6” Scorpion Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 6” Scorpion Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Scorpion-Hand-Pipe.jpg?v=1752273581" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 6” Scorpion Hand Pipe</div>
+        <div class="price">From $41.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 3” Lava Lamp Chillum Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 3” Lava Lamp Chillum Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Lava-Lamp-Chillum-Pipe.jpg?v=1752273574" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 3” Lava Lamp Chillum Pipe</div>
+        <div class="price">From $21.99</div>
+    </div>
+    <div class="card" onclick="openModal('Roast & Toast Ice Cream Waffle Cone Bowl Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Roast & Toast Ice Cream Waffle Cone Bowl Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Roast-Toast-Ice-Cream-Waffle-Cone-Bowl-Pipe.jpg?v=1752273532" loading="lazy"></div>
+        <div class="brand-badge">Roast & Toast</div>
+        <div class="title">Roast & Toast Ice Cream Waffle Cone Bowl Pipe</div>
+        <div class="price">From $24.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Squirrel’s Nest Hand Pipe 🐿')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Squirrel’s Nest Hand Pipe 🐿')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Squirrels-Nest-Hand-Pipe.jpg?v=1752273527" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Squirrel’s Nest Hand Pipe 🐿</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 4.2” Clear Glass Taster Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 4.2” Clear Glass Taster Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Clear-Glass-Taster-Pipe.jpg?v=1752273514" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 4.2” Clear Glass Taster Pipe</div>
+        <div class="price">From $1.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks East Australian Current Hand Pipe 🌊')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks East Australian Current Hand Pipe 🌊')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-East-Australian-Current-Small-Spoon-Pipe.jpg?v=1752273509" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks East Australian Current Hand Pipe 🌊</div>
+        <div class="price">From $69.99</div>
+    </div>
+    <div class="card" onclick="openModal('LA Pipes 6” Glass Hot Dog Steamroller Pipe 🌭')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('LA Pipes 6” Glass Hot Dog Steamroller Pipe 🌭')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/LA-Pipes-Frankfurter-Glass-Hand_Pipe.jpg?v=1752273448" loading="lazy"></div>
+        <div class="brand-badge">LA Pipes</div>
+        <div class="title">LA Pipes 6” Glass Hot Dog Steamroller Pipe 🌭</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('LA Pipes Little Piggy Glass Hand Pipe 🐷')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('LA Pipes Little Piggy Glass Hand Pipe 🐷')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/LA-Pipes-Little-Piggy-Glass-Hand_Pipe.jpg?v=1752273428" loading="lazy"></div>
+        <div class="brand-badge">LA Pipes</div>
+        <div class="title">LA Pipes Little Piggy Glass Hand Pipe 🐷</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('LA Pipes Covid-19 Glass Mini Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('LA Pipes Covid-19 Glass Mini Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/LA-Pipes-Covid-19-Hand-Pipe.jpg?v=1752273411" loading="lazy"></div>
+        <div class="brand-badge">LA Pipes</div>
+        <div class="title">LA Pipes Covid-19 Glass Mini Pipe</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('LA Pipes Toilet Bowl Sherlock Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('LA Pipes Toilet Bowl Sherlock Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/LA-Pipes-Toilet-Bowl-Glass-Hand-Pipe.jpg?v=1752273401" loading="lazy"></div>
+        <div class="brand-badge">LA Pipes</div>
+        <div class="title">LA Pipes Toilet Bowl Sherlock Pipe</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Dragon Fruit Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Dragon Fruit Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/EmpireGlassworksDragonFruitHandPipe.jpg?v=1752273251" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Dragon Fruit Hand Pipe</div>
+        <div class="price">From $122.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Under the Sea Hand Pipe 🐠')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Under the Sea Hand Pipe 🐠')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/EmpireGlassworksUndertheSeaHandPipe3.jpg?v=1752273248" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Under the Sea Hand Pipe 🐠</div>
+        <div class="price">From $109.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks “Pink Mochi Donut” Hand Pipe 🍩')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks “Pink Mochi Donut” Hand Pipe 🍩')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/EmpireGlassworksPinkMochiDonutHandPipe_3c60ab06-d51f-4618-834e-cf08d462fbfd.jpg?v=1752273241" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks “Pink Mochi Donut” Hand Pipe 🍩</div>
+        <div class="price">From $88.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Large Beehive Spoon Pipe  🐝')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Large Beehive Spoon Pipe  🐝')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Beehive_Glass_Spoon_Hand_Pipe_4.png?v=1752273237" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Large Beehive Spoon Pipe  🐝</div>
+        <div class="price">From $99.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Hockey Puck Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Hockey Puck Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Hockey_Puck_Hand_Pipe.jpg?v=1752273227" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Hockey Puck Hand Pipe</div>
+        <div class="price">From $90.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Boba Ice Cream Bar Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Boba Ice Cream Bar Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/EmpireGlassworksBobaIceCreamBarHandPipe.jpg?v=1752273224" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Boba Ice Cream Bar Hand Pipe</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Vapor Vessel V3 Dab Straw')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Vapor Vessel V3 Dab Straw')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Vapor-Vessel-V3-Dab-Straw.jpg?v=1752273221" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Vapor Vessel V3 Dab Straw</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Twisted Perc Dab Straw')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Twisted Perc Dab Straw')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Twisted-Perc-Dab-Straw.jpg?v=1752273219" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Twisted Perc Dab Straw</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Glass 11” Egg Dab Straw')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Glass 11” Egg Dab Straw')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar_Glass_Egg_Dab_Straw_Clear.jpg?v=1752273216" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Glass 11” Egg Dab Straw</div>
+        <div class="price">From $95.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar RIP Silicone Dab Straw')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar RIP Silicone Dab Straw')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-RIP-Silicone-Dab-Straw.jpg?v=1752273211" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar RIP Silicone Dab Straw</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Horned Glass Dab Straw')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Horned Glass Dab Straw')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Horned-Glass-Nectar-Collector.jpg?v=1752273204" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Horned Glass Dab Straw</div>
+        <div class="price">From $35.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Shire Tobacco Pipes')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Shire Tobacco Pipes')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Shire-Tobacco-Pipe-Cherrywood-Rainbow.jpg?v=1752273198" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Shire Tobacco Pipes</div>
+        <div class="price">From $46.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Twisted Standup Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Twisted Standup Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Glass-Twisted-Stand-Up-Hand-Pipe.jpg?v=1752273187" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Twisted Standup Hand Pipe</div>
+        <div class="price">From $34.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 4” Cosmic Journey Spoon Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 4” Cosmic Journey Spoon Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Cosmic-Journey-Spoon-Pipe.jpg?v=1752273178" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 4” Cosmic Journey Spoon Pipe</div>
+        <div class="price">From $33.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 4” Outer Space Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 4” Outer Space Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Outer-Space-Hand-Pipe.jpg?v=1752273169" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 4” Outer Space Hand Pipe</div>
+        <div class="price">From $30.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 4” Glycerin Freezable Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 4” Glycerin Freezable Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Glycerin-Freezable-Hand-Pipe.jpg?v=1752273165" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 4” Glycerin Freezable Hand Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Glycerin Freezable Dab Straw')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Glycerin Freezable Dab Straw')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Glycerin-Freezable-Dab-Straw.jpg?v=1752273154" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Glycerin Freezable Dab Straw</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Ringer 3-in-1 Silicone Dugout')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Ringer 3-in-1 Silicone Dugout')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Ringer-3-in-1-Silicone-Dugout-Set.jpg?v=1752273142" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Ringer 3-in-1 Silicone Dugout</div>
+        <div class="price">From $36.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 4.5” Honeycomb Ash Catcher Spoon Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 4.5” Honeycomb Ash Catcher Spoon Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Honeycomb-Ash-Catcher-Spoon-Pipe.jpg?v=1752273130" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 4.5” Honeycomb Ash Catcher Spoon Pipe</div>
+        <div class="price">From $34.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 3” Glycerin Freezable Arrowhead Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 3” Glycerin Freezable Arrowhead Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Glycerin-Freezable-Arrowhead-Pipe.jpg?v=1752273126" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 3” Glycerin Freezable Arrowhead Pipe</div>
+        <div class="price">From $32.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Candy Frit Dab Straw')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Candy Frit Dab Straw')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Candy-Frit-Quartz-Concentrate-Straw.jpg?v=1752273114" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Candy Frit Dab Straw</div>
+        <div class="price">From $32.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Candy Swirl Dab Straw')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Candy Swirl Dab Straw')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Candy-Swirl-Nectar-Collector.jpg?v=1752273101" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Candy Swirl Dab Straw</div>
+        <div class="price">From $32.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Standing Sherlock Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Standing Sherlock Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Standing-Sherlock-Hand-Pipe.jpg?v=1752273095" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Standing Sherlock Hand Pipe</div>
+        <div class="price">From $32.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 4.5” UV Stripe Spoon Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 4.5” UV Stripe Spoon Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-UV-Stripe-Spoon-Pipe.jpg?v=1752273091" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 4.5” UV Stripe Spoon Pipe</div>
+        <div class="price">From $32.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 4.5” Animal Spots Spoon Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 4.5” Animal Spots Spoon Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Animal-Spots-Spoon-Pipe.jpg?v=1752273087" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 4.5” Animal Spots Spoon Pipe</div>
+        <div class="price">From $31.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Inner Twist Perc Dab Straw')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Inner Twist Perc Dab Straw')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Inner-Twist-Perc-Dab-Straw.jpg?v=1752273078" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Inner Twist Perc Dab Straw</div>
+        <div class="price">From $29.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 4” Honeycomb Screen Spoon Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 4” Honeycomb Screen Spoon Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Honeycomb-Screen-Hand_Pipe.jpg?v=1752273053" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 4” Honeycomb Screen Spoon Pipe</div>
+        <div class="price">From $29.99</div>
+    </div>
+    <div class="card" onclick="openModal('Wake & Bake Ceramic Coffee Mug Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Wake & Bake Ceramic Coffee Mug Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wake-and-Bake-Coffee-Mug-Pipe-Group-Therapy.jpg?v=1752273045" loading="lazy"></div>
+        <div class="brand-badge">Wake & Bake</div>
+        <div class="title">Wake & Bake Ceramic Coffee Mug Pipe</div>
+        <div class="price">From $21.99</div>
+    </div>
+    <div class="card" onclick="openModal('The Kind Pen XL Glass Steamroller Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('The Kind Pen XL Glass Steamroller Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Steamroller.jpg?v=1752272718" loading="lazy"></div>
+        <div class="brand-badge">The Kind Pen</div>
+        <div class="title">The Kind Pen XL Glass Steamroller Pipe</div>
+        <div class="price">From $35.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Lord of the Rings Shire Pipes')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Lord of the Rings Shire Pipes')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Shire-Smaug-Pipe.jpg?v=1752272710" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Lord of the Rings Shire Pipes</div>
+        <div class="price">From $53.99</div>
+    </div>
+    <div class="card" onclick="openModal('Ritual 7” Deluxe Silicone Nectar Collector')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Ritual 7” Deluxe Silicone Nectar Collector')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2437-07_831e78b2-b6b1-4d56-abb3-00bce6faa5d9.jpg?v=1752272690" loading="lazy"></div>
+        <div class="brand-badge">Ritual</div>
+        <div class="title">Ritual 7” Deluxe Silicone Nectar Collector</div>
+        <div class="price">From $38.99</div>
+    </div>
+    <div class="card" onclick="openModal('Ritual Silicone Taster')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Ritual Silicone Taster')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL23230-01_e6e95ba9-10bf-468b-9218-a7d972716338.jpg?v=1752272668" loading="lazy"></div>
+        <div class="brand-badge">Ritual</div>
+        <div class="title">Ritual Silicone Taster</div>
+        <div class="price">From $10.99</div>
+    </div>
+    <div class="card" onclick="openModal('Ritual 4.5” Silicone Sherlock Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Ritual 4.5” Silicone Sherlock Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2403-03_9ea65b62-ce06-4df7-ba2f-8fa1cb08b793.jpg?v=1752272656" loading="lazy"></div>
+        <div class="brand-badge">Ritual</div>
+        <div class="title">Ritual 4.5” Silicone Sherlock Pipe</div>
+        <div class="price">From $12.99</div>
+    </div>
+    <div class="card" onclick="openModal('Ritual 4” Silicone Spoon Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Ritual 4” Silicone Spoon Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL23240-04_a70b34ba-f222-4905-b677-cde285b1b5e1.jpg?v=1752272633" loading="lazy"></div>
+        <div class="brand-badge">Ritual</div>
+        <div class="title">Ritual 4” Silicone Spoon Pipe</div>
+        <div class="price">From $13.99</div>
+    </div>
+    <div class="card" onclick="openModal('Ritual 4” Silicone Spoon Nectar Collector')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Ritual 4” Silicone Spoon Nectar Collector')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL23241-09_dc9a9aae-c1b9-4bba-b79d-63200a78625a.jpg?v=1752272604" loading="lazy"></div>
+        <div class="brand-badge">Ritual</div>
+        <div class="title">Ritual 4” Silicone Spoon Nectar Collector</div>
+        <div class="price">From $19.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Champagne Wishes Chillum & Pouch')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Champagne Wishes Chillum & Pouch')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-champagne-wishes-chillum.jpg?v=1752272562" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Champagne Wishes Chillum & Pouch</div>
+        <div class="price">From $31.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar XL Stacked Geometric Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar XL Stacked Geometric Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-xl-geometric-hand-pipe-group.jpg?v=1752272557" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar XL Stacked Geometric Hand Pipe</div>
+        <div class="price">From $51.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar SK8 Rolling Skateboard Dab Straw & Dish')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar SK8 Rolling Skateboard Dab Straw & Dish')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-sk8-rolling-skateboard-dab-straw-set-group.jpg?v=1752272545" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar SK8 Rolling Skateboard Dab Straw & Dish</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Chess Pawn Glycerin Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Chess Pawn Glycerin Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-chess-pawn-glycerin-hand-pipe-new-group.jpg?v=1752272532" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Chess Pawn Glycerin Hand Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Delicious Dunker Hammer Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Delicious Dunker Hammer Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-delicious-dunker-hammer-pipe-group.jpg?v=1752272522" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Delicious Dunker Hammer Pipe</div>
+        <div class="price">From $32.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Fruit Series Herb Pipe Duo')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Fruit Series Herb Pipe Duo')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-fruit-series-herb-pipe-duo-peaches-n-cream-set.jpg?v=1752272511" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Fruit Series Herb Pipe Duo</div>
+        <div class="price">From $122.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Stacked Geometric Glycerin Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Stacked Geometric Glycerin Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-stacked-geometric-glycerin-hand-pipe-group.jpg?v=1752272467" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Stacked Geometric Glycerin Hand Pipe</div>
+        <div class="price">From $32.99</div>
+    </div>
+    <div class="card" onclick="openModal('Softglass Token Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Softglass Token Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Softglass-Token-Hand-Pipe.jpg?v=1752272459" loading="lazy"></div>
+        <div class="brand-badge">Softglass</div>
+        <div class="title">Softglass Token Hand Pipe</div>
+        <div class="price">From $27.99</div>
+    </div>
+    <div class="card" onclick="openModal('Softglass Pinch Hitter')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Softglass Pinch Hitter')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Softglass-One-Hitter.jpg?v=1752272455" loading="lazy"></div>
+        <div class="brand-badge">Softglass</div>
+        <div class="title">Softglass Pinch Hitter</div>
+        <div class="price">From $22.99</div>
+    </div>
+    <div class="card" onclick="openModal('Softglass Aura Token Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Softglass Aura Token Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Softglass-Aura-Token-Hand-Pipe.jpg?v=1752272450" loading="lazy"></div>
+        <div class="brand-badge">Softglass</div>
+        <div class="title">Softglass Aura Token Hand Pipe</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Softglass Aura Pinch Hitter')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Softglass Aura Pinch Hitter')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Softglass-Aura-Pinch-Hitter.jpg?v=1752272446" loading="lazy"></div>
+        <div class="brand-badge">Softglass</div>
+        <div class="title">Softglass Aura Pinch Hitter</div>
+        <div class="price">From $31.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal Jaws Chillum')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal Jaws Chillum')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/8e472857-53cf-4c39-b800-4281f1281665.png?v=1752272441" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal Jaws Chillum</div>
+        <div class="price">From $38.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal Moby Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal Moby Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/e6a46b18-1e71-4827-ab08-2ece0a7feea0.png?v=1752272435" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal Moby Hand Pipe</div>
+        <div class="price">From $48.99</div>
+    </div>
+    <div class="card" onclick="openModal('Mj Arsenal Global Cup One Hitter')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Mj Arsenal Global Cup One Hitter')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/GlobalCup-Handpipe1.png?v=1752272430" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">Mj Arsenal Global Cup One Hitter</div>
+        <div class="price">From $34.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal Deco Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal Deco Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Reef_812c085c-1e0c-4ff4-b1d1-76ef0885e992.png?v=1752272423" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal Deco Hand Pipe</div>
+        <div class="price">From $23.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal Kickstand Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal Kickstand Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Lavender_7460267e-d140-4000-a4fb-4ee47990f137.png?v=1752272403" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal Kickstand Hand Pipe</div>
+        <div class="price">From $23.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal Pioneer Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal Pioneer Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Slate_138d80df-f85b-4cc9-a6dc-9e949dcc5072.png?v=1752272384" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal Pioneer Hand Pipe</div>
+        <div class="price">From $18.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal Kettle Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal Kettle Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Clear1_5c4eed32-4618-4050-99d2-0b126b7cd131.png?v=1752272367" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal Kettle Hand Pipe</div>
+        <div class="price">From $23.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal Perch Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal Perch Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Cactus_196029cc-f0e3-42a5-b7e9-365af819e15b.png?v=1752272341" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal Perch Hand Pipe</div>
+        <div class="price">From $23.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal The Steamrolla - MJA X Matt Frevola')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal The Steamrolla - MJA X Matt Frevola')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/quartter.jpg?v=1752272314" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal The Steamrolla - MJA X Matt Frevola</div>
+        <div class="price">From $36.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal Granby Hand Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal Granby Hand Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/MJ-Arsenal-Granby-Hand-Pipe.jpg?v=1752272220" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal Granby Hand Pipe</div>
+        <div class="price">From $33.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal Ridge Taster')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal Ridge Taster')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/MJ-Arsenal-Ridge-One-Hitter.jpg?v=1752272215" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal Ridge Taster</div>
+        <div class="price">From $19.99</div>
+    </div>
+    <div class="card" onclick="openModal('Daze Glass 7" Steamroller')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Daze Glass 7" Steamroller')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Daze-Glass-Steamroller.jpg?v=1749596157" loading="lazy"></div>
+        <div class="brand-badge">Daze Glass</div>
+        <div class="title">Daze Glass 7" Steamroller</div>
+        <div class="price">From $24.99</div>
+    </div>
         </div>
     </div>
-    
-    <div id="product-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">×</span>
-            <div class="modal-body" style="display:flex; flex-wrap:wrap; width:100%;">
-                <div class="modal-img-col">
-                    <img id="modal-img" src="" alt="Product">
-                    <div class="modal-gallery" id="modal-gallery"></div>
-                </div>
-                <div class="modal-info-col">
-                    <!-- Dynamic Badges & Ratings inside Modal -->
-                    <div id="modal-badge-container"></div>
-                    <div id="modal-stars-container" style="margin-bottom:10px;"></div>
-                    
-                    <div class="modal-brand" id="modal-brand"></div>
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:15px;">
-                        <h2 class="modal-title" id="modal-title" style="margin-top:0;"></h2>
-                        <button onclick="shareProduct()" style="background:#f4f4f4; border:1px solid #ddd; border-radius:50%; width:45px; height:45px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:all 0.2s;" title="Share this item">
-                            <span style="font-size:1.2em;">🔗</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Dynamic Scarcity & Compare-At Price -->
-                    <div class="modal-price-wrap">
-                        <span class="modal-price" id="modal-price"></span>
-                        <span class="modal-msrp" id="modal-msrp" style="display:none; text-decoration:line-through; color:#e74c3c; font-size:0.9em; margin-left:15px; font-weight:800;"></span>
-                    </div>
-                    
-                    <div id="modal-scarcity-container" class="scarcity-alert"></div>
-                    
-                    <div id="modal-variant-container"></div>
-                    <div class="modal-desc" id="modal-desc-container"></div>
-                    
-                    <!-- Cross-Sell Upsell -->
-                    <div class="cross-sell-box" id="cross-sell-container" style="display:none;">
-                        <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pink-Formula-Glass-Cleaner-bottle.jpg?v=1748281358" alt="Pink Formula">
-                        <div class="cross-sell-info">
-                            <div class="cross-sell-title">+ Pink Formula Glass Cleaner</div>
-                            <div class="cross-sell-desc">$9.99 (Essential for maintenance)</div>
-                        </div>
-                        <input type="checkbox" id="cross-sell-check" class="cross-sell-checkbox">
-                    </div>
-                    
-                    <button class="modal-add-btn quick-add-btn" id="modal-add-btn" style="padding:15px; font-size:1.2em; background:#111; color:#fff; border:none; margin-top:20px;">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
     <script src="../js/data.js"></script>
     <script src="../js/app.js"></script>
+    <script>
+        function copyDirectLink(name) {
+            const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            const url = window.location.origin + "/index.html?p=" + slug;
+            navigator.clipboard.writeText(url).then(() => alert("Link Copied!"));
+        }
+    </script>
 </body>
 </html>
-    

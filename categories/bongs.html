@@ -1,273 +1,2851 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixie's Pantry: Buy Group - Bongs</title>
-    <meta name="description" content="Shop Bongs at absolute wholesale prices. Exclusive Discord Group Buy powered by Dyspensr.">
-    <link rel="stylesheet" href="../css/style.css">
-    
-    <!-- OpenGraph SEO Tags -->
-    <meta property="og:title" content="Bongs | Pixie's Pantry">
-    <meta property="og:description" content="Access premium vaporizers and glass at wholesale prices.">
-    <meta property="og:type" content="website">
+    <title>Pixie's Pantry | Bongs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: sans-serif; background: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; padding: 20px; }
+        .card { position: relative; border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .card img { max-width: 100%; height: 160px; object-fit: contain; }
+        .brand-badge { font-size: 0.7em; color: #aaa; text-transform: uppercase; margin-top: 10px; }
+        .title { font-weight: bold; margin: 5px 0; font-size: 0.9em; height: 2.4em; overflow: hidden; }
+        .price { font-weight: 800; color: #111; }
+        
+        /* The Link Shortcut Icon */
+        .link-shortcut {
+            position: absolute; top: 10px; right: 10px; background: #fff; width: 30px; height: 30px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 0.8em; color: #888; border: 1px solid #eee; z-index: 5; transition: 0.2s;
+        }
+        .link-shortcut:hover { background: #111; color: #fff; border-color: #111; }
+    </style>
 </head>
 <body>
-    
-    <div class="sidebar">
-        <div class="close-btn" onclick="toggleMobileMenu()">×</div>
-        <div class="logo">Pixie's Pantry</div>
-        <div class="search-container mobile-only" style="margin-bottom: 20px;">
-            <span class="search-icon">🔍</span>
-            <input type="text" class="product-search-bar" placeholder="Search products...">
-        </div>
-        <a href="../index.html" class="sidebar-link" style="font-weight:bold; color:#111; background:#f0f0f0; margin-bottom:15px; border-left:4px solid #d4af37;">🏠 HOME / MASTER CATALOG</a><div class="sidebar-section">Advanced Filters</div>
-<div class="filter-group">
-    <div style="font-weight:bold; color:#111; margin-bottom:10px; font-size:0.85em; text-transform:uppercase;">Price</div>
-    <label><input type="checkbox" class="price-filter" value="under50"> Under $50</label>
-    <label><input type="checkbox" class="price-filter" value="50-100"> $50 - $100</label>
-    <label><input type="checkbox" class="price-filter" value="over100"> Over $100</label>
-</div>
-<div class="filter-group">
-    <div style="font-weight:bold; color:#111; margin-bottom:10px; font-size:0.85em; text-transform:uppercase;">Material</div>
-    <label><input type="checkbox" class="mat-filter" value="glass"> Premium Glass</label>
-    <label><input type="checkbox" class="mat-filter" value="silicone"> Silicone</label>
-    <label><input type="checkbox" class="mat-filter" value="metal"> Metal / Alloy</label>
-</div>
-<div class="sidebar-section">Shop By Brand</div><a href="../brands/apex-ancillary.html" class="sidebar-link">Apex Ancillary</a><a href="../brands/blazer.html" class="sidebar-link">Blazer</a><a href="../brands/ccell.html" class="sidebar-link">CCELL</a><a href="../brands/cali-crusher.html" class="sidebar-link">Cali Crusher</a><a href="../brands/chill-steel-pipes.html" class="sidebar-link">Chill Steel Pipes</a><a href="../brands/daze-glass.html" class="sidebar-link">Daze Glass</a><a href="../brands/dr-dabber.html" class="sidebar-link">Dr. Dabber</a><a href="../brands/dynavap.html" class="sidebar-link">DynaVap</a><a href="../brands/dyspensr-wholesale.html" class="sidebar-link">Dyspensr Wholesale</a><a href="../brands/empire-glassworks.html" class="sidebar-link">Empire Glassworks</a><a href="../brands/flower-mill.html" class="sidebar-link">Flower Mill</a><a href="../brands/grav-grav-labs.html" class="sidebar-link">GRAV / Grav Labs</a><a href="../brands/grenco-science.html" class="sidebar-link">Grenco Science</a><a href="../brands/hemper.html" class="sidebar-link">Hemper</a><a href="../brands/honeybee-herb.html" class="sidebar-link">Honeybee Herb</a><a href="../brands/invincibowl.html" class="sidebar-link">Invincibowl</a><a href="../brands/jane-west.html" class="sidebar-link">Jane West</a><a href="../brands/la-pipes.html" class="sidebar-link">LA Pipes</a><a href="../brands/lookah.html" class="sidebar-link">Lookah</a><a href="../brands/mj-arsenal.html" class="sidebar-link">MJ Arsenal</a><a href="../brands/my-bud-vase.html" class="sidebar-link">My Bud Vase</a><a href="../brands/ongrok.html" class="sidebar-link">Ongrok</a><a href="../brands/ooze.html" class="sidebar-link">Ooze</a><a href="../brands/pax.html" class="sidebar-link">PAX</a><a href="../brands/pink-formula.html" class="sidebar-link">Pink Formula</a><a href="../brands/prism-pipes.html" class="sidebar-link">Prism Pipes</a><a href="../brands/puffco.html" class="sidebar-link">Puffco</a><a href="../brands/pulsar.html" class="sidebar-link">Pulsar</a><a href="../brands/raw-rolling-papers.html" class="sidebar-link">RAW Rolling Papers</a><a href="../brands/rhythms-of-life.html" class="sidebar-link">Rhythms of Life</a><a href="../brands/rokin-vapes.html" class="sidebar-link">Rokin Vapes</a><a href="../brands/slx-grinders.html" class="sidebar-link">SLX Grinders</a><a href="../brands/santa-cruz-shredder.html" class="sidebar-link">Santa Cruz Shredder</a><a href="../brands/seshgear.html" class="sidebar-link">SeshGear</a><a href="../brands/sharpstone.html" class="sidebar-link">SharpStone</a><a href="../brands/smoke-source.html" class="sidebar-link">Smoke Source</a><a href="../brands/smokebuddy.html" class="sidebar-link">Smokebuddy</a><a href="../brands/softglass.html" class="sidebar-link">Softglass</a><a href="../brands/stache-products.html" class="sidebar-link">Stache Products</a><a href="../brands/storz-bickel.html" class="sidebar-link">Storz & Bickel</a><a href="../brands/stündenglass.html" class="sidebar-link">Stündenglass</a><a href="../brands/the-kind-pen.html" class="sidebar-link">The Kind Pen</a><a href="../brands/vibes.html" class="sidebar-link">VIBES</a><a href="../brands/wulf-mods.html" class="sidebar-link">Wulf Mods</a><a href="../brands/xvape.html" class="sidebar-link">Xvape</a><a href="../brands/yocan.html" class="sidebar-link">Yocan</a><a href="../brands/zenco.html" class="sidebar-link">Zenco</a><div class="sidebar-section">Shop By Category</div><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/oil-rig.html" class="sidebar-link">Oil Rig</a><a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a><a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a><a href="../categories/rolling-accessories.html" class="sidebar-link">Rolling Accessories</a><a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a>
-    </div>
-
-    
-    <div class="mobile-header">
-        <div class="hamburger" onclick="toggleMobileMenu()">☰</div>
-        <div class="logo" style="font-size:1.1em; letter-spacing:1px;">Pixie's Pantry</div>
-        <div class="cart-icon" onclick="toggleCart()">🛒 <span class="cart-count">0</span></div>
-    </div>
-    
-    <div class="main-wrapper">
-        <div class="banner">DISCORD GROUP BUY SPRINT 001 | FLAT $12 SHIPPING</div>
-        
-        <div class="top-nav">
-            <div class="search-container desktop-only" style="display:none;">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="product-search-bar" placeholder="Search for brands, products, glass...">
-            </div>
-            <div class="cart-icon" onclick="toggleCart()" style="cursor:pointer; font-weight:bold;">🛒 Cart (<span class="cart-count">0</span>)</div>
-        </div>
-        
-        <div class="main-content">
-            <div style="font-size:0.85em; color:#888; margin-bottom:15px;"><a href="../index.html" style="color:#111; text-decoration:none;">Home</a> / Categories / <strong style="color:#d4af37;">Bongs</strong></div>
-            <div class="header" style="border-bottom:none; margin-bottom:20px;">
-                <div><h1 style="font-size:2.8em; color:#111; margin:0;">Bongs</h1></div>
-            </div>
-    
-        <div class="catalog-toolbar" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-bottom: 30px; background:#fff; padding:15px; border-radius:12px; border:1px solid #f0f0f0; box-shadow:0 5px 15px rgba(0,0,0,0.02);">
-            <div class="search-container" style="flex-grow:1; max-width:400px; min-width:250px; margin:0;">
-                <span class="search-icon" style="left:15px;">🔍</span>
-                <input type="text" class="product-search-bar" placeholder="Search catalog..." style="width:100%; padding:12px 20px 12px 40px; border-radius:25px; border:1px solid #eaeaea; background:#fcfcfc; outline:none; transition:0.3s; font-size:0.95em;">
-            </div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap; flex-grow:1; justify-content:flex-end;">
-                <select id="sort-dropdown" onchange="sortCatalog()" style="padding:12px 20px; border-radius:25px; border:1px solid #eaeaea; background:#fcfcfc; font-weight:600; color:#111; outline:none; cursor:pointer; font-size:0.9em;">
-                    <option value="default">Sort: Featured</option>
-                    <option value="price-asc">Price: Low to High</option>
-                    <option value="price-desc">Price: High to Low</option>
-                    <option value="name-asc">Name: A to Z</option>
-                </select>
-                <button class="mobile-only filter-btn" onclick="toggleMobileMenu()" style="padding:12px 20px; border-radius:25px; border:1px solid #111; background:#111; color:#fff; font-weight:600; cursor:pointer; font-size:0.9em;">⚙️ Filters</button>
-            </div>
-        </div>
-    
-        <div class="category-section">
-            <div class="category-header">
-                <h2>Bongs</h2>
-                <a href="../categories/bongs.html">View All ></a>
-            </div>
-            <div class="grid">
-        
-        
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": "Thug Life 8&quot; Dome Perc Mini Bong",
-      "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Thug-Life-Dome-Perc-Mini-Bong.jpg?v=1749599230",
-      "description": "Premium hardware verified by Dyspensr.",
-      "brand": {
-        "@type": "Brand",
-        "name": "Thug Life"
-      },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://vapes.pixiespantryshop.com/index.html?p=thug-life-8-dome-perc-mini-bong",
-        "priceCurrency": "USD",
-        "price": "47.99",
-        "itemCondition": "https://schema.org/NewCondition",
-        "availability": "https://schema.org/InStock"
-      }
-    }
-    </script>
-    
-        <div class="card" onclick="openModal('Thug Life 8&quot; Dome Perc Mini Bong')" data-price="47.99" data-material="glass">
+    <div class="container">
+        <nav style="padding: 20px 0;"><a href="../index.html">← Master Catalog</a></nav>
+        <h1>Bongs</h1>
+        <div class="grid">
             
-            <div class="card-top">
-                <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Thug-Life-Dome-Perc-Mini-Bong.jpg?v=1749599230" loading="lazy"></div>
-                <div class="stars">⭐⭐⭐⭐<span>4.9 (43)</span></div>
-                <div class="brand">Thug Life</div>
-                <h3 class="title">Thug Life 8&quot; Dome Perc Mini Bong</h3>
-                <div class="variant">1 Option</div>
-            </div>
-            <div class="card-bottom">
-                <div class="price">$47.99</div>
-                <button class="add-btn quick-add-btn" onclick="event.stopPropagation(); addToCart('Thug Life 8&quot; Dome Perc Mini Bong');">Add</button>
-            </div>
-        </div>
-    
-            </div>
-        </div>
+    <div class="card" onclick="openModal('Pulsar CORE 10” Glass Beaker Bong')">
         
-        </div>
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar CORE 10” Glass Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-core-beaker-water-pipe-update.webp?v=1773000905" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar CORE 10” Glass Beaker Bong</div>
+        <div class="price">From $34.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar CORE 9” Glass Straight Tube Bong')">
         
-                <footer class="site-footer">
-            <div class="footer-content">
-                <div class="footer-col">
-                    <h3>Pixie's Pantry</h3>
-                    <p style="max-width: 300px;">Curating the absolute highest tier of vaporization and glass hardware. Direct wholesale access, vetted specifically for the community. Elevate your ritual.</p>
-                </div>
-                <div class="footer-col">
-                    <h3>Explore</h3>
-                    <ul>
-                        <li><a href="../index.html">Master Catalog</a></li>
-                        <li><a href="#" onclick="toggleCart(); return false;">View Cart</a></li>
-                        <li><a href="../about.html">Our Philosophy</a></li>
-                        <li><a href="../faq.html">FAQ & Guide</a></li>
-                        <li><a href="https://dyspensr.com" target="_blank">Dyspensr Network</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Client Services</h3>
-                    <ul>
-                        <li><a href="https://discord.gg/pyTSf569" target="_blank">Discord Support (Fastest)</a></li>
-                        <li><a href="mailto:admin@pixies-pantry.com">Email Concierge</a></li>
-                        <li><a href="../shipping.html">Shipping & Delivery</a></li>
-                        <li><a href="../refunds.html">Returns & Exchanges</a></li>
-                        <li><a href="../privacy.html">Privacy & Terms</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Stay Exquisite</h3>
-                    <p>Join the inner circle for exclusive drops and wholesale restocks.</p>
-                    <form class="newsletter-form" action="https://formspree.io/f/xeoqkzdj" method="POST">
-                        <input type="email" name="Newsletter Email" placeholder="Enter your email address" required>
-                        <button type="submit">Subscribe</button>
-                    </form>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 PIXIE'S PANTRY. ALL RIGHTS RESERVED.</p>
-                <div class="footer-socials">
-                    <a href="https://discord.gg/pyTSf569" target="_blank">Discord</a>
-                    <a href="#">Instagram</a>
-                    <a href="#">Twitter</a>
-                </div>
-            </div>
-        </footer>
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar CORE 9” Glass Straight Tube Bong')">
+        <i class="fa-solid fa-link"></i>
     </div>
-    
-    <div id="cart-panel" class="cart-panel">
-        <div class="cart-header">
-            <h2>Your Cart</h2>
-            <div class="close-btn" onclick="toggleCart()">×</div>
-        </div>
-        <div id="cart-items" style="flex-grow:1; overflow-y:auto;"></div>
-        <div class="cart-footer">
-            <div class="cart-total">Total: <span id="cart-total-price">$0.00</span></div>
-            <form action="https://formspree.io/f/xeoqkzdj" method="POST" id="checkout-form" onsubmit="prepareCheckout(event)">
-                <input type="hidden" name="_cc" value="admin@pixies-pantry.com">
-                <input type="hidden" name="_subject" value="New Group Buy Order!">
-                <input type="hidden" name="Order Details" id="order-payload">
-                <input type="hidden" name="Order Total" id="order-total-payload">
-                
-                <div style="font-size:0.85em; color:#666; margin-bottom:15px; background:#f9f9f9; padding:10px; border-radius:6px; border:1px solid #eee;">
-                    <strong>Privacy Note:</strong> Your information is securely protected and used <em>strictly</em> for shipping this order. We will never spam you or sell your data.
-                </div>
-                
-                <input type="text" name="Full Name" id="c-name" placeholder="Full Name *" required class="checkout-input">
-                <input type="email" name="email" id="c-email" placeholder="Email Address *" required class="checkout-input">
-                <input type="tel" name="Phone Number" id="c-phone" placeholder="Phone Number *" required class="checkout-input">
-                <input type="text" name="Discord Username" id="c-discord" placeholder="Discord Username (Optional)" class="checkout-input">
-                
-                <h4 style="margin:15px 0 5px; font-size:0.9em; color:#111;">Shipping Address</h4>
-                <input type="text" name="Shipping Address" id="c-ship" placeholder="Street Address, City, State, Zip *" required class="checkout-input">
-                
-                <h4 style="margin:15px 0 5px; font-size:0.9em; color:#111;">Billing Address</h4>
-                <label style="font-size:0.8em; display:flex; align-items:center; gap:5px; margin-bottom:10px; cursor:pointer;">
-                    <input type="checkbox" id="same-billing" onchange="toggleBilling()" checked> Same as Shipping
-                </label>
-                <input type="text" name="Billing Address" id="c-bill" placeholder="Street Address, City, State, Zip" class="checkout-input" style="display:none;">
-
-                <button type="submit" class="checkout-btn quick-add-btn" style="background:#d4af37; color:#111; border-color:#d4af37; margin-top:15px; font-size:1em; padding:15px;">Secure Checkout</button>
-            </form>
-            
-            <!-- Receipt Container -->
-            <div id="receipt-container" style="display:none; padding:20px; background:#fff; border:2px dashed #d4af37; border-radius:8px; margin-top:20px;">
-                <h3 style="text-align:center; color:#111; margin-top:0;">Order Receipt</h3>
-                <p style="text-align:center; font-size:0.85em; color:#666;">Thank you! A copy has been sent to your email and admin@pixies-pantry.com.</p>
-                <div id="receipt-body" style="font-family:monospace; font-size:0.85em; white-space:pre-wrap; background:#f4f4f4; padding:15px; border-radius:4px; margin-bottom:15px;"></div>
-                <button onclick="window.print()" class="quick-add-btn" style="width:100%; text-align:center;">🖨️ Print / Save as PDF</button>
-            </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-core-straight-tube-water-pipe-update.webp?v=1773000904" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar CORE 9” Glass Straight Tube Bong</div>
+        <div class="price">From $32.99</div>
+    </div>
+    <div class="card" onclick="openModal('SeshGear 11.75” Spinner Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('SeshGear 11.75” Spinner Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/seshgear-spinner-beaker-bong-1.png?v=1773000891" loading="lazy"></div>
+        <div class="brand-badge">SeshGear</div>
+        <div class="title">SeshGear 11.75” Spinner Beaker Bong</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('RIPNDIP x HEMPER 9.5” Lord Nermal UFO XL Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('RIPNDIP x HEMPER 9.5” Lord Nermal UFO XL Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ripndip-hemper-lord-nermal-ufo-xl-bong-1.jpg?v=1771383592" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">RIPNDIP x HEMPER 9.5” Lord Nermal UFO XL Bong</div>
+        <div class="price">From $131.99</div>
+    </div>
+    <div class="card" onclick="openModal('RIPNDIP x HEMPER 6” Lord Nermal UFO Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('RIPNDIP x HEMPER 6” Lord Nermal UFO Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ripndip-hemper-lord-nermal-ufo-bong-1.jpg?v=1771383590" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">RIPNDIP x HEMPER 6” Lord Nermal UFO Mini Bong</div>
+        <div class="price">From $99.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 8.25” Alley Cats XL Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 8.25” Alley Cats XL Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-alley-cats-xl-bong-1.jpg?v=1771383589" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 8.25” Alley Cats XL Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Alley Cats Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Alley Cats Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-alley-cats-bong-7.jpg?v=1771383588" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Alley Cats Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper XL Glass Weedbrick Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper XL Glass Weedbrick Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-weedbrick-xl-bong-1.jpg?v=1771383594" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper XL Glass Weedbrick Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Glass Weedbrick Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Glass Weedbrick Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-weedbrick-bong-1.jpg?v=1771383593" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Glass Weedbrick Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Unbranded 7” Valentines Rose Vase Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Unbranded 7” Valentines Rose Vase Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/valentines-rose-vase-bong-1.png?v=1768885695" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Unbranded 7” Valentines Rose Vase Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 10” Stacked Hearts Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 10” Stacked Hearts Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-stacked-hearts-bong-1.png?v=1768885696" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 10” Stacked Hearts Bong</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Unbranded 9.25” Valentines Day Pink Passion Heart Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Unbranded 9.25” Valentines Day Pink Passion Heart Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/valentines-day-pink-passion-heart-bong-1.jpg?v=1768885698" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Unbranded 9.25” Valentines Day Pink Passion Heart Bong</div>
+        <div class="price">From $41.99</div>
+    </div>
+    <div class="card" onclick="openModal('Unbranded 7” Date Night Double Mouthpiece Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Unbranded 7” Date Night Double Mouthpiece Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/date-night-double-mouthpiece-bong-1.png?v=1768885712" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Unbranded 7” Date Night Double Mouthpiece Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 8.5” Date Night Dual Neck Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 8.5” Date Night Dual Neck Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-date-night-dual-neck-bong-8.png?v=1768885711" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 8.5” Date Night Dual Neck Bong</div>
+        <div class="price">From $75.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 8.25” Hearts On Hearts Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 8.25” Hearts On Hearts Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-hearts-on-hearts-recycler-bong-1.png?v=1768885706" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 8.25” Hearts On Hearts Recycler Bong</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Unbranded 8.5” Rainbow Striped Heart Glass Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Unbranded 8.5” Rainbow Striped Heart Glass Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/rainbow-striped-heart-glass-bong-1.png?v=1768885704" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Unbranded 8.5” Rainbow Striped Heart Glass Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 9” Pink Heart Chalice Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 9” Pink Heart Chalice Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-pink-heart-chalice-bong-1.png?v=1768885697" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 9” Pink Heart Chalice Bong</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Unbranded Thick Glass Beaker Bongs - Colors Vary')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Unbranded Thick Glass Beaker Bongs - Colors Vary')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/classic-glass-beaker-bongs-1.jpg?v=1764789474" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Unbranded Thick Glass Beaker Bongs - Colors Vary</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Unbranded Thick Glass Straight Tube Bongs - Colors Vary')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Unbranded Thick Glass Straight Tube Bongs - Colors Vary')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/classic-glass-straight-tube-bongs-1.jpg?v=1764789476" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Unbranded Thick Glass Straight Tube Bongs - Colors Vary</div>
+        <div class="price">From $32.99</div>
+    </div>
+    <div class="card" onclick="openModal('Unbranded Bent Neck Glass Straight Tube Bongs - Colors Vary')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Unbranded Bent Neck Glass Straight Tube Bongs - Colors Vary')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/classic-bent-neck-glass-straight-tube-bongs-1.png?v=1764789480" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Unbranded Bent Neck Glass Straight Tube Bongs - Colors Vary</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Unbranded Bent Neck Glass Beaker Bongs - Colors Vary')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Unbranded Bent Neck Glass Beaker Bongs - Colors Vary')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/classic-bent-neck-glass-beaker-bongs-1.png?v=1764789479" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Unbranded Bent Neck Glass Beaker Bongs - Colors Vary</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Silicone 5” Traveler Beaker Bongs - Colors Vary')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Silicone 5” Traveler Beaker Bongs - Colors Vary')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/silicone-traveler-beaker-bongs-1.jpg?v=1764789478" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Silicone 5” Traveler Beaker Bongs - Colors Vary</div>
+        <div class="price">From $22.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 13” Thinker Gravity Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 13” Thinker Gravity Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-thinker-gravity-recycler-bong-3.jpg?v=1764789470" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 13” Thinker Gravity Recycler Bong</div>
+        <div class="price">From $96.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 14” Double Wall Transporter Straight Tube Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 14” Double Wall Transporter Straight Tube Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-double-wall-transporter-straight-tube-bong-4.png?v=1764789469" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 14” Double Wall Transporter Straight Tube Bong</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 15” Paths of Joy Zig Zag Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 15” Paths of Joy Zig Zag Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-paths-of-joy-zig-zag-bong-3.png?v=1764789467" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 15” Paths of Joy Zig Zag Bong</div>
+        <div class="price">From $103.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 14.5” Twister Glass Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 14.5” Twister Glass Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-twister-glass-recycler-bong-2.jpg?v=1764789459" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 14.5” Twister Glass Recycler Bong</div>
+        <div class="price">From $91.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 30-Arm King Jellyfish Perc Beaker Bong - Two Sizes')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 30-Arm King Jellyfish Perc Beaker Bong - Two Sizes')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-king-jellyfish-perc-beaker-bong-3.png?v=1764789455" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 30-Arm King Jellyfish Perc Beaker Bong - Two Sizes</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 8.5” Stonely Cup Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 8.5” Stonely Cup Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-stonely-cup-bong-1.png?v=1764789454" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 8.5” Stonely Cup Bong</div>
+        <div class="price">From $72.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 9” Ancient Knowledge Klein Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 9” Ancient Knowledge Klein Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-ancient-knowledge-klein-recycler-bong-1.png?v=1764789452" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 9” Ancient Knowledge Klein Recycler Bong</div>
+        <div class="price">From $63.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 10” Rainbow Pride Glass Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 10” Rainbow Pride Glass Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-rainbow-pride-glass-beaker-bong-1.png?v=1764789464" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 10” Rainbow Pride Glass Beaker Bong</div>
+        <div class="price">From $51.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 7.5” Drippy Diamonds Glass Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 7.5” Drippy Diamonds Glass Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-drippy-diamonds-glass-bong-4.png?v=1764789457" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 7.5” Drippy Diamonds Glass Bong</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 17.25” Far-Out Visitors Matrix Perc Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 17.25” Far-Out Visitors Matrix Perc Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-far-out-visitors-recycler-bong-2.png?v=1764789450" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 17.25” Far-Out Visitors Matrix Perc Recycler Bong</div>
+        <div class="price">From $122.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 12.5” Shroom Colony Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 12.5” Shroom Colony Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-shroom-colony-bong-1.png?v=1764789447" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 12.5” Shroom Colony Bong</div>
+        <div class="price">From $74.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 12.5” Rubiks Cube Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 12.5” Rubiks Cube Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-rubiks-cube-bong-1.png?v=1764789445" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 12.5” Rubiks Cube Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 13” Wig Wag Glycerin Stacker Freezable Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 13” Wig Wag Glycerin Stacker Freezable Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-wig-wag-glycerin-stacker-freezable-bong-3.jpg?v=1764789472" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 13” Wig Wag Glycerin Stacker Freezable Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 10” Bicolor Freezable Glycerin Chugger Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 10” Bicolor Freezable Glycerin Chugger Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-freezable-glycerin-chugger-bong-3.jpg?v=1764789466" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 10” Bicolor Freezable Glycerin Chugger Bong</div>
+        <div class="price">From $82.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 10” Enchanting Tree Perc Bong - Colors Vary')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 10” Enchanting Tree Perc Bong - Colors Vary')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-enchanting-tree-perc-bong-1.jpg?v=1764789462" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 10” Enchanting Tree Perc Bong - Colors Vary</div>
+        <div class="price">From $82.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 15.5” Raptor Claw Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 15.5” Raptor Claw Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-raptor-claw-beaker-bong-2.png?v=1764789449" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 15.5” Raptor Claw Beaker Bong</div>
+        <div class="price">From $72.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9.5” Forty Ounce Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9.5” Forty Ounce Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240709_HEMPER_FORTY_XL_BONG_005_ONWHITE_1080x1080_f7a810a9-8e30-44bd-83e0-61fe31547723.jpg?v=1762198418" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9.5” Forty Ounce Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Glass Penguin Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Glass Penguin Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/241119_HEMPER_PENGUIN_BONG__002_ONWHITE_1080x1080_86f7785e-8541-4d3b-a3c6-19f24498afed.jpg?v=1762198417" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Glass Penguin Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” XL Penguin Igloo Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” XL Penguin Igloo Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/241119_HEMPER_PENGUIN_XL_BONG__006_ONWHITE_1080x1080_e261d96d-ce15-4d31-96eb-16565b49eab7.jpg?v=1762198415" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” XL Penguin Igloo Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Hi-Robot Glass Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Hi-Robot Glass Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/250415_HEMPER_HI_ROBOT_BONG_001_ONWHITE_1080x1080_c3c30136-32dc-4673-b724-10af114867c3.jpg?v=1762198397" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Hi-Robot Glass Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” XL Hi-Robot Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” XL Hi-Robot Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/250415_HEMPER_HI_ROBOT_XL_BONG_001_ONWHITE_1080x1080_c9ab460d-e492-4e49-8e72-96d14e7245ef.jpg?v=1762198394" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” XL Hi-Robot Recycler Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Ramen Cup Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Ramen Cup Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/250124_HEMPER_RAMEN_BONG_001_ONWHITE_1080x1080_2202cbcc-97aa-4d9c-99d4-890bf54b26c2.jpg?v=1762198401" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Ramen Cup Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 8.5” XL Ramen Cup Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 8.5” XL Ramen Cup Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/250124_HEMPER_RAMEN_XL_BONG_001_ONWHITE_1080x1080_1605ecb1-b000-4eb8-a758-9a69a194b261.jpg?v=1762198399" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 8.5” XL Ramen Cup Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 5.5” Glass Balloon Dog Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 5.5” Glass Balloon Dog Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240926_HEMPER_BALLOON_DOG_BONG_002.jpg?v=1762198407" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 5.5” Glass Balloon Dog Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7.5” XL Balloon Dog Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7.5” XL Balloon Dog Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240926_HEMPER_BALLOON_DOG_XL_BONG_002.jpg?v=1762198404" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7.5” XL Balloon Dog Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Glass Beer Pong Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Glass Beer Pong Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240709_HEMPER_SOLO_CUP_BONG_006_ONWHITE_1080x1080_b1a8fa24-ebc8-4d0b-802c-acfc13371e47.jpg?v=1762198419" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Glass Beer Pong Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 8” Las Vegas Sign Glass Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 8” Las Vegas Sign Glass Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/250221_HEMPER_ROAD_TRIP_SERIES_LAS_VEGAS_BONG_003.jpg?v=1762198407" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 8” Las Vegas Sign Glass Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 5.5” Glass Arcade Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 5.5” Glass Arcade Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/250320_HEMPER_ARCADE_BONG_006_ONWHITE_1080x1080_b4e779c0-88e0-47ae-98e4-9dd4001f8377.jpg?v=1762198414" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 5.5” Glass Arcade Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9.5” XL Glass Arcade Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9.5” XL Glass Arcade Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/250320_HEMPER_ARCADE_XL_BONG_002_ONWHITE_1080x1080_c052a04c-b491-461e-8497-62e1de542b7d.jpg?v=1762198412" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9.5” XL Glass Arcade Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” High Jinx Cartoon Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” High Jinx Cartoon Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/241218_HEMPER_CARTOON_BONG_001_ONWHITE_1080x1080_471fd7ee-bf20-44fb-9ad3-0cf28b15b180.jpg?v=1762198411" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” High Jinx Cartoon Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 11” XL High Jinx Cartoon Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 11” XL High Jinx Cartoon Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/241218_HEMPER_CARTOON_XL_BONG_006_ONWHITE_1080x1080_d501fc6c-6d81-4738-9368-1a0f48db9912.jpg?v=1762198409" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 11” XL High Jinx Cartoon Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” XL Space Fleet Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” XL Space Fleet Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240314_HEMPER_SPACE_FLEET_XL_BONG_006_ONWHITE_1080x1080_8c9f696b-124b-44f8-aada-fe11673f7b3a.jpg?v=1762198435" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” XL Space Fleet Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Glass Alien Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Glass Alien Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240620_HEMPER_ALIEN_BONG_002.jpg?v=1762198422" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Glass Alien Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” XL Alien Glass Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” XL Alien Glass Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240620_HEMPER_ALIEN_XL_BONG_002.jpg?v=1762198421" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” XL Alien Glass Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Bowlman Lantern Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Bowlman Lantern Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230824_HEMPER_LANTERN_BONG_REGULAR_002_ONWHITE_1080x1080_a5f66d17-6147-40fc-8c61-3b62ec4b4120.jpg?v=1762198444" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Bowlman Lantern Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” XL Bowlman Campfire Lantern Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” XL Bowlman Campfire Lantern Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230823_HEMPER_LANTERN_XL_BONG_002_ONWHITE_1080x1080_77ab8694-8fbf-4431-8f65-0903fe2cc7a5.jpg?v=1762198443" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” XL Bowlman Campfire Lantern Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6.5” Bonsai Tree Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6.5” Bonsai Tree Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240522_HEMPER_ZEN_BONSAI_BONG_002_ONWHITE_1080x1080_8105fc76-3118-4823-aeb9-87422b89e430.jpg?v=1762198431" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6.5” Bonsai Tree Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” XL Bonsai Tree Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” XL Bonsai Tree Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240522_HEMPER_ZEN_BONSAI_XL_BONG_006_ONWHITE_1080x1080_b8b2b960-742f-4d7c-a114-badddea28c7c.jpg?v=1762198430" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” XL Bonsai Tree Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 3.5” Groovy Van Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 3.5” Groovy Van Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240618_HEMPER_GROOVY_VAN_BONG_006_ONWHITE_1080x1080_26b50260-5489-4d4f-84e1-87e845a9325b.jpg?v=1762198428" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 3.5” Groovy Van Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 5.5” Groovy Van Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 5.5” Groovy Van Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240618_HEMPER_GROOVY_VAN_BONG_XL_006_ONWHITE_1080x1080_a9402594-8aaf-4f3b-9acd-ee68cba24c4a.jpg?v=1762198427" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 5.5” Groovy Van Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Sucker 4 Love Lollipop Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Sucker 4 Love Lollipop Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/250113_HEMPER_LOLLIPOP_BONG_002.jpg?v=1762198425" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Sucker 4 Love Lollipop Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” XL Sucker 4 Love Lollipop Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” XL Sucker 4 Love Lollipop Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/250113_HEMPER_LOLLIPOP_XL_BONG_002.jpg?v=1762198424" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” XL Sucker 4 Love Lollipop Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Dia De Los Muertos Skull Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Dia De Los Muertos Skull Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240904_HEMPER_SKULL_BONG_006_ONWHITE_1080x1080_cf416010-9a9a-48c6-beee-09e0738f5126.jpg?v=1762198450" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Dia De Los Muertos Skull Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 13” XL Dia De Los Muertos Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 13” XL Dia De Los Muertos Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240903_HEMPER_SKELETON_XL_BONG__001_ONWHITE_1080x1080_ac9439fb-7c69-4db0-8108-cdbc2f5371c5.jpg?v=1762198448" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 13” XL Dia De Los Muertos Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Palm Tree Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Palm Tree Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230718_Hemper_Palm_Tree_Regular_Bong_Angle_OnWhite_0006_1080x1080_283ac983-abec-4bb4-b299-5f81a72dfb6c.jpg?v=1762198447" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Palm Tree Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10.5” XL Palm Tree Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10.5” XL Palm Tree Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230718_Hemper_Palm_Tree_XL_Bong_Angle_OnWhite_0007_1080x1080_b853186f-86f2-4f82-8e36-373ec7465d1a.jpg?v=1762198446" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10.5” XL Palm Tree Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Glass Donut Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Glass Donut Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/231011_HEMPER_DONUT_BONG_REGULAR_001_ONWHITE_1080x1080_3c357cc9-d638-45a1-bdad-954833e7f8d2.jpg?v=1762198441" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Glass Donut Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” XL Glass Donut Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” XL Glass Donut Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230914_HEMPER_DONUT_BONG_XL_002_ONWHITE_1080x1080_223f9a0f-647b-4598-83ea-ac92b4a60163.jpg?v=1762198440" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” XL Glass Donut Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 8.5” XL Gummy Bear Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 8.5” XL Gummy Bear Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240103_HEMPER_GUMMY_BEAR_BONG_XL_001_ONWHITE_1080x1080_9deef407-f1e9-423c-83a4-afe403c8f1bf.jpg?v=1762198439" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 8.5” XL Gummy Bear Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 11” XL Trippy Gnome Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 11” XL Trippy Gnome Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240212_HEMPER_TRIPPY_GNOME_XL_BONG_006_ONWHITE_1080x1080_a7de1014-0a41-4448-be66-af8351af7158.jpg?v=1762198437" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 11” XL Trippy Gnome Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Glass Kraken Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Glass Kraken Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240408_HEMPER_KRAKEN_BONG_006_ONWHITE_1080x1080_bc22c619-6913-4e46-96af-b793453b2d31.jpg?v=1762198434" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Glass Kraken Mini Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9.5” XL Glass Kraken Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9.5” XL Glass Kraken Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240408_HEMPER_KRAKEN_XL_BONG_002_ONWHITE_1080x1080_af3559f3-9b81-4fda-91d1-cba0a177f4b3.jpg?v=1762198433" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9.5” XL Glass Kraken Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper  11” XL Rocket Ship Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper  11” XL Rocket Ship Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/RocketShip-XL-Bong-JWP106-Blue-Front.png?v=1762198492" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper  11” XL Rocket Ship Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Candy Monster Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Candy Monster Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CandyMonster-Bong-Back.png?v=1762198462" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Candy Monster Mini Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” Candy Monster Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” Candy Monster Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CandyMonster-XL-Bong-Angle.png?v=1762198461" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” Candy Monster Recycler Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6.5” Blue Whale Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6.5” Blue Whale Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230515_Hemper_Blue_Whale_Regular_Bong_Angle_OnWhite_0002.jpg?v=1762198459" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6.5” Blue Whale Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6.25” XL Blue Whale Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6.25” XL Blue Whale Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230515_Hemper_Blue_Whale_XL_Bong_Angle_OnWhite_0002.jpg?v=1762198457" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6.25” XL Blue Whale Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Trippy Shroom Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Trippy Shroom Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230203_H_TrippyMushroom_Bong_Angle_OnWhite_0002.jpg?v=1762198456" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Trippy Shroom Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9.5” XL Trippy Shroom Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9.5” XL Trippy Shroom Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230203_H_TrippyMushroom_Bong_XL_OnWhite_Angle_0002.jpg?v=1762198454" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9.5” XL Trippy Shroom Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 4.5” Bubble Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 4.5” Bubble Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230303_H_Bubble_Regular_Bong_Front_OnWhite_0001.jpg?v=1762198453" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 4.5” Bubble Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 8.25” XL Bubble Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 8.25” XL Bubble Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230303_H_Bubble_XL_Bong_Angle_OnWhite_0002.jpg?v=1762198451" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 8.25” XL Bubble Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Das Boot Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Das Boot Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230213_H_DasBoot_Bong_Regular_Angle_OnWhite_0002.jpg?v=1762198468" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Das Boot Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” XL Das Boot Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” XL Das Boot Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230130_H_DasBoot_Bong_XL_OnWhite_Angle_0002.jpg?v=1762198466" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” XL Das Boot Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Chinese Takeout Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Chinese Takeout Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240528_HEMPER_CHINESE_TAKEOUT_BONG_001_ONWHITE_1080x1080_9eb09c2a-c270-40f8-9759-a38c19b2c288.jpg?v=1762198465" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Chinese Takeout Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” XL Chinese Takeout Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” XL Chinese Takeout Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240711_HEMPER_CHINESE_TAKEOUT_XL_BONG_001_ONWHITE_1080x1080_518349b5-8b19-4282-8e78-8f5073460029.jpg?v=1762198463" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” XL Chinese Takeout Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Fish Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Fish Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240314_HEMPER_FISH_REGULAR_BONG_002_ONWHITE_1080x1080_28c33e28-ec3c-4f9e-8be6-e66e76683427.jpg?v=1762198472" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Fish Mini Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” Jellyfish Perc Ocean Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” Jellyfish Perc Ocean Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ocean-Bong-XL-Angle.png?v=1762198471" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” Jellyfish Perc Ocean Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Popcorn Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Popcorn Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240528_HEMPER_POPCORN_BONG_001_ONWHITE_1080x1080_ce07ec74-c3ac-4a37-ac47-e129eddcc38d.jpg?v=1762198469" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Popcorn Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” XL Chronic Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” XL Chronic Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Chronic-Bong-XL-Side.png?v=1762198490" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” XL Chronic Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7.5” Chronic Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7.5” Chronic Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240410_HEMPER_CHRONIC_BONG_001_ONWHITE_1080x1080_940d4eaf-4e3a-4818-86dc-57e20c62b304.jpg?v=1762198488" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7.5” Chronic Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” Phaser Gun Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” Phaser Gun Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/3n-N28pA.png?v=1762198485" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” Phaser Gun Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Cyberpunk Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Cyberpunk Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CyberBong-Green-Angle.png?v=1762198483" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Cyberpunk Beaker Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 12” Cyberpunk Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 12” Cyberpunk Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230317_H_Cyberpunk_RecyclerRig_XL_Green_Angle_OnWhite_0006.jpg?v=1762198482" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 12” Cyberpunk Recycler Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Cosmic Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Cosmic Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240410_HEMPER_COSMIC_BONG_006_ONWHITE_1080x1080_648b9855-d643-4f31-9e94-1ed5daa7b9eb.jpg?v=1762198477" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Cosmic Mini Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” XL Cosmic Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” XL Cosmic Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CosmicXL-Angle.png?v=1762198477" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” XL Cosmic Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Wish Ball Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Wish Ball Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240314_HEMPER_WISHBALL_REGULAR_BONG_006_ONWHITE_1080x1080_99597bcd-33e7-48b4-8e0b-8431ee85767b.jpg?v=1762198474" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Wish Ball Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” XL Wish Ball Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” XL Wish Ball Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Wish-XL-Bong-Side.png?v=1762198474" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” XL Wish Ball Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” XL Crystal Ball Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” XL Crystal Ball Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CrystalBallXLGreenProfile.jpg?v=1762198487" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” XL Crystal Ball Mini Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” XL Moon Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” XL Moon Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/MoonBong-XL-Side.png?v=1762198481" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” XL Moon Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 8” Happy Cactus Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 8” Happy Cactus Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/HappyCactus_Amber_Front.png?v=1762198479" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 8” Happy Cactus Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Scare Bears Teddy Bear Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Scare Bears Teddy Bear Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/HEMPER_SCARE_BEARS_TEDDY_BEAR_BONG_001_ONWHITE_1080x1080_3d15551d-f736-434f-aa0d-ac253d4bb134.jpg?v=1761155020" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Scare Bears Teddy Bear Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Scare Bears Teddy Bear XL Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Scare Bears Teddy Bear XL Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/HEMPER_SCARE_BEARS_TEDDY_BEAR_XL_BONG_001_ONWHITE_1080x1080_1b7468d6-7231-46df-b228-32dc73b56a38.jpg?v=1761154967" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Scare Bears Teddy Bear XL Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal Widowmaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal Widowmaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/MJ-Arsenal-Spiderweb-Bong-5.jpg?v=1760196694" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal Widowmaker Bong</div>
+        <div class="price">From $98.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6.5” Ghost Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6.5” Ghost Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240410_HEMPER_GHOST_RIG_001_ONWHITE_1080x1080_8c8affcf-5e55-4e59-b395-82e83714abd3.jpg?v=1760196159" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6.5” Ghost Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” XL Cauldron Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” XL Cauldron Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230907_HEMPER_CAULDRON_BONG_XL_001_ONWHITE_1080x1080_7588955b-4b33-45f8-882b-3fe5ce040d65.jpg?v=1760196159" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” XL Cauldron Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Cauldron Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Cauldron Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230907_HEMPER_CAULDRON_BONG_REGULAR_001_ONWHITE_1080x1080_7467459b-22ba-44ee-b938-0772ebfefbd2.jpg?v=1760196157" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Cauldron Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 8.5” Wicked Witch Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 8.5” Wicked Witch Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/WitchsHighBall_Angle.png?v=1760196156" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 8.5” Wicked Witch Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Witching Season Bubbler Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Witching Season Bubbler Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-witching-season-bubbler.jpg?v=1760110843" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Witching Season Bubbler Pipe</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Halloween Scene Bubble Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Halloween Scene Bubble Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-halloween-scene-bubble-bong.jpg?v=1760110842" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Halloween Scene Bubble Bong</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Halloween Scene Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Halloween Scene Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-halloween-scene-beaker-bong.jpg?v=1760110840" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Halloween Scene Beaker Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Anime Witch Halloween Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Anime Witch Halloween Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-anime-witch-halloween-bong.jpg?v=1760110840" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Anime Witch Halloween Bong</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Double Stacked Halloween Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Double Stacked Halloween Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-double-stacked-halloween-bong.jpg?v=1760110838" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Double Stacked Halloween Bong</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('Scary Purge Light Up Gas Mask Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Scary Purge Light Up Gas Mask Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/purge-themed-gas-mask-bong.jpg?v=1760110849" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Scary Purge Light Up Gas Mask Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Bloody Skull Gas Mask Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Bloody Skull Gas Mask Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/bloody-skull-gas-mask-bong.jpg?v=1760110848" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Bloody Skull Gas Mask Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal 10” Spill-Proof Nexus Bong w. Suction Cup Base')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal 10” Spill-Proof Nexus Bong w. Suction Cup Base')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/MJ-Arsenal-Nexus-Bong.jpg?v=1758237427" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal 10” Spill-Proof Nexus Bong w. Suction Cup Base</div>
+        <div class="price">From $58.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” Happy Camper Waterbottle Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” Happy Camper Waterbottle Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/happy-camper-water-bottle-bong-6.jpg?v=1758223231" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” Happy Camper Waterbottle Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9.5” Wild West Cowboy Boot Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9.5” Wild West Cowboy Boot Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/HEMPER_WILD_WEST_COWBOY_BOOT_XL_BONG_002_ONWHITE_1080x1080_6a78d6af-9aa2-4a84-8970-b0a310b7940a.jpg?v=1758223227" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9.5” Wild West Cowboy Boot Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Wild West Moonshine Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Wild West Moonshine Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/HEMPER_WILD_WEST_MOONSHINE_BOTTLE_BONG_001_ONWHITE_1080x1080_971d26be-916b-4872-911a-97df9f35f377.jpg?v=1758223229" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Wild West Moonshine Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Piggy Bank Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Piggy Bank Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240410_HEMPER_PIGGY_BANK_BONG_002_ONWHITE_1080x1080_713bd3d8-7530-40fe-92d9-cd88c6c6596c.jpg?v=1758223170" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Piggy Bank Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” Piggy Bank Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” Piggy Bank Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/PiggyBank-XL-Bong-Angle.png?v=1758223168" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” Piggy Bank Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10.5” That 70’s Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10.5” That 70’s Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/70s-XL-Bong-Blue-Angle.png?v=1758223196" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10.5” That 70’s Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Jellyfish Jar Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Jellyfish Jar Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240110_HEMPER_JELLYFISH_JAR_BONG_7_INCH_006_ONWHITE_1080x1080_5b102c2d-1bdd-4f3f-832f-09aff7631d23.jpg?v=1758223193" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Jellyfish Jar Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Gaming Flower Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Gaming Flower Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Gaming-Flower-Bong-Angle.png?v=1758223205" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Gaming Flower Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 12” XL Gaming Flower Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 12” XL Gaming Flower Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Gaming-Flower-XL-Bong-Angle.png?v=1758223202" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 12” XL Gaming Flower Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” OG Gaming Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” OG Gaming Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/02-Gaming-Bong-WP0719-Angle.png?v=1758223210" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” OG Gaming Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” OG Gaming Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” OG Gaming Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Gaming_Bong_XL-2.jpg?v=1758223207" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” OG Gaming Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Ancient Egypt Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Ancient Egypt Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/HEMPER_ANCIENT_EGYPT_BONG_001_FRONT_ONWHITE_1080x1080_06f90b74-5039-4c7b-81d0-6bfef8d9f89c.jpg?v=1758223223" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Ancient Egypt Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” Ancient Egypt Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” Ancient Egypt Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/HEMPER_ANCIENT_EGYPT_XL_BONG_002_ANGLE_ONWHITE_1080x1080_fc2459c7-d668-4974-b960-a515b244609e.jpg?v=1758223221" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” Ancient Egypt Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 4.5” Jurassic Spark Skull Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 4.5” Jurassic Spark Skull Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Jurassic-Spark-Dinosaur-Mini-Bong-6.jpg?v=1758223225" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 4.5” Jurassic Spark Skull Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Jurassic Spark Skull Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Jurassic Spark Skull Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Jurassic-Park-Dinosaur-Bong-4.jpg?v=1758223224" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Jurassic Spark Skull Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Milk and Cookies Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Milk and Cookies Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240617_HEMPER_MILK_AND_COOKIES_BONG_001_ONWHITE_1080x1080_2ef87065-f93e-4cfd-a110-0b8597f1c813.jpg?v=1758223167" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Milk and Cookies Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 5.5” Campfire Mug Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 5.5” Campfire Mug Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/happy-camper-mug-bong-6.jpg?v=1758223230" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 5.5” Campfire Mug Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Coco Mug Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Coco Mug Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240521_HEMPER_COCO_MUG_RIG_004_ONWHITE_1080x1080_6d5d2390-58cf-4fe9-aced-90fe3d3cfd64.jpg?v=1758223192" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Coco Mug Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 11.5” XL Space Monster Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 11.5” XL Space Monster Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/01-SpaceMonster-XL-Bong--Blue-Side.png?v=1758223189" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 11.5” XL Space Monster Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” UFO Vortex Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” UFO Vortex Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-UFO-Bong-Black-Side.png?v=1758223188" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” UFO Vortex Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” UFO Vortex XL Mothership Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” UFO Vortex XL Mothership Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/0015s_0005_UFO_Bong_Side_800xcopy.jpg?v=1758223184" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” UFO Vortex XL Mothership Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Space Monster Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Space Monster Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240111_HEMPER_SPACE_MONSTER_BONG_7INCH_GREEN_006_ONWHITE_1080x1080_a5a43337-94d7-46f9-8935-a9725bc8f127.jpg?v=1758223190" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Space Monster Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 8” Dankzilla Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 8” Dankzilla Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/DankZilla-Monster-XL-Bong-JWP111-Green-Back.png?v=1758223212" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 8” Dankzilla Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Spotted Egg Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Spotted Egg Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Spotted-Egg-Bong-Green-Angle.png?v=1758223200" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Spotted Egg Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 9” XL Spotted Egg Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 9” XL Spotted Egg Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230222_H_SpottedEgg_XL_Bong_Orange_Angle_OnWhite_0002.jpg?v=1758223197" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 9” XL Spotted Egg Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 5” Crystal Ball Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 5” Crystal Ball Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/03-CrystalBall-Rig-WP0720-Teal-Side.png?v=1758223215" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 5” Crystal Ball Mini Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Cupcake Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Cupcake Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240410_HEMPER_CUPCAKE_BONG_002_ONWHITE_1080x1080_196352f0-8546-4a38-86d8-e42442a3abd8.jpg?v=1758223176" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Cupcake Mini Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 8” XL Cupcake Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 8” XL Cupcake Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230721_Hemper_Cupcake_XL_Bong_Angle_OnWhite_0002_1080x1080_d02d7b4a-5bcd-4c2a-a6ef-033bcec07cd1.jpg?v=1758223174" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 8” XL Cupcake Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Pina Colada Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Pina Colada Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240314_HEMPER_PINA_COLADA_REGULAR_BONG_006_ONWHITE_1080x1080_30cf7f9a-61a5-4760-a54c-79a41625703b.jpg?v=1758223179" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Pina Colada Mini Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Pina Colada Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Pina Colada Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pina-colada-XL-Angle_343c3b22-17f3-40e6-bfa3-07dbfe91a149.png?v=1758223178" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Pina Colada Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Tea Cup Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Tea Cup Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/240528_HEMPER_TEA_CUP_BONG_006_ONWHITE_1080x1080_2b61e5c5-0ad7-447b-9761-5d34c8fd9cee.jpg?v=1758223173" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Tea Cup Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 8” Tea Pot Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 8” Tea Pot Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230130_H_TeaPot_Bong_XL_OnWhite_Angle_0002.jpg?v=1758223171" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 8” Tea Pot Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 12” Straight Neck Bubble Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 12” Straight Neck Bubble Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/D506-Teal-Angle.png?v=1758223145" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 12” Straight Neck Bubble Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Glass Vase Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Glass Vase Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/DSC09990-Edit.png?v=1758223147" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Glass Vase Bong</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Bell Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Bell Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/02-Bell-Rig-WP0119-Green-Angle.png?v=1758223144" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Bell Bong</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Flower Vase Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Flower Vase Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Flower-Bong-Black-Angle.png?v=1758223165" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Flower Vase Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” Flower Vase Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” Flower Vase Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Flower-Vase-XL-Bong-Black-Angle.png?v=1758223164" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” Flower Vase Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 8” Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 8” Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/HMP-WP310-Black-Angle.png?v=1758223148" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 8” Beaker Bong</div>
+        <div class="price">From $35.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 18” Beast Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 18” Beast Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/2300308_H_BeastBeaker_Bong_18inch_Pink_Angle_OnWhite_0002.jpg?v=1758223139" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 18” Beast Beaker Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 12” Beast Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 12” Beast Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/230606_Hemper_Beast_Beaker_Bong_12_Green_Angle_OnWhite_0002.jpg?v=1758223135" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 12” Beast Beaker Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 18” Classic Straight Tube Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 18” Classic Straight Tube Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Classic_HEMPER_Tube_Bong-1-2.jpg?v=1758223141" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 18” Classic Straight Tube Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” Straight Tube Bubble Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” Straight Tube Bubble Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/StraightNeckBubble-Blue.png?v=1758223131" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” Straight Tube Bubble Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Tornado Vortex Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Tornado Vortex Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Vortex_Rig-_Pitch_Neck-2.jpg?v=1758223161" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Tornado Vortex Mini Bong</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Showerhead Puck Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Showerhead Puck Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/WP0517-Showerhead-Puck-Angle-Smoke.png?v=1758223160" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Showerhead Puck Mini Bong</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6.5” Whistler Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6.5” Whistler Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/WP1017-Whistler-Rig-Angle-Green.png?v=1758223157" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6.5” Whistler Mini Bong</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Trophy Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Trophy Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/02-TrophyRecycler-Rig-WP1119-Angle.png?v=1758223155" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Trophy Recycler Bong</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Inline Puck Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Inline Puck Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/0022s_0003_Puck-Blue-side-1-copy.png?v=1758223152" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Inline Puck Bong</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Hourglass V2 Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Hourglass V2 Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hour-Glass-Blue-A.png?v=1758223150" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Hourglass V2 Bong</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” Christmas Tree Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” Christmas Tree Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/231206_HEMPER_CHRISTMAS_TREE_XL_BONG_006_ONWHITE_1080x1080_76eb44dd-54ce-4d1f-becc-b6f4bcb31ba4.jpg?v=1758223201" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” Christmas Tree Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7.5” Jollypop Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7.5” Jollypop Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-jollypop-bong-side.png?v=1758223183" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7.5” Jollypop Mini Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10.5” Candy Cane Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10.5” Candy Cane Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/JollyPop_XL_Angle.png?v=1758223182" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10.5” Candy Cane Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” Holiday Wreath Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” Holiday Wreath Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/MilknCookies-XL-Bong-Front.png?v=1758223181" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” Holiday Wreath Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 8” Snowman Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 8” Snowman Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Snowman-Green-Angle.png?v=1758223219" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 8” Snowman Mini Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 10” Snowman Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 10” Snowman Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Snowman-XL-Green-Angle.png?v=1758223217" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 10” Snowman Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 13.75” 420 Glycerin Stacker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 13.75” 420 Glycerin Stacker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-420-glycerin-stacker-bong-group.jpg?v=1758214932" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 13.75” 420 Glycerin Stacker Bong</div>
+        <div class="price">From $96.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 16” Sweet Nectar Glycerin Stacker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 16” Sweet Nectar Glycerin Stacker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-sweet-nectar-glycerin-stacker-bong-back.jpg?v=1758214929" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 16” Sweet Nectar Glycerin Stacker Bong</div>
+        <div class="price">From $122.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 12.75” Backflow Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 12.75” Backflow Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-backflow-recycler-bong-group.jpg?v=1758214928" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 12.75” Backflow Recycler Bong</div>
+        <div class="price">From $85.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 4:20 Time Piece Bubbler')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 4:20 Time Piece Bubbler')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-420-time-piece-bubbler-black.jpg?v=1758214926" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 4:20 Time Piece Bubbler</div>
+        <div class="price">From $52.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 9” Tropical Cooler Glycerin Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 9” Tropical Cooler Glycerin Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-tropical-cooler-glycerin-bong-group.jpg?v=1758214924" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 9” Tropical Cooler Glycerin Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 10.25” Big Hitter Gravity Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 10.25” Big Hitter Gravity Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-big-hitter-gravity-recycler-bong-group.jpg?v=1758214919" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 10.25” Big Hitter Gravity Recycler Bong</div>
+        <div class="price">From $101.99</div>
+    </div>
+    <div class="card" onclick="openModal('Softglass Totem Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Softglass Totem Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Softglass-Totem-Bong.jpg?v=1758214911" loading="lazy"></div>
+        <div class="brand-badge">Softglass</div>
+        <div class="title">Softglass Totem Bong</div>
+        <div class="price">From $88.99</div>
+    </div>
+    <div class="card" onclick="openModal('Softglass Aura Totem Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Softglass Aura Totem Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Softglass-Aura-Totem-Bong.jpg?v=1758214910" loading="lazy"></div>
+        <div class="brand-badge">Softglass</div>
+        <div class="title">Softglass Aura Totem Bong</div>
+        <div class="price">From $98.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar World Peace 7.75" Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar World Peace 7.75" Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-world-peace-beaker-bong-front.png?v=1758214905" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar World Peace 7.75" Beaker Bong</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Iridescent Twist 8.5" Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Iridescent Twist 8.5" Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/iridescent-twist-beaker-bong-front.png?v=1758214904" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Iridescent Twist 8.5" Beaker Bong</div>
+        <div class="price">From $34.99</div>
+    </div>
+    <div class="card" onclick="openModal('GRAV Labs Deco Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('GRAV Labs Deco Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/grav-labs-deco-beaker-bong-group.png?v=1758214903" loading="lazy"></div>
+        <div class="brand-badge">GRAV / Grav Labs</div>
+        <div class="title">GRAV Labs Deco Beaker Bong</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('Paws for the Cause Glow 10" Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Paws for the Cause Glow 10" Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/paws-for-the-cause-glow-beaker-bong-front.jpg?v=1758214898" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">Paws for the Cause Glow 10" Beaker Bong</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 18.5” Doubled Up Transforming Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 18.5” Doubled Up Transforming Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-doubled-up-transforming-bong-group.jpg?v=1758214938" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 18.5” Doubled Up Transforming Bong</div>
+        <div class="price">From $148.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 12.25” Flower Of Life Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 12.25” Flower Of Life Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-flower-of-life-bong-group.jpg?v=1758214944" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 12.25” Flower Of Life Bong</div>
+        <div class="price">From $97.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 7.25" Cerebral Bubble Matrix Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 7.25" Cerebral Bubble Matrix Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-cerebral-bubble-matrix-recycler-bong-group.jpg?v=1758214940" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 7.25" Cerebral Bubble Matrix Recycler Bong</div>
+        <div class="price">From $99.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 10" Lucky 7 Arm Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 10" Lucky 7 Arm Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-lucky-7-arm-recycler-bong-extra.jpg?v=1758214932" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 10" Lucky 7 Arm Recycler Bong</div>
+        <div class="price">From $69.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 11.75” Shroom Life Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 11.75” Shroom Life Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-shroom-life-beaker-bong.jpg?v=1758214930" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 11.75” Shroom Life Beaker Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6" Space Fleet Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6" Space Fleet Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-space-fleet-bong-side_8e546074-18cf-4ea4-b615-230af0d2f966.png?v=1758223248" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6" Space Fleet Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper Lucky Money Cat Water Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper Lucky Money Cat Water Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-lucky-money-cat-glass-water-pipe_X_20Large-1_3db8f460-30bd-4a70-8c5e-e82cfbb4ab25.jpg?v=1758223234" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper Lucky Money Cat Water Pipe</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Chill Steel Pipes - Chill Bongs')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Chill Bongs')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Chill-Stainless-Steel-Beaker-Bong.jpg?v=1752767658" loading="lazy"></div>
+        <div class="brand-badge">Chill Steel Pipes</div>
+        <div class="title">Chill Steel Pipes - Chill Bongs</div>
+        <div class="price">From $122.99</div>
+    </div>
+    <div class="card" onclick="openModal('SeshGear Super Smoke Thrower')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('SeshGear Super Smoke Thrower')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SeshGear-Super-Smoker-Smoke-Thrower-Water-Pipe_A-3.jpg?v=1749599390" loading="lazy"></div>
+        <div class="brand-badge">SeshGear</div>
+        <div class="title">SeshGear Super Smoke Thrower</div>
+        <div class="price">From $131.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6.25” Gnome Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6.25” Gnome Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-gnome-bong-back_a6ff506e-81df-4dfe-a7e8-497efb7db7f4.png?v=1758223239" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6.25” Gnome Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6.25” Gummy Bear Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6.25” Gummy Bear Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/hemper-gummy-bear-bong-front_529ccdfa-a091-48a9-93f5-52abe0056182.png?v=1758223244" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6.25” Gummy Bear Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Terrarium Tower 12" Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Terrarium Tower 12" Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-terrarium-tower-beaker-bong-front.png?v=1749599256" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Terrarium Tower 12" Beaker Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Skateboard Bonanza 10.5" Upright Bubbler')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Skateboard Bonanza 10.5" Upright Bubbler')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-skateboard-bonanza-bong-front.png?v=1749599250" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Skateboard Bonanza 10.5" Upright Bubbler</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Path Of Enlightenment 11.5" Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Path Of Enlightenment 11.5" Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-path-of-enlightenment-bong-group.png?v=1749599242" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Path Of Enlightenment 11.5" Bong</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar Kitten Corral 7.75" Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar Kitten Corral 7.75" Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/pulsar-kitten-corral-beaker-bong-side.png?v=1749599235" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar Kitten Corral 7.75" Beaker Bong</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Thug Life 8" Dome Perc Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Thug Life 8" Dome Perc Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Thug-Life-Dome-Perc-Mini-Bong.jpg?v=1749599230" loading="lazy"></div>
+        <div class="brand-badge">Thug Life</div>
+        <div class="title">Thug Life 8" Dome Perc Mini Bong</div>
+        <div class="price">From $47.99</div>
+    </div>
+    <div class="card" onclick="openModal('MJ Arsenal Palisade Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('MJ Arsenal Palisade Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/MJ-Arsenal-Palisade-Bong.jpg?v=1749599199" loading="lazy"></div>
+        <div class="brand-badge">MJ Arsenal</div>
+        <div class="title">MJ Arsenal Palisade Bong</div>
+        <div class="price">From $97.99</div>
+    </div>
+    <div class="card" onclick="openModal('Daze Glass 14" Rocket Ship Water Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Daze Glass 14" Rocket Ship Water Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Daze-Glass-Rocket-Ship-Water-Pipe.jpg?v=1749596160" loading="lazy"></div>
+        <div class="brand-badge">Daze Glass</div>
+        <div class="title">Daze Glass 14" Rocket Ship Water Pipe</div>
+        <div class="price">From $91.99</div>
+    </div>
+    <div class="card" onclick="openModal('Daze Glass 10" Cube Perc Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Daze Glass 10" Cube Perc Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Daze-Glass-Cube-Perc-Beaker-Bong.jpg?v=1749596145" loading="lazy"></div>
+        <div class="brand-badge">Daze Glass</div>
+        <div class="title">Daze Glass 10" Cube Perc Beaker Bong</div>
+        <div class="price">From $77.99</div>
+    </div>
+    <div class="card" onclick="openModal('Daze Glass 18" Thick Tree Perc Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Daze Glass 18" Thick Tree Perc Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Daze-Glass-Thick-Tree-Perc-Bong.jpg?v=1749596142" loading="lazy"></div>
+        <div class="brand-badge">Daze Glass</div>
+        <div class="title">Daze Glass 18" Thick Tree Perc Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Daze Glass 12" OG Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Daze Glass 12" OG Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Daze-Glass-OG-Beaker-Bong.jpg?v=1749596139" loading="lazy"></div>
+        <div class="brand-badge">Daze Glass</div>
+        <div class="title">Daze Glass 12" OG Beaker Bong</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Daze Glass 22" Double UFO Perc Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Daze Glass 22" Double UFO Perc Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Daze-Glass-Double-UFO-Perc-Bong.jpg?v=1749596133" loading="lazy"></div>
+        <div class="brand-badge">Daze Glass</div>
+        <div class="title">Daze Glass 22" Double UFO Perc Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Daze Glass 16" Super Thick Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Daze Glass 16" Super Thick Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Daze-Glass-Super-Thick-Beaker-Bong.jpg?v=1749596130" loading="lazy"></div>
+        <div class="brand-badge">Daze Glass</div>
+        <div class="title">Daze Glass 16" Super Thick Beaker Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Daze Glass 13" Octopus Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Daze Glass 13" Octopus Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Daze-Glass-Octopus-Recycler-Bong.jpg?v=1749596121" loading="lazy"></div>
+        <div class="brand-badge">Daze Glass</div>
+        <div class="title">Daze Glass 13" Octopus Recycler Bong</div>
+        <div class="price">From $91.99</div>
+    </div>
+    <div class="card" onclick="openModal('Daze Glass 16" Rainbow Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Daze Glass 16" Rainbow Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Daze-Glass-Rainbow-Bong.jpg?v=1749596118" loading="lazy"></div>
+        <div class="brand-badge">Daze Glass</div>
+        <div class="title">Daze Glass 16" Rainbow Bong</div>
+        <div class="price">From $68.99</div>
+    </div>
+    <div class="card" onclick="openModal('Daze Glass 18" Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Daze Glass 18" Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Daze-Glass-18-Inch-Beaker-Bong.jpg?v=1749596115" loading="lazy"></div>
+        <div class="brand-badge">Daze Glass</div>
+        <div class="title">Daze Glass 18" Beaker Bong</div>
+        <div class="price">From $74.99</div>
+    </div>
+    <div class="card" onclick="openModal('Daze Glass 9" Fumed Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Daze Glass 9" Fumed Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Daze-Glass-Fumed-Recycler-Bong.jpg?v=1749596112" loading="lazy"></div>
+        <div class="brand-badge">Daze Glass</div>
+        <div class="title">Daze Glass 9" Fumed Recycler Bong</div>
+        <div class="price">From $74.99</div>
+    </div>
+    <div class="card" onclick="openModal('Daze Glass 16" Metallic Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Daze Glass 16" Metallic Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Daze-Glass-Metallic-Bong.jpg?v=1749596109" loading="lazy"></div>
+        <div class="brand-badge">Daze Glass</div>
+        <div class="title">Daze Glass 16" Metallic Bong</div>
+        <div class="price">From $68.99</div>
+    </div>
+    <div class="card" onclick="openModal('Grav Monarch Gravity Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Grav Monarch Gravity Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grav-Monarch.jpg?v=1748340522" loading="lazy"></div>
+        <div class="brand-badge">GRAV / Grav Labs</div>
+        <div class="title">Grav Monarch Gravity Bong</div>
+        <div class="price">From $153.99</div>
+    </div>
+    <div class="card" onclick="openModal('6" Green Houseplant Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('6" Green Houseplant Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Houseplant_Mini_Bong_7f299d61-124d-49ca-a936-8d43535c086d.jpg?v=1749598692" loading="lazy"></div>
+        <div class="brand-badge">Smoke Source</div>
+        <div class="title">6" Green Houseplant Mini Bong</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper Volcano Water Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper Volcano Water Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Volcano-Beaker-Bong_d2b7560a-35af-4109-85dd-d95cc0f5764e.jpg?v=1758223256" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper Volcano Water Pipe</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper Rubber Ducky Water Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper Rubber Ducky Water Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Rubber-Ducky-Waterpipe_c1a1d608-790e-46cb-8109-9246f810fbab.jpg?v=1758223268" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper Rubber Ducky Water Pipe</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Shark Water Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Shark Water Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Shark-Water-Pipe.jpg?v=1758223262" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Shark Water Pipe</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Full Moon Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Full Moon Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Moon-Waterpipe.png?v=1758223295" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Full Moon Mini Bong</div>
+        <div class="price">From $39.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper Ninja Water Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper Ninja Water Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Ninja-Beaker-Bong_8c334598-6482-423d-9b45-32932c3e01c9.jpg?v=1758223289" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper Ninja Water Pipe</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper Pineapple Water Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper Pineapple Water Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Pineapple-Water-Pipe_e420d8c1-b8be-48e3-8d13-010f58b2a5ec.jpg?v=1758223278" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper Pineapple Water Pipe</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7.5” Hiclops Water Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7.5” Hiclops Water Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Hiclops-Water-Pipe_570ca18a-1f1f-4c76-84d8-09d79848391c.jpg?v=1758223304" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7.5” Hiclops Water Pipe</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Jack the Ripper Water Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Jack the Ripper Water Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Jack-The-Ripper-Water-Pipe.jpg?v=1758223299" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Jack the Ripper Water Pipe</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Cactus Jack Water Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Cactus Jack Water Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Cactus-Jack-Water-Pipe_1463d84e-8e8e-41ea-b9d9-5a58cf8b27f5.jpg?v=1758223318" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Cactus Jack Water Pipe</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper Dankenstein Water Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper Dankenstein Water Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Dankenstein-Large-Water-Pipe_56faf632-bb09-42b7-880b-ddac1a502fc7.jpg?v=1758223312" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper Dankenstein Water Pipe</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 6” Happy Cactus Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 6” Happy Cactus Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Happy-Cactus-Bong.jpg?v=1758223307" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 6” Happy Cactus Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper 7” Apple Cider Bottle Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper 7” Apple Cider Bottle Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Apple-Cider-Mini-Bong_b2b2ec7e-4d0e-4423-9772-847b892b66f7.jpg?v=1758223329" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper 7” Apple Cider Bottle Mini Bong</div>
+        <div class="price">From $49.99</div>
+    </div>
+    <div class="card" onclick="openModal('Hemper Blast Off Rocket Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Hemper Blast Off Rocket Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Hemper-Blast-Off-Beaker-Bong_aa622133-92b9-4959-9183-ebd72ae6ca32.jpg?v=1758223324" loading="lazy"></div>
+        <div class="brand-badge">Hemper</div>
+        <div class="title">Hemper Blast Off Rocket Beaker Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Prism Pipes Pyramid Perc Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Prism Pipes Pyramid Perc Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Prism-Pipes-Pyramid-Showerhead-Perc-Beaker-Bong.jpg?v=1748340986" loading="lazy"></div>
+        <div class="brand-badge">Prism Pipes</div>
+        <div class="title">Prism Pipes Pyramid Perc Beaker Bong</div>
+        <div class="price">From $261.99</div>
+    </div>
+    <div class="card" onclick="openModal('5.5" Dome Mini Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('5.5" Dome Mini Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Dome-Mini-Bong_ab96fd9b-c3a1-4ee1-9aa0-65f19bc7f319.jpg?v=1749598500" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">5.5" Dome Mini Beaker Bong</div>
+        <div class="price">From $33.99</div>
+    </div>
+    <div class="card" onclick="openModal('5.25" Conical Mini Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('5.25" Conical Mini Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Conical-Mini-Beaker-Water-Pipe_36dde1e0-cdcf-40ce-ac64-85d2ba68d307.jpg?v=1749598507" loading="lazy"></div>
+        <div class="brand-badge">Dyspensr Wholesale</div>
+        <div class="title">5.25" Conical Mini Beaker Bong</div>
+        <div class="price">From $33.99</div>
+    </div>
+    <div class="card" onclick="openModal('6" Handbell Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('6" Handbell Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Handbell-Mini-Water-Pipe.jpg?v=1748341212" loading="lazy"></div>
+        <div class="brand-badge">Smoke Source</div>
+        <div class="title">6" Handbell Mini Bong</div>
+        <div class="price">From $33.99</div>
+    </div>
+    <div class="card" onclick="openModal('9" Beehive 2-in-1 Silicone Bong & Dab Straw')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('9" Beehive 2-in-1 Silicone Bong & Dab Straw')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Beehive-Silicone-Bong-Dab-Straw.jpg?v=1748341228" loading="lazy"></div>
+        <div class="brand-badge">Smoke Source</div>
+        <div class="title">9" Beehive 2-in-1 Silicone Bong & Dab Straw</div>
+        <div class="price">From $40.99</div>
+    </div>
+    <div class="card" onclick="openModal('9" Wide Base Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('9" Wide Base Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Base-Beaker-Water-Pipe.jpg?v=1748341242" loading="lazy"></div>
+        <div class="brand-badge">Smoke Source</div>
+        <div class="title">9" Wide Base Beaker Bong</div>
+        <div class="price">From $50.99</div>
+    </div>
+    <div class="card" onclick="openModal('14" Silicone & Glass Hybrid Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('14" Silicone & Glass Hybrid Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Silicone-Glass-Hybrid-Beaker.jpg?v=1748341266" loading="lazy"></div>
+        <div class="brand-badge">Smoke Source</div>
+        <div class="title">14" Silicone & Glass Hybrid Beaker Bong</div>
+        <div class="price">From $54.99</div>
+    </div>
+    <div class="card" onclick="openModal('12" Hextasy Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('12" Hextasy Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hextasy-Hexagon-Beaker-Bong.jpg?v=1748341301" loading="lazy"></div>
+        <div class="brand-badge">Smoke Source</div>
+        <div class="title">12" Hextasy Beaker Bong</div>
+        <div class="price">From $76.99</div>
+    </div>
+    <div class="card" onclick="openModal('Rooster in a Bottle Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Rooster in a Bottle Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rooster-Perc-Bottle-Bong.jpg?v=1748341350" loading="lazy"></div>
+        <div class="brand-badge">Smoke Source</div>
+        <div class="title">Rooster in a Bottle Bong</div>
+        <div class="price">From $93.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 7.5" Oil Can Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 7.5" Oil Can Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Oil-Can-Recycler-Waterpipe.jpg?v=1748341468" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 7.5" Oil Can Recycler Bong</div>
+        <div class="price">From $92.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 10.5" Pandoraâ€™s Box Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 10.5" Pandoraâ€™s Box Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Pandora-Inception-Cube-Bong.jpg?v=1748341515" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 10.5" Pandoraâ€™s Box Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 14" Space Station Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 14" Space Station Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Space-Station-Bong_7f16bdc1-ff6f-4913-979e-ea2b78a87d9a.jpg?v=1749598445" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 14" Space Station Recycler Bong</div>
+        <div class="price">From $174.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Mangonada Mini Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Mangonada Mini Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Mangonada-Mini-Bong.jpg?v=1748341564" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Mangonada Mini Bong</div>
+        <div class="price">From $239.99</div>
+    </div>
+    <div class="card" onclick="openModal('Stundenglass Kompact Gravity Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Stundenglass Kompact Gravity Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stundenglass__Komact_Gravity_Bong_a3f3f370-abdd-4466-8a44-bf6df902fb5c.jpg?v=1749598334" loading="lazy"></div>
+        <div class="brand-badge">Stündenglass</div>
+        <div class="title">Stundenglass Kompact Gravity Pipe</div>
+        <div class="price">From $562.99</div>
+    </div>
+    <div class="card" onclick="openModal('Grav 13" Empress Water Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Grav 13" Empress Water Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grav-Empress-Water-Pipe.jpg?v=1748342278" loading="lazy"></div>
+        <div class="brand-badge">GRAV / Grav Labs</div>
+        <div class="title">Grav 13" Empress Water Pipe</div>
+        <div class="price">From $157.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks 9" Water Bottle Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks 9" Water Bottle Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Water_Bottle_Bong.jpg?v=1748342306" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks 9" Water Bottle Bong</div>
+        <div class="price">From $236.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar 15" Inline Recycler Honeycomb Perc Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar 15" Inline Recycler Honeycomb Perc Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Inline-Recycler-Honeycomb-Perc-Bong-Blue.jpg?v=1748342530" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar 15" Inline Recycler Honeycomb Perc Bong</div>
+        <div class="price">From $145.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks 10" Large Water Bottle Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks 10" Large Water Bottle Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Large-Water-Bottle-Bong.jpg?v=1748342652" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks 10" Large Water Bottle Bong</div>
+        <div class="price">From $262.99</div>
+    </div>
+    <div class="card" onclick="openModal('White Rhino Instant Water Pipe Can Adapter')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('White Rhino Instant Water Pipe Can Adapter')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/White-Rhino-Instant-Water-Pipe-Can-Adapter-6.jpg?v=1748342794" loading="lazy"></div>
+        <div class="brand-badge">White Rhino</div>
+        <div class="title">White Rhino Instant Water Pipe Can Adapter</div>
+        <div class="price">From $31.99</div>
+    </div>
+    <div class="card" onclick="openModal('K. Haring 12.5" Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('K. Haring 12.5" Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/K-Haring-Water-Pipe-Yellow.jpg?v=1748342920" loading="lazy"></div>
+        <div class="brand-badge">K. Haring Collection</div>
+        <div class="title">K. Haring 12.5" Beaker Bong</div>
+        <div class="price">From $139.99</div>
+    </div>
+    <div class="card" onclick="openModal('RYOT 10" Decanter Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('RYOT 10" Decanter Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ryot-Decanter-Bong-0.jpg?v=1748343001" loading="lazy"></div>
+        <div class="brand-badge">RYOT</div>
+        <div class="title">RYOT 10" Decanter Bong</div>
+        <div class="price">From $78.99</div>
+    </div>
+    <div class="card" onclick="openModal('Glow in the Dark 14" Silicone Straight Tube Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Glow in the Dark 14" Silicone Straight Tube Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990" loading="lazy"></div>
+        <div class="brand-badge">Smoke Source</div>
+        <div class="title">Glow in the Dark 14" Silicone Straight Tube Bong</div>
+        <div class="price">From $45.99</div>
+    </div>
+    <div class="card" onclick="openModal('RYOT 8" Traveller Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('RYOT 8" Traveller Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ryot-Traveller-Bong-7.jpg?v=1748343043" loading="lazy"></div>
+        <div class="brand-badge">RYOT</div>
+        <div class="title">RYOT 8" Traveller Bong</div>
+        <div class="price">From $98.99</div>
+    </div>
+    <div class="card" onclick="openModal('RYOT 10" Brandy Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('RYOT 10" Brandy Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ryot-Brandy-Bong-3.jpg?v=1748343053" loading="lazy"></div>
+        <div class="brand-badge">RYOT</div>
+        <div class="title">RYOT 10" Brandy Bong</div>
+        <div class="price">From $78.99</div>
+    </div>
+    <div class="card" onclick="openModal('Grav Medium Gravitron Gravity Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Grav Medium Gravitron Gravity Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grav_Gravitron_Gravity_Bong.jpg?v=1748343606" loading="lazy"></div>
+        <div class="brand-badge">GRAV / Grav Labs</div>
+        <div class="title">Grav Medium Gravitron Gravity Bong</div>
+        <div class="price">From $74.99</div>
+    </div>
+    <div class="card" onclick="openModal('Grav Large Gravitron Gravity Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Grav Large Gravitron Gravity Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grav-Gravitron-Gravity-Bong.jpg?v=1748343614" loading="lazy"></div>
+        <div class="brand-badge">GRAV / Grav Labs</div>
+        <div class="title">Grav Large Gravitron Gravity Bong</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('Grav 8” UFO Shaped Wide Base Beaker Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Grav 8” UFO Shaped Wide Base Beaker Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grav_UFO_Shaped_Wide_Base_Water_Pipe.jpg?v=1748343689" loading="lazy"></div>
+        <div class="brand-badge">GRAV / Grav Labs</div>
+        <div class="title">Grav 8” UFO Shaped Wide Base Beaker Bong</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('Empire Glassworks Mini Mushroom Recycler Bong')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Mini Mushroom Recycler Bong')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Mini_Mushroom_Recycler_Mario_Themed_Water_Pipe_Bong67_8fa4734e-2fe4-4a3a-982c-c948229bf387.jpg?v=1748343879" loading="lazy"></div>
+        <div class="brand-badge">Empire Glassworks</div>
+        <div class="title">Empire Glassworks Mini Mushroom Recycler Bong</div>
+        <div class="price">From $262.99</div>
+    </div>
+    <div class="card" onclick="openModal('The Stundenglass Gravity Pipe')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('The Stundenglass Gravity Pipe')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stundenglass_Gravity_Bong_8a010990-2d0a-42be-a010-cb4723c4d63d.jpg?v=1749597500" loading="lazy"></div>
+        <div class="brand-badge">Stündenglass</div>
+        <div class="title">The Stundenglass Gravity Pipe</div>
+        <div class="price">From $539.99</div>
+    </div>
         </div>
     </div>
-    
-    <div id="product-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">×</span>
-            <div class="modal-body" style="display:flex; flex-wrap:wrap; width:100%;">
-                <div class="modal-img-col">
-                    <img id="modal-img" src="" alt="Product">
-                    <div class="modal-gallery" id="modal-gallery"></div>
-                </div>
-                <div class="modal-info-col">
-                    <!-- Dynamic Badges & Ratings inside Modal -->
-                    <div id="modal-badge-container"></div>
-                    <div id="modal-stars-container" style="margin-bottom:10px;"></div>
-                    
-                    <div class="modal-brand" id="modal-brand"></div>
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:15px;">
-                        <h2 class="modal-title" id="modal-title" style="margin-top:0;"></h2>
-                        <button onclick="shareProduct()" style="background:#f4f4f4; border:1px solid #ddd; border-radius:50%; width:45px; height:45px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:all 0.2s;" title="Share this item">
-                            <span style="font-size:1.2em;">🔗</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Dynamic Scarcity & Compare-At Price -->
-                    <div class="modal-price-wrap">
-                        <span class="modal-price" id="modal-price"></span>
-                        <span class="modal-msrp" id="modal-msrp" style="display:none; text-decoration:line-through; color:#e74c3c; font-size:0.9em; margin-left:15px; font-weight:800;"></span>
-                    </div>
-                    
-                    <div id="modal-scarcity-container" class="scarcity-alert"></div>
-                    
-                    <div id="modal-variant-container"></div>
-                    <div class="modal-desc" id="modal-desc-container"></div>
-                    
-                    <!-- Cross-Sell Upsell -->
-                    <div class="cross-sell-box" id="cross-sell-container" style="display:none;">
-                        <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pink-Formula-Glass-Cleaner-bottle.jpg?v=1748281358" alt="Pink Formula">
-                        <div class="cross-sell-info">
-                            <div class="cross-sell-title">+ Pink Formula Glass Cleaner</div>
-                            <div class="cross-sell-desc">$9.99 (Essential for maintenance)</div>
-                        </div>
-                        <input type="checkbox" id="cross-sell-check" class="cross-sell-checkbox">
-                    </div>
-                    
-                    <button class="modal-add-btn quick-add-btn" id="modal-add-btn" style="padding:15px; font-size:1.2em; background:#111; color:#fff; border:none; margin-top:20px;">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
     <script src="../js/data.js"></script>
     <script src="../js/app.js"></script>
+    <script>
+        function copyDirectLink(name) {
+            const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            const url = window.location.origin + "/index.html?p=" + slug;
+            navigator.clipboard.writeText(url).then(() => alert("Link Copied!"));
+        }
+    </script>
 </body>
 </html>
-    

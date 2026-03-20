@@ -1,273 +1,365 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixie's Pantry: Buy Group - Portable Vaporizer</title>
-    <meta name="description" content="Shop Portable Vaporizer at absolute wholesale prices. Exclusive Discord Group Buy powered by Dyspensr.">
-    <link rel="stylesheet" href="../css/style.css">
-    
-    <!-- OpenGraph SEO Tags -->
-    <meta property="og:title" content="Portable Vaporizer | Pixie's Pantry">
-    <meta property="og:description" content="Access premium vaporizers and glass at wholesale prices.">
-    <meta property="og:type" content="website">
+    <title>Pixie's Pantry | Portable Vaporizer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: sans-serif; background: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; padding: 20px; }
+        .card { position: relative; border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .card img { max-width: 100%; height: 160px; object-fit: contain; }
+        .brand-badge { font-size: 0.7em; color: #aaa; text-transform: uppercase; margin-top: 10px; }
+        .title { font-weight: bold; margin: 5px 0; font-size: 0.9em; height: 2.4em; overflow: hidden; }
+        .price { font-weight: 800; color: #111; }
+        
+        /* The Link Shortcut Icon */
+        .link-shortcut {
+            position: absolute; top: 10px; right: 10px; background: #fff; width: 30px; height: 30px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 0.8em; color: #888; border: 1px solid #eee; z-index: 5; transition: 0.2s;
+        }
+        .link-shortcut:hover { background: #111; color: #fff; border-color: #111; }
+    </style>
 </head>
 <body>
-    
-    <div class="sidebar">
-        <div class="close-btn" onclick="toggleMobileMenu()">×</div>
-        <div class="logo">Pixie's Pantry</div>
-        <div class="search-container mobile-only" style="margin-bottom: 20px;">
-            <span class="search-icon">🔍</span>
-            <input type="text" class="product-search-bar" placeholder="Search products...">
-        </div>
-        <a href="../index.html" class="sidebar-link" style="font-weight:bold; color:#111; background:#f0f0f0; margin-bottom:15px; border-left:4px solid #d4af37;">🏠 HOME / MASTER CATALOG</a><div class="sidebar-section">Advanced Filters</div>
-<div class="filter-group">
-    <div style="font-weight:bold; color:#111; margin-bottom:10px; font-size:0.85em; text-transform:uppercase;">Price</div>
-    <label><input type="checkbox" class="price-filter" value="under50"> Under $50</label>
-    <label><input type="checkbox" class="price-filter" value="50-100"> $50 - $100</label>
-    <label><input type="checkbox" class="price-filter" value="over100"> Over $100</label>
-</div>
-<div class="filter-group">
-    <div style="font-weight:bold; color:#111; margin-bottom:10px; font-size:0.85em; text-transform:uppercase;">Material</div>
-    <label><input type="checkbox" class="mat-filter" value="glass"> Premium Glass</label>
-    <label><input type="checkbox" class="mat-filter" value="silicone"> Silicone</label>
-    <label><input type="checkbox" class="mat-filter" value="metal"> Metal / Alloy</label>
-</div>
-<div class="sidebar-section">Shop By Brand</div><a href="../brands/apex-ancillary.html" class="sidebar-link">Apex Ancillary</a><a href="../brands/blazer.html" class="sidebar-link">Blazer</a><a href="../brands/ccell.html" class="sidebar-link">CCELL</a><a href="../brands/cali-crusher.html" class="sidebar-link">Cali Crusher</a><a href="../brands/chill-steel-pipes.html" class="sidebar-link">Chill Steel Pipes</a><a href="../brands/daze-glass.html" class="sidebar-link">Daze Glass</a><a href="../brands/dr-dabber.html" class="sidebar-link">Dr. Dabber</a><a href="../brands/dynavap.html" class="sidebar-link">DynaVap</a><a href="../brands/dyspensr-wholesale.html" class="sidebar-link">Dyspensr Wholesale</a><a href="../brands/empire-glassworks.html" class="sidebar-link">Empire Glassworks</a><a href="../brands/flower-mill.html" class="sidebar-link">Flower Mill</a><a href="../brands/grav-grav-labs.html" class="sidebar-link">GRAV / Grav Labs</a><a href="../brands/grenco-science.html" class="sidebar-link">Grenco Science</a><a href="../brands/hemper.html" class="sidebar-link">Hemper</a><a href="../brands/honeybee-herb.html" class="sidebar-link">Honeybee Herb</a><a href="../brands/invincibowl.html" class="sidebar-link">Invincibowl</a><a href="../brands/jane-west.html" class="sidebar-link">Jane West</a><a href="../brands/la-pipes.html" class="sidebar-link">LA Pipes</a><a href="../brands/lookah.html" class="sidebar-link">Lookah</a><a href="../brands/mj-arsenal.html" class="sidebar-link">MJ Arsenal</a><a href="../brands/my-bud-vase.html" class="sidebar-link">My Bud Vase</a><a href="../brands/ongrok.html" class="sidebar-link">Ongrok</a><a href="../brands/ooze.html" class="sidebar-link">Ooze</a><a href="../brands/pax.html" class="sidebar-link">PAX</a><a href="../brands/pink-formula.html" class="sidebar-link">Pink Formula</a><a href="../brands/prism-pipes.html" class="sidebar-link">Prism Pipes</a><a href="../brands/puffco.html" class="sidebar-link">Puffco</a><a href="../brands/pulsar.html" class="sidebar-link">Pulsar</a><a href="../brands/raw-rolling-papers.html" class="sidebar-link">RAW Rolling Papers</a><a href="../brands/rhythms-of-life.html" class="sidebar-link">Rhythms of Life</a><a href="../brands/rokin-vapes.html" class="sidebar-link">Rokin Vapes</a><a href="../brands/slx-grinders.html" class="sidebar-link">SLX Grinders</a><a href="../brands/santa-cruz-shredder.html" class="sidebar-link">Santa Cruz Shredder</a><a href="../brands/seshgear.html" class="sidebar-link">SeshGear</a><a href="../brands/sharpstone.html" class="sidebar-link">SharpStone</a><a href="../brands/smoke-source.html" class="sidebar-link">Smoke Source</a><a href="../brands/smokebuddy.html" class="sidebar-link">Smokebuddy</a><a href="../brands/softglass.html" class="sidebar-link">Softglass</a><a href="../brands/stache-products.html" class="sidebar-link">Stache Products</a><a href="../brands/storz-bickel.html" class="sidebar-link">Storz & Bickel</a><a href="../brands/stündenglass.html" class="sidebar-link">Stündenglass</a><a href="../brands/the-kind-pen.html" class="sidebar-link">The Kind Pen</a><a href="../brands/vibes.html" class="sidebar-link">VIBES</a><a href="../brands/wulf-mods.html" class="sidebar-link">Wulf Mods</a><a href="../brands/xvape.html" class="sidebar-link">Xvape</a><a href="../brands/yocan.html" class="sidebar-link">Yocan</a><a href="../brands/zenco.html" class="sidebar-link">Zenco</a><div class="sidebar-section">Shop By Category</div><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/oil-rig.html" class="sidebar-link">Oil Rig</a><a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a><a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a><a href="../categories/rolling-accessories.html" class="sidebar-link">Rolling Accessories</a><a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a>
-    </div>
-
-    
-    <div class="mobile-header">
-        <div class="hamburger" onclick="toggleMobileMenu()">☰</div>
-        <div class="logo" style="font-size:1.1em; letter-spacing:1px;">Pixie's Pantry</div>
-        <div class="cart-icon" onclick="toggleCart()">🛒 <span class="cart-count">0</span></div>
-    </div>
-    
-    <div class="main-wrapper">
-        <div class="banner">DISCORD GROUP BUY SPRINT 001 | FLAT $12 SHIPPING</div>
-        
-        <div class="top-nav">
-            <div class="search-container desktop-only" style="display:none;">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="product-search-bar" placeholder="Search for brands, products, glass...">
-            </div>
-            <div class="cart-icon" onclick="toggleCart()" style="cursor:pointer; font-weight:bold;">🛒 Cart (<span class="cart-count">0</span>)</div>
-        </div>
-        
-        <div class="main-content">
-            <div style="font-size:0.85em; color:#888; margin-bottom:15px;"><a href="../index.html" style="color:#111; text-decoration:none;">Home</a> / Categories / <strong style="color:#d4af37;">Portable Vaporizer</strong></div>
-            <div class="header" style="border-bottom:none; margin-bottom:20px;">
-                <div><h1 style="font-size:2.8em; color:#111; margin:0;">Portable Vaporizer</h1></div>
-            </div>
-    
-        <div class="catalog-toolbar" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-bottom: 30px; background:#fff; padding:15px; border-radius:12px; border:1px solid #f0f0f0; box-shadow:0 5px 15px rgba(0,0,0,0.02);">
-            <div class="search-container" style="flex-grow:1; max-width:400px; min-width:250px; margin:0;">
-                <span class="search-icon" style="left:15px;">🔍</span>
-                <input type="text" class="product-search-bar" placeholder="Search catalog..." style="width:100%; padding:12px 20px 12px 40px; border-radius:25px; border:1px solid #eaeaea; background:#fcfcfc; outline:none; transition:0.3s; font-size:0.95em;">
-            </div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap; flex-grow:1; justify-content:flex-end;">
-                <select id="sort-dropdown" onchange="sortCatalog()" style="padding:12px 20px; border-radius:25px; border:1px solid #eaeaea; background:#fcfcfc; font-weight:600; color:#111; outline:none; cursor:pointer; font-size:0.9em;">
-                    <option value="default">Sort: Featured</option>
-                    <option value="price-asc">Price: Low to High</option>
-                    <option value="price-desc">Price: High to Low</option>
-                    <option value="name-asc">Name: A to Z</option>
-                </select>
-                <button class="mobile-only filter-btn" onclick="toggleMobileMenu()" style="padding:12px 20px; border-radius:25px; border:1px solid #111; background:#111; color:#fff; font-weight:600; cursor:pointer; font-size:0.9em;">⚙️ Filters</button>
-            </div>
-        </div>
-    
-        <div class="category-section">
-            <div class="category-header">
-                <h2>Portable Vaporizer</h2>
-                <a href="../categories/portable-vaporizer.html">View All ></a>
-            </div>
-            <div class="grid">
-        
-        
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": "Vapium Lite Vaporizer",
-      "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/F7C9C827-23C2-4F8F-BFDE-AF1AE388F010_fa560a67-6167-4762-a11d-c2b13c53142f.jpg?v=1749597455",
-      "description": "Premium hardware verified by Dyspensr.",
-      "brand": {
-        "@type": "Brand",
-        "name": "Vapium"
-      },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://vapes.pixiespantryshop.com/index.html?p=vapium-lite-vaporizer",
-        "priceCurrency": "USD",
-        "price": "79.99",
-        "itemCondition": "https://schema.org/NewCondition",
-        "availability": "https://schema.org/InStock"
-      }
-    }
-    </script>
-    
-        <div class="card" onclick="openModal('Vapium Lite Vaporizer')" data-price="79.99" data-material="other">
+    <div class="container">
+        <nav style="padding: 20px 0;"><a href="../index.html">← Master Catalog</a></nav>
+        <h1>Portable Vaporizer</h1>
+        <div class="grid">
             
-            <div class="card-top">
-                <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/F7C9C827-23C2-4F8F-BFDE-AF1AE388F010_fa560a67-6167-4762-a11d-c2b13c53142f.jpg?v=1749597455" loading="lazy"></div>
-                <div class="stars">⭐⭐⭐⭐<span>4.8 (120)</span></div>
-                <div class="brand">Vapium</div>
-                <h3 class="title">Vapium Lite Vaporizer</h3>
-                <div class="variant">1 Option</div>
-            </div>
-            <div class="card-bottom">
-                <div class="price">$79.99</div>
-                <button class="add-btn quick-add-btn" onclick="event.stopPropagation(); addToCart('Vapium Lite Vaporizer');">Add</button>
-            </div>
-        </div>
-    
-            </div>
-        </div>
+    <div class="card" onclick="openModal('Puffco Proxy Vaporizer - Bloom Edition')">
         
-        </div>
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Puffco Proxy Vaporizer - Bloom Edition')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Puffco-Proxy-Bloom-Edition.jpg?v=1748595777" loading="lazy"></div>
+        <div class="brand-badge">Puffco</div>
+        <div class="title">Puffco Proxy Vaporizer - Bloom Edition</div>
+        <div class="price">From $307.99</div>
+    </div>
+    <div class="card" onclick="openModal('CCELL Palm Cartridge Vaporizer')">
         
-                <footer class="site-footer">
-            <div class="footer-content">
-                <div class="footer-col">
-                    <h3>Pixie's Pantry</h3>
-                    <p style="max-width: 300px;">Curating the absolute highest tier of vaporization and glass hardware. Direct wholesale access, vetted specifically for the community. Elevate your ritual.</p>
-                </div>
-                <div class="footer-col">
-                    <h3>Explore</h3>
-                    <ul>
-                        <li><a href="../index.html">Master Catalog</a></li>
-                        <li><a href="#" onclick="toggleCart(); return false;">View Cart</a></li>
-                        <li><a href="../about.html">Our Philosophy</a></li>
-                        <li><a href="../faq.html">FAQ & Guide</a></li>
-                        <li><a href="https://dyspensr.com" target="_blank">Dyspensr Network</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Client Services</h3>
-                    <ul>
-                        <li><a href="https://discord.gg/pyTSf569" target="_blank">Discord Support (Fastest)</a></li>
-                        <li><a href="mailto:admin@pixies-pantry.com">Email Concierge</a></li>
-                        <li><a href="../shipping.html">Shipping & Delivery</a></li>
-                        <li><a href="../refunds.html">Returns & Exchanges</a></li>
-                        <li><a href="../privacy.html">Privacy & Terms</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Stay Exquisite</h3>
-                    <p>Join the inner circle for exclusive drops and wholesale restocks.</p>
-                    <form class="newsletter-form" action="https://formspree.io/f/xeoqkzdj" method="POST">
-                        <input type="email" name="Newsletter Email" placeholder="Enter your email address" required>
-                        <button type="submit">Subscribe</button>
-                    </form>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 PIXIE'S PANTRY. ALL RIGHTS RESERVED.</p>
-                <div class="footer-socials">
-                    <a href="https://discord.gg/pyTSf569" target="_blank">Discord</a>
-                    <a href="#">Instagram</a>
-                    <a href="#">Twitter</a>
-                </div>
-            </div>
-        </footer>
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('CCELL Palm Cartridge Vaporizer')">
+        <i class="fa-solid fa-link"></i>
     </div>
-    
-    <div id="cart-panel" class="cart-panel">
-        <div class="cart-header">
-            <h2>Your Cart</h2>
-            <div class="close-btn" onclick="toggleCart()">×</div>
-        </div>
-        <div id="cart-items" style="flex-grow:1; overflow-y:auto;"></div>
-        <div class="cart-footer">
-            <div class="cart-total">Total: <span id="cart-total-price">$0.00</span></div>
-            <form action="https://formspree.io/f/xeoqkzdj" method="POST" id="checkout-form" onsubmit="prepareCheckout(event)">
-                <input type="hidden" name="_cc" value="admin@pixies-pantry.com">
-                <input type="hidden" name="_subject" value="New Group Buy Order!">
-                <input type="hidden" name="Order Details" id="order-payload">
-                <input type="hidden" name="Order Total" id="order-total-payload">
-                
-                <div style="font-size:0.85em; color:#666; margin-bottom:15px; background:#f9f9f9; padding:10px; border-radius:6px; border:1px solid #eee;">
-                    <strong>Privacy Note:</strong> Your information is securely protected and used <em>strictly</em> for shipping this order. We will never spam you or sell your data.
-                </div>
-                
-                <input type="text" name="Full Name" id="c-name" placeholder="Full Name *" required class="checkout-input">
-                <input type="email" name="email" id="c-email" placeholder="Email Address *" required class="checkout-input">
-                <input type="tel" name="Phone Number" id="c-phone" placeholder="Phone Number *" required class="checkout-input">
-                <input type="text" name="Discord Username" id="c-discord" placeholder="Discord Username (Optional)" class="checkout-input">
-                
-                <h4 style="margin:15px 0 5px; font-size:0.9em; color:#111;">Shipping Address</h4>
-                <input type="text" name="Shipping Address" id="c-ship" placeholder="Street Address, City, State, Zip *" required class="checkout-input">
-                
-                <h4 style="margin:15px 0 5px; font-size:0.9em; color:#111;">Billing Address</h4>
-                <label style="font-size:0.8em; display:flex; align-items:center; gap:5px; margin-bottom:10px; cursor:pointer;">
-                    <input type="checkbox" id="same-billing" onchange="toggleBilling()" checked> Same as Shipping
-                </label>
-                <input type="text" name="Billing Address" id="c-bill" placeholder="Street Address, City, State, Zip" class="checkout-input" style="display:none;">
-
-                <button type="submit" class="checkout-btn quick-add-btn" style="background:#d4af37; color:#111; border-color:#d4af37; margin-top:15px; font-size:1em; padding:15px;">Secure Checkout</button>
-            </form>
-            
-            <!-- Receipt Container -->
-            <div id="receipt-container" style="display:none; padding:20px; background:#fff; border:2px dashed #d4af37; border-radius:8px; margin-top:20px;">
-                <h3 style="text-align:center; color:#111; margin-top:0;">Order Receipt</h3>
-                <p style="text-align:center; font-size:0.85em; color:#666;">Thank you! A copy has been sent to your email and admin@pixies-pantry.com.</p>
-                <div id="receipt-body" style="font-family:monospace; font-size:0.85em; white-space:pre-wrap; background:#f4f4f4; padding:15px; border-radius:4px; margin-bottom:15px;"></div>
-                <button onclick="window.print()" class="quick-add-btn" style="width:100%; text-align:center;">🖨️ Print / Save as PDF</button>
-            </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CCELL-Palm-Oil-Vape.jpg?v=1748595850" loading="lazy"></div>
+        <div class="brand-badge">CCELL</div>
+        <div class="title">CCELL Palm Cartridge Vaporizer</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('CCELL Silo Cartridge Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('CCELL Silo Cartridge Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CCELL-Silo-Vape.jpg?v=1748595837" loading="lazy"></div>
+        <div class="brand-badge">CCELL</div>
+        <div class="title">CCELL Silo Cartridge Vaporizer</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Kind Pen Pure Cartridge Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Kind Pen Pure Cartridge Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Pure-Oil-Vaporizer.jpg?v=1748595931" loading="lazy"></div>
+        <div class="brand-badge">The Kind Pen</div>
+        <div class="title">Kind Pen Pure Cartridge Vaporizer</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('Kind Pen Covert Cartridge Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Kind Pen Covert Cartridge Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Covert-Oil-Vape.jpg?v=1748595951" loading="lazy"></div>
+        <div class="brand-badge">The Kind Pen</div>
+        <div class="title">Kind Pen Covert Cartridge Vaporizer</div>
+        <div class="price">From $26.99</div>
+    </div>
+    <div class="card" onclick="openModal('The Kind Pen Breezy Cartridge Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('The Kind Pen Breezy Cartridge Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Breezy-Vape-Pen.jpg?v=1748595968" loading="lazy"></div>
+        <div class="brand-badge">The Kind Pen</div>
+        <div class="title">The Kind Pen Breezy Cartridge Vaporizer</div>
+        <div class="price">From $37.99</div>
+    </div>
+    <div class="card" onclick="openModal('The Kind Pen Don eRig Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('The Kind Pen Don eRig Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Don-Vaporizer.jpg?v=1748596018" loading="lazy"></div>
+        <div class="brand-badge">The Kind Pen</div>
+        <div class="title">The Kind Pen Don eRig Vaporizer</div>
+        <div class="price">From $120.99</div>
+    </div>
+    <div class="card" onclick="openModal('The Kind Pen OG Jams Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('The Kind Pen OG Jams Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-OG-Jams.jpg?v=1748596044" loading="lazy"></div>
+        <div class="brand-badge">The Kind Pen</div>
+        <div class="title">The Kind Pen OG Jams Vaporizer</div>
+        <div class="price">From $104.99</div>
+    </div>
+    <div class="card" onclick="openModal('The Kind Pen Deezy Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('The Kind Pen Deezy Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Deezy-Vaporizer.jpg?v=1748596034" loading="lazy"></div>
+        <div class="brand-badge">The Kind Pen</div>
+        <div class="title">The Kind Pen Deezy Vaporizer</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('Kind Pen Mist Cartridge Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Kind Pen Mist Cartridge Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Mist-Vaporizer.jpg?v=1748596193" loading="lazy"></div>
+        <div class="brand-badge">The Kind Pen</div>
+        <div class="title">Kind Pen Mist Cartridge Vaporizer</div>
+        <div class="price">From $22.99</div>
+    </div>
+    <div class="card" onclick="openModal('Puffco Proxy Vaporizer - Desert Edition')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Puffco Proxy Vaporizer - Desert Edition')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Puffco-Proxy-Desert-Edition.jpg?v=1748596343" loading="lazy"></div>
+        <div class="brand-badge">Puffco</div>
+        <div class="title">Puffco Proxy Vaporizer - Desert Edition</div>
+        <div class="price">From $322.99</div>
+    </div>
+    <div class="card" onclick="openModal('Rokin Outrider Dry Herb Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Rokin Outrider Dry Herb Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Outrider-Vaporizer.jpg?v=1748596434" loading="lazy"></div>
+        <div class="brand-badge">Rokin Vapes</div>
+        <div class="title">Rokin Outrider Dry Herb Vaporizer</div>
+        <div class="price">From $89.99</div>
+    </div>
+    <div class="card" onclick="openModal('PAX Mini Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('PAX Mini Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/PAX-Mini-Vaporizer.jpg?v=1749415175" loading="lazy"></div>
+        <div class="brand-badge">PAX</div>
+        <div class="title">PAX Mini Vaporizer</div>
+        <div class="price">From $148.99</div>
+    </div>
+    <div class="card" onclick="openModal('PAX Plus Vaporizer Complete Kit')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('PAX Plus Vaporizer Complete Kit')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/PAX-Plus-Handheld-Vaporizer.jpg?v=1749415157" loading="lazy"></div>
+        <div class="brand-badge">PAX</div>
+        <div class="title">PAX Plus Vaporizer Complete Kit</div>
+        <div class="price">From $232.99</div>
+    </div>
+    <div class="card" onclick="openModal('Rokin Rage Vaporizer Battery for Pre-Filled Cartridges')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Rokin Rage Vaporizer Battery for Pre-Filled Cartridges')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Rage-Vape-Battery.jpg?v=1748596684" loading="lazy"></div>
+        <div class="brand-badge">Rokin Vapes</div>
+        <div class="title">Rokin Rage Vaporizer Battery for Pre-Filled Cartridges</div>
+        <div class="price">From $22.99</div>
+    </div>
+    <div class="card" onclick="openModal('Rokin Dial Vaporizer Battery for Pre-Filled Cartridges')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Rokin Dial Vaporizer Battery for Pre-Filled Cartridges')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Dial-Vaporizer.jpg?v=1748596671" loading="lazy"></div>
+        <div class="brand-badge">Rokin Vapes</div>
+        <div class="title">Rokin Dial Vaporizer Battery for Pre-Filled Cartridges</div>
+        <div class="price">From $33.99</div>
+    </div>
+    <div class="card" onclick="openModal('Rokin Mini Tank Vaporizer Battery for Pre-Filled Cartridges')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Rokin Mini Tank Vaporizer Battery for Pre-Filled Cartridges')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Mini-Tank-Vaporizer-Battery.jpg?v=1748596704" loading="lazy"></div>
+        <div class="brand-badge">Rokin Vapes</div>
+        <div class="title">Rokin Mini Tank Vaporizer Battery for Pre-Filled Cartridges</div>
+        <div class="price">From $29.99</div>
+    </div>
+    <div class="card" onclick="openModal('Puffco Proxy Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Puffco Proxy Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Puffco-Proxy.jpg?v=1749415190" loading="lazy"></div>
+        <div class="brand-badge">Puffco</div>
+        <div class="title">Puffco Proxy Vaporizer</div>
+        <div class="price">From $307.99</div>
+    </div>
+    <div class="card" onclick="openModal('Wulf Mods Micro Plus Cartridge Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Wulf Mods Micro Plus Cartridge Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Micro-Plus-Oil-Vaporizer.jpg?v=1748596849" loading="lazy"></div>
+        <div class="brand-badge">Wulf Mods</div>
+        <div class="title">Wulf Mods Micro Plus Cartridge Vaporizer</div>
+        <div class="price">From $34.99</div>
+    </div>
+    <div class="card" onclick="openModal('Storz & Bickel Mighty+ Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Storz & Bickel Mighty+ Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Storz-Bickel-Mighty-Plus-Vaporizer.jpg?v=1748597130" loading="lazy"></div>
+        <div class="brand-badge">Storz & Bickel</div>
+        <div class="title">Storz & Bickel Mighty+ Vaporizer</div>
+        <div class="price">From $448.99</div>
+    </div>
+    <div class="card" onclick="openModal('Lemonnade x G Pen Roam Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Lemonnade x G Pen Roam Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Lemonnade-G-Pen-Roam-Vaporizer.jpg?v=1748597341" loading="lazy"></div>
+        <div class="brand-badge">Grenco Science</div>
+        <div class="title">Lemonnade x G Pen Roam Vaporizer</div>
+        <div class="price">From $196.99</div>
+    </div>
+    <div class="card" onclick="openModal('Dr. Greenthumbâ€™s x G Pen Roam Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Dr. Greenthumbâ€™s x G Pen Roam Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Dr-Greenthumbs-G-Pen-Roam-Vaporizer.jpg?v=1748597501" loading="lazy"></div>
+        <div class="brand-badge">Grenco Science</div>
+        <div class="title">Dr. Greenthumbâ€™s x G Pen Roam Vaporizer</div>
+        <div class="price">From $196.99</div>
+    </div>
+    <div class="card" onclick="openModal('Randys Echo Dry Herb Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Randys Echo Dry Herb Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Randys-echo-vaporizer-black.jpg?v=1748597715" loading="lazy"></div>
+        <div class="brand-badge">Randy’s</div>
+        <div class="title">Randys Echo Dry Herb Vaporizer</div>
+        <div class="price">From $59.99</div>
+    </div>
+    <div class="card" onclick="openModal('IOLITE WISPR E Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('IOLITE WISPR E Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/IOLITE_WISPR_E_Vaporizer_Black.jpg?v=1748597743" loading="lazy"></div>
+        <div class="brand-badge">IOLITE</div>
+        <div class="title">IOLITE WISPR E Vaporizer</div>
+        <div class="price">From $125.99</div>
+    </div>
+    <div class="card" onclick="openModal('Grenco Science G Pen Roam Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Grenco Science G Pen Roam Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/G-Pen-Roam-Vaporizer.jpg?v=1749415256" loading="lazy"></div>
+        <div class="brand-badge">Grenco Science</div>
+        <div class="title">Grenco Science G Pen Roam Vaporizer</div>
+        <div class="price">From $174.99</div>
+    </div>
+    <div class="card" onclick="openModal('Vapium Lite Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Vapium Lite Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/F7C9C827-23C2-4F8F-BFDE-AF1AE388F010_fa560a67-6167-4762-a11d-c2b13c53142f.jpg?v=1749597455" loading="lazy"></div>
+        <div class="brand-badge">Vapium</div>
+        <div class="title">Vapium Lite Vaporizer</div>
+        <div class="price">From $79.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar APX W V3 - Handheld Wax Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar APX W V3 - Handheld Wax Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-APX-Wax-V3-Vaporizer-Psychedelic-Desert.jpg?v=1748599393" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar APX W V3 - Handheld Wax Vaporizer</div>
+        <div class="price">From $74.99</div>
+    </div>
+    <div class="card" onclick="openModal('Storz & Bickel Mighty Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Storz & Bickel Mighty Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Storz_Bickel_Mighty_Vaporizer_5.jpg?v=1748599665" loading="lazy"></div>
+        <div class="brand-badge">Storz & Bickel</div>
+        <div class="title">Storz & Bickel Mighty Vaporizer</div>
+        <div class="price">From $395.99</div>
+    </div>
+    <div class="card" onclick="openModal('Pulsar APX V3 - Handheld Dry Herb Vaporizer')">
+        
+    <div class="link-shortcut" title="Copy Direct Link" 
+         onclick="event.stopPropagation(); copyDirectLink('Pulsar APX V3 - Handheld Dry Herb Vaporizer')">
+        <i class="fa-solid fa-link"></i>
+    </div>
+        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-APX-V3-Vaporizer-Malice-In-Wonderland.jpg?v=1748599925" loading="lazy"></div>
+        <div class="brand-badge">Pulsar</div>
+        <div class="title">Pulsar APX V3 - Handheld Dry Herb Vaporizer</div>
+        <div class="price">From $74.99</div>
+    </div>
         </div>
     </div>
-    
-    <div id="product-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">×</span>
-            <div class="modal-body" style="display:flex; flex-wrap:wrap; width:100%;">
-                <div class="modal-img-col">
-                    <img id="modal-img" src="" alt="Product">
-                    <div class="modal-gallery" id="modal-gallery"></div>
-                </div>
-                <div class="modal-info-col">
-                    <!-- Dynamic Badges & Ratings inside Modal -->
-                    <div id="modal-badge-container"></div>
-                    <div id="modal-stars-container" style="margin-bottom:10px;"></div>
-                    
-                    <div class="modal-brand" id="modal-brand"></div>
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:15px;">
-                        <h2 class="modal-title" id="modal-title" style="margin-top:0;"></h2>
-                        <button onclick="shareProduct()" style="background:#f4f4f4; border:1px solid #ddd; border-radius:50%; width:45px; height:45px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:all 0.2s;" title="Share this item">
-                            <span style="font-size:1.2em;">🔗</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Dynamic Scarcity & Compare-At Price -->
-                    <div class="modal-price-wrap">
-                        <span class="modal-price" id="modal-price"></span>
-                        <span class="modal-msrp" id="modal-msrp" style="display:none; text-decoration:line-through; color:#e74c3c; font-size:0.9em; margin-left:15px; font-weight:800;"></span>
-                    </div>
-                    
-                    <div id="modal-scarcity-container" class="scarcity-alert"></div>
-                    
-                    <div id="modal-variant-container"></div>
-                    <div class="modal-desc" id="modal-desc-container"></div>
-                    
-                    <!-- Cross-Sell Upsell -->
-                    <div class="cross-sell-box" id="cross-sell-container" style="display:none;">
-                        <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pink-Formula-Glass-Cleaner-bottle.jpg?v=1748281358" alt="Pink Formula">
-                        <div class="cross-sell-info">
-                            <div class="cross-sell-title">+ Pink Formula Glass Cleaner</div>
-                            <div class="cross-sell-desc">$9.99 (Essential for maintenance)</div>
-                        </div>
-                        <input type="checkbox" id="cross-sell-check" class="cross-sell-checkbox">
-                    </div>
-                    
-                    <button class="modal-add-btn quick-add-btn" id="modal-add-btn" style="padding:15px; font-size:1.2em; background:#111; color:#fff; border:none; margin-top:20px;">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
     <script src="../js/data.js"></script>
     <script src="../js/app.js"></script>
+    <script>
+        function copyDirectLink(name) {
+            const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            const url = window.location.origin + "/index.html?p=" + slug;
+            navigator.clipboard.writeText(url).then(() => alert("Link Copied!"));
+        }
+    </script>
 </body>
 </html>
-    
