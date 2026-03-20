@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# MyNode Operational Script - Dusty McLean
+# Entity: MyNode / Pixie's Pantry
+# Audit Log: ~/Desktop/Pixies_Vape_Shop/build_manifest.log
+
+BUILD_LOG="$HOME/Desktop/Pixies_Vape_Shop/build_manifest.log"
+LEDGER="$HOME/Desktop/Pixies_Vape_Shop/.deployment_ledger.log"
+
+case "$1" in
+  "build")
+    echo "⚙️ Auditing data and building storefront..."
+    python3 ~/Desktop/Pixies_Vape_Shop/fix_generate_storefront.py
+    ;;
+    
+  "deploy")
+    echo "🚀 Pushing MyNode updates to live web..."
+    # Notary Ledger Entry
+    echo "$(date +'%Y-%m-%d %H:%M:%S') | DEPLOYED | Entity: MyNode | User: Dusty McLean" >> "$LEDGER"
+    
+    cd ~/Desktop/Pixies_Vape_Shop
+    git add .
+    git commit -m "System update: $(date +'%Y-%m-%d %H:%M')"
+    git push origin main
+    ;;
+
+  "report")
+    echo "📊 PIXIE'S PANTRY HEALTH REPORT"
+    echo "--------------------------------"
+    tail -n 1 "$BUILD_LOG"
+    echo "--------------------------------"
+    echo "Recent Deployments:"
+    tail -n 3 "$LEDGER"
+    ;;
+
+  "all")
+    ./manage build
+    ./manage deploy
+    ./manage report
+    ;;
+
+  *)
+    echo "Usage: ./manage {build|deploy|report|all}"
+    ;;
+esac

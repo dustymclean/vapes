@@ -1,0 +1,35 @@
+[
+    {
+        "main_sku": "WP976",
+        "bundle_name": "Pro Dab Set: Pulsar CORE 6\u201d Glass Dab Rig",
+        "items": [
+            "WP976",
+            "SA5652",
+            "LT442BK"
+        ],
+        "discount_pct": 15,
+        "description": "Engineered set for _ rigs. Includes a precision-fit Pulsar CORE 5\u201d Quartz Dab Straw | 10ct Display."
+    },
+    {
+        "main_sku": "WP954",
+        "bundle_name": "Pro Dab Set: SeshGear 8.5\u201d Spinner Dab Rig",
+        "items": [
+            "WP954",
+            "SA5652",
+            "LT442BK"
+        ],
+        "discount_pct": 15,
+        "description": "Engineered set for _ rigs. Includes a precision-fit Pulsar CORE 5\u201d Quartz Dab Straw | 10ct Display."
+    },
+    {
+        "main_sku": "WP916",
+        "bundle_name": "Pro Dab Set: Pulsar 8.25\u201d Valentine\u2019s Rose Dab Rig Kit",
+        "items": [
+            "WP916",
+            "SA5652",
+            "LT442BK"
+        ],
+        "discount_pct": 15,
+        "description": "Engineered set for _ rigs. Includes a precision-fit Pulsar CORE 5\u201d Quartz Dab Straw | 10ct Display."
+    }
+]
