@@ -4,41 +4,28 @@ import os
 import hashlib
 import time
 
-# --- PATHS ---
 csv_path = os.path.expanduser("~/Desktop/Dyspensr_Master_Catalog_Priced.csv")
 html_path = os.path.expanduser("~/Desktop/Pixies_Vape_Shop/index.html")
 log_path = os.path.expanduser("~/Desktop/Pixies_Vape_Shop/build_manifest.log")
-
-# --- MASTER CATEGORIZATION ---
-CATEGORY_STRUCTURE = {
-    "GENERAL": ["All gear", "Featured"],
-    "BONGS": ["Beaker", "Straight Tube", "Gravity", "Modular", "Silicone", "Glass"],
-    "DAB RIGS": ["Glass", "Silicone", "Recycler", "Mini Rigs"],
-    "VAPORIZERS": ["Handheld", "Desktop", "Enails & Erigs", "Vape Pens", "Dab Pens", "Dry Herb", "Wax", "Dual Function"],
-    "BUBBLERS": ["Upright", "Sherlock", "Hammer", "Mini", "Mini Joint"],
-    "HAND PIPES": ["Spoon", "Sherlock & Gandalf", "Steamroller", "One Hitters & Chillums", "Nectar Collectors & Dab Straws", "Glass", "Silicone"],
-    "ROLLING SUPPLIES": ["Papers/Pre-Rolls/Wraps", "Trays", "Grinders", "Tips/Filters", "Machines"],
-    "DABBING TOOLS": ["Quartz Bangers & Nails", "Carb Caps", "Torches", "Dabbers & Hot Knifes", "Non-Stick Wax Storage", "Timers/Thermometers", "Mats/Pads"],
-    "VAPE ACCESSORIES": ["Atomizers & Coils", "Bubblers & Glass Attachments", "Parts & Adapters", "Cases & Travel Gear", "Mouthpieces & Tips", "Vape To Bong Adapters", "Balloon Bags", "Whips/Wands/Tubing", "Chargers", "Replacement Batteries"],
-    "WHOLESALE": ["POP Displays"]
-}
 
 def generate_storefront():
     start_time = time.time()
     grouped_products = {}
     master_brands = set()
+    master_cats = set()
     processed_count = 0
 
     if not os.path.exists(csv_path):
         print(f"❌ DATABASE ERROR: CSV missing at {csv_path}")
         return
 
-    # 1. PROCESS DATABASE & GROUP VARIANTS
     with open(csv_path, "r", encoding="utf-8") as f:
         reader = list(csv.DictReader(f))
         for row in reader:
             try:
-                retail = float(row.get("Your Retail Price", 0) or 0)
+                retail_str = row.get("Your Retail Price", "")
+                if not retail_str: continue
+                retail = float(retail_str)
                 if retail <= 0 or row.get("Status") == "Hidden": continue 
 
                 title = row.get("Product Name", "").strip()
@@ -47,10 +34,10 @@ def generate_storefront():
                 variant_name = row.get("Variant", "").strip() or "Standard"
                 img_url = row.get("Image URL", "").strip() or "https://via.placeholder.com/400"
                 
-                # UNIQUE DESCRIPTION per item
                 unique_desc = row.get("Description", "").replace('"', '&quot;').replace('\n', '<br>')
                 
                 master_brands.add(brand)
+                master_cats.add(cat)
                 
                 if title not in grouped_products:
                     grouped_products[title] = {
@@ -59,7 +46,7 @@ def generate_storefront():
                         "category": cat,
                         "featured": row.get("Featured") == "Yes",
                         "image": img_url,
-                        "Variants": [] # Capital 'V' for app.js compatibility
+                        "Variants": [] 
                     }
                 
                 grouped_products[title]["Variants"].append({
@@ -75,12 +62,10 @@ def generate_storefront():
 
     all_products_array = list(grouped_products.values())
     
-    # CRITICAL: Process JSON outside f-string to avoid backslash SyntaxErrors
     json_products = json.dumps(all_products_array).replace('</', '<\\/')
-    json_cats = json.dumps(CATEGORY_STRUCTURE)
+    json_cats = json.dumps(["All gear", "Featured"] + sorted(list(master_cats)))
     json_brands = json.dumps(sorted(list(master_brands)))
 
-    # 2. GENERATE FULL HTML PAGE
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -122,7 +107,8 @@ def generate_storefront():
     <div class="sidebar">
         <div><h2>Pixie's Pantry</h2><p style="font-size: 0.8em; color: #888;">Group Buy Catalog</p></div>
         <input type="text" id="searchInput" placeholder="Search brands, gear..." oninput="applyFilters()" style="padding:10px; border:1px solid #ddd; border-radius:4px;">
-        <div id="category-menu"></div>
+        <h3>Shop By Category</h3>
+        <ul class="nav-list" id="category-menu"></ul>
         <h3>Shop By Brand</h3>
         <ul class="nav-list" id="brand-menu"></ul>
     </div>
@@ -136,13 +122,13 @@ def generate_storefront():
 
     <div class="modal-overlay" id="product-modal" onclick="if(event.target.id==='product-modal') closeModal()">
         <div class="modal-content">
-            <button onclick="closeModal()" style="position:absolute; top:20px; right:20px; border:none; background:none; font-size:2em; color:#888; cursor:pointer;">&times;</button>
+            <button onclick="closeModal()" style="position:absolute; top:20px; right:20px; border:none; background:none; font-size:2em; color:#888; cursor:pointer; z-index: 10;">&times;</button>
             <div style="display:flex; width:100%; height:100%; flex-wrap:wrap;">
                 <div style="flex:1; min-width:300px; background:#f9f9f9; display:flex; align-items:center; justify-content:center; padding:30px;">
                     <img id="modal-img" style="max-width:100%; max-height:450px; object-fit:contain;">
                 </div>
                 <div style="flex:1.2; min-width:300px; padding:40px; overflow-y:auto;">
-                    <div id="modal-brand" class="brand-badge"></div>
+                    <div id="modal-brand" style="font-size:0.8em; font-weight:900; color:#aaa; text-transform:uppercase;"></div>
                     <h2 id="modal-title" style="font-weight:800; margin-bottom:10px;"></h2>
                     <div id="variant-area"></div>
                     <div id="modal-price" style="font-size:2.2em; font-weight:bold; margin-bottom:15px;"></div>
@@ -192,17 +178,16 @@ def generate_storefront():
 
         function init() {{
             const catMenu = document.getElementById('category-menu');
-            for (const [group, items] of Object.entries(CATEGORIES)) {{
-                let html = `<div class="group-label">${{group}}</div><ul class="nav-list">`;
-                items.forEach(item => {{
-                    html += `<li class="nav-item ${{activeFilter === item ? 'active' : ''}}" onclick="setFilter('cat', '${{item}}', this)">${{item}}</li>`;
-                }});
-                catMenu.innerHTML += html + '</ul>';
-            }}
+            CATEGORIES.forEach(c => {{
+                let cls = activeFilter === c ? 'active' : '';
+                catMenu.innerHTML += `<li class="nav-item ${{cls}}" onclick="setFilter('cat', '${{c}}', this)">${{c}}</li>`;
+            }});
             
             const brandMenu = document.getElementById('brand-menu');
             brandMenu.innerHTML = `<li class="nav-item active" onclick="setFilter('brand', 'All', this)">All Brands</li>`;
-            BRANDS.forEach(b => {{ brandMenu.innerHTML += `<li class="nav-item" onclick="setFilter('brand', '${{b}}', this)">${{b}}</li>`; }});
+            BRANDS.forEach(b => {{ 
+                brandMenu.innerHTML += `<li class="nav-item" onclick="setFilter('brand', '${{b.replace(/'/g, "\\\\'") }}', this)">${{b}}</li>`; 
+            }});
             
             updateCartUI();
             applyFilters();
@@ -234,12 +219,12 @@ def generate_storefront():
             grid.innerHTML = products.map(p => `
                 <div class="card" onclick="openModal('${{p.name.replace(/'/g, "\\\\'")}}')">
                     <div class="image-container"><img src="${{p.image}}" loading="lazy"></div>
-                    <div class="brand-badge">${{p.brand}}</div>
-                    <div class="title">${{p.name}}</div>
-                    <div style="font-weight:bold; margin-top:auto;">From $${{p.Variants[0].price.toFixed(2)}}</div>
+                    <div class="brand-badge" style="font-size:0.7em; font-weight:900; color:#aaa; text-transform:uppercase; margin-top:10px;">${{p.brand}}</div>
+                    <div class="title" style="font-weight:bold; margin:5px 0;">${{p.name}}</div>
+                    <div style="font-weight:bold; margin-top:auto; color:#111;">From $${{p.Variants[0].price.toFixed(2)}}</div>
                 </div>
             `).join('');
-            document.getElementById('item-count').innerText = products.length + " products synced";
+            document.getElementById('item-count').innerText = products.length + " products loaded";
         }}
 
         function openModal(name) {{
