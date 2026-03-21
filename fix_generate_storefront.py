@@ -313,6 +313,7 @@ renderCart();
 
 def get_layout(title, content, sidebar_html, is_nested=False):
     prefix = "../" if is_nested else ""
+    prefix = "../" if is_nested else ""
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -736,7 +737,32 @@ def get_layout(title, content, sidebar_html, is_nested=False):
         @keyframes toastIn {{ from {{ opacity:0; bottom:15px; }} to {{ opacity:1; bottom:30px; }} }}
         @keyframes toastOut {{ from {{ opacity:1; }} to {{ opacity:0; }} }}
 
-        /* ── Responsive ── */
+        /* ── Footer ── */
+        .site-footer {{ background-color: #000 !important; color: #fff !important; padding: 80px 50px 30px !important; margin-top: 80px !important; border-top: none !important; font-family: 'Helvetica Neue', Arial, sans-serif; }}
+        .footer-content {{ display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 50px; max-width: 1400px; margin: 0 auto; border-bottom: 1px solid #222; padding-bottom: 60px; }}
+        .footer-col h3 {{ color: #fff !important; font-size: 0.75em !important; text-transform: uppercase; letter-spacing: 2px !important; font-weight: 600 !important; margin-bottom: 25px !important; border-bottom: none !important; }}
+        .footer-col p {{ color: #888 !important; font-size: 0.9em !important; line-height: 1.8 !important; margin-bottom: 10px; }}
+        .footer-col ul {{ list-style: none; padding: 0; margin: 0; }}
+        .footer-col ul li {{ margin-bottom: 15px !important; }}
+        .footer-col ul li a {{ color: #888 !important; text-decoration: none !important; font-size: 0.9em !important; transition: 0.3s; }}
+        .footer-col ul li a:hover {{ color: #d4af37 !important; padding-left: 5px; }}
+        .newsletter-form {{ display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }}
+        .newsletter-form input {{ padding: 15px; background: #111; border: 1px solid #333; color: #fff; border-radius: 6px; outline: none; }}
+        .newsletter-form input:focus {{ border-color: #d4af37; }}
+        .newsletter-form button {{ padding: 15px; background: #d4af37; color: #111; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }}
+        .newsletter-form button:hover {{ background: #fff; }}
+        .footer-bottom {{ display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 30px auto 0; font-size: 0.75em; color: #666; letter-spacing: 1px; }}
+        .footer-socials {{ display: flex; gap: 20px; }}
+        .footer-socials a {{ color: #888; text-decoration: none; text-transform: uppercase; font-weight: bold; transition: 0.3s; }}
+        .footer-socials a:hover {{ color: #d4af37; }}
+        @media (max-width: 992px) {{
+            .site-footer {{ padding: 60px 30px 30px !important; }}
+            .footer-content {{ grid-template-columns: 1fr 1fr; gap: 40px; }}
+            .footer-bottom {{ flex-direction: column; gap: 20px; text-align: center; }}
+        }}
+        @media (max-width: 600px) {{
+            .footer-content {{ grid-template-columns: 1fr; gap: 40px; }}
+        }}\n\n        /* ── Responsive ── */
         @media (max-width: 992px) {{
             .sidebar {{
                 transform: translateX(-100%);
@@ -759,12 +785,16 @@ def get_layout(title, content, sidebar_html, is_nested=False):
         }}
 
         @media (max-width: 480px) {{
-            .grid {{ grid-template-columns: 1fr 1fr; gap: 12px; }}
-            .card {{ padding: 14px; }}
-            .image-container {{ height: 120px; }}
-            .title {{ font-size: 0.85em; }}
-            .price-tag {{ font-size: 1em; }}
-            .quick-add-btn {{ padding: 7px 12px; font-size: 0.75em; }}
+            .grid {{ grid-template-columns: 1fr 1fr; gap: 8px; }}
+            .card {{ padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }}
+            .image-container {{ height: 110px; margin-bottom: 8px; }}
+            .title {{ font-size: 0.8em; line-height: 1.3; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }}
+            .price-tag {{ font-size: 0.9em; font-weight: 900; }}
+            .quick-add-btn {{ padding: 8px; font-size: 0.8em; width: 100%; border-radius: 6px; margin-top: 6px; }}
+            .card-footer-row {{ flex-direction: column; align-items: flex-start; gap: 4px; }}
+            .sidebar {{ width: 260px; }}
+            .mobile-header {{ padding: 12px 15px; }}
+            .mobile-header-logo {{ font-size: 1.1em; }}
         }}
     </style>
 </head>
@@ -794,8 +824,49 @@ def get_layout(title, content, sidebar_html, is_nested=False):
             {content}
         </div>
 
-        <footer style="padding:50px 48px; border-top:1px solid var(--border); text-align:center; color:var(--muted); font-size:0.8em; letter-spacing:1.5px;">
-            &copy; 2026 PIXIE'S PANTRY &nbsp;|&nbsp; HARDWARE HUB &nbsp;|&nbsp; MISSISSIPPI, USA
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Pixie's Pantry</h3>
+                    <p style="max-width: 300px;">Curating the absolute highest tier of vaporization and glass hardware. Direct wholesale access, vetted specifically for the community. Elevate your ritual.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Explore</h3>
+                    <ul>
+                        <li><a href="{prefix}index.html">Master Catalog</a></li>
+                        <li><a href="#" onclick="toggleCart(); return false;">View Cart</a></li>
+                        <li><a href="{prefix}about.html">Our Philosophy</a></li>
+                        <li><a href="{prefix}faq.html">FAQ & Guide</a></li>
+                        <li><a href="https://dyspensr.com" target="_blank">Dyspensr Network</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Client Services</h3>
+                    <ul>
+                        <li><a href="https://discord.gg/pyTSf569" target="_blank">Discord Support (Fastest)</a></li>
+                        <li><a href="mailto:admin@pixies-pantry.com">Email Concierge</a></li>
+                        <li><a href="{prefix}shipping.html">Shipping & Delivery</a></li>
+                        <li><a href="{prefix}refunds.html">Returns & Exchanges</a></li>
+                        <li><a href="{prefix}privacy.html">Privacy & Terms</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Stay Exquisite</h3>
+                    <p>Join the inner circle for exclusive drops and wholesale restocks.</p>
+                    <form class="newsletter-form" action="https://formspree.io/f/xeoqkzdj" method="POST">
+                        <input type="email" name="Newsletter Email" placeholder="Enter your email address" required>
+                        <button type="submit" style="color: black !important;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PIXIE'S PANTRY. ALL RIGHTS RESERVED.</p>
+                <div class="footer-socials">
+                    <a href="https://discord.gg/pyTSf569" target="_blank">Discord</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                </div>
+            </div>
         </footer>
     </div>
 
@@ -939,7 +1010,17 @@ def generate_storefront():
             f'<a href="{prefix}brands/{slugify(b)}.html" class="sidebar-link">{b}</a>'
             for b in sorted_brands
         ])
+        info_html = f'''
+        <a href="{prefix}about.html" class="sidebar-link">Our Philosophy</a>
+        <a href="{prefix}faq.html" class="sidebar-link">FAQ & Guide</a>
+        <a href="{prefix}shipping.html" class="sidebar-link">Shipping & Delivery</a>
+        <a href="{prefix}refunds.html" class="sidebar-link">Returns & Exchanges</a>
+        <a href="{prefix}privacy.html" class="sidebar-link">Privacy & Terms</a>
+        '''
+
         return f"""
+        <div class="nav-section-label">Information</div>
+        <nav>{info_html}</nav>
         <div class="nav-section-label">Categories</div>
         <nav>{cats_html}</nav>
         <div class="nav-section-label">Brands</div>
