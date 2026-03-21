@@ -1,332 +1,1549 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixie's Pantry | Complete: Base + Neckpiece</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: sans-serif; background: #fff; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; padding: 20px; }
-        .card { position: relative; border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .card img { max-width: 100%; height: 160px; object-fit: contain; }
-        .brand-badge { font-size: 0.7em; color: #aaa; text-transform: uppercase; margin-top: 10px; }
-        .title { font-weight: bold; margin: 5px 0; font-size: 0.9em; height: 2.4em; overflow: hidden; }
-        .price { font-weight: 800; color: #111; }
-        
-        /* The Link Shortcut Icon */
-        .link-shortcut {
-            position: absolute; top: 10px; right: 10px; background: #fff; width: 30px; height: 30px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 0.8em; color: #888; border: 1px solid #eee; z-index: 5; transition: 0.2s;
+        :root {
+            --primary: #111;
+            --sidebar-w: 300px;
+            --border: #eaeaea;
+            --muted: #888;
+            --card-radius: 14px;
         }
-        .link-shortcut:hover { background: #111; color: #fff; border-color: #111; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #fff;
+            color: var(--primary);
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; bottom: 0;
+            width: var(--sidebar-w);
+            background: #fafafa;
+            border-right: 1px solid var(--border);
+            padding: 40px 28px;
+            overflow-y: auto;
+            z-index: 900;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-logo {
+            font-weight: 900;
+            font-size: 1.3em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            display: block;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .sidebar-logo span { color: #e8498a; }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.88em;
+            margin-bottom: 28px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .search-box:focus { border-color: var(--primary); }
+
+        .nav-section-label {
+            font-size: 0.65em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #bbb;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin: 24px 0 10px;
+        }
+        .sidebar-link {
+            display: block;
+            padding: 9px 0;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.85em;
+            border-bottom: 1px solid #f5f5f5;
+            transition: all 0.15s;
+        }
+        .sidebar-link:hover {
+            color: var(--primary);
+            padding-left: 6px;
+            font-weight: 700;
+        }
+
+        /* ── Mobile overlay ── */
+        #mobile-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 850;
+        }
+        #mobile-overlay.active { display: block; }
+
+        /* ── Main wrapper ── */
+        .main-wrapper {
+            margin-left: var(--sidebar-w);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .banner {
+            background: var(--primary);
+            color: #fff;
+            padding: 13px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 0.72em;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+
+        /* ── Mobile header ── */
+        .mobile-header {
+            display: none;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 39px;
+            z-index: 499;
+        }
+        .mobile-header-logo {
+            font-weight: 900;
+            font-size: 1.1em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .mobile-header-logo span { color: #e8498a; }
+        .hamburger {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 7px 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* ── Main content ── */
+        .main-content {
+            padding: 55px 48px;
+            flex: 1;
+        }
+
+        /* ── Toolbar ── */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+        .toolbar-left h1 {
+            font-weight: 900;
+            font-size: 2.4em;
+            letter-spacing: -1.5px;
+            line-height: 1;
+        }
+        .toolbar-left p {
+            color: var(--muted);
+            font-size: 0.9em;
+            margin-top: 6px;
+        }
+        .toolbar-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-select {
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.85em;
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+            font-family: inherit;
+        }
+        .filter-select:focus { border-color: var(--primary); }
+
+        /* ── Product Grid ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 28px;
+        }
+
+        /* ── Card ── */
+        .card {
+            position: relative;
+            border: 1px solid #f0f0f0;
+            border-radius: var(--card-radius);
+            padding: 22px;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.165,0.84,0.44,1), box-shadow 0.3s ease, border-color 0.2s;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            /* FIX: removed height:100% which caused stretching in auto-fill grids */
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            border-color: #ddd;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 18px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .card:hover .image-container img { transform: scale(1.04); }
+
+        .brand-badge {
+            font-size: 0.58em;
+            font-weight: 900;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+        }
+        .title {
+            font-weight: 800;
+            font-size: 0.97em;
+            line-height: 1.4;
+            color: var(--primary);
+            flex: 1;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        .price-tag {
+            font-weight: 900;
+            font-size: 1.15em;
+            color: var(--primary);
+        }
+        .quick-add-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.82em;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-family: inherit;
+        }
+        .quick-add-btn:hover { opacity: 0.75; }
+
+        .link-shortcut {
+            position: absolute;
+            top: 14px; right: 14px;
+            background: #fff;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #eee;
+            color: #ccc;
+            z-index: 5;
+            transition: all 0.2s;
+        }
+        .link-shortcut:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* ── Cart button ── */
+        .cart-toggle {
+            position: fixed;
+            bottom: 36px; right: 36px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 16px 26px;
+            border-radius: 40px;
+            font-weight: 900;
+            font-size: 0.9em;
+            cursor: pointer;
+            z-index: 800;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+        .cart-toggle:hover { transform: scale(1.05); }
+
+        /* ── Cart panel ── */
+        .cart-panel {
+            position: fixed;
+            top: 0; right: -480px;
+            width: 440px;
+            max-width: 100vw;
+            height: 100%;
+            background: #fff;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+            z-index: 3000;
+            transition: right 0.45s cubic-bezier(0.165,0.84,0.44,1);
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-panel.open { right: 0; }
+
+        .checkout-input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.9em;
+            font-family: inherit;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .checkout-input:focus { border-color: var(--primary); }
+
+        /* ── Modal ── */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+            padding: 20px;
+        }
+        .modal-content {
+            background: #fff;
+            width: 960px;
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 18px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+        }
+        .modal-img-side {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f8f8;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #f0f0f0;
+        }
+        .modal-info-side {
+            flex: 1;
+            min-width: 300px;
+            padding: 50px 45px;
+            overflow-y: auto;
+        }
+
+        /* ── Toast ── */
+        #pixies-toast {
+            visibility: hidden;
+            min-width: 220px;
+            background: #111;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 14px 22px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-weight: 700;
+            font-size: 0.9em;
+            pointer-events: none;
+        }
+        #pixies-toast.show {
+            visibility: visible;
+            animation: toastIn 0.3s ease, toastOut 0.4s ease 2.6s forwards;
+        }
+        @keyframes toastIn { from { opacity:0; bottom:15px; } to { opacity:1; bottom:30px; } }
+        @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+        /* ── Responsive ── */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 280px;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; }
+            .main-content { padding: 30px 20px; }
+            .mobile-header { display: flex; }
+            .banner { top: 0; }
+            .cart-toggle { bottom: 20px; right: 20px; padding: 14px 20px; }
+            .cart-panel { width: 100vw; right: -100vw; }
+            .modal-content { flex-direction: column; }
+            .modal-img-side { min-width: unset; padding: 30px; max-height: 250px; }
+            .modal-info-side { min-width: unset; padding: 30px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+            .image-container { height: 150px; }
+            .toolbar-left h1 { font-size: 1.8em; }
+        }
+
+        @media (max-width: 480px) {
+            .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .card { padding: 14px; }
+            .image-container { height: 120px; }
+            .title { font-size: 0.85em; }
+            .price-tag { font-size: 1em; }
+            .quick-add-btn { padding: 7px 12px; font-size: 0.75em; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <nav style="padding: 20px 0;"><a href="../index.html">← Master Catalog</a></nav>
-        <h1>Complete: Base + Neckpiece</h1>
-        <div class="grid">
+    <div id="pixies-toast"></div>
+    <div id="mobile-overlay" onclick="toggleMobileNav()"></div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <a href="../index.html" class="sidebar-logo">Pixie's <span>Pantry</span></a>
+        <input type="text" id="searchInput" class="search-box" placeholder="Search products, brands..." oninput="applyFilters()">
+        
+        <div class="nav-section-label">Categories</div>
+        <nav><a href="../categories/accessories.html" class="sidebar-link">Accessories</a>
+<a href="../categories/accessory.html" class="sidebar-link">Accessory</a>
+<a href="../categories/adapters-attachments.html" class="sidebar-link">Adapters & Attachments</a>
+<a href="../categories/ash-catcher.html" class="sidebar-link">Ash Catcher</a>
+<a href="../categories/atomizers-coils.html" class="sidebar-link">Atomizers & Coils</a>
+<a href="../categories/banger.html" class="sidebar-link">Banger</a>
+<a href="../categories/beaker-bong.html" class="sidebar-link">Beaker Bong</a>
+<a href="../categories/blunt-wraps-leaf-rolls.html" class="sidebar-link">Blunt Wraps & Leaf Rolls</a>
+<a href="../categories/bong.html" class="sidebar-link">Bong</a>
+<a href="../categories/bongs.html" class="sidebar-link">Bongs</a>
+<a href="../categories/bubblers.html" class="sidebar-link">Bubblers</a>
+<a href="../categories/budsy-water-bottle-bong.html" class="sidebar-link">Budsy Water Bottle Bong</a>
+<a href="../categories/bundle.html" class="sidebar-link">Bundle</a>
+<a href="../categories/complete-base-neckpiece.html" class="sidebar-link">Complete: Base + Neckpiece</a>
+<a href="../categories/concentrate-pipe.html" class="sidebar-link">Concentrate Pipe</a>
+<a href="../categories/cupsy-coffee-cup-bong.html" class="sidebar-link">Cupsy Coffee Cup Bong</a>
+<a href="../categories/dab-rig-oil-rig.html" class="sidebar-link">Dab Rig / Oil Rig</a>
+<a href="../categories/dab-rig-sets.html" class="sidebar-link">Dab Rig Sets</a>
+<a href="../categories/dab-rigs.html" class="sidebar-link">Dab Rigs</a>
+<a href="../categories/dab-straws.html" class="sidebar-link">Dab Straws</a>
+<a href="../categories/dab-tools.html" class="sidebar-link">Dab Tools</a>
+<a href="../categories/desktop-vaporizer.html" class="sidebar-link">Desktop Vaporizer</a>
+<a href="../categories/downstem.html" class="sidebar-link">Downstem</a>
+<a href="../categories/dynavap-bundle.html" class="sidebar-link">DynaVap Bundle</a>
+<a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a>
+<a href="../categories/filters-tips.html" class="sidebar-link">Filters & Tips</a>
+<a href="../categories/glass-cleaning-solution.html" class="sidebar-link">Glass Cleaning Solution</a>
+<a href="../categories/grinder.html" class="sidebar-link">Grinder</a>
+<a href="../categories/grinders.html" class="sidebar-link">Grinders</a>
+<a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a>
+<a href="../categories/kit.html" class="sidebar-link">Kit</a>
+<a href="../categories/lighter.html" class="sidebar-link">Lighter</a>
+<a href="../categories/maintenance.html" class="sidebar-link">Maintenance</a>
+<a href="../categories/mouthpieces-o-rings.html" class="sidebar-link">Mouthpieces & O-Rings</a>
+<a href="../categories/oil-rig.html" class="sidebar-link">Oil Rig</a>
+<a href="../categories/other-vape-parts.html" class="sidebar-link">Other Vape Parts</a>
+<a href="../categories/papers-cones-wraps.html" class="sidebar-link">Papers, Cones & Wraps</a>
+<a href="../categories/part.html" class="sidebar-link">Part</a>
+<a href="../categories/peak-pro.html" class="sidebar-link">Peak PRO</a>
+<a href="../categories/pipes.html" class="sidebar-link">Pipes</a>
+<a href="../categories/pollen-box.html" class="sidebar-link">Pollen Box</a>
+<a href="../categories/pollen-press.html" class="sidebar-link">Pollen Press</a>
+<a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a>
+<a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a>
+<a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-Rolled Cones</a>
+<a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-rolled Cones</a>
+<a href="../categories/recycler.html" class="sidebar-link">Recycler</a>
+<a href="../categories/rolling-accessories.html" class="sidebar-link">Rolling Accessories</a>
+<a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a>
+<a href="../categories/rolling-tips.html" class="sidebar-link">Rolling Tips</a>
+<a href="../categories/rolling-tray.html" class="sidebar-link">Rolling Tray</a>
+<a href="../categories/smoking-accessories.html" class="sidebar-link">Smoking Accessories</a>
+<a href="../categories/spoon.html" class="sidebar-link">Spoon</a>
+<a href="../categories/stand.html" class="sidebar-link">Stand</a>
+<a href="../categories/storage.html" class="sidebar-link">Storage</a>
+<a href="../categories/ted.html" class="sidebar-link">TED</a>
+<a href="../categories/torches.html" class="sidebar-link">Torches</a>
+<a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a>
+<a href="../categories/vaporizer.html" class="sidebar-link">Vaporizer</a>
+<a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a>
+<a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a>
+<a href="../categories/water-pipe.html" class="sidebar-link">Water Pipe</a>
+<a href="../categories/water-pipes.html" class="sidebar-link">Water Pipes</a>
+<a href="../categories/accessory.html" class="sidebar-link">accessory</a>
+<a href="../categories/bong.html" class="sidebar-link">bong</a>
+<a href="../categories/bundle.html" class="sidebar-link">bundle</a>
+<a href="../categories/dab-rig.html" class="sidebar-link">dab rig</a>
+<a href="../categories/downstem.html" class="sidebar-link">downstem</a>
+<a href="../categories/hemp-wick.html" class="sidebar-link">hemp wick</a>
+<a href="../categories/mouthpiece.html" class="sidebar-link">mouthpiece</a>
+<a href="../categories/rolling-tray.html" class="sidebar-link">rolling tray</a>
+<a href="../categories/travel-case.html" class="sidebar-link">travel case</a></nav>
+        <div class="nav-section-label">Brands</div>
+        <nav><a href="../brands/apex-ancillary.html" class="sidebar-link">Apex Ancillary</a>
+<a href="../brands/bic.html" class="sidebar-link">BIC</a>
+<a href="../brands/baked-water.html" class="sidebar-link">Baked Water</a>
+<a href="../brands/blazer.html" class="sidebar-link">Blazer</a>
+<a href="../brands/blazy-susan.html" class="sidebar-link">Blazy Susan</a>
+<a href="../brands/boveda-inc.html" class="sidebar-link">Boveda Inc.</a>
+<a href="../brands/ccell.html" class="sidebar-link">CCELL</a>
+<a href="../brands/cali-crusher.html" class="sidebar-link">Cali Crusher</a>
+<a href="../brands/chill-steel-pipes.html" class="sidebar-link">Chill Steel Pipes</a>
+<a href="../brands/daze-glass.html" class="sidebar-link">Daze Glass</a>
+<a href="../brands/dogg-lbs.html" class="sidebar-link">Dogg Lbs</a>
+<a href="../brands/dr-dabber.html" class="sidebar-link">Dr. Dabber</a>
+<a href="../brands/dynavap.html" class="sidebar-link">DynaVap</a>
+<a href="../brands/dyspensr-wholesale.html" class="sidebar-link">Dyspensr Wholesale</a>
+<a href="../brands/empire-glassworks.html" class="sidebar-link">Empire Glassworks</a>
+<a href="../brands/flower-mill.html" class="sidebar-link">Flower Mill</a>
+<a href="../brands/focus-v.html" class="sidebar-link">Focus V</a>
+<a href="../brands/grav-grav-labs.html" class="sidebar-link">GRAV / Grav Labs</a>
+<a href="../brands/gravitoke.html" class="sidebar-link">GraviToke</a>
+<a href="../brands/grenco-science.html" class="sidebar-link">Grenco Science</a>
+<a href="../brands/grindhouse.html" class="sidebar-link">Grindhouse</a>
+<a href="../brands/hemper.html" class="sidebar-link">Hemper</a>
+<a href="../brands/herb-saver.html" class="sidebar-link">Herb Saver</a>
+<a href="../brands/honeybee-herb.html" class="sidebar-link">Honeybee Herb</a>
+<a href="../brands/human-grade.html" class="sidebar-link">Human Grade</a>
+<a href="../brands/i-tal.html" class="sidebar-link">I-Tal</a>
+<a href="../brands/iolite.html" class="sidebar-link">IOLITE</a>
+<a href="../brands/invincibowl.html" class="sidebar-link">Invincibowl</a>
+<a href="../brands/ispire.html" class="sidebar-link">Ispire</a>
+<a href="../brands/jane-west.html" class="sidebar-link">Jane West</a>
+<a href="../brands/juicy-jays.html" class="sidebar-link">Juicy Jays</a>
+<a href="../brands/k-haring-collection.html" class="sidebar-link">K. Haring Collection</a>
+<a href="../brands/kandypens.html" class="sidebar-link">KandyPens</a>
+<a href="../brands/kannastor.html" class="sidebar-link">Kannastor</a>
+<a href="../brands/kill-your-culture.html" class="sidebar-link">Kill Your Culture</a>
+<a href="../brands/king-palm.html" class="sidebar-link">King Palm</a>
+<a href="../brands/la-pipes.html" class="sidebar-link">LA Pipes</a>
+<a href="../brands/leafly-water-pipes.html" class="sidebar-link">Leafly Water Pipes</a>
+<a href="../brands/lookah.html" class="sidebar-link">Lookah</a>
+<a href="../brands/mj-arsenal.html" class="sidebar-link">MJ Arsenal</a>
+<a href="../brands/marley-natural.html" class="sidebar-link">Marley Natural</a>
+<a href="../brands/micro.html" class="sidebar-link">Micro</a>
+<a href="../brands/moose-labs.html" class="sidebar-link">Moose Labs</a>
+<a href="../brands/my-bud-vase.html" class="sidebar-link">My Bud Vase</a>
+<a href="../brands/openvape.html" class="sidebar-link">O.penVAPE</a>
+<a href="../brands/ocb-rolling-papers.html" class="sidebar-link">OCB Rolling Papers</a>
+<a href="../brands/ongrok.html" class="sidebar-link">Ongrok</a>
+<a href="../brands/ooze.html" class="sidebar-link">Ooze</a>
+<a href="../brands/orange-chronic.html" class="sidebar-link">Orange Chronic</a>
+<a href="../brands/other.html" class="sidebar-link">Other</a>
+<a href="../brands/pax.html" class="sidebar-link">PAX</a>
+<a href="../brands/pink-formula.html" class="sidebar-link">Pink Formula</a>
+<a href="../brands/powerhitter.html" class="sidebar-link">PowerHitter</a>
+<a href="../brands/primo.html" class="sidebar-link">Primo</a>
+<a href="../brands/prism-pipes.html" class="sidebar-link">Prism Pipes</a>
+<a href="../brands/puffco.html" class="sidebar-link">Puffco</a>
+<a href="../brands/pulsar.html" class="sidebar-link">Pulsar</a>
+<a href="../brands/raw-rolling-papers.html" class="sidebar-link">RAW Rolling Papers</a>
+<a href="../brands/ryot.html" class="sidebar-link">RYOT</a>
+<a href="../brands/randys.html" class="sidebar-link">Randy’s</a>
+<a href="../brands/retro-vapes.html" class="sidebar-link">Retro Vapes</a>
+<a href="../brands/rhythms-of-life.html" class="sidebar-link">Rhythms of Life</a>
+<a href="../brands/ritual.html" class="sidebar-link">Ritual</a>
+<a href="../brands/roast-toast.html" class="sidebar-link">Roast & Toast</a>
+<a href="../brands/rokin-vapes.html" class="sidebar-link">Rokin Vapes</a>
+<a href="../brands/roll-it-club.html" class="sidebar-link">Roll It Club</a>
+<a href="../brands/slx-grinders.html" class="sidebar-link">SLX Grinders</a>
+<a href="../brands/santa-cruz-shredder.html" class="sidebar-link">Santa Cruz Shredder</a>
+<a href="../brands/seshgear.html" class="sidebar-link">SeshGear</a>
+<a href="../brands/session-goods.html" class="sidebar-link">Session Goods</a>
+<a href="../brands/sharpstone.html" class="sidebar-link">SharpStone</a>
+<a href="../brands/shine-rolling-papers.html" class="sidebar-link">Shine Rolling Papers</a>
+<a href="../brands/smoke-source.html" class="sidebar-link">Smoke Source</a>
+<a href="../brands/smokebuddy.html" class="sidebar-link">Smokebuddy</a>
+<a href="../brands/snowtree.html" class="sidebar-link">Snowtree</a>
+<a href="../brands/social-smoking.html" class="sidebar-link">Social Smoking</a>
+<a href="../brands/softglass.html" class="sidebar-link">Softglass</a>
+<a href="../brands/stache-products.html" class="sidebar-link">Stache Products</a>
+<a href="../brands/storz-bickel.html" class="sidebar-link">Storz & Bickel</a>
+<a href="../brands/stündenglass.html" class="sidebar-link">Stündenglass</a>
+<a href="../brands/the-kind-pen.html" class="sidebar-link">The Kind Pen</a>
+<a href="../brands/thick-ass-glass.html" class="sidebar-link">Thick Ass Glass</a>
+<a href="../brands/thug-life.html" class="sidebar-link">Thug Life</a>
+<a href="../brands/v-syndicate.html" class="sidebar-link">V Syndicate</a>
+<a href="../brands/vibes.html" class="sidebar-link">VIBES</a>
+<a href="../brands/vapium.html" class="sidebar-link">Vapium</a>
+<a href="../brands/wake-bake.html" class="sidebar-link">Wake & Bake</a>
+<a href="../brands/weedgets.html" class="sidebar-link">Weedgets</a>
+<a href="../brands/white-rhino.html" class="sidebar-link">White Rhino</a>
+<a href="../brands/wulf-mods.html" class="sidebar-link">Wulf Mods</a>
+<a href="../brands/xvape.html" class="sidebar-link">Xvape</a>
+<a href="../brands/yocan.html" class="sidebar-link">Yocan</a>
+<a href="../brands/zenco.html" class="sidebar-link">Zenco</a>
+<a href="../brands/zig-zag.html" class="sidebar-link">Zig-Zag</a></nav>
+        
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="banner">DISCORD GROUP BUY &nbsp;·&nbsp; FAST SHIPPING FROM MISSISSIPPI</div>
+
+        <!-- Mobile header -->
+        <div class="mobile-header">
+            <div class="mobile-header-logo">Pixie's <span>Pantry</span></div>
+            <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+
+        <div class="main-content">
             
-    <div class="card" onclick="openModal('Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Blue Paisley Bandana')">
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <h1>Complete: Base + Neckpiece</h1>
+                <p id="result-count">26 products</p>
+            </div>
+            <div class="toolbar-right">
+                <select id="brandFilter" class="filter-select" onchange="applyFilters()">
+                    <option value="all">All Brands</option><option value="Chill Steel Pipes">Chill Steel Pipes</option>
+                </select>
+                <select id="sortSelect" class="filter-select" onchange="sortGrid()">
+                    <option value="default">Sort</option>
+                    <option value="price-low">Price: Low → High</option>
+                    <option value="price-high">Price: High → Low</option>
+                    <option value="name-az">Name A–Z</option>
+                </select>
+            </div>
+        </div>
+        <div class="grid"><div class="card"
+         data-name="chill steel pipes - limited edition - tommy chong chill bong: blue paisley bandana"
+         data-price="157.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Blue Paisley Bandana", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Chill-Steel-Tommy-Chong-Blue-Paisley-Bong.jpg?v=1764871970", "Variants": [{"name": "Standard", "sku": "CP1044", "price": 157.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Chill-Steel-Tommy-Chong-Blue-Paisley-Bong.jpg?v=1764871970"}], "Description": "Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong Blue Paisley Bandana", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Chill-Steel-Tommy-Chong-Blue-Paisley-Bong.jpg?v=1764871970"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Blue Paisley Bandana')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Chill-Steel-Tommy-Chong-Blue-Paisley-Bong.jpg?v=1764871970" alt="Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Blue Paisley Bandana" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Blue Paisley Bandana</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$157.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - limited edition - tommy chong chill bong: red paisley bandana"
+         data-price="157.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Red Paisley Bandana", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Chill-Steel-Tommy-Chong-Red-Paisley-Bong.jpg?v=1764871970", "Variants": [{"name": "Standard", "sku": "CP1043", "price": 157.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Chill-Steel-Tommy-Chong-Red-Paisley-Bong.jpg?v=1764871970"}], "Description": "Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong Red Paisley Bandana", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Chill-Steel-Tommy-Chong-Red-Paisley-Bong.jpg?v=1764871970"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Red Paisley Bandana')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Chill-Steel-Tommy-Chong-Red-Paisley-Bong.jpg?v=1764871970" alt="Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Red Paisley Bandana" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Red Paisley Bandana</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$157.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - matte baby blue bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Matte Baby Blue Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/b2fbdb4b-3adc-420e-9f0d-460c5ce11aca.jpg?v=1749414159", "Variants": [{"name": "Standard", "sku": "CP1023", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/b2fbdb4b-3adc-420e-9f0d-460c5ce11aca.jpg?v=1749414159"}], "Description": "Chill Steel Pipes - Matte Baby Blue Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/b2fbdb4b-3adc-420e-9f0d-460c5ce11aca.jpg?v=1749414159"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Matte Baby Blue Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/b2fbdb4b-3adc-420e-9f0d-460c5ce11aca.jpg?v=1749414159" alt="Chill Steel Pipes - Matte Baby Blue Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Matte Baby Blue Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - limited edition - rainbow glitterbomb bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Limited Edition - Rainbow Glitterbomb Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/f52784de-184d-4ece-81dd-d2078cba0820.jpg?v=1748376723", "Variants": [{"name": "Standard", "sku": "OGC1015", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/f52784de-184d-4ece-81dd-d2078cba0820.jpg?v=1748376723"}], "Description": "Chill Steel Pipes - Limited Edition - Rainbow Glitterbomb Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/f52784de-184d-4ece-81dd-d2078cba0820.jpg?v=1748376723"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Limited Edition - Rainbow Glitterbomb Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/f52784de-184d-4ece-81dd-d2078cba0820.jpg?v=1748376723" alt="Chill Steel Pipes - Limited Edition - Rainbow Glitterbomb Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Limited Edition - Rainbow Glitterbomb Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - limited edition - pink glitterbomb bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Limited Edition - Pink Glitterbomb Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/8b871e24-31ef-4e23-bb54-16d10404dbbb.jpg?v=1748376533", "Variants": [{"name": "Standard", "sku": "OGC1014", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/8b871e24-31ef-4e23-bb54-16d10404dbbb.jpg?v=1748376533"}], "Description": "Chill Steel Pipes - Limited Edition - Pink Glitterbomb Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/8b871e24-31ef-4e23-bb54-16d10404dbbb.jpg?v=1748376533"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Limited Edition - Pink Glitterbomb Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/8b871e24-31ef-4e23-bb54-16d10404dbbb.jpg?v=1748376533" alt="Chill Steel Pipes - Limited Edition - Pink Glitterbomb Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Limited Edition - Pink Glitterbomb Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - neon purple gloss bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Neon Purple Gloss Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/00bf5b28-6d93-4a3c-8731-c1a946a35caa.jpg?v=1743778176", "Variants": [{"name": "Standard", "sku": "CP1017", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/00bf5b28-6d93-4a3c-8731-c1a946a35caa.jpg?v=1743778176"}], "Description": "Chill Steel Pipes - Neon Purple Gloss Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/00bf5b28-6d93-4a3c-8731-c1a946a35caa.jpg?v=1743778176"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Neon Purple Gloss Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/00bf5b28-6d93-4a3c-8731-c1a946a35caa.jpg?v=1743778176" alt="Chill Steel Pipes - Neon Purple Gloss Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Neon Purple Gloss Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - neon pink gloss bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Neon Pink Gloss Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/d652096d-17e6-4dc2-a6f4-4e465df97e14.jpg?v=1743778166", "Variants": [{"name": "Standard", "sku": "CP1018", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/d652096d-17e6-4dc2-a6f4-4e465df97e14.jpg?v=1743778166"}], "Description": "Chill Steel Pipes - Neon Pink Gloss Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/d652096d-17e6-4dc2-a6f4-4e465df97e14.jpg?v=1743778166"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Neon Pink Gloss Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/d652096d-17e6-4dc2-a6f4-4e465df97e14.jpg?v=1743778166" alt="Chill Steel Pipes - Neon Pink Gloss Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Neon Pink Gloss Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - matte pink bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Matte Pink Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/4925664d-9160-44cd-9b86-40286af4bf7a.jpg?v=1743778155", "Variants": [{"name": "Standard", "sku": "CP1015", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/4925664d-9160-44cd-9b86-40286af4bf7a.jpg?v=1743778155"}], "Description": "Chill Steel Pipes - Matte Pink Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/4925664d-9160-44cd-9b86-40286af4bf7a.jpg?v=1743778155"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Matte Pink Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/4925664d-9160-44cd-9b86-40286af4bf7a.jpg?v=1743778155" alt="Chill Steel Pipes - Matte Pink Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Matte Pink Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - gloss white bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Gloss White Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/9175a818-00f3-47c8-8e21-5af02ea84a6a.jpg?v=1743778128", "Variants": [{"name": "Standard", "sku": "CP1009", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/9175a818-00f3-47c8-8e21-5af02ea84a6a.jpg?v=1743778128"}], "Description": "Chill Steel Pipes - Gloss White Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/9175a818-00f3-47c8-8e21-5af02ea84a6a.jpg?v=1743778128"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Gloss White Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/9175a818-00f3-47c8-8e21-5af02ea84a6a.jpg?v=1743778128" alt="Chill Steel Pipes - Gloss White Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Gloss White Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - steel blue rubberized bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Steel Blue Rubberized Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/3c1049a8-5ded-49ea-a9e6-d6a0a84d4d99.jpg?v=1743778046", "Variants": [{"name": "Standard", "sku": "CP1025", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/3c1049a8-5ded-49ea-a9e6-d6a0a84d4d99.jpg?v=1743778046"}], "Description": "Chill Steel Pipes - Steel Blue Rubberized Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/3c1049a8-5ded-49ea-a9e6-d6a0a84d4d99.jpg?v=1743778046"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Steel Blue Rubberized Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/3c1049a8-5ded-49ea-a9e6-d6a0a84d4d99.jpg?v=1743778046" alt="Chill Steel Pipes - Steel Blue Rubberized Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Steel Blue Rubberized Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - rainbow mirror bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Rainbow Mirror Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/8315e1c7-0136-4946-9e16-8f4b57ac285b.jpg?v=1743778020", "Variants": [{"name": "Standard", "sku": "CP1010", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/8315e1c7-0136-4946-9e16-8f4b57ac285b.jpg?v=1743778020"}], "Description": "Chill Steel Pipes - Rainbow Mirror Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/8315e1c7-0136-4946-9e16-8f4b57ac285b.jpg?v=1743778020"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Rainbow Mirror Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/8315e1c7-0136-4946-9e16-8f4b57ac285b.jpg?v=1743778020" alt="Chill Steel Pipes - Rainbow Mirror Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Rainbow Mirror Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - purple ombre bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Purple Ombre Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/36e45cf5-2ae2-4f69-aaf3-f49d6ede7a74.jpg?v=1749414149", "Variants": [{"name": "Standard", "sku": "CP1020", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/36e45cf5-2ae2-4f69-aaf3-f49d6ede7a74.jpg?v=1749414149"}], "Description": "Chill Steel Pipes - Purple Ombre Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/36e45cf5-2ae2-4f69-aaf3-f49d6ede7a74.jpg?v=1749414149"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Purple Ombre Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/36e45cf5-2ae2-4f69-aaf3-f49d6ede7a74.jpg?v=1749414149" alt="Chill Steel Pipes - Purple Ombre Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Purple Ombre Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - magenta mirror bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Magenta Mirror Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/f55c7834-2676-4e0f-9db7-f205b12a041c.jpg?v=1743777981", "Variants": [{"name": "Standard", "sku": "CP1011", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/f55c7834-2676-4e0f-9db7-f205b12a041c.jpg?v=1743777981"}], "Description": "Chill Steel Pipes - Magenta Mirror Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/f55c7834-2676-4e0f-9db7-f205b12a041c.jpg?v=1743777981"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Magenta Mirror Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/f55c7834-2676-4e0f-9db7-f205b12a041c.jpg?v=1743777981" alt="Chill Steel Pipes - Magenta Mirror Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Magenta Mirror Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - honeycomb bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Honeycomb Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/256f4e1d-89c5-4884-9133-6b96176f60fe.jpg?v=1743777961", "Variants": [{"name": "Standard", "sku": "CP1042", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/256f4e1d-89c5-4884-9133-6b96176f60fe.jpg?v=1743777961"}], "Description": "Chill Steel Pipes - Honeycomb Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/256f4e1d-89c5-4884-9133-6b96176f60fe.jpg?v=1743777961"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Honeycomb Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/256f4e1d-89c5-4884-9133-6b96176f60fe.jpg?v=1743777961" alt="Chill Steel Pipes - Honeycomb Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Honeycomb Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - gold mirror bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Gold Mirror Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/fd17e917-96f1-4dd5-9b74-c7ea1d91f3a0.jpg?v=1743777930", "Variants": [{"name": "Standard", "sku": "CP1012", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/fd17e917-96f1-4dd5-9b74-c7ea1d91f3a0.jpg?v=1743777930"}], "Description": "Chill Steel Pipes - Gold Mirror Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/fd17e917-96f1-4dd5-9b74-c7ea1d91f3a0.jpg?v=1743777930"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Gold Mirror Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/fd17e917-96f1-4dd5-9b74-c7ea1d91f3a0.jpg?v=1743777930" alt="Chill Steel Pipes - Gold Mirror Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Gold Mirror Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - copper mirror bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Copper Mirror Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/e2502f6a-ae4c-4fbe-a067-ea9d074bb5f2.jpg?v=1749414146", "Variants": [{"name": "Standard", "sku": "CP1013", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/e2502f6a-ae4c-4fbe-a067-ea9d074bb5f2.jpg?v=1749414146"}], "Description": "Chill Steel Pipes - Copper Mirror Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/e2502f6a-ae4c-4fbe-a067-ea9d074bb5f2.jpg?v=1749414146"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Copper Mirror Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/e2502f6a-ae4c-4fbe-a067-ea9d074bb5f2.jpg?v=1749414146" alt="Chill Steel Pipes - Copper Mirror Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Copper Mirror Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - blue ombre bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Blue Ombre Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/30a6d498-4f38-43de-8c54-846702c7ab4d.jpg?v=1749414133", "Variants": [{"name": "Standard", "sku": "CP1021", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/30a6d498-4f38-43de-8c54-846702c7ab4d.jpg?v=1749414133"}], "Description": "Chill Steel Pipes - Blue Ombre Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/30a6d498-4f38-43de-8c54-846702c7ab4d.jpg?v=1749414133"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Blue Ombre Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/30a6d498-4f38-43de-8c54-846702c7ab4d.jpg?v=1749414133" alt="Chill Steel Pipes - Blue Ombre Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Blue Ombre Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - gloss blue bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Gloss Blue Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/222f368e-0016-4ae4-b5e8-237dc0f91424.jpg?v=1743512902", "Variants": [{"name": "Standard", "sku": "CP1007", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/222f368e-0016-4ae4-b5e8-237dc0f91424.jpg?v=1743512902"}], "Description": "Chill Steel Pipes - Gloss Blue Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/222f368e-0016-4ae4-b5e8-237dc0f91424.jpg?v=1743512902"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Gloss Blue Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/222f368e-0016-4ae4-b5e8-237dc0f91424.jpg?v=1743512902" alt="Chill Steel Pipes - Gloss Blue Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Gloss Blue Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - gloss black bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Gloss Black Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/12d2a548-e836-4e15-b830-120c55a82f5e.jpg?v=1743512883", "Variants": [{"name": "Standard", "sku": "CP1008", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/12d2a548-e836-4e15-b830-120c55a82f5e.jpg?v=1743512883"}], "Description": "Chill Steel Pipes - Gloss Black Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/12d2a548-e836-4e15-b830-120c55a82f5e.jpg?v=1743512883"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Gloss Black Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/12d2a548-e836-4e15-b830-120c55a82f5e.jpg?v=1743512883" alt="Chill Steel Pipes - Gloss Black Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Gloss Black Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - stainless steel bong"
+         data-price="122.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Stainless Steel Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/cfd30c21-488b-48d3-84d3-ae6dd7950647.jpg?v=1743512827", "Variants": [{"name": "Standard", "sku": "OGC1001-DTC", "price": 122.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/cfd30c21-488b-48d3-84d3-ae6dd7950647.jpg?v=1743512827"}], "Description": "Chill Steel Pipes - Stainless Steel Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/cfd30c21-488b-48d3-84d3-ae6dd7950647.jpg?v=1743512827"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Stainless Steel Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/cfd30c21-488b-48d3-84d3-ae6dd7950647.jpg?v=1743512827" alt="Chill Steel Pipes - Stainless Steel Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Stainless Steel Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$122.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - green armored bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Green Armored Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/145ec2bf-7cef-4117-9b31-5416800465bd.jpg?v=1740772442", "Variants": [{"name": "Standard", "sku": "CP1014", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/145ec2bf-7cef-4117-9b31-5416800465bd.jpg?v=1740772442"}], "Description": "Chill Steel Pipes - Green Armored Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/145ec2bf-7cef-4117-9b31-5416800465bd.jpg?v=1740772442"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Green Armored Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/145ec2bf-7cef-4117-9b31-5416800465bd.jpg?v=1740772442" alt="Chill Steel Pipes - Green Armored Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Green Armored Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - black armored bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Black Armored Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/7d280c52-c837-40bd-b230-9d69acf446c9.jpg?v=1740772426", "Variants": [{"name": "Standard", "sku": "CP1006", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/7d280c52-c837-40bd-b230-9d69acf446c9.jpg?v=1740772426"}], "Description": "Chill Steel Pipes - Black Armored Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/7d280c52-c837-40bd-b230-9d69acf446c9.jpg?v=1740772426"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Black Armored Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/7d280c52-c837-40bd-b230-9d69acf446c9.jpg?v=1740772426" alt="Chill Steel Pipes - Black Armored Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Black Armored Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - steel rosé"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Steel Ros\u00e9", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/3a18fd6a-bf15-4a3b-a40a-4a00d433a066.jpg?v=1740772402", "Variants": [{"name": "Standard", "sku": "CP1022", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/3a18fd6a-bf15-4a3b-a40a-4a00d433a066.jpg?v=1740772402"}], "Description": "Chill Steel Pipes - Steel Ros\u00e9", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/3a18fd6a-bf15-4a3b-a40a-4a00d433a066.jpg?v=1740772402"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Steel Rosé')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/3a18fd6a-bf15-4a3b-a40a-4a00d433a066.jpg?v=1740772402" alt="Chill Steel Pipes - Steel Rosé" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Steel Rosé</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - gunmetal"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Gunmetal", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/38d48f57-c0fc-4058-ae12-7f4f6d3e3d7f.jpg?v=1740772258", "Variants": [{"name": "Standard", "sku": "CP1045", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/38d48f57-c0fc-4058-ae12-7f4f6d3e3d7f.jpg?v=1740772258"}], "Description": "Chill Steel Pipes - Gunmetal", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/38d48f57-c0fc-4058-ae12-7f4f6d3e3d7f.jpg?v=1740772258"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Gunmetal')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/38d48f57-c0fc-4058-ae12-7f4f6d3e3d7f.jpg?v=1740772258" alt="Chill Steel Pipes - Gunmetal" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Gunmetal</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - olive green rubberized bong"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Olive Green Rubberized Bong", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/d10f75ad-a3e3-4fd7-b6ac-18a4319cb947.jpg?v=1740772240", "Variants": [{"name": "Standard", "sku": "CP1024", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/d10f75ad-a3e3-4fd7-b6ac-18a4319cb947.jpg?v=1740772240"}], "Description": "Chill Steel Pipes - Olive Green Rubberized Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/d10f75ad-a3e3-4fd7-b6ac-18a4319cb947.jpg?v=1740772240"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Olive Green Rubberized Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/d10f75ad-a3e3-4fd7-b6ac-18a4319cb947.jpg?v=1740772240" alt="Chill Steel Pipes - Olive Green Rubberized Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Olive Green Rubberized Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="chill steel pipes - black rubberized"
+         data-price="139.99"
+         data-brand="chill steel pipes"
+         data-cat="complete: base + neckpiece"
+         onclick="openModal(this)"
+         data-product='{"name": "Chill Steel Pipes - Black Rubberized", "brand": "Chill Steel Pipes", "category": "Complete: Base + Neckpiece", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/6b0376e4-b0fa-4d50-be22-9ef3c3fe7183.jpg?v=1740772216", "Variants": [{"name": "Standard", "sku": "CP1046", "price": 139.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/6b0376e4-b0fa-4d50-be22-9ef3c3fe7183.jpg?v=1740772216"}], "Description": "Chill Steel Pipes - Black Rubberized", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/6b0376e4-b0fa-4d50-be22-9ef3c3fe7183.jpg?v=1740772216"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Black Rubberized')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/6b0376e4-b0fa-4d50-be22-9ef3c3fe7183.jpg?v=1740772216" alt="Chill Steel Pipes - Black Rubberized" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Chill Steel Pipes</div>
+            <div class="title">Chill Steel Pipes - Black Rubberized</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$139.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div></div>
         
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Blue Paisley Bandana')">
-        <i class="fa-solid fa-link"></i>
+        </div>
+
+        <footer style="padding:50px 48px; border-top:1px solid var(--border); text-align:center; color:var(--muted); font-size:0.8em; letter-spacing:1.5px;">
+            &copy; 2026 PIXIE'S PANTRY &nbsp;|&nbsp; HARDWARE HUB &nbsp;|&nbsp; MISSISSIPPI, USA
+        </footer>
     </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Chill-Steel-Tommy-Chong-Blue-Paisley-Bong.jpg?v=1764871970" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Blue Paisley Bandana</div>
-        <div class="price">From $157.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Red Paisley Bandana')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Red Paisley Bandana')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Chill-Steel-Tommy-Chong-Red-Paisley-Bong.jpg?v=1764871970" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Limited Edition - Tommy Chong Chill Bong: Red Paisley Bandana</div>
-        <div class="price">From $157.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Matte Baby Blue Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Matte Baby Blue Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/b2fbdb4b-3adc-420e-9f0d-460c5ce11aca.jpg?v=1749414159" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Matte Baby Blue Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Limited Edition - Rainbow Glitterbomb Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Limited Edition - Rainbow Glitterbomb Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/f52784de-184d-4ece-81dd-d2078cba0820.jpg?v=1748376723" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Limited Edition - Rainbow Glitterbomb Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Limited Edition - Pink Glitterbomb Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Limited Edition - Pink Glitterbomb Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/8b871e24-31ef-4e23-bb54-16d10404dbbb.jpg?v=1748376533" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Limited Edition - Pink Glitterbomb Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Neon Purple Gloss Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Neon Purple Gloss Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/00bf5b28-6d93-4a3c-8731-c1a946a35caa.jpg?v=1743778176" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Neon Purple Gloss Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Neon Pink Gloss Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Neon Pink Gloss Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/d652096d-17e6-4dc2-a6f4-4e465df97e14.jpg?v=1743778166" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Neon Pink Gloss Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Matte Pink Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Matte Pink Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/4925664d-9160-44cd-9b86-40286af4bf7a.jpg?v=1743778155" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Matte Pink Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Gloss White Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Gloss White Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/9175a818-00f3-47c8-8e21-5af02ea84a6a.jpg?v=1743778128" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Gloss White Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Steel Blue Rubberized Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Steel Blue Rubberized Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/3c1049a8-5ded-49ea-a9e6-d6a0a84d4d99.jpg?v=1743778046" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Steel Blue Rubberized Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Rainbow Mirror Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Rainbow Mirror Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/8315e1c7-0136-4946-9e16-8f4b57ac285b.jpg?v=1743778020" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Rainbow Mirror Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Purple Ombre Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Purple Ombre Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/36e45cf5-2ae2-4f69-aaf3-f49d6ede7a74.jpg?v=1749414149" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Purple Ombre Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Magenta Mirror Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Magenta Mirror Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/f55c7834-2676-4e0f-9db7-f205b12a041c.jpg?v=1743777981" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Magenta Mirror Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Honeycomb Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Honeycomb Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/256f4e1d-89c5-4884-9133-6b96176f60fe.jpg?v=1743777961" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Honeycomb Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Gold Mirror Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Gold Mirror Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/fd17e917-96f1-4dd5-9b74-c7ea1d91f3a0.jpg?v=1743777930" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Gold Mirror Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Copper Mirror Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Copper Mirror Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/e2502f6a-ae4c-4fbe-a067-ea9d074bb5f2.jpg?v=1749414146" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Copper Mirror Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Blue Ombre Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Blue Ombre Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/30a6d498-4f38-43de-8c54-846702c7ab4d.jpg?v=1749414133" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Blue Ombre Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Gloss Blue Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Gloss Blue Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/222f368e-0016-4ae4-b5e8-237dc0f91424.jpg?v=1743512902" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Gloss Blue Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Gloss Black Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Gloss Black Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/12d2a548-e836-4e15-b830-120c55a82f5e.jpg?v=1743512883" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Gloss Black Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Stainless Steel Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Stainless Steel Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/cfd30c21-488b-48d3-84d3-ae6dd7950647.jpg?v=1743512827" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Stainless Steel Bong</div>
-        <div class="price">From $122.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Green Armored Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Green Armored Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/145ec2bf-7cef-4117-9b31-5416800465bd.jpg?v=1740772442" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Green Armored Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Black Armored Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Black Armored Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/7d280c52-c837-40bd-b230-9d69acf446c9.jpg?v=1740772426" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Black Armored Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Steel Rosé')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Steel Rosé')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/3a18fd6a-bf15-4a3b-a40a-4a00d433a066.jpg?v=1740772402" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Steel Rosé</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Gunmetal')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Gunmetal')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/38d48f57-c0fc-4058-ae12-7f4f6d3e3d7f.jpg?v=1740772258" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Gunmetal</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Olive Green Rubberized Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Olive Green Rubberized Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/d10f75ad-a3e3-4fd7-b6ac-18a4319cb947.jpg?v=1740772240" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Olive Green Rubberized Bong</div>
-        <div class="price">From $139.99</div>
-    </div>
-    <div class="card" onclick="openModal('Chill Steel Pipes - Black Rubberized')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Chill Steel Pipes - Black Rubberized')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/6b0376e4-b0fa-4d50-be22-9ef3c3fe7183.jpg?v=1740772216" loading="lazy"></div>
-        <div class="brand-badge">Chill Steel Pipes</div>
-        <div class="title">Chill Steel Pipes - Black Rubberized</div>
-        <div class="price">From $139.99</div>
-    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <button onclick="closeModal()" style="position:absolute; top:20px; right:24px; font-size:2em; background:none; border:none; cursor:pointer; color:#aaa; z-index:10; line-height:1;">&times;</button>
+            <div class="modal-img-side">
+                <img id="modal-img" src="" style="max-width:100%; max-height:380px; object-fit:contain;">
+                <div id="modal-gallery" style="display:flex; gap:10px; margin-top:20px; overflow-x:auto; width:100%; justify-content:center; padding-bottom:4px;"></div>
+            </div>
+            <div class="modal-info-side">
+                <div id="modal-brand" style="font-size:0.75em; font-weight:900; color:#bbb; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;"></div>
+                <h2 id="modal-title" style="font-weight:900; font-size:1.9em; line-height:1.1; letter-spacing:-0.5px; margin-bottom:18px;"></h2>
+                <div id="modal-price" style="font-size:2.2em; font-weight:900; margin-bottom:22px;"></div>
+                <div id="modal-variant-container" style="margin-bottom:10px;"></div>
+                <button id="modal-add-btn" class="quick-add-btn" style="width:100%; padding:18px; font-size:1em; margin-top:16px; letter-spacing:1px; text-transform:uppercase; border-radius:10px;">Add to Order</button>
+                <div id="modal-desc-container" style="margin-top:30px; color:#555; font-size:0.95em; line-height:1.8; border-top:1px solid #f0f0f0; padding-top:22px;"></div>
+            </div>
         </div>
     </div>
-    <script src="../js/data.js"></script>
-    <script src="../js/app.js"></script>
+
+    <!-- Floating Cart Button -->
+    <button class="cart-toggle" onclick="toggleCart()">🛒 CART (<span class="cart-count">0</span>)</button>
+
+    <!-- Side Cart Panel -->
+    <div id="cart-panel" class="cart-panel">
+        <div style="padding:28px 30px; background:#fafafa; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; font-size:1em; font-weight:900; letter-spacing:2px; text-transform:uppercase;">Order Sheet</h2>
+            <button onclick="toggleCart()" style="border:none; background:none; font-size:1.8em; cursor:pointer; color:#bbb; line-height:1;">&times;</button>
+        </div>
+        <div id="cart-items" style="flex:1; overflow-y:auto; padding:20px 30px;"></div>
+        <div style="padding:24px 30px; border-top:1px solid #eee; background:#fff;">
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:1.2em; margin-bottom:24px;">
+                <span>Subtotal:</span><span id="cart-total-price">$0.00</span>
+            </div>
+            <!-- FORMSPREE FORM — action URL uses your FORMSPREE_ID -->
+            <form action="https://formspree.io/f/xeoqkzdj" method="POST" id="checkout-form" onsubmit="prepareCheckout(event)">
+                <input type="hidden" name="Order Details" id="order-payload">
+                <input type="text" name="Full Name" placeholder="Full Name *" required class="checkout-input">
+                <input type="email" name="email" placeholder="Email Address *" required class="checkout-input">
+                <input type="text" name="Discord" placeholder="Discord Username (Optional)" class="checkout-input">
+                <input type="text" name="Shipping" placeholder="City, State, Zip *" required class="checkout-input">
+                <input type="text" name="Notes" placeholder="Order notes (optional)" class="checkout-input">
+                <button type="submit" style="width:100%; background:var(--primary); color:#fff; border:none; padding:18px; font-weight:900; border-radius:10px; margin-top:8px; font-size:0.95em; text-transform:uppercase; letter-spacing:1px; cursor:pointer; font-family:inherit;">Submit Order</button>
+            </form>
+            <div id="receipt-container" style="display:none; text-align:center; padding:30px; border:2px dashed #eee; border-radius:14px;">
+                <div style="font-size:2em; margin-bottom:12px;">✅</div>
+                <h4 style="font-weight:900; letter-spacing:1px; margin-bottom:8px;">ORDER SUBMITTED</h4>
+                <p style="font-size:0.88em; color:var(--muted);">Check Discord or Email for follow-up shortly.</p>
+                <button onclick="location.reload()" class="quick-add-btn" style="margin-top:18px; width:100%; padding:14px; border-radius:8px;">Back to Catalog</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function copyDirectLink(name) {
-            const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-            const url = window.location.origin + "/index.html?p=" + slug;
-            navigator.clipboard.writeText(url).then(() => alert("Link Copied!"));
+
+// ── State ──────────────────────────────────────────────────
+let cart = [];
+
+// ── Cart Helpers ────────────────────────────────────────────
+function addToCart(productName, variant) {
+    const existing = cart.find(i => i.name === productName && i.variantName === variant.name);
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({ name: productName, variantName: variant.name, price: variant.price, qty: 1 });
+    }
+    renderCart();
+    showToast("Added: " + productName);
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    renderCart();
+}
+
+function updateQty(index, delta) {
+    cart[index].qty += delta;
+    if (cart[index].qty <= 0) cart.splice(index, 1);
+    renderCart();
+}
+
+function renderCart() {
+    const container = document.getElementById('cart-items');
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    document.querySelectorAll('.cart-count').forEach(el => el.textContent = cart.reduce((s,i) => s+i.qty, 0));
+    document.getElementById('cart-total-price').textContent = '$' + total.toFixed(2);
+
+    if (cart.length === 0) {
+        container.innerHTML = '<p style="color:#aaa; text-align:center; padding:40px 0; font-size:0.9em;">Your cart is empty.</p>';
+        return;
+    }
+
+    container.innerHTML = cart.map((item, i) => `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:18px 0; border-bottom:1px solid #f0f0f0; gap:12px;">
+            <div style="flex:1;">
+                <div style="font-weight:800; font-size:0.9em; line-height:1.3;">${item.name}</div>
+                ${item.variantName !== 'Standard' ? `<div style="font-size:0.78em; color:#aaa; margin-top:3px;">${item.variantName}</div>` : ''}
+                <div style="font-size:0.85em; color:#555; margin-top:6px;">$${item.price.toFixed(2)} each</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button onclick="updateQty(${i}, -1)" style="width:28px; height:28px; border:1px solid #ddd; background:#fff; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center;">−</button>
+                    <span style="font-weight:900; min-width:20px; text-align:center;">${item.qty}</span>
+                    <button onclick="updateQty(${i}, 1)" style="width:28px; height:28px; border:1px solid #ddd; background:#fff; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center;">+</button>
+                </div>
+                <div style="font-weight:900; font-size:0.95em;">$${(item.price * item.qty).toFixed(2)}</div>
+                <button onclick="removeFromCart(${i})" style="border:none; background:none; color:#ccc; cursor:pointer; font-size:0.75em; text-transform:uppercase; letter-spacing:1px;">Remove</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function toggleCart() {
+    document.getElementById('cart-panel').classList.toggle('open');
+}
+
+// ── Modal ───────────────────────────────────────────────────
+function openModal(cardEl) {
+    const raw = cardEl.getAttribute('data-product');
+    const p = JSON.parse(raw.replace(/&#39;/g, "'"));
+    const modal = document.getElementById('product-modal');
+
+    document.getElementById('modal-img').src = p.image;
+    document.getElementById('modal-brand').textContent = p.brand;
+    document.getElementById('modal-title').textContent = p.name;
+    document.getElementById('modal-desc-container').innerHTML = p.Description || '';
+
+    // Gallery
+    const gallery = document.getElementById('modal-gallery');
+    gallery.innerHTML = (p['All Images'] || []).map((img, i) => `
+        <img src="${img}" style="width:60px; height:60px; object-fit:contain; border:2px solid ${i===0?'#111':'#eee'}; border-radius:8px; cursor:pointer; padding:4px;"
+             onclick="document.getElementById('modal-img').src='${img}'; this.parentNode.querySelectorAll('img').forEach(x=>x.style.borderColor='#eee'); this.style.borderColor='#111';">
+    `).join('');
+
+    // Variants
+    const container = document.getElementById('modal-variant-container');
+    const priceEl = document.getElementById('modal-price');
+
+    if (p.Variants.length === 1) {
+        priceEl.textContent = '$' + p.Variants[0].price.toFixed(2);
+        container.innerHTML = '';
+        document.getElementById('modal-add-btn').onclick = () => {
+            addToCart(p.name, p.Variants[0]);
+            closeModal();
+        };
+    } else {
+        priceEl.textContent = '$' + p.Variants[0].price.toFixed(2);
+        container.innerHTML = `
+            <label style="font-size:0.8em; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#aaa; display:block; margin-bottom:10px;">Select Option</label>
+            <select onchange="selectVariant(this.value, ${JSON.stringify(p.Variants).replace(/"/g,'&quot;')})"
+                    style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-weight: 700; font-size: 0.95em; cursor: pointer; outline: none;">
+                ${p.Variants.map((v, i) => `
+                    <option value="${i}">${v.name} - $${v.price.toFixed(2)}</option>
+                `).join('')}
+            </select>`;
+
+        // Store selected variant index on the button
+        let selectedVariant = p.Variants[0];
+        window._modalVariants = p.Variants;
+        window._modalSelectedVariant = selectedVariant;
+
+        document.getElementById('modal-add-btn').onclick = () => {
+            addToCart(p.name, window._modalSelectedVariant || p.Variants[0]);
+            closeModal();
+        };
+    }
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function selectVariant(index, variantsJson) {
+    const variants = typeof variantsJson === 'string' ? JSON.parse(variantsJson) : variantsJson;
+    const v = variants[index];
+    window._modalSelectedVariant = v;
+    document.getElementById('modal-price').textContent = '$' + v.price.toFixed(2);
+    
+    if (v.image && v.image !== "https://placehold.co/400x400/f5f5f5/999?text=No+Image") {
+        document.getElementById('modal-img').src = v.image;
+        document.querySelectorAll('#modal-gallery img').forEach(img => {
+            img.style.borderColor = img.src === v.image ? '#111' : '#eee';
+        });
+    }
+}
+
+function closeModal() {
+    document.getElementById('product-modal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+document.getElementById('product-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// ── Quick Add (single variant) ──────────────────────────────
+function quickAdd(btn) {
+    const card = btn.closest('.card');
+    const raw = card.getAttribute('data-product');
+    const p = JSON.parse(raw.replace(/&#39;/g, "'"));
+    if (p.Variants.length === 1) {
+        addToCart(p.name, p.Variants[0]);
+    } else {
+        openModal(card);
+    }
+}
+
+// ── Filter & Sort ───────────────────────────────────────────
+function applyFilters() {
+    const search = (document.getElementById('searchInput')?.value || '').toLowerCase();
+    const brandFilter = (document.getElementById('brandFilter')?.value || 'all').toLowerCase();
+    const catFilter = (document.getElementById('catFilter')?.value || 'all').toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+        const name = card.dataset.name || '';
+        const brand = card.dataset.brand || '';
+        const cat = card.dataset.cat || '';
+        const matchSearch = name.includes(search) || brand.includes(search);
+        const matchBrand = brandFilter === 'all' || brand === brandFilter;
+        const matchCat = catFilter === 'all' || cat === catFilter;
+        card.style.display = (matchSearch && matchBrand && matchCat) ? 'flex' : 'none';
+    });
+    updateCount();
+}
+
+function updateCount() {
+    const visible = document.querySelectorAll('.card:not([style*="none"])').length;
+    const el = document.getElementById('result-count');
+    if (el) el.textContent = visible + ' products';
+}
+
+function sortGrid() {
+    const val = document.getElementById('sortSelect')?.value;
+    const grid = document.querySelector('.grid');
+    if (!grid || !val) return;
+    const cards = Array.from(grid.querySelectorAll('.card'));
+    cards.sort((a, b) => {
+        if (val === 'price-low') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+        if (val === 'price-high') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+        if (val === 'name-az') return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+        return 0;
+    });
+    cards.forEach(c => grid.appendChild(c));
+}
+
+// ── Toast ───────────────────────────────────────────────────
+function showToast(msg) {
+    const t = document.getElementById('pixies-toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Direct Link ─────────────────────────────────────────────
+function copyDirectLink(name) {
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const url = window.location.href.split('?')[0] + '?p=' + slug;
+    navigator.clipboard?.writeText(url).then(() => showToast('🔗 Link copied!')).catch(() => showToast('Link: ' + url));
+}
+
+// ── Formspree Checkout ──────────────────────────────────────
+function prepareCheckout(e) {
+    e.preventDefault();
+    if (cart.length === 0) { showToast('Your cart is empty!'); return; }
+
+    const orderLines = cart.map(i => `${i.qty}x ${i.name}${i.variantName !== 'Standard' ? ' ('+i.variantName+')' : ''} @ $${i.price.toFixed(2)}`);
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    orderLines.push('---');
+    orderLines.push('SUBTOTAL: $' + total.toFixed(2));
+
+    document.getElementById('order-payload').value = orderLines.join('\n');
+
+    const form = document.getElementById('checkout-form');
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+    }).then(res => {
+        if (res.ok) {
+            form.style.display = 'none';
+            document.getElementById('receipt-container').style.display = 'block';
+            cart = [];
+            renderCart();
+        } else {
+            showToast('⚠️ Submission failed. Please try again.');
         }
+    }).catch(() => showToast('⚠️ Network error. Check your connection.'));
+}
+
+// ── Mobile Nav ──────────────────────────────────────────────
+function toggleMobileNav() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('mobile-overlay');
+    sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = sidebar.classList.contains('mobile-open') ? 'hidden' : '';
+}
+
+// Init
+renderCart();
+
     </script>
 </body>
 </html>

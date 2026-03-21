@@ -1,365 +1,1615 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixie's Pantry | Vape Battery for Cartridges</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: sans-serif; background: #fff; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; padding: 20px; }
-        .card { position: relative; border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .card img { max-width: 100%; height: 160px; object-fit: contain; }
-        .brand-badge { font-size: 0.7em; color: #aaa; text-transform: uppercase; margin-top: 10px; }
-        .title { font-weight: bold; margin: 5px 0; font-size: 0.9em; height: 2.4em; overflow: hidden; }
-        .price { font-weight: 800; color: #111; }
-        
-        /* The Link Shortcut Icon */
-        .link-shortcut {
-            position: absolute; top: 10px; right: 10px; background: #fff; width: 30px; height: 30px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 0.8em; color: #888; border: 1px solid #eee; z-index: 5; transition: 0.2s;
+        :root {
+            --primary: #111;
+            --sidebar-w: 300px;
+            --border: #eaeaea;
+            --muted: #888;
+            --card-radius: 14px;
         }
-        .link-shortcut:hover { background: #111; color: #fff; border-color: #111; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #fff;
+            color: var(--primary);
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; bottom: 0;
+            width: var(--sidebar-w);
+            background: #fafafa;
+            border-right: 1px solid var(--border);
+            padding: 40px 28px;
+            overflow-y: auto;
+            z-index: 900;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-logo {
+            font-weight: 900;
+            font-size: 1.3em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            display: block;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .sidebar-logo span { color: #e8498a; }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.88em;
+            margin-bottom: 28px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .search-box:focus { border-color: var(--primary); }
+
+        .nav-section-label {
+            font-size: 0.65em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #bbb;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin: 24px 0 10px;
+        }
+        .sidebar-link {
+            display: block;
+            padding: 9px 0;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.85em;
+            border-bottom: 1px solid #f5f5f5;
+            transition: all 0.15s;
+        }
+        .sidebar-link:hover {
+            color: var(--primary);
+            padding-left: 6px;
+            font-weight: 700;
+        }
+
+        /* ── Mobile overlay ── */
+        #mobile-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 850;
+        }
+        #mobile-overlay.active { display: block; }
+
+        /* ── Main wrapper ── */
+        .main-wrapper {
+            margin-left: var(--sidebar-w);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .banner {
+            background: var(--primary);
+            color: #fff;
+            padding: 13px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 0.72em;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+
+        /* ── Mobile header ── */
+        .mobile-header {
+            display: none;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 39px;
+            z-index: 499;
+        }
+        .mobile-header-logo {
+            font-weight: 900;
+            font-size: 1.1em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .mobile-header-logo span { color: #e8498a; }
+        .hamburger {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 7px 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* ── Main content ── */
+        .main-content {
+            padding: 55px 48px;
+            flex: 1;
+        }
+
+        /* ── Toolbar ── */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+        .toolbar-left h1 {
+            font-weight: 900;
+            font-size: 2.4em;
+            letter-spacing: -1.5px;
+            line-height: 1;
+        }
+        .toolbar-left p {
+            color: var(--muted);
+            font-size: 0.9em;
+            margin-top: 6px;
+        }
+        .toolbar-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-select {
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.85em;
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+            font-family: inherit;
+        }
+        .filter-select:focus { border-color: var(--primary); }
+
+        /* ── Product Grid ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 28px;
+        }
+
+        /* ── Card ── */
+        .card {
+            position: relative;
+            border: 1px solid #f0f0f0;
+            border-radius: var(--card-radius);
+            padding: 22px;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.165,0.84,0.44,1), box-shadow 0.3s ease, border-color 0.2s;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            /* FIX: removed height:100% which caused stretching in auto-fill grids */
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            border-color: #ddd;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 18px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .card:hover .image-container img { transform: scale(1.04); }
+
+        .brand-badge {
+            font-size: 0.58em;
+            font-weight: 900;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+        }
+        .title {
+            font-weight: 800;
+            font-size: 0.97em;
+            line-height: 1.4;
+            color: var(--primary);
+            flex: 1;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        .price-tag {
+            font-weight: 900;
+            font-size: 1.15em;
+            color: var(--primary);
+        }
+        .quick-add-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.82em;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-family: inherit;
+        }
+        .quick-add-btn:hover { opacity: 0.75; }
+
+        .link-shortcut {
+            position: absolute;
+            top: 14px; right: 14px;
+            background: #fff;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #eee;
+            color: #ccc;
+            z-index: 5;
+            transition: all 0.2s;
+        }
+        .link-shortcut:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* ── Cart button ── */
+        .cart-toggle {
+            position: fixed;
+            bottom: 36px; right: 36px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 16px 26px;
+            border-radius: 40px;
+            font-weight: 900;
+            font-size: 0.9em;
+            cursor: pointer;
+            z-index: 800;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+        .cart-toggle:hover { transform: scale(1.05); }
+
+        /* ── Cart panel ── */
+        .cart-panel {
+            position: fixed;
+            top: 0; right: -480px;
+            width: 440px;
+            max-width: 100vw;
+            height: 100%;
+            background: #fff;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+            z-index: 3000;
+            transition: right 0.45s cubic-bezier(0.165,0.84,0.44,1);
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-panel.open { right: 0; }
+
+        .checkout-input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.9em;
+            font-family: inherit;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .checkout-input:focus { border-color: var(--primary); }
+
+        /* ── Modal ── */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+            padding: 20px;
+        }
+        .modal-content {
+            background: #fff;
+            width: 960px;
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 18px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+        }
+        .modal-img-side {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f8f8;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #f0f0f0;
+        }
+        .modal-info-side {
+            flex: 1;
+            min-width: 300px;
+            padding: 50px 45px;
+            overflow-y: auto;
+        }
+
+        /* ── Toast ── */
+        #pixies-toast {
+            visibility: hidden;
+            min-width: 220px;
+            background: #111;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 14px 22px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-weight: 700;
+            font-size: 0.9em;
+            pointer-events: none;
+        }
+        #pixies-toast.show {
+            visibility: visible;
+            animation: toastIn 0.3s ease, toastOut 0.4s ease 2.6s forwards;
+        }
+        @keyframes toastIn { from { opacity:0; bottom:15px; } to { opacity:1; bottom:30px; } }
+        @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+        /* ── Responsive ── */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 280px;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; }
+            .main-content { padding: 30px 20px; }
+            .mobile-header { display: flex; }
+            .banner { top: 0; }
+            .cart-toggle { bottom: 20px; right: 20px; padding: 14px 20px; }
+            .cart-panel { width: 100vw; right: -100vw; }
+            .modal-content { flex-direction: column; }
+            .modal-img-side { min-width: unset; padding: 30px; max-height: 250px; }
+            .modal-info-side { min-width: unset; padding: 30px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+            .image-container { height: 150px; }
+            .toolbar-left h1 { font-size: 1.8em; }
+        }
+
+        @media (max-width: 480px) {
+            .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .card { padding: 14px; }
+            .image-container { height: 120px; }
+            .title { font-size: 0.85em; }
+            .price-tag { font-size: 1em; }
+            .quick-add-btn { padding: 7px 12px; font-size: 0.75em; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <nav style="padding: 20px 0;"><a href="../index.html">← Master Catalog</a></nav>
-        <h1>Vape Battery for Cartridges</h1>
-        <div class="grid">
+    <div id="pixies-toast"></div>
+    <div id="mobile-overlay" onclick="toggleMobileNav()"></div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <a href="../index.html" class="sidebar-logo">Pixie's <span>Pantry</span></a>
+        <input type="text" id="searchInput" class="search-box" placeholder="Search products, brands..." oninput="applyFilters()">
+        
+        <div class="nav-section-label">Categories</div>
+        <nav><a href="../categories/accessories.html" class="sidebar-link">Accessories</a>
+<a href="../categories/accessory.html" class="sidebar-link">Accessory</a>
+<a href="../categories/adapters-attachments.html" class="sidebar-link">Adapters & Attachments</a>
+<a href="../categories/ash-catcher.html" class="sidebar-link">Ash Catcher</a>
+<a href="../categories/atomizers-coils.html" class="sidebar-link">Atomizers & Coils</a>
+<a href="../categories/banger.html" class="sidebar-link">Banger</a>
+<a href="../categories/beaker-bong.html" class="sidebar-link">Beaker Bong</a>
+<a href="../categories/blunt-wraps-leaf-rolls.html" class="sidebar-link">Blunt Wraps & Leaf Rolls</a>
+<a href="../categories/bong.html" class="sidebar-link">Bong</a>
+<a href="../categories/bongs.html" class="sidebar-link">Bongs</a>
+<a href="../categories/bubblers.html" class="sidebar-link">Bubblers</a>
+<a href="../categories/budsy-water-bottle-bong.html" class="sidebar-link">Budsy Water Bottle Bong</a>
+<a href="../categories/bundle.html" class="sidebar-link">Bundle</a>
+<a href="../categories/complete-base-neckpiece.html" class="sidebar-link">Complete: Base + Neckpiece</a>
+<a href="../categories/concentrate-pipe.html" class="sidebar-link">Concentrate Pipe</a>
+<a href="../categories/cupsy-coffee-cup-bong.html" class="sidebar-link">Cupsy Coffee Cup Bong</a>
+<a href="../categories/dab-rig-oil-rig.html" class="sidebar-link">Dab Rig / Oil Rig</a>
+<a href="../categories/dab-rig-sets.html" class="sidebar-link">Dab Rig Sets</a>
+<a href="../categories/dab-rigs.html" class="sidebar-link">Dab Rigs</a>
+<a href="../categories/dab-straws.html" class="sidebar-link">Dab Straws</a>
+<a href="../categories/dab-tools.html" class="sidebar-link">Dab Tools</a>
+<a href="../categories/desktop-vaporizer.html" class="sidebar-link">Desktop Vaporizer</a>
+<a href="../categories/downstem.html" class="sidebar-link">Downstem</a>
+<a href="../categories/dynavap-bundle.html" class="sidebar-link">DynaVap Bundle</a>
+<a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a>
+<a href="../categories/filters-tips.html" class="sidebar-link">Filters & Tips</a>
+<a href="../categories/glass-cleaning-solution.html" class="sidebar-link">Glass Cleaning Solution</a>
+<a href="../categories/grinder.html" class="sidebar-link">Grinder</a>
+<a href="../categories/grinders.html" class="sidebar-link">Grinders</a>
+<a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a>
+<a href="../categories/kit.html" class="sidebar-link">Kit</a>
+<a href="../categories/lighter.html" class="sidebar-link">Lighter</a>
+<a href="../categories/maintenance.html" class="sidebar-link">Maintenance</a>
+<a href="../categories/mouthpieces-o-rings.html" class="sidebar-link">Mouthpieces & O-Rings</a>
+<a href="../categories/oil-rig.html" class="sidebar-link">Oil Rig</a>
+<a href="../categories/other-vape-parts.html" class="sidebar-link">Other Vape Parts</a>
+<a href="../categories/papers-cones-wraps.html" class="sidebar-link">Papers, Cones & Wraps</a>
+<a href="../categories/part.html" class="sidebar-link">Part</a>
+<a href="../categories/peak-pro.html" class="sidebar-link">Peak PRO</a>
+<a href="../categories/pipes.html" class="sidebar-link">Pipes</a>
+<a href="../categories/pollen-box.html" class="sidebar-link">Pollen Box</a>
+<a href="../categories/pollen-press.html" class="sidebar-link">Pollen Press</a>
+<a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a>
+<a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a>
+<a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-Rolled Cones</a>
+<a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-rolled Cones</a>
+<a href="../categories/recycler.html" class="sidebar-link">Recycler</a>
+<a href="../categories/rolling-accessories.html" class="sidebar-link">Rolling Accessories</a>
+<a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a>
+<a href="../categories/rolling-tips.html" class="sidebar-link">Rolling Tips</a>
+<a href="../categories/rolling-tray.html" class="sidebar-link">Rolling Tray</a>
+<a href="../categories/smoking-accessories.html" class="sidebar-link">Smoking Accessories</a>
+<a href="../categories/spoon.html" class="sidebar-link">Spoon</a>
+<a href="../categories/stand.html" class="sidebar-link">Stand</a>
+<a href="../categories/storage.html" class="sidebar-link">Storage</a>
+<a href="../categories/ted.html" class="sidebar-link">TED</a>
+<a href="../categories/torches.html" class="sidebar-link">Torches</a>
+<a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a>
+<a href="../categories/vaporizer.html" class="sidebar-link">Vaporizer</a>
+<a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a>
+<a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a>
+<a href="../categories/water-pipe.html" class="sidebar-link">Water Pipe</a>
+<a href="../categories/water-pipes.html" class="sidebar-link">Water Pipes</a>
+<a href="../categories/accessory.html" class="sidebar-link">accessory</a>
+<a href="../categories/bong.html" class="sidebar-link">bong</a>
+<a href="../categories/bundle.html" class="sidebar-link">bundle</a>
+<a href="../categories/dab-rig.html" class="sidebar-link">dab rig</a>
+<a href="../categories/downstem.html" class="sidebar-link">downstem</a>
+<a href="../categories/hemp-wick.html" class="sidebar-link">hemp wick</a>
+<a href="../categories/mouthpiece.html" class="sidebar-link">mouthpiece</a>
+<a href="../categories/rolling-tray.html" class="sidebar-link">rolling tray</a>
+<a href="../categories/travel-case.html" class="sidebar-link">travel case</a></nav>
+        <div class="nav-section-label">Brands</div>
+        <nav><a href="../brands/apex-ancillary.html" class="sidebar-link">Apex Ancillary</a>
+<a href="../brands/bic.html" class="sidebar-link">BIC</a>
+<a href="../brands/baked-water.html" class="sidebar-link">Baked Water</a>
+<a href="../brands/blazer.html" class="sidebar-link">Blazer</a>
+<a href="../brands/blazy-susan.html" class="sidebar-link">Blazy Susan</a>
+<a href="../brands/boveda-inc.html" class="sidebar-link">Boveda Inc.</a>
+<a href="../brands/ccell.html" class="sidebar-link">CCELL</a>
+<a href="../brands/cali-crusher.html" class="sidebar-link">Cali Crusher</a>
+<a href="../brands/chill-steel-pipes.html" class="sidebar-link">Chill Steel Pipes</a>
+<a href="../brands/daze-glass.html" class="sidebar-link">Daze Glass</a>
+<a href="../brands/dogg-lbs.html" class="sidebar-link">Dogg Lbs</a>
+<a href="../brands/dr-dabber.html" class="sidebar-link">Dr. Dabber</a>
+<a href="../brands/dynavap.html" class="sidebar-link">DynaVap</a>
+<a href="../brands/dyspensr-wholesale.html" class="sidebar-link">Dyspensr Wholesale</a>
+<a href="../brands/empire-glassworks.html" class="sidebar-link">Empire Glassworks</a>
+<a href="../brands/flower-mill.html" class="sidebar-link">Flower Mill</a>
+<a href="../brands/focus-v.html" class="sidebar-link">Focus V</a>
+<a href="../brands/grav-grav-labs.html" class="sidebar-link">GRAV / Grav Labs</a>
+<a href="../brands/gravitoke.html" class="sidebar-link">GraviToke</a>
+<a href="../brands/grenco-science.html" class="sidebar-link">Grenco Science</a>
+<a href="../brands/grindhouse.html" class="sidebar-link">Grindhouse</a>
+<a href="../brands/hemper.html" class="sidebar-link">Hemper</a>
+<a href="../brands/herb-saver.html" class="sidebar-link">Herb Saver</a>
+<a href="../brands/honeybee-herb.html" class="sidebar-link">Honeybee Herb</a>
+<a href="../brands/human-grade.html" class="sidebar-link">Human Grade</a>
+<a href="../brands/i-tal.html" class="sidebar-link">I-Tal</a>
+<a href="../brands/iolite.html" class="sidebar-link">IOLITE</a>
+<a href="../brands/invincibowl.html" class="sidebar-link">Invincibowl</a>
+<a href="../brands/ispire.html" class="sidebar-link">Ispire</a>
+<a href="../brands/jane-west.html" class="sidebar-link">Jane West</a>
+<a href="../brands/juicy-jays.html" class="sidebar-link">Juicy Jays</a>
+<a href="../brands/k-haring-collection.html" class="sidebar-link">K. Haring Collection</a>
+<a href="../brands/kandypens.html" class="sidebar-link">KandyPens</a>
+<a href="../brands/kannastor.html" class="sidebar-link">Kannastor</a>
+<a href="../brands/kill-your-culture.html" class="sidebar-link">Kill Your Culture</a>
+<a href="../brands/king-palm.html" class="sidebar-link">King Palm</a>
+<a href="../brands/la-pipes.html" class="sidebar-link">LA Pipes</a>
+<a href="../brands/leafly-water-pipes.html" class="sidebar-link">Leafly Water Pipes</a>
+<a href="../brands/lookah.html" class="sidebar-link">Lookah</a>
+<a href="../brands/mj-arsenal.html" class="sidebar-link">MJ Arsenal</a>
+<a href="../brands/marley-natural.html" class="sidebar-link">Marley Natural</a>
+<a href="../brands/micro.html" class="sidebar-link">Micro</a>
+<a href="../brands/moose-labs.html" class="sidebar-link">Moose Labs</a>
+<a href="../brands/my-bud-vase.html" class="sidebar-link">My Bud Vase</a>
+<a href="../brands/openvape.html" class="sidebar-link">O.penVAPE</a>
+<a href="../brands/ocb-rolling-papers.html" class="sidebar-link">OCB Rolling Papers</a>
+<a href="../brands/ongrok.html" class="sidebar-link">Ongrok</a>
+<a href="../brands/ooze.html" class="sidebar-link">Ooze</a>
+<a href="../brands/orange-chronic.html" class="sidebar-link">Orange Chronic</a>
+<a href="../brands/other.html" class="sidebar-link">Other</a>
+<a href="../brands/pax.html" class="sidebar-link">PAX</a>
+<a href="../brands/pink-formula.html" class="sidebar-link">Pink Formula</a>
+<a href="../brands/powerhitter.html" class="sidebar-link">PowerHitter</a>
+<a href="../brands/primo.html" class="sidebar-link">Primo</a>
+<a href="../brands/prism-pipes.html" class="sidebar-link">Prism Pipes</a>
+<a href="../brands/puffco.html" class="sidebar-link">Puffco</a>
+<a href="../brands/pulsar.html" class="sidebar-link">Pulsar</a>
+<a href="../brands/raw-rolling-papers.html" class="sidebar-link">RAW Rolling Papers</a>
+<a href="../brands/ryot.html" class="sidebar-link">RYOT</a>
+<a href="../brands/randys.html" class="sidebar-link">Randy’s</a>
+<a href="../brands/retro-vapes.html" class="sidebar-link">Retro Vapes</a>
+<a href="../brands/rhythms-of-life.html" class="sidebar-link">Rhythms of Life</a>
+<a href="../brands/ritual.html" class="sidebar-link">Ritual</a>
+<a href="../brands/roast-toast.html" class="sidebar-link">Roast & Toast</a>
+<a href="../brands/rokin-vapes.html" class="sidebar-link">Rokin Vapes</a>
+<a href="../brands/roll-it-club.html" class="sidebar-link">Roll It Club</a>
+<a href="../brands/slx-grinders.html" class="sidebar-link">SLX Grinders</a>
+<a href="../brands/santa-cruz-shredder.html" class="sidebar-link">Santa Cruz Shredder</a>
+<a href="../brands/seshgear.html" class="sidebar-link">SeshGear</a>
+<a href="../brands/session-goods.html" class="sidebar-link">Session Goods</a>
+<a href="../brands/sharpstone.html" class="sidebar-link">SharpStone</a>
+<a href="../brands/shine-rolling-papers.html" class="sidebar-link">Shine Rolling Papers</a>
+<a href="../brands/smoke-source.html" class="sidebar-link">Smoke Source</a>
+<a href="../brands/smokebuddy.html" class="sidebar-link">Smokebuddy</a>
+<a href="../brands/snowtree.html" class="sidebar-link">Snowtree</a>
+<a href="../brands/social-smoking.html" class="sidebar-link">Social Smoking</a>
+<a href="../brands/softglass.html" class="sidebar-link">Softglass</a>
+<a href="../brands/stache-products.html" class="sidebar-link">Stache Products</a>
+<a href="../brands/storz-bickel.html" class="sidebar-link">Storz & Bickel</a>
+<a href="../brands/stündenglass.html" class="sidebar-link">Stündenglass</a>
+<a href="../brands/the-kind-pen.html" class="sidebar-link">The Kind Pen</a>
+<a href="../brands/thick-ass-glass.html" class="sidebar-link">Thick Ass Glass</a>
+<a href="../brands/thug-life.html" class="sidebar-link">Thug Life</a>
+<a href="../brands/v-syndicate.html" class="sidebar-link">V Syndicate</a>
+<a href="../brands/vibes.html" class="sidebar-link">VIBES</a>
+<a href="../brands/vapium.html" class="sidebar-link">Vapium</a>
+<a href="../brands/wake-bake.html" class="sidebar-link">Wake & Bake</a>
+<a href="../brands/weedgets.html" class="sidebar-link">Weedgets</a>
+<a href="../brands/white-rhino.html" class="sidebar-link">White Rhino</a>
+<a href="../brands/wulf-mods.html" class="sidebar-link">Wulf Mods</a>
+<a href="../brands/xvape.html" class="sidebar-link">Xvape</a>
+<a href="../brands/yocan.html" class="sidebar-link">Yocan</a>
+<a href="../brands/zenco.html" class="sidebar-link">Zenco</a>
+<a href="../brands/zig-zag.html" class="sidebar-link">Zig-Zag</a></nav>
+        
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="banner">DISCORD GROUP BUY &nbsp;·&nbsp; FAST SHIPPING FROM MISSISSIPPI</div>
+
+        <!-- Mobile header -->
+        <div class="mobile-header">
+            <div class="mobile-header-logo">Pixie's <span>Pantry</span></div>
+            <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+
+        <div class="main-content">
             
-    <div class="card" onclick="openModal('CCELL Stylo 510 Cartridge Vape Battery | 500mAh | Assorted Colors | 10ct Display')">
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <h1>Vape Battery for Cartridges</h1>
+                <p id="result-count">29 products</p>
+            </div>
+            <div class="toolbar-right">
+                <select id="brandFilter" class="filter-select" onchange="applyFilters()">
+                    <option value="all">All Brands</option><option value="CCELL">CCELL</option><option value="Dr. Dabber">Dr. Dabber</option><option value="O.penVAPE">O.penVAPE</option><option value="Ooze">Ooze</option><option value="Pulsar">Pulsar</option><option value="Ritual">Ritual</option><option value="Rokin Vapes">Rokin Vapes</option><option value="Stache Products">Stache Products</option><option value="The Kind Pen">The Kind Pen</option><option value="Wulf Mods">Wulf Mods</option><option value="Yocan">Yocan</option>
+                </select>
+                <select id="sortSelect" class="filter-select" onchange="sortGrid()">
+                    <option value="default">Sort</option>
+                    <option value="price-low">Price: Low → High</option>
+                    <option value="price-high">Price: High → Low</option>
+                    <option value="name-az">Name A–Z</option>
+                </select>
+            </div>
+        </div>
+        <div class="grid"><div class="card"
+         data-name="ccell stylo 510 cartridge vape battery | 500mah | assorted colors | 10ct display"
+         data-price="97.99"
+         data-brand="ccell"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "CCELL Stylo 510 Cartridge Vape Battery | 500mAh | Assorted Colors | 10ct Display", "brand": "CCELL", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-stylo-510-cartridge-vape-battery-display_1.webp?v=1762301440", "Variants": [{"name": "Standard", "sku": "V1172", "price": 97.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-stylo-510-cartridge-vape-battery-display_1.webp?v=1762301440"}], "Description": "CCELL Stylo 510 Cartridge Vape Battery  500mAh  Assorted Colors  10ct Display", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-stylo-510-cartridge-vape-battery-display_1.webp?v=1762301440"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('CCELL Stylo 510 Cartridge Vape Battery | 500mAh | Assorted Colors | 10ct Display')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-stylo-510-cartridge-vape-battery-display_1.webp?v=1762301440" alt="CCELL Stylo 510 Cartridge Vape Battery | 500mAh | Assorted Colors | 10ct Display" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">CCELL</div>
+            <div class="title">CCELL Stylo 510 Cartridge Vape Battery | 500mAh | Assorted Colors | 10ct Display</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$97.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="ccell go stik"
+         data-price="13.99"
+         data-brand="ccell"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "CCELL Go Stik", "brand": "CCELL", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-go-stik-2.jpg?v=1748595478", "Variants": [{"name": "Electric Blue", "sku": "CCELL-510V-GOSTK-ELCBL", "price": 13.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-go-stik-2.jpg?v=1748595478"}, {"name": "Lavender", "sku": "CCELL-510V-GOSTK-LVNDR", "price": 13.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-go-stik-2.jpg?v=1748595478"}, {"name": "Emerald Green", "sku": "CCELL-510V-GOSTK-EMRLD", "price": 13.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-go-stik-2.jpg?v=1748595478"}, {"name": "Onyx Black", "sku": "CCELL-510V-GOSTK-ONYX", "price": 13.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-go-stik-2.jpg?v=1748595478"}, {"name": "Sunrise Pine", "sku": "CCELL-510V-GOSTK-SNRSPNE", "price": 13.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-go-stik-2.jpg?v=1748595478"}, {"name": "Sunset Blush", "sku": "CCELL-510V-GOSTK-SNSTBLSH", "price": 13.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-go-stik-2.jpg?v=1748595478"}], "Description": "CCELL Go Stik", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-go-stik-2.jpg?v=1748595478"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('CCELL Go Stik')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-go-stik-2.jpg?v=1748595478" alt="CCELL Go Stik" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">CCELL</div>
+            <div class="title">CCELL Go Stik</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$13.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="ritual dagger cartridge vaporizer"
+         data-price="13.99"
+         data-brand="ritual"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Ritual Dagger Cartridge Vaporizer", "brand": "Ritual", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ritual-Dagger-Oil-Vaporizer.jpg?v=1748595768", "Variants": [{"name": "White", "sku": "RITUAL-DAGGER-WHITE-SINGLE", "price": 13.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ritual-Dagger-Oil-Vaporizer.jpg?v=1748595768"}, {"name": "Silver", "sku": "RITUAL-DAGGER-SLVR-SINGLE", "price": 13.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ritual-Dagger-Oil-Vaporizer.jpg?v=1748595768"}, {"name": "Red", "sku": "RITUAL-DAGGER-RED-SINGLE", "price": 13.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ritual-Dagger-Oil-Vaporizer.jpg?v=1748595768"}, {"name": "Black", "sku": "RITUAL-DAGGER-BLK-SINGLE", "price": 13.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ritual-Dagger-Oil-Vaporizer.jpg?v=1748595768"}], "Description": "Ritual Dagger Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ritual-Dagger-Oil-Vaporizer.jpg?v=1748595768"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Ritual Dagger Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ritual-Dagger-Oil-Vaporizer.jpg?v=1748595768" alt="Ritual Dagger Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Ritual</div>
+            <div class="title">Ritual Dagger Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$13.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="ccell sandwave cartridge vaporizer"
+         data-price="23.99"
+         data-brand="ccell"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "CCELL Sandwave Cartridge Vaporizer", "brand": "CCELL", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CCell-Sandwave-Cartridge-Vape.jpg?v=1748595863", "Variants": [{"name": "Coral Pink", "sku": "CC-SW-CP", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CCell-Sandwave-Cartridge-Vape.jpg?v=1748595863"}, {"name": "Lavender", "sku": "CC-SW-LV", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CCell-Sandwave-Cartridge-Vape.jpg?v=1748595863"}, {"name": "Marine Green", "sku": "CC-SW-MA", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CCell-Sandwave-Cartridge-Vape.jpg?v=1748595863"}, {"name": "Midnight Black", "sku": "CC-SW-MB", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CCell-Sandwave-Cartridge-Vape.jpg?v=1748595863"}, {"name": "Mint Green", "sku": "CC-SW-MG", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CCell-Sandwave-Cartridge-Vape.jpg?v=1748595863"}, {"name": "Tropical Yellow", "sku": "CC-SW-TY", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CCell-Sandwave-Cartridge-Vape.jpg?v=1748595863"}], "Description": "CCELL Sandwave Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CCell-Sandwave-Cartridge-Vape.jpg?v=1748595863"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('CCELL Sandwave Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CCell-Sandwave-Cartridge-Vape.jpg?v=1748595863" alt="CCELL Sandwave Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">CCELL</div>
+            <div class="title">CCELL Sandwave Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$23.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="kind pen twist vape battery + smart usb"
+         data-price="18.99"
+         data-brand="the kind pen"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Kind Pen Twist Vape Battery + Smart USB", "brand": "The Kind Pen", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127", "Variants": [{"name": "Silver", "sku": "655295788760", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "Gold", "sku": "655295788777", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "Gun Metal", "sku": "655295788784", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "Iridescent", "sku": "655295788791", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "Rose Gold", "sku": "680270855717", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "Black & Gold", "sku": "684753864692", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "Red", "sku": "684753864708", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "White & Gold", "sku": "684753864715", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "Gray", "sku": "684753864722", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "Green & Gold", "sku": "684753864739", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "Teal", "sku": "684753864746", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "Orange", "sku": "684753864753", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "Purple", "sku": "684753864760", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}, {"name": "Pink", "sku": "684753865101", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"}], "Description": "Kind Pen Twist Vape Battery  Smart USB", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Kind Pen Twist Vape Battery + Smart USB')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127" alt="Kind Pen Twist Vape Battery + Smart USB" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">The Kind Pen</div>
+            <div class="title">Kind Pen Twist Vape Battery + Smart USB</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$18.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="kind pen highkey cartridge vaporizer"
+         data-price="26.99"
+         data-brand="the kind pen"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Kind Pen HighKey Cartridge Vaporizer", "brand": "The Kind Pen", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-HighKey-Cartridge-Vaporizer.jpg?v=1748596176", "Variants": [{"name": "Black", "sku": "655295788869", "price": 26.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-HighKey-Cartridge-Vaporizer.jpg?v=1748596176"}, {"name": "Blue", "sku": "655295788890", "price": 26.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-HighKey-Cartridge-Vaporizer.jpg?v=1748596176"}, {"name": "Gray", "sku": "655295788906", "price": 26.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-HighKey-Cartridge-Vaporizer.jpg?v=1748596176"}, {"name": "Green", "sku": "655295788913", "price": 26.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-HighKey-Cartridge-Vaporizer.jpg?v=1748596176"}, {"name": "Red", "sku": "655295788876", "price": 26.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-HighKey-Cartridge-Vaporizer.jpg?v=1748596176"}, {"name": "White", "sku": "655295788883", "price": 26.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-HighKey-Cartridge-Vaporizer.jpg?v=1748596176"}], "Description": "Kind Pen HighKey Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-HighKey-Cartridge-Vaporizer.jpg?v=1748596176"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Kind Pen HighKey Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-HighKey-Cartridge-Vaporizer.jpg?v=1748596176" alt="Kind Pen HighKey Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">The Kind Pen</div>
+            <div class="title">Kind Pen HighKey Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$26.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="stache products skruit cartridge vaporizer"
+         data-price="31.99"
+         data-brand="stache products"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Stache Products Skruit Cartridge Vaporizer", "brand": "Stache Products", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Skruit-Vape-Pen.jpg?v=1748596305", "Variants": [{"name": "Black", "sku": "10SKR01", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Skruit-Vape-Pen.jpg?v=1748596305"}, {"name": "Green", "sku": "10SKR04", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Skruit-Vape-Pen.jpg?v=1748596305"}, {"name": "Red", "sku": "10SKR03", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Skruit-Vape-Pen.jpg?v=1748596305"}, {"name": "Blue", "sku": "10SKR02", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Skruit-Vape-Pen.jpg?v=1748596305"}, {"name": "Purple", "sku": "10SKR05", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Skruit-Vape-Pen.jpg?v=1748596305"}, {"name": "Blue Light Blue", "sku": "11SKR03", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Skruit-Vape-Pen.jpg?v=1748596305"}, {"name": "Red Black", "sku": "11SKR02", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Skruit-Vape-Pen.jpg?v=1748596305"}, {"name": "Yellow Green", "sku": "11SKR01", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Skruit-Vape-Pen.jpg?v=1748596305"}], "Description": "Stache Products Skruit Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Skruit-Vape-Pen.jpg?v=1748596305"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Stache Products Skruit Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Skruit-Vape-Pen.jpg?v=1748596305" alt="Stache Products Skruit Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Stache Products</div>
+            <div class="title">Stache Products Skruit Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$31.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="stache products transparent vape pen battery"
+         data-price="17.99"
+         data-brand="stache products"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Stache Products Transparent Vape Pen Battery", "brand": "Stache Products", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Transparent-Vape-Pen.jpg?v=1748596332", "Variants": [{"name": "Black", "sku": "100TPB01", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Transparent-Vape-Pen.jpg?v=1748596332"}, {"name": "Blue", "sku": "100TPB04", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Transparent-Vape-Pen.jpg?v=1748596332"}, {"name": "Green", "sku": "100TPB02", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Transparent-Vape-Pen.jpg?v=1748596332"}, {"name": "Purple", "sku": "100TPB03", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Transparent-Vape-Pen.jpg?v=1748596332"}, {"name": "Red", "sku": "100TPB05", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Transparent-Vape-Pen.jpg?v=1748596332"}, {"name": "Pink", "sku": "100TPB06", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Transparent-Vape-Pen.jpg?v=1748596332"}], "Description": "Stache Products Transparent Vape Pen Battery", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Transparent-Vape-Pen.jpg?v=1748596332"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Stache Products Transparent Vape Pen Battery')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Transparent-Vape-Pen.jpg?v=1748596332" alt="Stache Products Transparent Vape Pen Battery" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Stache Products</div>
+            <div class="title">Stache Products Transparent Vape Pen Battery</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$17.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="rokin mini tank 2.0 cartridge vape w. water pipe adapter"
+         data-price="33.99"
+         data-brand="rokin vapes"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Rokin Mini Tank 2.0 Cartridge Vape w. Water Pipe Adapter", "brand": "Rokin Vapes", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Mini-Tank-2.0-Vaporizer-Battery.jpg?v=1748596423", "Variants": [{"name": "Black", "sku": "Rokin Mini Tank 2.0- Clear Black", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Mini-Tank-2.0-Vaporizer-Battery.jpg?v=1748596423"}, {"name": "Clear", "sku": "Rokin Mini Tank 2.0- Clear", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Mini-Tank-2.0-Vaporizer-Battery.jpg?v=1748596423"}], "Description": "Rokin Mini Tank 2.0 Cartridge Vape w. Water Pipe Adapter", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Mini-Tank-2.0-Vaporizer-Battery.jpg?v=1748596423"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Rokin Mini Tank 2.0 Cartridge Vape w. Water Pipe Adapter')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Mini-Tank-2.0-Vaporizer-Battery.jpg?v=1748596423" alt="Rokin Mini Tank 2.0 Cartridge Vape w. Water Pipe Adapter" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Rokin Vapes</div>
+            <div class="title">Rokin Mini Tank 2.0 Cartridge Vape w. Water Pipe Adapter</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$33.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="ooze slim twist vape pen battery 2.0 + smart usb"
+         data-price="24.99"
+         data-brand="ooze"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Ooze Slim Twist Vape Pen Battery 2.0 + Smart USB", "brand": "Ooze", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496", "Variants": [{"name": "Panther Black", "sku": "OZ-ST2-BK", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Sapphire Blue", "sku": "OZ-ST2-BL", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Brainstorm", "sku": "OZ-ST2-BS", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Cosmic Chrome", "sku": "OZ-ST2-CC", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Lucky Gold", "sku": "OZ-ST2-GD", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Slime Green", "sku": "OZ-ST2-GN", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Juicy Orange", "sku": "OZ-ST2-OR", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Atomic Pink", "sku": "OZ-ST2-PK", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Polar Pearl", "sku": "OZ-ST2-PO", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Ultra Purple", "sku": "OZ-ST2-PP", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Rainbow", "sku": "OZ-ST2-RB", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Midnight Sun", "sku": "OZ-ST2-MS", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Ruby Red", "sku": "OZ-ST2-RD", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Rose Gold", "sku": "OZ-ST2-RG", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Rasta", "sku": "OZ-ST2-RA", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Aqua Teal", "sku": "OZ-ST2-TL", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Ghost White", "sku": "OZ-ST2-WH", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}, {"name": "Mellow Yellow", "sku": "OZ-ST2-YL", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"}], "Description": "Ooze Slim Twist Vape Pen Battery 2.0  Smart USB", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Ooze Slim Twist Vape Pen Battery 2.0 + Smart USB')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496" alt="Ooze Slim Twist Vape Pen Battery 2.0 + Smart USB" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Ooze</div>
+            <div class="title">Ooze Slim Twist Vape Pen Battery 2.0 + Smart USB</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$24.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="rokin thunder 510-threaded battery"
+         data-price="17.99"
+         data-brand="rokin vapes"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Rokin Thunder 510-Threaded Battery", "brand": "Rokin Vapes", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632", "Variants": [{"name": "Black", "sku": "Thunder Pen - Matte Black", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632"}, {"name": "Light Blue", "sku": "Thunder Pen - Light Blue", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632"}, {"name": "Red", "sku": "Thunder Pen - Red", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632"}, {"name": "Green", "sku": "Thunder Pen - Bright Green", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632"}, {"name": "Purple", "sku": "Thunder Pen - Bright Purple", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632"}, {"name": "Dark Green", "sku": "Thunder Pen - Dark Green", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632"}, {"name": "Red Mahogany", "sku": "Thunder Pen - Red Mahogany", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632"}, {"name": "Navy", "sku": "Thunder Pen - Navy", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632"}, {"name": "Tan", "sku": "Thunder Pen - Tan", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632"}, {"name": "Bone", "sku": "Thunder Pen - Bone", "price": 17.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632"}], "Description": "Rokin Thunder 510-Threaded Battery", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Rokin Thunder 510-Threaded Battery')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632" alt="Rokin Thunder 510-Threaded Battery" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Rokin Vapes</div>
+            <div class="title">Rokin Thunder 510-Threaded Battery</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$17.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="rokin quickdraw 510-threaded auto-draw battery"
+         data-price="12.99"
+         data-brand="rokin vapes"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Rokin QuickDraw 510-Threaded Auto-Draw Battery", "brand": "Rokin Vapes", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-QuickDraw.jpg?v=1748596643", "Variants": [{"name": "Black", "sku": "Quickdraw Battery - Black", "price": 12.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-QuickDraw.jpg?v=1748596643"}, {"name": "Red", "sku": "Quickdraw Battery - Red", "price": 12.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-QuickDraw.jpg?v=1748596643"}, {"name": "Purple", "sku": "Quickdraw Battery - Purple", "price": 12.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-QuickDraw.jpg?v=1748596643"}], "Description": "Rokin QuickDraw 510-Threaded Auto-Draw Battery", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-QuickDraw.jpg?v=1748596643"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Rokin QuickDraw 510-Threaded Auto-Draw Battery')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-QuickDraw.jpg?v=1748596643" alt="Rokin QuickDraw 510-Threaded Auto-Draw Battery" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Rokin Vapes</div>
+            <div class="title">Rokin QuickDraw 510-Threaded Auto-Draw Battery</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$12.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="pulsar obi cartridge vaporizer"
+         data-price="29.99"
+         data-brand="pulsar"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Pulsar Obi Cartridge Vaporizer", "brand": "Pulsar", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Obi-Auto-Draw-Cartridge-Vape.jpg?v=1748596743", "Variants": [{"name": "Black", "sku": "V602BK", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Obi-Auto-Draw-Cartridge-Vape.jpg?v=1748596743"}, {"name": "Alien", "sku": "V602PA", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Obi-Auto-Draw-Cartridge-Vape.jpg?v=1748596743"}, {"name": "Busy Bee", "sku": "V602BB", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Obi-Auto-Draw-Cartridge-Vape.jpg?v=1748596743"}, {"name": "Magic Mushroom", "sku": "V602MM-I", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Obi-Auto-Draw-Cartridge-Vape.jpg?v=1748596743"}, {"name": "Tie-Dye", "sku": "V602TD", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Obi-Auto-Draw-Cartridge-Vape.jpg?v=1748596743"}, {"name": "Honeycomb", "sku": "V671HC-I", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Obi-Auto-Draw-Cartridge-Vape.jpg?v=1748596743"}, {"name": "Meditation", "sku": "V671MED-I", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Obi-Auto-Draw-Cartridge-Vape.jpg?v=1748596743"}], "Description": "Pulsar Obi Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Obi-Auto-Draw-Cartridge-Vape.jpg?v=1748596743"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Pulsar Obi Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Obi-Auto-Draw-Cartridge-Vape.jpg?v=1748596743" alt="Pulsar Obi Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Pulsar</div>
+            <div class="title">Pulsar Obi Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$29.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="pulsar phd cartridge vaporizer"
+         data-price="31.99"
+         data-brand="pulsar"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Pulsar PHD Cartridge Vaporizer", "brand": "Pulsar", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-PHD-510-Cartridge-Vaporizer-Battery.jpg?v=1748596755", "Variants": [{"name": "Black", "sku": "V632BK", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-PHD-510-Cartridge-Vaporizer-Battery.jpg?v=1748596755"}, {"name": "Blue", "sku": "V632BL", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-PHD-510-Cartridge-Vaporizer-Battery.jpg?v=1748596755"}, {"name": "Gold", "sku": "V632GD", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-PHD-510-Cartridge-Vaporizer-Battery.jpg?v=1748596755"}, {"name": "Green", "sku": "V632GR", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-PHD-510-Cartridge-Vaporizer-Battery.jpg?v=1748596755"}], "Description": "Pulsar PHD Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-PHD-510-Cartridge-Vaporizer-Battery.jpg?v=1748596755"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Pulsar PHD Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-PHD-510-Cartridge-Vaporizer-Battery.jpg?v=1748596755" alt="Pulsar PHD Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Pulsar</div>
+            <div class="title">Pulsar PHD Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$31.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="pulsar barb flower battery"
+         data-price="39.99"
+         data-brand="pulsar"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Pulsar Barb Flower Battery", "brand": "Pulsar", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Flower-Battery.jpg?v=1748596769", "Variants": [{"name": "Black", "sku": "V592BK", "price": 39.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Flower-Battery.jpg?v=1748596769"}, {"name": "Rainbow", "sku": "V592RB", "price": 39.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Flower-Battery.jpg?v=1748596769"}, {"name": "Silver", "sku": "V592SI", "price": 39.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Flower-Battery.jpg?v=1748596769"}], "Description": "Pulsar Barb Flower Battery", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Flower-Battery.jpg?v=1748596769"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Pulsar Barb Flower Battery')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Flower-Battery.jpg?v=1748596769" alt="Pulsar Barb Flower Battery" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Pulsar</div>
+            <div class="title">Pulsar Barb Flower Battery</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$39.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="pulsar barb fire battery"
+         data-price="39.99"
+         data-brand="pulsar"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Pulsar Barb Fire Battery", "brand": "Pulsar", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Fire-Vape-Battery.jpg?v=1748596762", "Variants": [{"name": "Black", "sku": "V588BK", "price": 39.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Fire-Vape-Battery.jpg?v=1748596762"}, {"name": "Rainbow", "sku": "V588RB", "price": 39.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Fire-Vape-Battery.jpg?v=1748596762"}, {"name": "Silver", "sku": "V588SI", "price": 39.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Fire-Vape-Battery.jpg?v=1748596762"}], "Description": "Pulsar Barb Fire Battery", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Fire-Vape-Battery.jpg?v=1748596762"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Pulsar Barb Fire Battery')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Fire-Vape-Battery.jpg?v=1748596762" alt="Pulsar Barb Fire Battery" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Pulsar</div>
+            <div class="title">Pulsar Barb Fire Battery</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$39.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="pulsar duplocart cartridge vaporizer"
+         data-price="43.99"
+         data-brand="pulsar"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Pulsar DuploCart Cartridge Vaporizer", "brand": "Pulsar", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-DuploCart-Cartridge-Vaporizer.jpg?v=1748596776", "Variants": [{"name": "Standard", "sku": "V559BK", "price": 43.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-DuploCart-Cartridge-Vaporizer.jpg?v=1748596776"}], "Description": "Pulsar DuploCart Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-DuploCart-Cartridge-Vaporizer.jpg?v=1748596776"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Pulsar DuploCart Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-DuploCart-Cartridge-Vaporizer.jpg?v=1748596776" alt="Pulsar DuploCart Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Pulsar</div>
+            <div class="title">Pulsar DuploCart Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$43.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="pulsar duplocart h2o cartridge battery w. water pipe adapter"
+         data-price="53.99"
+         data-brand="pulsar"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Pulsar DuploCart H2O Cartridge Battery w. Water Pipe Adapter", "brand": "Pulsar", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-DuploCart-H2O-Oil-Cartridge-Battery_487bee65-c640-470d-bf5b-005ece629eb6.jpg?v=1749598464", "Variants": [{"name": "Black", "sku": "V670BK-I", "price": 53.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-DuploCart-H2O-Oil-Cartridge-Battery_487bee65-c640-470d-bf5b-005ece629eb6.jpg?v=1749598464"}, {"name": "Blue", "sku": "V670SB-I", "price": 53.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-DuploCart-H2O-Oil-Cartridge-Battery_487bee65-c640-470d-bf5b-005ece629eb6.jpg?v=1749598464"}], "Description": "Pulsar DuploCart H2O Cartridge Battery w. Water Pipe Adapter", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-DuploCart-H2O-Oil-Cartridge-Battery_487bee65-c640-470d-bf5b-005ece629eb6.jpg?v=1749598464"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Pulsar DuploCart H2O Cartridge Battery w. Water Pipe Adapter')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-DuploCart-H2O-Oil-Cartridge-Battery_487bee65-c640-470d-bf5b-005ece629eb6.jpg?v=1749598464" alt="Pulsar DuploCart H2O Cartridge Battery w. Water Pipe Adapter" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Pulsar</div>
+            <div class="title">Pulsar DuploCart H2O Cartridge Battery w. Water Pipe Adapter</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$53.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="yocan uni s - fully universal cartridge vaporizer"
+         data-price="34.99"
+         data-brand="yocan"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Yocan UNI S - Fully Universal Cartridge Vaporizer", "brand": "Yocan", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-S-Cartridge-Vaporizer.jpg?v=1748596887", "Variants": [{"name": "Black", "sku": "YO-UNIS-BK", "price": 34.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-S-Cartridge-Vaporizer.jpg?v=1748596887"}, {"name": "Silver", "sku": "YO-UNIS-SL", "price": 34.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-S-Cartridge-Vaporizer.jpg?v=1748596887"}, {"name": "Apple Green", "sku": "YO-UNIS-AG", "price": 34.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-S-Cartridge-Vaporizer.jpg?v=1748596887"}, {"name": "Red", "sku": "YO-UNIS-RD", "price": 34.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-S-Cartridge-Vaporizer.jpg?v=1748596887"}, {"name": "Powder Blue", "sku": "YO-UNIS-PB", "price": 34.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-S-Cartridge-Vaporizer.jpg?v=1748596887"}], "Description": "Yocan UNI S - Fully Universal Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-S-Cartridge-Vaporizer.jpg?v=1748596887"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Yocan UNI S - Fully Universal Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-S-Cartridge-Vaporizer.jpg?v=1748596887" alt="Yocan UNI S - Fully Universal Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Yocan</div>
+            <div class="title">Yocan UNI S - Fully Universal Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$34.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="yocan uni pro 2.0 - universal cartridge vaporizer"
+         data-price="49.99"
+         data-brand="yocan"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Yocan UNI Pro 2.0 - Universal Cartridge Vaporizer", "brand": "Yocan", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874", "Variants": [{"name": "Orange", "sku": "YO-UNIP2-OR", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"}, {"name": "Black", "sku": "YO-UNIP2-BK", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"}, {"name": "Silver", "sku": "YO-UNIP2-SL", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"}, {"name": "White", "sku": "YO-UNIP2-WH", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"}, {"name": "Grey", "sku": "YO-UNIP2-GY", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"}, {"name": "Green", "sku": "YO-UNIP2-GN", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"}, {"name": "Teal", "sku": "YO-UNIP2-TL", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"}, {"name": "Red", "sku": "YO-UNIP2-RD", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"}, {"name": "Purple", "sku": "YO-UNIP2-PP", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"}, {"name": "Navy Blue", "sku": "YO-UNIP2-NB", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"}, {"name": "Rose Gold", "sku": "YO-UNIP2-RG", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"}, {"name": "Champagne Gold", "sku": "YO-UNIP2-CG", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"}], "Description": "Yocan UNI Pro 2.0 - Universal Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Yocan UNI Pro 2.0 - Universal Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874" alt="Yocan UNI Pro 2.0 - Universal Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Yocan</div>
+            <div class="title">Yocan UNI Pro 2.0 - Universal Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$49.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="pulsar gigi h2o cartridge battery w. water pipe adapter"
+         data-price="32.99"
+         data-brand="pulsar"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Pulsar GiGi H2O Cartridge Battery w. Water Pipe Adapter", "brand": "Pulsar", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-GiGi-H2O-Vaporizer_2dac11b1-0329-4300-9827-fa3f93cfc8c2.jpg?v=1749598381", "Variants": [{"name": "Black", "sku": "V660BK", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-GiGi-H2O-Vaporizer_2dac11b1-0329-4300-9827-fa3f93cfc8c2.jpg?v=1749598381"}, {"name": "Blue", "sku": "V660BL", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-GiGi-H2O-Vaporizer_2dac11b1-0329-4300-9827-fa3f93cfc8c2.jpg?v=1749598381"}, {"name": "Thermo Orange & Yellow", "sku": "V660ORYL", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-GiGi-H2O-Vaporizer_2dac11b1-0329-4300-9827-fa3f93cfc8c2.jpg?v=1749598381"}, {"name": "Thermo Purple & Pink", "sku": "V660PUPK", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-GiGi-H2O-Vaporizer_2dac11b1-0329-4300-9827-fa3f93cfc8c2.jpg?v=1749598381"}, {"name": "Gun Metal", "sku": "V660GM", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-GiGi-H2O-Vaporizer_2dac11b1-0329-4300-9827-fa3f93cfc8c2.jpg?v=1749598381"}, {"name": "Steel Blue", "sku": "V660SB", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-GiGi-H2O-Vaporizer_2dac11b1-0329-4300-9827-fa3f93cfc8c2.jpg?v=1749598381"}, {"name": "Glow", "sku": "pulsar-gigi-h2o-cartridge-battery-w-water-pipe-adapter", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-GiGi-H2O-Vaporizer_2dac11b1-0329-4300-9827-fa3f93cfc8c2.jpg?v=1749598381"}], "Description": "Pulsar GiGi H2O Cartridge Battery w. Water Pipe Adapter", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-GiGi-H2O-Vaporizer_2dac11b1-0329-4300-9827-fa3f93cfc8c2.jpg?v=1749598381"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Pulsar GiGi H2O Cartridge Battery w. Water Pipe Adapter')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-GiGi-H2O-Vaporizer_2dac11b1-0329-4300-9827-fa3f93cfc8c2.jpg?v=1749598381" alt="Pulsar GiGi H2O Cartridge Battery w. Water Pipe Adapter" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Pulsar</div>
+            <div class="title">Pulsar GiGi H2O Cartridge Battery w. Water Pipe Adapter</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$32.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="ooze slim pen twist vape pen battery + smart usb"
+         data-price="23.99"
+         data-brand="ooze"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Ooze Slim Pen Twist Vape Pen Battery + Smart USB", "brand": "Ooze", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936", "Variants": [{"name": "Black", "sku": "OOZ-SLIMTW-BK", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Blue", "sku": "OOZ-SLIMTW-BL", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Gold", "sku": "OOZ-SLIMTW-GD", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Green", "sku": "OOZ-SLIMTW-GN", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Orange", "sku": "OOZ-SLIMTW-OR", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Purple", "sku": "OOZ-SLIMTW-PP", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Rose Gold", "sku": "OOZ-SLIMTW-RG", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Silver", "sku": "OOZ-SLIMTW-CH", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "White", "sku": "OOZ-SLIMTW-WH", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Rasta", "sku": "OOZ-SLIMTW-RA", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Rainbow", "sku": "OOZ-SLIMTW-RB", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Pink", "sku": "OOZ-SLIMTW-PK", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Teal", "sku": "OOZ-SLIMTW-TL", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Yellow", "sku": "OOZ-SLIMTW-YL", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}, {"name": "Red", "sku": "OOZ-SLIMTW-RD", "price": 23.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"}], "Description": "Ooze Slim Pen Twist Vape Pen Battery  Smart USB", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Ooze Slim Pen Twist Vape Pen Battery + Smart USB')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936" alt="Ooze Slim Pen Twist Vape Pen Battery + Smart USB" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Ooze</div>
+            <div class="title">Ooze Slim Pen Twist Vape Pen Battery + Smart USB</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$23.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="stache products slim 510-thread vaporizer pen battery"
+         data-price="16.99"
+         data-brand="stache products"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Stache Products Slim 510-Thread Vaporizer Pen Battery", "brand": "Stache Products", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Slim-Battery.jpg?v=1748597020", "Variants": [{"name": "Black", "sku": "30SLM01", "price": 16.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Slim-Battery.jpg?v=1748597020"}, {"name": "Blue", "sku": "30SLM02", "price": 16.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Slim-Battery.jpg?v=1748597020"}, {"name": "Green", "sku": "30SLM03", "price": 16.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Slim-Battery.jpg?v=1748597020"}, {"name": "Purple", "sku": "30SLM06", "price": 16.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Slim-Battery.jpg?v=1748597020"}, {"name": "Red", "sku": "30SLM04", "price": 16.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Slim-Battery.jpg?v=1748597020"}, {"name": "Limited Edition - Onyx", "sku": "60SLM20", "price": 21.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Slim-Battery.jpg?v=1748597020"}, {"name": "Limited Edition - Rainbow", "sku": "60SLM18", "price": 21.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Slim-Battery.jpg?v=1748597020"}, {"name": "Limited Edition - Gold", "sku": "60SLM15", "price": 21.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Slim-Battery.jpg?v=1748597020"}], "Description": "Stache Products Slim 510-Thread Vaporizer Pen Battery", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Slim-Battery.jpg?v=1748597020"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Stache Products Slim 510-Thread Vaporizer Pen Battery')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Slim-Battery.jpg?v=1748597020" alt="Stache Products Slim 510-Thread Vaporizer Pen Battery" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Stache Products</div>
+            <div class="title">Stache Products Slim 510-Thread Vaporizer Pen Battery</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$16.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="wulf yocan uni pro universal cartridge vaporizer"
+         data-price="37.99"
+         data-brand="wulf mods"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Wulf Yocan UNI Pro Universal Cartridge Vaporizer", "brand": "Wulf Mods", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-UNI-Pro-Cartridge_Vaporizer.jpg?v=1748597315", "Variants": [{"name": "Teal & Black", "sku": "WF-UNIPRO-TB", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-UNI-Pro-Cartridge_Vaporizer.jpg?v=1748597315"}, {"name": "Purple & Black", "sku": "WF-UNIPRO-PPB", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-UNI-Pro-Cartridge_Vaporizer.jpg?v=1748597315"}, {"name": "Pink & Black", "sku": "WF-UNIPRO-PKB", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-UNI-Pro-Cartridge_Vaporizer.jpg?v=1748597315"}, {"name": "Black & Green", "sku": "WF-UNIPRO-BG", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-UNI-Pro-Cartridge_Vaporizer.jpg?v=1748597315"}, {"name": "Black & Red", "sku": "WF-UNIPRO-BR", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-UNI-Pro-Cartridge_Vaporizer.jpg?v=1748597315"}, {"name": "Black & White", "sku": "WF-UNIPRO-BW", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-UNI-Pro-Cartridge_Vaporizer.jpg?v=1748597315"}, {"name": "White & Black", "sku": "WF-UNIPRO-WB", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-UNI-Pro-Cartridge_Vaporizer.jpg?v=1748597315"}, {"name": "White & Red", "sku": "WF-UNIPRO-WR", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-UNI-Pro-Cartridge_Vaporizer.jpg?v=1748597315"}], "Description": "Wulf Yocan UNI Pro Universal Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-UNI-Pro-Cartridge_Vaporizer.jpg?v=1748597315"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Wulf Yocan UNI Pro Universal Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-UNI-Pro-Cartridge_Vaporizer.jpg?v=1748597315" alt="Wulf Yocan UNI Pro Universal Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Wulf Mods</div>
+            <div class="title">Wulf Yocan UNI Pro Universal Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$37.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="yocan uni twist - fully universal cartridge vaporizer"
+         data-price="37.99"
+         data-brand="yocan"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Yocan UNI Twist - Fully Universal Cartridge Vaporizer", "brand": "Yocan", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Uni-Twist-Universal-Box-Mod-Vaporizer.jpg?v=1748597385", "Variants": [{"name": "Black", "sku": "YO-UNIT-BK", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Uni-Twist-Universal-Box-Mod-Vaporizer.jpg?v=1748597385"}, {"name": "Blue", "sku": "YO-UNIT-BL", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Uni-Twist-Universal-Box-Mod-Vaporizer.jpg?v=1748597385"}, {"name": "Green", "sku": "YO-UNIT-GN", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Uni-Twist-Universal-Box-Mod-Vaporizer.jpg?v=1748597385"}, {"name": "Red", "sku": "YO-UNIT-RD", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Uni-Twist-Universal-Box-Mod-Vaporizer.jpg?v=1748597385"}, {"name": "Silver", "sku": "YO-UNIT-SL", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Uni-Twist-Universal-Box-Mod-Vaporizer.jpg?v=1748597385"}], "Description": "Yocan UNI Twist - Fully Universal Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Uni-Twist-Universal-Box-Mod-Vaporizer.jpg?v=1748597385"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Yocan UNI Twist - Fully Universal Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Uni-Twist-Universal-Box-Mod-Vaporizer.jpg?v=1748597385" alt="Yocan UNI Twist - Fully Universal Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Yocan</div>
+            <div class="title">Yocan UNI Twist - Fully Universal Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$37.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="yocan uni pro - universal cartridge vaporizer"
+         data-price="37.99"
+         data-brand="yocan"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Yocan UNI Pro - Universal Cartridge Vaporizer", "brand": "Yocan", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190", "Variants": [{"name": "Airy Blue", "sku": "TW-YOCAN-UNI-PRO-CARTRIDGE-VAPORIZER-Airy-Blue", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190"}, {"name": "Dark Blue", "sku": "TW-YOCAN-UNI-PRO-CARTRIDGE-VAPORIZER-Dark-Blue", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190"}, {"name": "Matte Black", "sku": "TW-YOCAN-UNI-PRO-CARTRIDGE-VAPORIZER-Matte-Black", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190"}, {"name": "Champagne", "sku": "TW-YOCAN-UNI-PRO-CARTRIDGE-VAPORIZER-Champagne", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190"}, {"name": "Lime Green", "sku": "TW-YOCAN-UNI-PRO-CARTRIDGE-VAPORIZER-Green", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190"}, {"name": "Apple Green", "sku": "TW-YOCAN-UNI-PRO-CARTRIDGE-VAPORIZER-Apple-Green", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190"}, {"name": "Red", "sku": "TW-YOCAN-UNI-PRO-CARTRIDGE-VAPORIZER-Red", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190"}, {"name": "Purple", "sku": "TW-YOCAN-UNI-PRO-CARTRIDGE-VAPORIZER-Purple", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190"}, {"name": "Rosy", "sku": "TW-YOCAN-UNI-PRO-CARTRIDGE-VAPORIZER-Rosy", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190"}, {"name": "White", "sku": "TW-YOCAN-UNI-PRO-CARTRIDGE-VAPORIZER-White", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190"}, {"name": "Silver", "sku": "TW-YOCAN-UNI-PRO-CARTRIDGE-VAPORIZER-Silver", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190"}], "Description": "Yocan UNI Pro - Universal Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Yocan UNI Pro - Universal Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190" alt="Yocan UNI Pro - Universal Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Yocan</div>
+            <div class="title">Yocan UNI Pro - Universal Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$37.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="yocan uni - fully universal cartridge vaporizer"
+         data-price="29.99"
+         data-brand="yocan"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Yocan UNI - Fully Universal Cartridge Vaporizer", "brand": "Yocan", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763", "Variants": [{"name": "Black/Black", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-1", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Mint Green", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-2", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Smokey Gray", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-3", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Matte Gold", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-4", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "White", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-5", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Airy Blue", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-6", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Black/Silver", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-7", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Silver/Silver", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-8", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Red/Silver", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-9", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Blue/Silver", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-10", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Blue/Red/Yellow", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-BRY-11", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Bright Gold", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-GOLD-12", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Rasta", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-RASTA-13", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Blue/Purple", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-BLURPLE-14", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Camo", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-Camo-15", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}, {"name": "Rainbow", "sku": "YOCAN-UNI-CARTRIDGE-VAPORIZER-Camo-16", "price": 29.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"}], "Description": "Yocan UNI - Fully Universal Cartridge Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Yocan UNI - Fully Universal Cartridge Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763" alt="Yocan UNI - Fully Universal Cartridge Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Yocan</div>
+            <div class="title">Yocan UNI - Fully Universal Cartridge Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$29.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="o.pen 510-thread vaporizer pen battery 2.0"
+         data-price="37.99"
+         data-brand="o.penvape"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "O.pen 510-Thread Vaporizer Pen Battery 2.0", "brand": "O.penVAPE", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863", "Variants": [{"name": "Black", "sku": "TW-RESTRICTED-OP-BATT-2 : OP-BATT-2-BLK", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "Blue", "sku": "TW-RESTRICTED-OP-BATT-2 : OP-BATT-2-BLU", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "Gold", "sku": "TW-RESTRICTED-OP-BATT-2 : OP-BATT-2-GLD", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "Green", "sku": "TW-RESTRICTED-345455", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "Orange", "sku": "TW-RESTRICTED-6463352352", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "Purple", "sku": "TW-RESTRICTED-OP-BATT-2 : OP-BATT-2-PUR", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "Rose Gold", "sku": "TW-RESTRICTED-OP-BATT-2 : OP-BATT-2-RSE", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "Silver", "sku": "TW-RESTRICTED-OP-BATT-2 : OP-BATT-2-SLV", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "White", "sku": "TW-RESTRICTED-OP-BATT-2 : OP-BATT-2-WHI", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "Wood Grain", "sku": "TW-RESTRICTED-OP-BATT-2 : OP-BATT-2-WOOD", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "American Flag", "sku": "o-pen-510-thread-vaporizer-pen-battery-2-0", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "Digital Camo", "sku": "o-pen-510-thread-vaporizer-pen-battery-2-0", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "California", "sku": "o-pen-510-thread-vaporizer-pen-battery-2-0", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}, {"name": "Colorado", "sku": "o-pen-510-thread-vaporizer-pen-battery-2-0", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"}], "Description": "O.pen 510-Thread Vaporizer Pen Battery 2.0", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('O.pen 510-Thread Vaporizer Pen Battery 2.0')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863" alt="O.pen 510-Thread Vaporizer Pen Battery 2.0" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">O.penVAPE</div>
+            <div class="title">O.pen 510-Thread Vaporizer Pen Battery 2.0</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$37.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="dr. dabber ghost battery 🔋"
+         data-price="39.99"
+         data-brand="dr. dabber"
+         data-cat="vape battery for cartridges"
+         onclick="openModal(this)"
+         data-product='{"name": "Dr. Dabber Ghost Battery \ud83d\udd0b", "brand": "Dr. Dabber", "category": "Vape Battery for Cartridges", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/56305505-8B9C-429A-94F9-EBF9F9E14204.jpg?v=1748598928", "Variants": [{"name": "Standard", "sku": "RESTRICTED-DRD-GHOST-BATT : DRD-GHOST-BATT-BLK", "price": 39.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/56305505-8B9C-429A-94F9-EBF9F9E14204.jpg?v=1748598928"}], "Description": "Dr. Dabber Ghost Battery", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/56305505-8B9C-429A-94F9-EBF9F9E14204.jpg?v=1748598928"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Dr. Dabber Ghost Battery 🔋')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/56305505-8B9C-429A-94F9-EBF9F9E14204.jpg?v=1748598928" alt="Dr. Dabber Ghost Battery 🔋" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Dr. Dabber</div>
+            <div class="title">Dr. Dabber Ghost Battery 🔋</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$39.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div></div>
         
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('CCELL Stylo 510 Cartridge Vape Battery | 500mAh | Assorted Colors | 10ct Display')">
-        <i class="fa-solid fa-link"></i>
+        </div>
+
+        <footer style="padding:50px 48px; border-top:1px solid var(--border); text-align:center; color:var(--muted); font-size:0.8em; letter-spacing:1.5px;">
+            &copy; 2026 PIXIE'S PANTRY &nbsp;|&nbsp; HARDWARE HUB &nbsp;|&nbsp; MISSISSIPPI, USA
+        </footer>
     </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-stylo-510-cartridge-vape-battery-display_1.webp?v=1762301440" loading="lazy"></div>
-        <div class="brand-badge">CCELL</div>
-        <div class="title">CCELL Stylo 510 Cartridge Vape Battery | 500mAh | Assorted Colors | 10ct Display</div>
-        <div class="price">From $97.99</div>
-    </div>
-    <div class="card" onclick="openModal('CCELL Go Stik')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('CCELL Go Stik')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ccell-go-stik-2.jpg?v=1748595478" loading="lazy"></div>
-        <div class="brand-badge">CCELL</div>
-        <div class="title">CCELL Go Stik</div>
-        <div class="price">From $13.99</div>
-    </div>
-    <div class="card" onclick="openModal('Ritual Dagger Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Ritual Dagger Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ritual-Dagger-Oil-Vaporizer.jpg?v=1748595768" loading="lazy"></div>
-        <div class="brand-badge">Ritual</div>
-        <div class="title">Ritual Dagger Cartridge Vaporizer</div>
-        <div class="price">From $13.99</div>
-    </div>
-    <div class="card" onclick="openModal('CCELL Sandwave Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('CCELL Sandwave Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CCell-Sandwave-Cartridge-Vape.jpg?v=1748595863" loading="lazy"></div>
-        <div class="brand-badge">CCELL</div>
-        <div class="title">CCELL Sandwave Cartridge Vaporizer</div>
-        <div class="price">From $23.99</div>
-    </div>
-    <div class="card" onclick="openModal('Kind Pen Twist Vape Battery + Smart USB')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Kind Pen Twist Vape Battery + Smart USB')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Twist-Vape.jpg?v=1748596127" loading="lazy"></div>
-        <div class="brand-badge">The Kind Pen</div>
-        <div class="title">Kind Pen Twist Vape Battery + Smart USB</div>
-        <div class="price">From $18.99</div>
-    </div>
-    <div class="card" onclick="openModal('Kind Pen HighKey Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Kind Pen HighKey Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-HighKey-Cartridge-Vaporizer.jpg?v=1748596176" loading="lazy"></div>
-        <div class="brand-badge">The Kind Pen</div>
-        <div class="title">Kind Pen HighKey Cartridge Vaporizer</div>
-        <div class="price">From $26.99</div>
-    </div>
-    <div class="card" onclick="openModal('Stache Products Skruit Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Stache Products Skruit Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Skruit-Vape-Pen.jpg?v=1748596305" loading="lazy"></div>
-        <div class="brand-badge">Stache Products</div>
-        <div class="title">Stache Products Skruit Cartridge Vaporizer</div>
-        <div class="price">From $31.99</div>
-    </div>
-    <div class="card" onclick="openModal('Stache Products Transparent Vape Pen Battery')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Stache Products Transparent Vape Pen Battery')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Transparent-Vape-Pen.jpg?v=1748596332" loading="lazy"></div>
-        <div class="brand-badge">Stache Products</div>
-        <div class="title">Stache Products Transparent Vape Pen Battery</div>
-        <div class="price">From $17.99</div>
-    </div>
-    <div class="card" onclick="openModal('Rokin Mini Tank 2.0 Cartridge Vape w. Water Pipe Adapter')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Rokin Mini Tank 2.0 Cartridge Vape w. Water Pipe Adapter')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Mini-Tank-2.0-Vaporizer-Battery.jpg?v=1748596423" loading="lazy"></div>
-        <div class="brand-badge">Rokin Vapes</div>
-        <div class="title">Rokin Mini Tank 2.0 Cartridge Vape w. Water Pipe Adapter</div>
-        <div class="price">From $33.99</div>
-    </div>
-    <div class="card" onclick="openModal('Ooze Slim Twist Vape Pen Battery 2.0 + Smart USB')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Ooze Slim Twist Vape Pen Battery 2.0 + Smart USB')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Twist-Vape-Pen-Battery-2.0-Brainstorm.jpg?v=1748596496" loading="lazy"></div>
-        <div class="brand-badge">Ooze</div>
-        <div class="title">Ooze Slim Twist Vape Pen Battery 2.0 + Smart USB</div>
-        <div class="price">From $24.99</div>
-    </div>
-    <div class="card" onclick="openModal('Rokin Thunder 510-Threaded Battery')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Rokin Thunder 510-Threaded Battery')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Thunder-510-Threaded-Battery.jpg?v=1748596632" loading="lazy"></div>
-        <div class="brand-badge">Rokin Vapes</div>
-        <div class="title">Rokin Thunder 510-Threaded Battery</div>
-        <div class="price">From $17.99</div>
-    </div>
-    <div class="card" onclick="openModal('Rokin QuickDraw 510-Threaded Auto-Draw Battery')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Rokin QuickDraw 510-Threaded Auto-Draw Battery')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-QuickDraw.jpg?v=1748596643" loading="lazy"></div>
-        <div class="brand-badge">Rokin Vapes</div>
-        <div class="title">Rokin QuickDraw 510-Threaded Auto-Draw Battery</div>
-        <div class="price">From $12.99</div>
-    </div>
-    <div class="card" onclick="openModal('Pulsar Obi Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Pulsar Obi Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Obi-Auto-Draw-Cartridge-Vape.jpg?v=1748596743" loading="lazy"></div>
-        <div class="brand-badge">Pulsar</div>
-        <div class="title">Pulsar Obi Cartridge Vaporizer</div>
-        <div class="price">From $29.99</div>
-    </div>
-    <div class="card" onclick="openModal('Pulsar PHD Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Pulsar PHD Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-PHD-510-Cartridge-Vaporizer-Battery.jpg?v=1748596755" loading="lazy"></div>
-        <div class="brand-badge">Pulsar</div>
-        <div class="title">Pulsar PHD Cartridge Vaporizer</div>
-        <div class="price">From $31.99</div>
-    </div>
-    <div class="card" onclick="openModal('Pulsar Barb Flower Battery')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Pulsar Barb Flower Battery')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Flower-Battery.jpg?v=1748596769" loading="lazy"></div>
-        <div class="brand-badge">Pulsar</div>
-        <div class="title">Pulsar Barb Flower Battery</div>
-        <div class="price">From $39.99</div>
-    </div>
-    <div class="card" onclick="openModal('Pulsar Barb Fire Battery')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Pulsar Barb Fire Battery')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Barb-Fire-Vape-Battery.jpg?v=1748596762" loading="lazy"></div>
-        <div class="brand-badge">Pulsar</div>
-        <div class="title">Pulsar Barb Fire Battery</div>
-        <div class="price">From $39.99</div>
-    </div>
-    <div class="card" onclick="openModal('Pulsar DuploCart Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Pulsar DuploCart Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-DuploCart-Cartridge-Vaporizer.jpg?v=1748596776" loading="lazy"></div>
-        <div class="brand-badge">Pulsar</div>
-        <div class="title">Pulsar DuploCart Cartridge Vaporizer</div>
-        <div class="price">From $43.99</div>
-    </div>
-    <div class="card" onclick="openModal('Pulsar DuploCart H2O Cartridge Battery w. Water Pipe Adapter')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Pulsar DuploCart H2O Cartridge Battery w. Water Pipe Adapter')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-DuploCart-H2O-Oil-Cartridge-Battery_487bee65-c640-470d-bf5b-005ece629eb6.jpg?v=1749598464" loading="lazy"></div>
-        <div class="brand-badge">Pulsar</div>
-        <div class="title">Pulsar DuploCart H2O Cartridge Battery w. Water Pipe Adapter</div>
-        <div class="price">From $53.99</div>
-    </div>
-    <div class="card" onclick="openModal('Yocan UNI S - Fully Universal Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Yocan UNI S - Fully Universal Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-S-Cartridge-Vaporizer.jpg?v=1748596887" loading="lazy"></div>
-        <div class="brand-badge">Yocan</div>
-        <div class="title">Yocan UNI S - Fully Universal Cartridge Vaporizer</div>
-        <div class="price">From $34.99</div>
-    </div>
-    <div class="card" onclick="openModal('Yocan UNI Pro 2.0 - Universal Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Yocan UNI Pro 2.0 - Universal Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-2.0-Fully-Universal-Box-Mod_Vaporizer.jpg?v=1748596874" loading="lazy"></div>
-        <div class="brand-badge">Yocan</div>
-        <div class="title">Yocan UNI Pro 2.0 - Universal Cartridge Vaporizer</div>
-        <div class="price">From $49.99</div>
-    </div>
-    <div class="card" onclick="openModal('Pulsar GiGi H2O Cartridge Battery w. Water Pipe Adapter')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Pulsar GiGi H2O Cartridge Battery w. Water Pipe Adapter')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-GiGi-H2O-Vaporizer_2dac11b1-0329-4300-9827-fa3f93cfc8c2.jpg?v=1749598381" loading="lazy"></div>
-        <div class="brand-badge">Pulsar</div>
-        <div class="title">Pulsar GiGi H2O Cartridge Battery w. Water Pipe Adapter</div>
-        <div class="price">From $32.99</div>
-    </div>
-    <div class="card" onclick="openModal('Ooze Slim Pen Twist Vape Pen Battery + Smart USB')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Ooze Slim Pen Twist Vape Pen Battery + Smart USB')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Slim-Pen-Twist-Battery-Rasta.jpg?v=1748596936" loading="lazy"></div>
-        <div class="brand-badge">Ooze</div>
-        <div class="title">Ooze Slim Pen Twist Vape Pen Battery + Smart USB</div>
-        <div class="price">From $23.99</div>
-    </div>
-    <div class="card" onclick="openModal('Stache Products Slim 510-Thread Vaporizer Pen Battery')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Stache Products Slim 510-Thread Vaporizer Pen Battery')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Stache-Products-Slim-Battery.jpg?v=1748597020" loading="lazy"></div>
-        <div class="brand-badge">Stache Products</div>
-        <div class="title">Stache Products Slim 510-Thread Vaporizer Pen Battery</div>
-        <div class="price">From $16.99</div>
-    </div>
-    <div class="card" onclick="openModal('Wulf Yocan UNI Pro Universal Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Wulf Yocan UNI Pro Universal Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-UNI-Pro-Cartridge_Vaporizer.jpg?v=1748597315" loading="lazy"></div>
-        <div class="brand-badge">Wulf Mods</div>
-        <div class="title">Wulf Yocan UNI Pro Universal Cartridge Vaporizer</div>
-        <div class="price">From $37.99</div>
-    </div>
-    <div class="card" onclick="openModal('Yocan UNI Twist - Fully Universal Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Yocan UNI Twist - Fully Universal Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Uni-Twist-Universal-Box-Mod-Vaporizer.jpg?v=1748597385" loading="lazy"></div>
-        <div class="brand-badge">Yocan</div>
-        <div class="title">Yocan UNI Twist - Fully Universal Cartridge Vaporizer</div>
-        <div class="price">From $37.99</div>
-    </div>
-    <div class="card" onclick="openModal('Yocan UNI Pro - Universal Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Yocan UNI Pro - Universal Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-UNI-Pro-Vaporizer-3.jpg?v=1748598190" loading="lazy"></div>
-        <div class="brand-badge">Yocan</div>
-        <div class="title">Yocan UNI Pro - Universal Cartridge Vaporizer</div>
-        <div class="price">From $37.99</div>
-    </div>
-    <div class="card" onclick="openModal('Yocan UNI - Fully Universal Cartridge Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Yocan UNI - Fully Universal Cartridge Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/5AADF11A-509E-44ED-86B5-BC9D2294825C.jpg?v=1748598763" loading="lazy"></div>
-        <div class="brand-badge">Yocan</div>
-        <div class="title">Yocan UNI - Fully Universal Cartridge Vaporizer</div>
-        <div class="price">From $29.99</div>
-    </div>
-    <div class="card" onclick="openModal('O.pen 510-Thread Vaporizer Pen Battery 2.0')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('O.pen 510-Thread Vaporizer Pen Battery 2.0')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/O-Pen-Vaporizer-Pen-2.0-Battery_Blue.jpg?v=1748598863" loading="lazy"></div>
-        <div class="brand-badge">O.penVAPE</div>
-        <div class="title">O.pen 510-Thread Vaporizer Pen Battery 2.0</div>
-        <div class="price">From $37.99</div>
-    </div>
-    <div class="card" onclick="openModal('Dr. Dabber Ghost Battery 🔋')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Dr. Dabber Ghost Battery 🔋')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/56305505-8B9C-429A-94F9-EBF9F9E14204.jpg?v=1748598928" loading="lazy"></div>
-        <div class="brand-badge">Dr. Dabber</div>
-        <div class="title">Dr. Dabber Ghost Battery 🔋</div>
-        <div class="price">From $39.99</div>
-    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <button onclick="closeModal()" style="position:absolute; top:20px; right:24px; font-size:2em; background:none; border:none; cursor:pointer; color:#aaa; z-index:10; line-height:1;">&times;</button>
+            <div class="modal-img-side">
+                <img id="modal-img" src="" style="max-width:100%; max-height:380px; object-fit:contain;">
+                <div id="modal-gallery" style="display:flex; gap:10px; margin-top:20px; overflow-x:auto; width:100%; justify-content:center; padding-bottom:4px;"></div>
+            </div>
+            <div class="modal-info-side">
+                <div id="modal-brand" style="font-size:0.75em; font-weight:900; color:#bbb; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;"></div>
+                <h2 id="modal-title" style="font-weight:900; font-size:1.9em; line-height:1.1; letter-spacing:-0.5px; margin-bottom:18px;"></h2>
+                <div id="modal-price" style="font-size:2.2em; font-weight:900; margin-bottom:22px;"></div>
+                <div id="modal-variant-container" style="margin-bottom:10px;"></div>
+                <button id="modal-add-btn" class="quick-add-btn" style="width:100%; padding:18px; font-size:1em; margin-top:16px; letter-spacing:1px; text-transform:uppercase; border-radius:10px;">Add to Order</button>
+                <div id="modal-desc-container" style="margin-top:30px; color:#555; font-size:0.95em; line-height:1.8; border-top:1px solid #f0f0f0; padding-top:22px;"></div>
+            </div>
         </div>
     </div>
-    <script src="../js/data.js"></script>
-    <script src="../js/app.js"></script>
+
+    <!-- Floating Cart Button -->
+    <button class="cart-toggle" onclick="toggleCart()">🛒 CART (<span class="cart-count">0</span>)</button>
+
+    <!-- Side Cart Panel -->
+    <div id="cart-panel" class="cart-panel">
+        <div style="padding:28px 30px; background:#fafafa; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; font-size:1em; font-weight:900; letter-spacing:2px; text-transform:uppercase;">Order Sheet</h2>
+            <button onclick="toggleCart()" style="border:none; background:none; font-size:1.8em; cursor:pointer; color:#bbb; line-height:1;">&times;</button>
+        </div>
+        <div id="cart-items" style="flex:1; overflow-y:auto; padding:20px 30px;"></div>
+        <div style="padding:24px 30px; border-top:1px solid #eee; background:#fff;">
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:1.2em; margin-bottom:24px;">
+                <span>Subtotal:</span><span id="cart-total-price">$0.00</span>
+            </div>
+            <!-- FORMSPREE FORM — action URL uses your FORMSPREE_ID -->
+            <form action="https://formspree.io/f/xeoqkzdj" method="POST" id="checkout-form" onsubmit="prepareCheckout(event)">
+                <input type="hidden" name="Order Details" id="order-payload">
+                <input type="text" name="Full Name" placeholder="Full Name *" required class="checkout-input">
+                <input type="email" name="email" placeholder="Email Address *" required class="checkout-input">
+                <input type="text" name="Discord" placeholder="Discord Username (Optional)" class="checkout-input">
+                <input type="text" name="Shipping" placeholder="City, State, Zip *" required class="checkout-input">
+                <input type="text" name="Notes" placeholder="Order notes (optional)" class="checkout-input">
+                <button type="submit" style="width:100%; background:var(--primary); color:#fff; border:none; padding:18px; font-weight:900; border-radius:10px; margin-top:8px; font-size:0.95em; text-transform:uppercase; letter-spacing:1px; cursor:pointer; font-family:inherit;">Submit Order</button>
+            </form>
+            <div id="receipt-container" style="display:none; text-align:center; padding:30px; border:2px dashed #eee; border-radius:14px;">
+                <div style="font-size:2em; margin-bottom:12px;">✅</div>
+                <h4 style="font-weight:900; letter-spacing:1px; margin-bottom:8px;">ORDER SUBMITTED</h4>
+                <p style="font-size:0.88em; color:var(--muted);">Check Discord or Email for follow-up shortly.</p>
+                <button onclick="location.reload()" class="quick-add-btn" style="margin-top:18px; width:100%; padding:14px; border-radius:8px;">Back to Catalog</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function copyDirectLink(name) {
-            const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-            const url = window.location.origin + "/index.html?p=" + slug;
-            navigator.clipboard.writeText(url).then(() => alert("Link Copied!"));
+
+// ── State ──────────────────────────────────────────────────
+let cart = [];
+
+// ── Cart Helpers ────────────────────────────────────────────
+function addToCart(productName, variant) {
+    const existing = cart.find(i => i.name === productName && i.variantName === variant.name);
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({ name: productName, variantName: variant.name, price: variant.price, qty: 1 });
+    }
+    renderCart();
+    showToast("Added: " + productName);
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    renderCart();
+}
+
+function updateQty(index, delta) {
+    cart[index].qty += delta;
+    if (cart[index].qty <= 0) cart.splice(index, 1);
+    renderCart();
+}
+
+function renderCart() {
+    const container = document.getElementById('cart-items');
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    document.querySelectorAll('.cart-count').forEach(el => el.textContent = cart.reduce((s,i) => s+i.qty, 0));
+    document.getElementById('cart-total-price').textContent = '$' + total.toFixed(2);
+
+    if (cart.length === 0) {
+        container.innerHTML = '<p style="color:#aaa; text-align:center; padding:40px 0; font-size:0.9em;">Your cart is empty.</p>';
+        return;
+    }
+
+    container.innerHTML = cart.map((item, i) => `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:18px 0; border-bottom:1px solid #f0f0f0; gap:12px;">
+            <div style="flex:1;">
+                <div style="font-weight:800; font-size:0.9em; line-height:1.3;">${item.name}</div>
+                ${item.variantName !== 'Standard' ? `<div style="font-size:0.78em; color:#aaa; margin-top:3px;">${item.variantName}</div>` : ''}
+                <div style="font-size:0.85em; color:#555; margin-top:6px;">$${item.price.toFixed(2)} each</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button onclick="updateQty(${i}, -1)" style="width:28px; height:28px; border:1px solid #ddd; background:#fff; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center;">−</button>
+                    <span style="font-weight:900; min-width:20px; text-align:center;">${item.qty}</span>
+                    <button onclick="updateQty(${i}, 1)" style="width:28px; height:28px; border:1px solid #ddd; background:#fff; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center;">+</button>
+                </div>
+                <div style="font-weight:900; font-size:0.95em;">$${(item.price * item.qty).toFixed(2)}</div>
+                <button onclick="removeFromCart(${i})" style="border:none; background:none; color:#ccc; cursor:pointer; font-size:0.75em; text-transform:uppercase; letter-spacing:1px;">Remove</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function toggleCart() {
+    document.getElementById('cart-panel').classList.toggle('open');
+}
+
+// ── Modal ───────────────────────────────────────────────────
+function openModal(cardEl) {
+    const raw = cardEl.getAttribute('data-product');
+    const p = JSON.parse(raw.replace(/&#39;/g, "'"));
+    const modal = document.getElementById('product-modal');
+
+    document.getElementById('modal-img').src = p.image;
+    document.getElementById('modal-brand').textContent = p.brand;
+    document.getElementById('modal-title').textContent = p.name;
+    document.getElementById('modal-desc-container').innerHTML = p.Description || '';
+
+    // Gallery
+    const gallery = document.getElementById('modal-gallery');
+    gallery.innerHTML = (p['All Images'] || []).map((img, i) => `
+        <img src="${img}" style="width:60px; height:60px; object-fit:contain; border:2px solid ${i===0?'#111':'#eee'}; border-radius:8px; cursor:pointer; padding:4px;"
+             onclick="document.getElementById('modal-img').src='${img}'; this.parentNode.querySelectorAll('img').forEach(x=>x.style.borderColor='#eee'); this.style.borderColor='#111';">
+    `).join('');
+
+    // Variants
+    const container = document.getElementById('modal-variant-container');
+    const priceEl = document.getElementById('modal-price');
+
+    if (p.Variants.length === 1) {
+        priceEl.textContent = '$' + p.Variants[0].price.toFixed(2);
+        container.innerHTML = '';
+        document.getElementById('modal-add-btn').onclick = () => {
+            addToCart(p.name, p.Variants[0]);
+            closeModal();
+        };
+    } else {
+        priceEl.textContent = '$' + p.Variants[0].price.toFixed(2);
+        container.innerHTML = `
+            <label style="font-size:0.8em; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#aaa; display:block; margin-bottom:10px;">Select Option</label>
+            <select onchange="selectVariant(this.value, ${JSON.stringify(p.Variants).replace(/"/g,'&quot;')})"
+                    style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-weight: 700; font-size: 0.95em; cursor: pointer; outline: none;">
+                ${p.Variants.map((v, i) => `
+                    <option value="${i}">${v.name} - $${v.price.toFixed(2)}</option>
+                `).join('')}
+            </select>`;
+
+        // Store selected variant index on the button
+        let selectedVariant = p.Variants[0];
+        window._modalVariants = p.Variants;
+        window._modalSelectedVariant = selectedVariant;
+
+        document.getElementById('modal-add-btn').onclick = () => {
+            addToCart(p.name, window._modalSelectedVariant || p.Variants[0]);
+            closeModal();
+        };
+    }
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function selectVariant(index, variantsJson) {
+    const variants = typeof variantsJson === 'string' ? JSON.parse(variantsJson) : variantsJson;
+    const v = variants[index];
+    window._modalSelectedVariant = v;
+    document.getElementById('modal-price').textContent = '$' + v.price.toFixed(2);
+    
+    if (v.image && v.image !== "https://placehold.co/400x400/f5f5f5/999?text=No+Image") {
+        document.getElementById('modal-img').src = v.image;
+        document.querySelectorAll('#modal-gallery img').forEach(img => {
+            img.style.borderColor = img.src === v.image ? '#111' : '#eee';
+        });
+    }
+}
+
+function closeModal() {
+    document.getElementById('product-modal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+document.getElementById('product-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// ── Quick Add (single variant) ──────────────────────────────
+function quickAdd(btn) {
+    const card = btn.closest('.card');
+    const raw = card.getAttribute('data-product');
+    const p = JSON.parse(raw.replace(/&#39;/g, "'"));
+    if (p.Variants.length === 1) {
+        addToCart(p.name, p.Variants[0]);
+    } else {
+        openModal(card);
+    }
+}
+
+// ── Filter & Sort ───────────────────────────────────────────
+function applyFilters() {
+    const search = (document.getElementById('searchInput')?.value || '').toLowerCase();
+    const brandFilter = (document.getElementById('brandFilter')?.value || 'all').toLowerCase();
+    const catFilter = (document.getElementById('catFilter')?.value || 'all').toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+        const name = card.dataset.name || '';
+        const brand = card.dataset.brand || '';
+        const cat = card.dataset.cat || '';
+        const matchSearch = name.includes(search) || brand.includes(search);
+        const matchBrand = brandFilter === 'all' || brand === brandFilter;
+        const matchCat = catFilter === 'all' || cat === catFilter;
+        card.style.display = (matchSearch && matchBrand && matchCat) ? 'flex' : 'none';
+    });
+    updateCount();
+}
+
+function updateCount() {
+    const visible = document.querySelectorAll('.card:not([style*="none"])').length;
+    const el = document.getElementById('result-count');
+    if (el) el.textContent = visible + ' products';
+}
+
+function sortGrid() {
+    const val = document.getElementById('sortSelect')?.value;
+    const grid = document.querySelector('.grid');
+    if (!grid || !val) return;
+    const cards = Array.from(grid.querySelectorAll('.card'));
+    cards.sort((a, b) => {
+        if (val === 'price-low') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+        if (val === 'price-high') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+        if (val === 'name-az') return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+        return 0;
+    });
+    cards.forEach(c => grid.appendChild(c));
+}
+
+// ── Toast ───────────────────────────────────────────────────
+function showToast(msg) {
+    const t = document.getElementById('pixies-toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Direct Link ─────────────────────────────────────────────
+function copyDirectLink(name) {
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const url = window.location.href.split('?')[0] + '?p=' + slug;
+    navigator.clipboard?.writeText(url).then(() => showToast('🔗 Link copied!')).catch(() => showToast('Link: ' + url));
+}
+
+// ── Formspree Checkout ──────────────────────────────────────
+function prepareCheckout(e) {
+    e.preventDefault();
+    if (cart.length === 0) { showToast('Your cart is empty!'); return; }
+
+    const orderLines = cart.map(i => `${i.qty}x ${i.name}${i.variantName !== 'Standard' ? ' ('+i.variantName+')' : ''} @ $${i.price.toFixed(2)}`);
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    orderLines.push('---');
+    orderLines.push('SUBTOTAL: $' + total.toFixed(2));
+
+    document.getElementById('order-payload').value = orderLines.join('\n');
+
+    const form = document.getElementById('checkout-form');
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+    }).then(res => {
+        if (res.ok) {
+            form.style.display = 'none';
+            document.getElementById('receipt-container').style.display = 'block';
+            cart = [];
+            renderCart();
+        } else {
+            showToast('⚠️ Submission failed. Please try again.');
         }
+    }).catch(() => showToast('⚠️ Network error. Check your connection.'));
+}
+
+// ── Mobile Nav ──────────────────────────────────────────────
+function toggleMobileNav() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('mobile-overlay');
+    sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = sidebar.classList.contains('mobile-open') ? 'hidden' : '';
+}
+
+// Init
+renderCart();
+
     </script>
 </body>
 </html>

@@ -1,134 +1,2099 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Pixie's Pantry | Bong</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixie's Pantry | bong</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: sans-serif; background: #fff; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; padding: 20px; }
-        .card { position: relative; border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .card img { max-width: 100%; height: 160px; object-fit: contain; }
-        .brand-badge { font-size: 0.7em; color: #aaa; text-transform: uppercase; margin-top: 10px; }
-        .title { font-weight: bold; margin: 5px 0; font-size: 0.9em; height: 2.4em; overflow: hidden; }
-        .price { font-weight: 800; color: #111; }
-        
-        /* The Link Shortcut Icon */
-        .link-shortcut {
-            position: absolute; top: 10px; right: 10px; background: #fff; width: 30px; height: 30px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 0.8em; color: #888; border: 1px solid #eee; z-index: 5; transition: 0.2s;
+        :root {
+            --primary: #111;
+            --sidebar-w: 300px;
+            --border: #eaeaea;
+            --muted: #888;
+            --card-radius: 14px;
         }
-        .link-shortcut:hover { background: #111; color: #fff; border-color: #111; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #fff;
+            color: var(--primary);
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; bottom: 0;
+            width: var(--sidebar-w);
+            background: #fafafa;
+            border-right: 1px solid var(--border);
+            padding: 40px 28px;
+            overflow-y: auto;
+            z-index: 900;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-logo {
+            font-weight: 900;
+            font-size: 1.3em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            display: block;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .sidebar-logo span { color: #e8498a; }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.88em;
+            margin-bottom: 28px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .search-box:focus { border-color: var(--primary); }
+
+        .nav-section-label {
+            font-size: 0.65em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #bbb;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin: 24px 0 10px;
+        }
+        .sidebar-link {
+            display: block;
+            padding: 9px 0;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.85em;
+            border-bottom: 1px solid #f5f5f5;
+            transition: all 0.15s;
+        }
+        .sidebar-link:hover {
+            color: var(--primary);
+            padding-left: 6px;
+            font-weight: 700;
+        }
+
+        /* ── Mobile overlay ── */
+        #mobile-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 850;
+        }
+        #mobile-overlay.active { display: block; }
+
+        /* ── Main wrapper ── */
+        .main-wrapper {
+            margin-left: var(--sidebar-w);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .banner {
+            background: var(--primary);
+            color: #fff;
+            padding: 13px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 0.72em;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+
+        /* ── Mobile header ── */
+        .mobile-header {
+            display: none;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 39px;
+            z-index: 499;
+        }
+        .mobile-header-logo {
+            font-weight: 900;
+            font-size: 1.1em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .mobile-header-logo span { color: #e8498a; }
+        .hamburger {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 7px 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* ── Main content ── */
+        .main-content {
+            padding: 55px 48px;
+            flex: 1;
+        }
+
+        /* ── Toolbar ── */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+        .toolbar-left h1 {
+            font-weight: 900;
+            font-size: 2.4em;
+            letter-spacing: -1.5px;
+            line-height: 1;
+        }
+        .toolbar-left p {
+            color: var(--muted);
+            font-size: 0.9em;
+            margin-top: 6px;
+        }
+        .toolbar-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-select {
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.85em;
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+            font-family: inherit;
+        }
+        .filter-select:focus { border-color: var(--primary); }
+
+        /* ── Product Grid ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 28px;
+        }
+
+        /* ── Card ── */
+        .card {
+            position: relative;
+            border: 1px solid #f0f0f0;
+            border-radius: var(--card-radius);
+            padding: 22px;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.165,0.84,0.44,1), box-shadow 0.3s ease, border-color 0.2s;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            /* FIX: removed height:100% which caused stretching in auto-fill grids */
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            border-color: #ddd;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 18px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .card:hover .image-container img { transform: scale(1.04); }
+
+        .brand-badge {
+            font-size: 0.58em;
+            font-weight: 900;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+        }
+        .title {
+            font-weight: 800;
+            font-size: 0.97em;
+            line-height: 1.4;
+            color: var(--primary);
+            flex: 1;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        .price-tag {
+            font-weight: 900;
+            font-size: 1.15em;
+            color: var(--primary);
+        }
+        .quick-add-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.82em;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-family: inherit;
+        }
+        .quick-add-btn:hover { opacity: 0.75; }
+
+        .link-shortcut {
+            position: absolute;
+            top: 14px; right: 14px;
+            background: #fff;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #eee;
+            color: #ccc;
+            z-index: 5;
+            transition: all 0.2s;
+        }
+        .link-shortcut:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* ── Cart button ── */
+        .cart-toggle {
+            position: fixed;
+            bottom: 36px; right: 36px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 16px 26px;
+            border-radius: 40px;
+            font-weight: 900;
+            font-size: 0.9em;
+            cursor: pointer;
+            z-index: 800;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+        .cart-toggle:hover { transform: scale(1.05); }
+
+        /* ── Cart panel ── */
+        .cart-panel {
+            position: fixed;
+            top: 0; right: -480px;
+            width: 440px;
+            max-width: 100vw;
+            height: 100%;
+            background: #fff;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+            z-index: 3000;
+            transition: right 0.45s cubic-bezier(0.165,0.84,0.44,1);
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-panel.open { right: 0; }
+
+        .checkout-input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.9em;
+            font-family: inherit;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .checkout-input:focus { border-color: var(--primary); }
+
+        /* ── Modal ── */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+            padding: 20px;
+        }
+        .modal-content {
+            background: #fff;
+            width: 960px;
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 18px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+        }
+        .modal-img-side {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f8f8;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #f0f0f0;
+        }
+        .modal-info-side {
+            flex: 1;
+            min-width: 300px;
+            padding: 50px 45px;
+            overflow-y: auto;
+        }
+
+        /* ── Toast ── */
+        #pixies-toast {
+            visibility: hidden;
+            min-width: 220px;
+            background: #111;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 14px 22px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-weight: 700;
+            font-size: 0.9em;
+            pointer-events: none;
+        }
+        #pixies-toast.show {
+            visibility: visible;
+            animation: toastIn 0.3s ease, toastOut 0.4s ease 2.6s forwards;
+        }
+        @keyframes toastIn { from { opacity:0; bottom:15px; } to { opacity:1; bottom:30px; } }
+        @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+        /* ── Responsive ── */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 280px;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; }
+            .main-content { padding: 30px 20px; }
+            .mobile-header { display: flex; }
+            .banner { top: 0; }
+            .cart-toggle { bottom: 20px; right: 20px; padding: 14px 20px; }
+            .cart-panel { width: 100vw; right: -100vw; }
+            .modal-content { flex-direction: column; }
+            .modal-img-side { min-width: unset; padding: 30px; max-height: 250px; }
+            .modal-info-side { min-width: unset; padding: 30px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+            .image-container { height: 150px; }
+            .toolbar-left h1 { font-size: 1.8em; }
+        }
+
+        @media (max-width: 480px) {
+            .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .card { padding: 14px; }
+            .image-container { height: 120px; }
+            .title { font-size: 0.85em; }
+            .price-tag { font-size: 1em; }
+            .quick-add-btn { padding: 7px 12px; font-size: 0.75em; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <nav style="padding: 20px 0;"><a href="../index.html">← Master Catalog</a></nav>
-        <h1>Bong</h1>
-        <div class="grid">
+    <div id="pixies-toast"></div>
+    <div id="mobile-overlay" onclick="toggleMobileNav()"></div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <a href="../index.html" class="sidebar-logo">Pixie's <span>Pantry</span></a>
+        <input type="text" id="searchInput" class="search-box" placeholder="Search products, brands..." oninput="applyFilters()">
+        
+        <div class="nav-section-label">Categories</div>
+        <nav><a href="../categories/accessories.html" class="sidebar-link">Accessories</a>
+<a href="../categories/accessory.html" class="sidebar-link">Accessory</a>
+<a href="../categories/adapters-attachments.html" class="sidebar-link">Adapters & Attachments</a>
+<a href="../categories/ash-catcher.html" class="sidebar-link">Ash Catcher</a>
+<a href="../categories/atomizers-coils.html" class="sidebar-link">Atomizers & Coils</a>
+<a href="../categories/banger.html" class="sidebar-link">Banger</a>
+<a href="../categories/beaker-bong.html" class="sidebar-link">Beaker Bong</a>
+<a href="../categories/blunt-wraps-leaf-rolls.html" class="sidebar-link">Blunt Wraps & Leaf Rolls</a>
+<a href="../categories/bong.html" class="sidebar-link">Bong</a>
+<a href="../categories/bongs.html" class="sidebar-link">Bongs</a>
+<a href="../categories/bubblers.html" class="sidebar-link">Bubblers</a>
+<a href="../categories/budsy-water-bottle-bong.html" class="sidebar-link">Budsy Water Bottle Bong</a>
+<a href="../categories/bundle.html" class="sidebar-link">Bundle</a>
+<a href="../categories/complete-base-neckpiece.html" class="sidebar-link">Complete: Base + Neckpiece</a>
+<a href="../categories/concentrate-pipe.html" class="sidebar-link">Concentrate Pipe</a>
+<a href="../categories/cupsy-coffee-cup-bong.html" class="sidebar-link">Cupsy Coffee Cup Bong</a>
+<a href="../categories/dab-rig-oil-rig.html" class="sidebar-link">Dab Rig / Oil Rig</a>
+<a href="../categories/dab-rig-sets.html" class="sidebar-link">Dab Rig Sets</a>
+<a href="../categories/dab-rigs.html" class="sidebar-link">Dab Rigs</a>
+<a href="../categories/dab-straws.html" class="sidebar-link">Dab Straws</a>
+<a href="../categories/dab-tools.html" class="sidebar-link">Dab Tools</a>
+<a href="../categories/desktop-vaporizer.html" class="sidebar-link">Desktop Vaporizer</a>
+<a href="../categories/downstem.html" class="sidebar-link">Downstem</a>
+<a href="../categories/dynavap-bundle.html" class="sidebar-link">DynaVap Bundle</a>
+<a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a>
+<a href="../categories/filters-tips.html" class="sidebar-link">Filters & Tips</a>
+<a href="../categories/glass-cleaning-solution.html" class="sidebar-link">Glass Cleaning Solution</a>
+<a href="../categories/grinder.html" class="sidebar-link">Grinder</a>
+<a href="../categories/grinders.html" class="sidebar-link">Grinders</a>
+<a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a>
+<a href="../categories/kit.html" class="sidebar-link">Kit</a>
+<a href="../categories/lighter.html" class="sidebar-link">Lighter</a>
+<a href="../categories/maintenance.html" class="sidebar-link">Maintenance</a>
+<a href="../categories/mouthpieces-o-rings.html" class="sidebar-link">Mouthpieces & O-Rings</a>
+<a href="../categories/oil-rig.html" class="sidebar-link">Oil Rig</a>
+<a href="../categories/other-vape-parts.html" class="sidebar-link">Other Vape Parts</a>
+<a href="../categories/papers-cones-wraps.html" class="sidebar-link">Papers, Cones & Wraps</a>
+<a href="../categories/part.html" class="sidebar-link">Part</a>
+<a href="../categories/peak-pro.html" class="sidebar-link">Peak PRO</a>
+<a href="../categories/pipes.html" class="sidebar-link">Pipes</a>
+<a href="../categories/pollen-box.html" class="sidebar-link">Pollen Box</a>
+<a href="../categories/pollen-press.html" class="sidebar-link">Pollen Press</a>
+<a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a>
+<a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a>
+<a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-Rolled Cones</a>
+<a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-rolled Cones</a>
+<a href="../categories/recycler.html" class="sidebar-link">Recycler</a>
+<a href="../categories/rolling-accessories.html" class="sidebar-link">Rolling Accessories</a>
+<a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a>
+<a href="../categories/rolling-tips.html" class="sidebar-link">Rolling Tips</a>
+<a href="../categories/rolling-tray.html" class="sidebar-link">Rolling Tray</a>
+<a href="../categories/smoking-accessories.html" class="sidebar-link">Smoking Accessories</a>
+<a href="../categories/spoon.html" class="sidebar-link">Spoon</a>
+<a href="../categories/stand.html" class="sidebar-link">Stand</a>
+<a href="../categories/storage.html" class="sidebar-link">Storage</a>
+<a href="../categories/ted.html" class="sidebar-link">TED</a>
+<a href="../categories/torches.html" class="sidebar-link">Torches</a>
+<a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a>
+<a href="../categories/vaporizer.html" class="sidebar-link">Vaporizer</a>
+<a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a>
+<a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a>
+<a href="../categories/water-pipe.html" class="sidebar-link">Water Pipe</a>
+<a href="../categories/water-pipes.html" class="sidebar-link">Water Pipes</a>
+<a href="../categories/accessory.html" class="sidebar-link">accessory</a>
+<a href="../categories/bong.html" class="sidebar-link">bong</a>
+<a href="../categories/bundle.html" class="sidebar-link">bundle</a>
+<a href="../categories/dab-rig.html" class="sidebar-link">dab rig</a>
+<a href="../categories/downstem.html" class="sidebar-link">downstem</a>
+<a href="../categories/hemp-wick.html" class="sidebar-link">hemp wick</a>
+<a href="../categories/mouthpiece.html" class="sidebar-link">mouthpiece</a>
+<a href="../categories/rolling-tray.html" class="sidebar-link">rolling tray</a>
+<a href="../categories/travel-case.html" class="sidebar-link">travel case</a></nav>
+        <div class="nav-section-label">Brands</div>
+        <nav><a href="../brands/apex-ancillary.html" class="sidebar-link">Apex Ancillary</a>
+<a href="../brands/bic.html" class="sidebar-link">BIC</a>
+<a href="../brands/baked-water.html" class="sidebar-link">Baked Water</a>
+<a href="../brands/blazer.html" class="sidebar-link">Blazer</a>
+<a href="../brands/blazy-susan.html" class="sidebar-link">Blazy Susan</a>
+<a href="../brands/boveda-inc.html" class="sidebar-link">Boveda Inc.</a>
+<a href="../brands/ccell.html" class="sidebar-link">CCELL</a>
+<a href="../brands/cali-crusher.html" class="sidebar-link">Cali Crusher</a>
+<a href="../brands/chill-steel-pipes.html" class="sidebar-link">Chill Steel Pipes</a>
+<a href="../brands/daze-glass.html" class="sidebar-link">Daze Glass</a>
+<a href="../brands/dogg-lbs.html" class="sidebar-link">Dogg Lbs</a>
+<a href="../brands/dr-dabber.html" class="sidebar-link">Dr. Dabber</a>
+<a href="../brands/dynavap.html" class="sidebar-link">DynaVap</a>
+<a href="../brands/dyspensr-wholesale.html" class="sidebar-link">Dyspensr Wholesale</a>
+<a href="../brands/empire-glassworks.html" class="sidebar-link">Empire Glassworks</a>
+<a href="../brands/flower-mill.html" class="sidebar-link">Flower Mill</a>
+<a href="../brands/focus-v.html" class="sidebar-link">Focus V</a>
+<a href="../brands/grav-grav-labs.html" class="sidebar-link">GRAV / Grav Labs</a>
+<a href="../brands/gravitoke.html" class="sidebar-link">GraviToke</a>
+<a href="../brands/grenco-science.html" class="sidebar-link">Grenco Science</a>
+<a href="../brands/grindhouse.html" class="sidebar-link">Grindhouse</a>
+<a href="../brands/hemper.html" class="sidebar-link">Hemper</a>
+<a href="../brands/herb-saver.html" class="sidebar-link">Herb Saver</a>
+<a href="../brands/honeybee-herb.html" class="sidebar-link">Honeybee Herb</a>
+<a href="../brands/human-grade.html" class="sidebar-link">Human Grade</a>
+<a href="../brands/i-tal.html" class="sidebar-link">I-Tal</a>
+<a href="../brands/iolite.html" class="sidebar-link">IOLITE</a>
+<a href="../brands/invincibowl.html" class="sidebar-link">Invincibowl</a>
+<a href="../brands/ispire.html" class="sidebar-link">Ispire</a>
+<a href="../brands/jane-west.html" class="sidebar-link">Jane West</a>
+<a href="../brands/juicy-jays.html" class="sidebar-link">Juicy Jays</a>
+<a href="../brands/k-haring-collection.html" class="sidebar-link">K. Haring Collection</a>
+<a href="../brands/kandypens.html" class="sidebar-link">KandyPens</a>
+<a href="../brands/kannastor.html" class="sidebar-link">Kannastor</a>
+<a href="../brands/kill-your-culture.html" class="sidebar-link">Kill Your Culture</a>
+<a href="../brands/king-palm.html" class="sidebar-link">King Palm</a>
+<a href="../brands/la-pipes.html" class="sidebar-link">LA Pipes</a>
+<a href="../brands/leafly-water-pipes.html" class="sidebar-link">Leafly Water Pipes</a>
+<a href="../brands/lookah.html" class="sidebar-link">Lookah</a>
+<a href="../brands/mj-arsenal.html" class="sidebar-link">MJ Arsenal</a>
+<a href="../brands/marley-natural.html" class="sidebar-link">Marley Natural</a>
+<a href="../brands/micro.html" class="sidebar-link">Micro</a>
+<a href="../brands/moose-labs.html" class="sidebar-link">Moose Labs</a>
+<a href="../brands/my-bud-vase.html" class="sidebar-link">My Bud Vase</a>
+<a href="../brands/openvape.html" class="sidebar-link">O.penVAPE</a>
+<a href="../brands/ocb-rolling-papers.html" class="sidebar-link">OCB Rolling Papers</a>
+<a href="../brands/ongrok.html" class="sidebar-link">Ongrok</a>
+<a href="../brands/ooze.html" class="sidebar-link">Ooze</a>
+<a href="../brands/orange-chronic.html" class="sidebar-link">Orange Chronic</a>
+<a href="../brands/other.html" class="sidebar-link">Other</a>
+<a href="../brands/pax.html" class="sidebar-link">PAX</a>
+<a href="../brands/pink-formula.html" class="sidebar-link">Pink Formula</a>
+<a href="../brands/powerhitter.html" class="sidebar-link">PowerHitter</a>
+<a href="../brands/primo.html" class="sidebar-link">Primo</a>
+<a href="../brands/prism-pipes.html" class="sidebar-link">Prism Pipes</a>
+<a href="../brands/puffco.html" class="sidebar-link">Puffco</a>
+<a href="../brands/pulsar.html" class="sidebar-link">Pulsar</a>
+<a href="../brands/raw-rolling-papers.html" class="sidebar-link">RAW Rolling Papers</a>
+<a href="../brands/ryot.html" class="sidebar-link">RYOT</a>
+<a href="../brands/randys.html" class="sidebar-link">Randy’s</a>
+<a href="../brands/retro-vapes.html" class="sidebar-link">Retro Vapes</a>
+<a href="../brands/rhythms-of-life.html" class="sidebar-link">Rhythms of Life</a>
+<a href="../brands/ritual.html" class="sidebar-link">Ritual</a>
+<a href="../brands/roast-toast.html" class="sidebar-link">Roast & Toast</a>
+<a href="../brands/rokin-vapes.html" class="sidebar-link">Rokin Vapes</a>
+<a href="../brands/roll-it-club.html" class="sidebar-link">Roll It Club</a>
+<a href="../brands/slx-grinders.html" class="sidebar-link">SLX Grinders</a>
+<a href="../brands/santa-cruz-shredder.html" class="sidebar-link">Santa Cruz Shredder</a>
+<a href="../brands/seshgear.html" class="sidebar-link">SeshGear</a>
+<a href="../brands/session-goods.html" class="sidebar-link">Session Goods</a>
+<a href="../brands/sharpstone.html" class="sidebar-link">SharpStone</a>
+<a href="../brands/shine-rolling-papers.html" class="sidebar-link">Shine Rolling Papers</a>
+<a href="../brands/smoke-source.html" class="sidebar-link">Smoke Source</a>
+<a href="../brands/smokebuddy.html" class="sidebar-link">Smokebuddy</a>
+<a href="../brands/snowtree.html" class="sidebar-link">Snowtree</a>
+<a href="../brands/social-smoking.html" class="sidebar-link">Social Smoking</a>
+<a href="../brands/softglass.html" class="sidebar-link">Softglass</a>
+<a href="../brands/stache-products.html" class="sidebar-link">Stache Products</a>
+<a href="../brands/storz-bickel.html" class="sidebar-link">Storz & Bickel</a>
+<a href="../brands/stündenglass.html" class="sidebar-link">Stündenglass</a>
+<a href="../brands/the-kind-pen.html" class="sidebar-link">The Kind Pen</a>
+<a href="../brands/thick-ass-glass.html" class="sidebar-link">Thick Ass Glass</a>
+<a href="../brands/thug-life.html" class="sidebar-link">Thug Life</a>
+<a href="../brands/v-syndicate.html" class="sidebar-link">V Syndicate</a>
+<a href="../brands/vibes.html" class="sidebar-link">VIBES</a>
+<a href="../brands/vapium.html" class="sidebar-link">Vapium</a>
+<a href="../brands/wake-bake.html" class="sidebar-link">Wake & Bake</a>
+<a href="../brands/weedgets.html" class="sidebar-link">Weedgets</a>
+<a href="../brands/white-rhino.html" class="sidebar-link">White Rhino</a>
+<a href="../brands/wulf-mods.html" class="sidebar-link">Wulf Mods</a>
+<a href="../brands/xvape.html" class="sidebar-link">Xvape</a>
+<a href="../brands/yocan.html" class="sidebar-link">Yocan</a>
+<a href="../brands/zenco.html" class="sidebar-link">Zenco</a>
+<a href="../brands/zig-zag.html" class="sidebar-link">Zig-Zag</a></nav>
+        
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="banner">DISCORD GROUP BUY &nbsp;·&nbsp; FAST SHIPPING FROM MISSISSIPPI</div>
+
+        <!-- Mobile header -->
+        <div class="mobile-header">
+            <div class="mobile-header-logo">Pixie's <span>Pantry</span></div>
+            <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+
+        <div class="main-content">
             
-    <div class="card" onclick="openModal('Empire Glassworks 8" Hootie\'s Forest Baby Beaker Bong')">
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <h1>bong</h1>
+                <p id="result-count">51 products</p>
+            </div>
+            <div class="toolbar-right">
+                <select id="brandFilter" class="filter-select" onchange="applyFilters()">
+                    <option value="all">All Brands</option><option value="Dyspensr Wholesale">Dyspensr Wholesale</option><option value="Empire Glassworks">Empire Glassworks</option><option value="LA Pipes">LA Pipes</option><option value="My Bud Vase">My Bud Vase</option><option value="Pulsar">Pulsar</option><option value="Ritual">Ritual</option><option value="Smoke Source">Smoke Source</option><option value="The Kind Pen">The Kind Pen</option>
+                </select>
+                <select id="sortSelect" class="filter-select" onchange="sortGrid()">
+                    <option value="default">Sort</option>
+                    <option value="price-low">Price: Low → High</option>
+                    <option value="price-high">Price: High → Low</option>
+                    <option value="name-az">Name A–Z</option>
+                </select>
+            </div>
+        </div>
+        <div class="grid"><div class="card"
+         data-name="ritual 10 wavy silicone beaker bong"
+         data-price="36.99"
+         data-brand="ritual"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Ritual 10\" Wavy Silicone Beaker Bong", "brand": "Ritual", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2364-01_a976f25f-5cf9-4b42-87a7-9a52eb54c454.jpg?v=1749598985", "Variants": [{"name": "Black & White", "sku": "HS-RITUAL-WAVY-BEAK-BW", "price": 36.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2364-01_a976f25f-5cf9-4b42-87a7-9a52eb54c454.jpg?v=1749598985"}, {"name": "Miami Sunset", "sku": "HS-RITUAL-WAVY-BEAK-MIA", "price": 36.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2364-01_a976f25f-5cf9-4b42-87a7-9a52eb54c454.jpg?v=1749598985"}, {"name": "Black & Red", "sku": "HS-RITUAL-WAVY-BEAK-BR", "price": 36.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2364-01_a976f25f-5cf9-4b42-87a7-9a52eb54c454.jpg?v=1749598985"}, {"name": "Cotton Candy", "sku": "HS-RITUAL-WAVY-BEAK-CC", "price": 36.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2364-01_a976f25f-5cf9-4b42-87a7-9a52eb54c454.jpg?v=1749598985"}, {"name": "Rasta", "sku": "HS-RITUAL-WAVY-BEAK-RAS", "price": 36.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2364-01_a976f25f-5cf9-4b42-87a7-9a52eb54c454.jpg?v=1749598985"}, {"name": "White", "sku": "HS-RITUAL-WAVY-BEAK-WHI", "price": 36.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2364-01_a976f25f-5cf9-4b42-87a7-9a52eb54c454.jpg?v=1749598985"}], "Description": "Ritual 10 Wavy Silicone Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2364-01_a976f25f-5cf9-4b42-87a7-9a52eb54c454.jpg?v=1749598985"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Ritual 10&quot; Wavy Silicone Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2364-01_a976f25f-5cf9-4b42-87a7-9a52eb54c454.jpg?v=1749598985" alt="Ritual 10" Wavy Silicone Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Ritual</div>
+            <div class="title">Ritual 10" Wavy Silicone Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$36.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="ritual 8.5 silicone rocket recycler bong"
+         data-price="37.99"
+         data-brand="ritual"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Ritual 8.5\" Silicone Rocket Recycler Bong", "brand": "Ritual", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2324-06_dd2f448a-37f6-4718-9010-860138c1cd64.jpg?v=1749598932", "Variants": [{"name": "Black & White", "sku": "HS-RITUAL-ROCKET-BW", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2324-06_dd2f448a-37f6-4718-9010-860138c1cd64.jpg?v=1749598932"}, {"name": "Miami Sunset", "sku": "HS-RITUAL-ROCKET-MIA", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2324-06_dd2f448a-37f6-4718-9010-860138c1cd64.jpg?v=1749598932"}, {"name": "Black & Red", "sku": "HS-RITUAL-ROCKET-BR", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2324-06_dd2f448a-37f6-4718-9010-860138c1cd64.jpg?v=1749598932"}, {"name": "Cotton Candy", "sku": "HS-RITUAL-ROCKET-CC", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2324-06_dd2f448a-37f6-4718-9010-860138c1cd64.jpg?v=1749598932"}, {"name": "Rasta", "sku": "HS-RITUAL-ROCKET-RAS", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2324-06_dd2f448a-37f6-4718-9010-860138c1cd64.jpg?v=1749598932"}, {"name": "White", "sku": "HS-RITUAL-ROCKET-WHI", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2324-06_dd2f448a-37f6-4718-9010-860138c1cd64.jpg?v=1749598932"}], "Description": "Ritual 8.5 Silicone Rocket Recycler Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2324-06_dd2f448a-37f6-4718-9010-860138c1cd64.jpg?v=1749598932"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Ritual 8.5&quot; Silicone Rocket Recycler Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2324-06_dd2f448a-37f6-4718-9010-860138c1cd64.jpg?v=1749598932" alt="Ritual 8.5" Silicone Rocket Recycler Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Ritual</div>
+            <div class="title">Ritual 8.5" Silicone Rocket Recycler Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$37.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="ritual 12 deluxe silicone modular beaker bong"
+         data-price="51.99"
+         data-brand="ritual"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Ritual 12\" Deluxe Silicone Modular Beaker Bong", "brand": "Ritual", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL23223-12_38ed7300-6d9f-4041-92ff-23927e78a2ba.jpg?v=1748340333", "Variants": [{"name": "White", "sku": "HS-RITUAL-BEAKER-WHI", "price": 51.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL23223-12_38ed7300-6d9f-4041-92ff-23927e78a2ba.jpg?v=1748340333"}, {"name": "Miami Sunset", "sku": "HS-RITUAL-BEAKER-MIA", "price": 51.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL23223-12_38ed7300-6d9f-4041-92ff-23927e78a2ba.jpg?v=1748340333"}, {"name": "Rasta", "sku": "HS-RITUAL-BEAKER-RAS", "price": 51.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL23223-12_38ed7300-6d9f-4041-92ff-23927e78a2ba.jpg?v=1748340333"}, {"name": "Cotton Candy", "sku": "HS-RITUAL-BEAKER-CC", "price": 51.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL23223-12_38ed7300-6d9f-4041-92ff-23927e78a2ba.jpg?v=1748340333"}, {"name": "Black & White", "sku": "HS-RITUAL-BEAKER-BW", "price": 51.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL23223-12_38ed7300-6d9f-4041-92ff-23927e78a2ba.jpg?v=1748340333"}, {"name": "Black & Red", "sku": "HS-RITUAL-BEAKER-BR", "price": 51.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL23223-12_38ed7300-6d9f-4041-92ff-23927e78a2ba.jpg?v=1748340333"}], "Description": "Ritual 12 Deluxe Silicone Modular Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL23223-12_38ed7300-6d9f-4041-92ff-23927e78a2ba.jpg?v=1748340333"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Ritual 12&quot; Deluxe Silicone Modular Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL23223-12_38ed7300-6d9f-4041-92ff-23927e78a2ba.jpg?v=1748340333" alt="Ritual 12" Deluxe Silicone Modular Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Ritual</div>
+            <div class="title">Ritual 12" Deluxe Silicone Modular Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$51.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="ritual 7.5 silicone lava lamp bong"
+         data-price="31.99"
+         data-brand="ritual"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Ritual 7.5\" Silicone Lava Lamp Bong", "brand": "Ritual", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2341-05_86ea1975-0ebc-44b8-88df-694e1d668537.jpg?v=1749598906", "Variants": [{"name": "Black & White", "sku": "HS-RITUAL-LAVA-BW", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2341-05_86ea1975-0ebc-44b8-88df-694e1d668537.jpg?v=1749598906"}, {"name": "Black & Red", "sku": "HS-RITUAL-LAVA-BR", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2341-05_86ea1975-0ebc-44b8-88df-694e1d668537.jpg?v=1749598906"}, {"name": "Cotton Candy", "sku": "HS-RITUAL-LAVA-CC", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2341-05_86ea1975-0ebc-44b8-88df-694e1d668537.jpg?v=1749598906"}, {"name": "Miami Sunset", "sku": "HS-RITUAL-LAVA-MIA", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2341-05_86ea1975-0ebc-44b8-88df-694e1d668537.jpg?v=1749598906"}, {"name": "Rasta", "sku": "HS-RITUAL-LAVA-RAS", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2341-05_86ea1975-0ebc-44b8-88df-694e1d668537.jpg?v=1749598906"}, {"name": "White", "sku": "HS-RITUAL-LAVA-WHI", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2341-05_86ea1975-0ebc-44b8-88df-694e1d668537.jpg?v=1749598906"}], "Description": "Ritual 7.5 Silicone Lava Lamp Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2341-05_86ea1975-0ebc-44b8-88df-694e1d668537.jpg?v=1749598906"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Ritual 7.5&quot; Silicone Lava Lamp Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SL2341-05_86ea1975-0ebc-44b8-88df-694e1d668537.jpg?v=1749598906" alt="Ritual 7.5" Silicone Lava Lamp Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Ritual</div>
+            <div class="title">Ritual 7.5" Silicone Lava Lamp Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$31.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="the kind pen straight tube bong"
+         data-price="89.99"
+         data-brand="the kind pen"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "The Kind Pen Straight Tube Bong", "brand": "The Kind Pen", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Straight-Tube-Bong.png?v=1749598852", "Variants": [{"name": "10 inches", "sku": "691959200902", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Straight-Tube-Bong.png?v=1749598852"}, {"name": "12 inches", "sku": "691959034125", "price": 96.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Straight-Tube-Bong.png?v=1749598852"}, {"name": "14 inches", "sku": "691959060810", "price": 113.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Straight-Tube-Bong.png?v=1749598852"}, {"name": "18 inches", "sku": "691959120569", "price": 131.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Straight-Tube-Bong.png?v=1749598852"}, {"name": "24 inches", "sku": "691959114148", "price": 148.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Straight-Tube-Bong.png?v=1749598852"}], "Description": "The Kind Pen Straight Tube Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Straight-Tube-Bong.png?v=1749598852"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('The Kind Pen Straight Tube Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Straight-Tube-Bong.png?v=1749598852" alt="The Kind Pen Straight Tube Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">The Kind Pen</div>
+            <div class="title">The Kind Pen Straight Tube Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$89.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="the kind pen bent neck bong"
+         data-price="89.99"
+         data-brand="the kind pen"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "The Kind Pen Bent Neck Bong", "brand": "The Kind Pen", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Bent-Neck-Tube_d3caa838-b5f4-4755-bfcb-1f965a9ec25c.jpg?v=1749598832", "Variants": [{"name": "10 inches", "sku": "691959198186", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Bent-Neck-Tube_d3caa838-b5f4-4755-bfcb-1f965a9ec25c.jpg?v=1749598832"}, {"name": "12 inches", "sku": "691959168509", "price": 96.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Bent-Neck-Tube_d3caa838-b5f4-4755-bfcb-1f965a9ec25c.jpg?v=1749598832"}, {"name": "14 inches", "sku": "691959080214", "price": 113.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Bent-Neck-Tube_d3caa838-b5f4-4755-bfcb-1f965a9ec25c.jpg?v=1749598832"}, {"name": "18 inches", "sku": "691959040409", "price": 131.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Bent-Neck-Tube_d3caa838-b5f4-4755-bfcb-1f965a9ec25c.jpg?v=1749598832"}, {"name": "24 inches", "sku": "691959422434", "price": 148.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Bent-Neck-Tube_d3caa838-b5f4-4755-bfcb-1f965a9ec25c.jpg?v=1749598832"}], "Description": "The Kind Pen Bent Neck Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Bent-Neck-Tube_d3caa838-b5f4-4755-bfcb-1f965a9ec25c.jpg?v=1749598832"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('The Kind Pen Bent Neck Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Bent-Neck-Tube_d3caa838-b5f4-4755-bfcb-1f965a9ec25c.jpg?v=1749598832" alt="The Kind Pen Bent Neck Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">The Kind Pen</div>
+            <div class="title">The Kind Pen Bent Neck Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$89.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase jewel bong"
+         data-price="174.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Jewel Bong", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/my-bud-vase-jewel-emerald_900x_4f3666aa-9fd7-4727-a7c9-143b69f5b71e.jpg?v=1749598624", "Variants": [{"name": "Sapphire", "sku": "MBV-JEWEL-SAPPHIRE", "price": 174.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/my-bud-vase-jewel-emerald_900x_4f3666aa-9fd7-4727-a7c9-143b69f5b71e.jpg?v=1749598624"}, {"name": "Topaz", "sku": "MBV-JEWEL-TOPAZ", "price": 174.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/my-bud-vase-jewel-emerald_900x_4f3666aa-9fd7-4727-a7c9-143b69f5b71e.jpg?v=1749598624"}, {"name": "Emerald", "sku": "MBV-JEWEL-EMERALD", "price": 174.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/my-bud-vase-jewel-emerald_900x_4f3666aa-9fd7-4727-a7c9-143b69f5b71e.jpg?v=1749598624"}], "Description": "My Bud Vase Jewel Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/my-bud-vase-jewel-emerald_900x_4f3666aa-9fd7-4727-a7c9-143b69f5b71e.jpg?v=1749598624"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Jewel Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/my-bud-vase-jewel-emerald_900x_4f3666aa-9fd7-4727-a7c9-143b69f5b71e.jpg?v=1749598624" alt="My Bud Vase Jewel Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Jewel Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$174.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase turtle bong"
+         data-price="131.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Turtle Bong", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Turtle_Bong_d8d36841-8d61-49a5-8480-857b90b3229d.jpg?v=1749598634", "Variants": [{"name": "Standard", "sku": "MBV-TURTLE-V", "price": 131.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Turtle_Bong_d8d36841-8d61-49a5-8480-857b90b3229d.jpg?v=1749598634"}], "Description": "My Bud Vase Turtle Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Turtle_Bong_d8d36841-8d61-49a5-8480-857b90b3229d.jpg?v=1749598634"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Turtle Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Turtle_Bong_d8d36841-8d61-49a5-8480-857b90b3229d.jpg?v=1749598634" alt="My Bud Vase Turtle Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Turtle Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$131.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase stardust water pipe"
+         data-price="174.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Stardust Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Stardust_Water_Pipe.jpg?v=1748340906", "Variants": [{"name": "Standard", "sku": "MBV-STARDUST", "price": 174.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Stardust_Water_Pipe.jpg?v=1748340906"}], "Description": "My Bud Vase Stardust Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Stardust_Water_Pipe.jpg?v=1748340906"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Stardust Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Stardust_Water_Pipe.jpg?v=1748340906" alt="My Bud Vase Stardust Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Stardust Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$174.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="freezable cup bong"
+         data-price="33.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Freezable Cup Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Freezable-Cup-Waterpipe.jpg?v=1748341203", "Variants": [{"name": "Pink", "sku": "PP2708PK-I", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Freezable-Cup-Waterpipe.jpg?v=1748341203"}, {"name": "Rasta", "sku": "PP2708RA-I", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Freezable-Cup-Waterpipe.jpg?v=1748341203"}, {"name": "Blue", "sku": "PP2708RWB-I", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Freezable-Cup-Waterpipe.jpg?v=1748341203"}], "Description": "Freezable Cup Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Freezable-Cup-Waterpipe.jpg?v=1748341203"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Freezable Cup Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Freezable-Cup-Waterpipe.jpg?v=1748341203" alt="Freezable Cup Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">Freezable Cup Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$33.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="8 chakra beaker bong"
+         data-price="35.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "8\" Chakra Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Chakra-Beaker-Bong.jpg?v=1748341215", "Variants": [{"name": "Standard", "sku": "PP3179", "price": 35.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Chakra-Beaker-Bong.jpg?v=1748341215"}], "Description": "8 Chakra Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Chakra-Beaker-Bong.jpg?v=1748341215"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('8&quot; Chakra Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Chakra-Beaker-Bong.jpg?v=1748341215" alt="8" Chakra Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">8" Chakra Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$35.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="10 seven chakras beaker bong"
+         data-price="40.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "10\" Seven Chakras Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Seven-Chakras-Beaker-Bong.jpg?v=1748341221", "Variants": [{"name": "Standard", "sku": "PP3175", "price": 40.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Seven-Chakras-Beaker-Bong.jpg?v=1748341221"}], "Description": "10 Seven Chakras Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Seven-Chakras-Beaker-Bong.jpg?v=1748341221"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('10&quot; Seven Chakras Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Seven-Chakras-Beaker-Bong.jpg?v=1748341221" alt="10" Seven Chakras Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">10" Seven Chakras Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$40.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="10 pot leaf beaker bong"
+         data-price="41.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "10\" Pot Leaf Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pot-Leaf-Bong.jpg?v=1748341235", "Variants": [{"name": "Blue", "sku": "PP3171BL-I", "price": 41.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pot-Leaf-Bong.jpg?v=1748341235"}, {"name": "Green", "sku": "PP3171GR-I", "price": 41.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pot-Leaf-Bong.jpg?v=1748341235"}, {"name": "Orange", "sku": "PP3171OR-I", "price": 41.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pot-Leaf-Bong.jpg?v=1748341235"}], "Description": "10 Pot Leaf Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pot-Leaf-Bong.jpg?v=1748341235"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('10&quot; Pot Leaf Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pot-Leaf-Bong.jpg?v=1748341235" alt="10" Pot Leaf Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">10" Pot Leaf Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$41.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="extendable silicone beaker bong (10 > 21)"
+         data-price="52.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Extendable Silicone Beaker Bong (10\" > 21\")", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255", "Variants": [{"name": "Black", "sku": "PP1674BK-I", "price": 52.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255"}, {"name": "Green & Blue", "sku": "PP1674GRBL-I", "price": 52.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255"}, {"name": "Blue & Yellow", "sku": "PP1674BLYL-I", "price": 52.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255"}, {"name": "Pink & Green", "sku": "PP1674PK-I", "price": 52.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255"}, {"name": "Rasta", "sku": "PP1674RA-I", "price": 52.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255"}], "Description": "Extendable Silicone Beaker Bong 10  21", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Extendable Silicone Beaker Bong (10&quot; > 21&quot;)')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255" alt="Extendable Silicone Beaker Bong (10" > 21")" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">Extendable Silicone Beaker Bong (10" > 21")</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$52.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="12 inline perc beaker bong"
+         data-price="51.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "12\" Inline Perc Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Inline-Perc-Beaker-Bong_c2580bf9-4c12-46aa-acf6-617681bd61fa.jpg?v=1749598494", "Variants": [{"name": "Standard", "sku": "PP3176", "price": 51.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Inline-Perc-Beaker-Bong_c2580bf9-4c12-46aa-acf6-617681bd61fa.jpg?v=1749598494"}], "Description": "12 Inline Perc Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Inline-Perc-Beaker-Bong_c2580bf9-4c12-46aa-acf6-617681bd61fa.jpg?v=1749598494"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('12&quot; Inline Perc Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Inline-Perc-Beaker-Bong_c2580bf9-4c12-46aa-acf6-617681bd61fa.jpg?v=1749598494" alt="12" Inline Perc Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">12" Inline Perc Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$51.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="12 wide honeycomb perc beaker bong"
+         data-price="55.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "12\" Wide Honeycomb Perc Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Honeycomb-Perc-Beaker-Bong.jpg?v=1748341260", "Variants": [{"name": "Standard", "sku": "PP3177", "price": 55.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Honeycomb-Perc-Beaker-Bong.jpg?v=1748341260"}], "Description": "12 Wide Honeycomb Perc Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Honeycomb-Perc-Beaker-Bong.jpg?v=1748341260"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('12&quot; Wide Honeycomb Perc Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Honeycomb-Perc-Beaker-Bong.jpg?v=1748341260" alt="12" Wide Honeycomb Perc Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">12" Wide Honeycomb Perc Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$55.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="11 red tree beaker bong"
+         data-price="54.99"
+         data-brand="dyspensr wholesale"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "11\" Red Tree Beaker Bong", "brand": "Dyspensr Wholesale", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Red-Tree-Beaker-Bong_0420df2a-99bc-40b0-a8e6-0b33fb8ec039.jpg?v=1749598492", "Variants": [{"name": "Standard", "sku": "PP1723", "price": 54.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Red-Tree-Beaker-Bong_0420df2a-99bc-40b0-a8e6-0b33fb8ec039.jpg?v=1749598492"}], "Description": "11 Red Tree Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Red-Tree-Beaker-Bong_0420df2a-99bc-40b0-a8e6-0b33fb8ec039.jpg?v=1749598492"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('11&quot; Red Tree Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Red-Tree-Beaker-Bong_0420df2a-99bc-40b0-a8e6-0b33fb8ec039.jpg?v=1749598492" alt="11" Red Tree Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Dyspensr Wholesale</div>
+            <div class="title">11" Red Tree Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$54.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="9 mega matrix perc bong"
+         data-price="58.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "9\" Mega Matrix Perc Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mega-Matrix-Perc-Bong.jpg?v=1748341276", "Variants": [{"name": "Light Blue", "sku": "PP3206BL-I", "price": 58.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mega-Matrix-Perc-Bong.jpg?v=1748341276"}, {"name": "Smoke Gray", "sku": "PP3206WH-I", "price": 58.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mega-Matrix-Perc-Bong.jpg?v=1748341276"}, {"name": "White", "sku": "PP3206GY-I", "price": 58.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mega-Matrix-Perc-Bong.jpg?v=1748341276"}], "Description": "9 Mega Matrix Perc Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mega-Matrix-Perc-Bong.jpg?v=1748341276"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('9&quot; Mega Matrix Perc Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mega-Matrix-Perc-Bong.jpg?v=1748341276" alt="9" Mega Matrix Perc Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">9" Mega Matrix Perc Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$58.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="9 matrix perc bong"
+         data-price="56.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "9\" Matrix Perc Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Matrix-Perc-Water-Pipe.jpg?v=1748341271", "Variants": [{"name": "Blue", "sku": "PP3060BL-I", "price": 56.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Matrix-Perc-Water-Pipe.jpg?v=1748341271"}, {"name": "White", "sku": "PP3060WH-I", "price": 56.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Matrix-Perc-Water-Pipe.jpg?v=1748341271"}], "Description": "9 Matrix Perc Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Matrix-Perc-Water-Pipe.jpg?v=1748341271"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('9&quot; Matrix Perc Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Matrix-Perc-Water-Pipe.jpg?v=1748341271" alt="9" Matrix Perc Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">9" Matrix Perc Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$56.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="10 weed leaf beaker bong"
+         data-price="69.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "10\" Weed Leaf Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Weed-Leaf-Beaker.jpg?v=1748341283", "Variants": [{"name": "Blue", "sku": "PP2919BL-I", "price": 69.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Weed-Leaf-Beaker.jpg?v=1748341283"}, {"name": "Gold", "sku": "PP2919GD-I", "price": 69.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Weed-Leaf-Beaker.jpg?v=1748341283"}, {"name": "Rainbow", "sku": "PP2919RB-I", "price": 69.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Weed-Leaf-Beaker.jpg?v=1748341283"}], "Description": "10 Weed Leaf Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Weed-Leaf-Beaker.jpg?v=1748341283"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('10&quot; Weed Leaf Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Weed-Leaf-Beaker.jpg?v=1748341283" alt="10" Weed Leaf Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">10" Weed Leaf Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$69.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="7 black frost beaker bong"
+         data-price="79.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "7\" Black Frost Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Black-Frost-Beaker-Bong.jpg?v=1748341313", "Variants": [{"name": "Teal", "sku": "PP3225BKTE-I", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Black-Frost-Beaker-Bong.jpg?v=1748341313"}, {"name": "Green", "sku": "PP3225BKGR-I", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Black-Frost-Beaker-Bong.jpg?v=1748341313"}, {"name": "Purple", "sku": "PP3225BKPL-I", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Black-Frost-Beaker-Bong.jpg?v=1748341313"}], "Description": "7 Black Frost Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Black-Frost-Beaker-Bong.jpg?v=1748341313"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('7&quot; Black Frost Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Black-Frost-Beaker-Bong.jpg?v=1748341313" alt="7" Black Frost Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">7" Black Frost Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$79.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="12 tree perc beaker bong"
+         data-price="79.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "12\" Tree Perc Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Tree-Perc-Beaker-Water-Pipe.jpg?v=1749414522", "Variants": [{"name": "Blue & Orange", "sku": "PP2143BLOR-I", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Tree-Perc-Beaker-Water-Pipe.jpg?v=1749414522"}, {"name": "Green", "sku": "PP2143GR-I", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Tree-Perc-Beaker-Water-Pipe.jpg?v=1749414522"}, {"name": "Black", "sku": "PP2143BK-I", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Tree-Perc-Beaker-Water-Pipe.jpg?v=1749414522"}], "Description": "12 Tree Perc Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Tree-Perc-Beaker-Water-Pipe.jpg?v=1749414522"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('12&quot; Tree Perc Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Tree-Perc-Beaker-Water-Pipe.jpg?v=1749414522" alt="12" Tree Perc Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">12" Tree Perc Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$79.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="12.5 pineapple beaker bong"
+         data-price="94.99"
+         data-brand="dyspensr wholesale"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "12.5\" Pineapple Beaker Bong", "brand": "Dyspensr Wholesale", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pineapple-Beaker-Bong.jpg?v=1748341342", "Variants": [{"name": "Standard", "sku": "PP2349", "price": 94.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pineapple-Beaker-Bong.jpg?v=1748341342"}], "Description": "12.5 Pineapple Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pineapple-Beaker-Bong.jpg?v=1748341342"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('12.5&quot; Pineapple Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pineapple-Beaker-Bong.jpg?v=1748341342" alt="12.5" Pineapple Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Dyspensr Wholesale</div>
+            <div class="title">12.5" Pineapple Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$94.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="14 floral diamond beaker bong"
+         data-price="89.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "14\" Floral Diamond Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340", "Variants": [{"name": "Blue", "sku": "PP2568BL-I", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"}, {"name": "Gold", "sku": "PP2568GD-I", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"}, {"name": "Teal", "sku": "PP2568GR-I", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"}, {"name": "Gray", "sku": "PP2568GY-I", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"}, {"name": "Red", "sku": "PP2568RD-I", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"}, {"name": "White", "sku": "PP2568WH-I", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"}], "Description": "14 Floral Diamond Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('14&quot; Floral Diamond Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340" alt="14" Floral Diamond Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">14" Floral Diamond Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$89.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="14 hemp leaf beaker bong"
+         data-price="85.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "14\" Hemp Leaf Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331", "Variants": [{"name": "Blue", "sku": "PP2569BL-I", "price": 85.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"}, {"name": "Gold", "sku": "PP2569GD-I", "price": 85.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"}, {"name": "Teal", "sku": "PP2569GR-I", "price": 85.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"}, {"name": "Gray", "sku": "PP2569GY-I", "price": 85.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"}, {"name": "Red", "sku": "PP2569RD-I", "price": 85.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"}, {"name": "White", "sku": "PP2569WH-I", "price": 85.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"}], "Description": "14 Hemp Leaf Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('14&quot; Hemp Leaf Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331" alt="14" Hemp Leaf Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">14" Hemp Leaf Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$85.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="12 mayan beaker bong"
+         data-price="88.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "12\" Mayan Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mayan-Beaker-Bong.jpg?v=1748341344", "Variants": [{"name": "Standard", "sku": "PP3205", "price": 88.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mayan-Beaker-Bong.jpg?v=1748341344"}], "Description": "12 Mayan Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mayan-Beaker-Bong.jpg?v=1748341344"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('12&quot; Mayan Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mayan-Beaker-Bong.jpg?v=1748341344" alt="12" Mayan Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">12" Mayan Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$88.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="11 basic beaker bong"
+         data-price="31.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "11\" Basic Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Glass_Beaker_Bong_Angle.jpg?v=1748341395", "Variants": [{"name": "Standard", "sku": "CaliConnected-Beaker-Bong-Green-11", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Glass_Beaker_Bong_Angle.jpg?v=1748341395"}], "Description": "11 Basic Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Glass_Beaker_Bong_Angle.jpg?v=1748341395"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('11&quot; Basic Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Glass_Beaker_Bong_Angle.jpg?v=1748341395" alt="11" Basic Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">11" Basic Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$31.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="pulsar 17 jellyfish perc beaker bong"
+         data-price="122.99"
+         data-brand="pulsar"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Pulsar 17\" Jellyfish Perc Beaker Bong", "brand": "Pulsar", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Jellyfish-Perc-Beaker-Bong.jpg?v=1748341536", "Variants": [{"name": "Pink", "sku": "WP385PK-I", "price": 122.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Jellyfish-Perc-Beaker-Bong.jpg?v=1748341536"}, {"name": "Green", "sku": "WP385GR-I", "price": 122.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Jellyfish-Perc-Beaker-Bong.jpg?v=1748341536"}, {"name": "Purple", "sku": "WP385PU-I", "price": 122.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Jellyfish-Perc-Beaker-Bong.jpg?v=1748341536"}], "Description": "Pulsar 17 Jellyfish Perc Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Jellyfish-Perc-Beaker-Bong.jpg?v=1748341536"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Pulsar 17&quot; Jellyfish Perc Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Jellyfish-Perc-Beaker-Bong.jpg?v=1748341536" alt="Pulsar 17" Jellyfish Perc Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Pulsar</div>
+            <div class="title">Pulsar 17" Jellyfish Perc Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$122.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase rosette water pipe"
+         data-price="89.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Rosette Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Rosette-Water-Pipe_18a3bc71-cb11-4e0e-99d6-d45054701f0f.jpg?v=1749598350", "Variants": [{"name": "Aqua", "sku": "MBV-ROSETTE-AQUA", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Rosette-Water-Pipe_18a3bc71-cb11-4e0e-99d6-d45054701f0f.jpg?v=1749598350"}, {"name": "Coral", "sku": "MBV-ROSETTE-CORAL", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Rosette-Water-Pipe_18a3bc71-cb11-4e0e-99d6-d45054701f0f.jpg?v=1749598350"}, {"name": "Mauve", "sku": "MBV-ROSETTE-MAUVE", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Rosette-Water-Pipe_18a3bc71-cb11-4e0e-99d6-d45054701f0f.jpg?v=1749598350"}], "Description": "My Bud Vase Rosette Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Rosette-Water-Pipe_18a3bc71-cb11-4e0e-99d6-d45054701f0f.jpg?v=1749598350"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Rosette Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Rosette-Water-Pipe_18a3bc71-cb11-4e0e-99d6-d45054701f0f.jpg?v=1749598350" alt="My Bud Vase Rosette Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Rosette Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$89.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase love bud mini bong"
+         data-price="79.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Love Bud Mini Bong", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Love-Bud-Bong_1e84afa9-c851-4399-8aee-8bdd5fe46e8a.jpg?v=1749598357", "Variants": [{"name": "Standard", "sku": "MBV-LOVEBUD", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Love-Bud-Bong_1e84afa9-c851-4399-8aee-8bdd5fe46e8a.jpg?v=1749598357"}], "Description": "My Bud Vase Love Bud Mini Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Love-Bud-Bong_1e84afa9-c851-4399-8aee-8bdd5fe46e8a.jpg?v=1749598357"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Love Bud Mini Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Love-Bud-Bong_1e84afa9-c851-4399-8aee-8bdd5fe46e8a.jpg?v=1749598357" alt="My Bud Vase Love Bud Mini Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Love Bud Mini Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$79.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase tocacabana water pipe"
+         data-price="218.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase TocaCabana Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-TocaCabana-WaterPipe.jpg?v=1748341994", "Variants": [{"name": "Standard", "sku": "MBV-TOCACABANA", "price": 218.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-TocaCabana-WaterPipe.jpg?v=1748341994"}], "Description": "My Bud Vase TocaCabana Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-TocaCabana-WaterPipe.jpg?v=1748341994"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase TocaCabana Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-TocaCabana-WaterPipe.jpg?v=1748341994" alt="My Bud Vase TocaCabana Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase TocaCabana Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$218.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase vamp water pipe"
+         data-price="131.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Vamp Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Vamp-Bong-My-Bud-Vase_98481ce9-a85d-400f-9f35-2c1e8ba59330.jpg?v=1749598343", "Variants": [{"name": "Standard", "sku": "MBV-VAMP", "price": 131.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Vamp-Bong-My-Bud-Vase_98481ce9-a85d-400f-9f35-2c1e8ba59330.jpg?v=1749598343"}], "Description": "My Bud Vase Vamp Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Vamp-Bong-My-Bud-Vase_98481ce9-a85d-400f-9f35-2c1e8ba59330.jpg?v=1749598343"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Vamp Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Vamp-Bong-My-Bud-Vase_98481ce9-a85d-400f-9f35-2c1e8ba59330.jpg?v=1749598343" alt="My Bud Vase Vamp Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Vamp Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$131.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="la pipes 8 color accented mini beaker bong"
+         data-price="65.99"
+         data-brand="la pipes"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "LA Pipes 8\" Color Accented Mini Beaker Bong", "brand": "LA Pipes", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/LA_Pipes_Color_Accented_Mini_Beaker_Bong_Green_7_30ef373b-7650-487c-a205-acca92d6cb51.jpg?v=1749598215", "Variants": [{"name": "Black", "sku": "GT3-BLACK", "price": 65.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/LA_Pipes_Color_Accented_Mini_Beaker_Bong_Green_7_30ef373b-7650-487c-a205-acca92d6cb51.jpg?v=1749598215"}, {"name": "Purple", "sku": "GT3-PURPLE", "price": 65.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/LA_Pipes_Color_Accented_Mini_Beaker_Bong_Green_7_30ef373b-7650-487c-a205-acca92d6cb51.jpg?v=1749598215"}, {"name": "Blue", "sku": "GT3-BLUE", "price": 65.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/LA_Pipes_Color_Accented_Mini_Beaker_Bong_Green_7_30ef373b-7650-487c-a205-acca92d6cb51.jpg?v=1749598215"}, {"name": "Green", "sku": "GT3-GREEN", "price": 65.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/LA_Pipes_Color_Accented_Mini_Beaker_Bong_Green_7_30ef373b-7650-487c-a205-acca92d6cb51.jpg?v=1749598215"}, {"name": "Amber", "sku": "GT3-AMBER", "price": 65.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/LA_Pipes_Color_Accented_Mini_Beaker_Bong_Green_7_30ef373b-7650-487c-a205-acca92d6cb51.jpg?v=1749598215"}], "Description": "LA Pipes 8 Color Accented Mini Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/LA_Pipes_Color_Accented_Mini_Beaker_Bong_Green_7_30ef373b-7650-487c-a205-acca92d6cb51.jpg?v=1749598215"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('LA Pipes 8&quot; Color Accented Mini Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/LA_Pipes_Color_Accented_Mini_Beaker_Bong_Green_7_30ef373b-7650-487c-a205-acca92d6cb51.jpg?v=1749598215" alt="LA Pipes 8" Color Accented Mini Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">LA Pipes</div>
+            <div class="title">LA Pipes 8" Color Accented Mini Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$65.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase double happiness bong"
+         data-price="174.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Double Happiness Bong", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Double-Happiness-Waterpipe.jpg?v=1748342319", "Variants": [{"name": "Standard", "sku": "MBV-DBLHAPPINESS", "price": 174.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Double-Happiness-Waterpipe.jpg?v=1748342319"}], "Description": "My Bud Vase Double Happiness Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Double-Happiness-Waterpipe.jpg?v=1748342319"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Double Happiness Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Double-Happiness-Waterpipe.jpg?v=1748342319" alt="My Bud Vase Double Happiness Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Double Happiness Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$174.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase flamingo water pipe"
+         data-price="99.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Flamingo Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Flamingo-Bong.jpg?v=1748342347", "Variants": [{"name": "Standard", "sku": "MY-BUD-VASE-FLAMINGO-BONG", "price": 99.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Flamingo-Bong.jpg?v=1748342347"}], "Description": "My Bud Vase Flamingo Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Flamingo-Bong.jpg?v=1748342347"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Flamingo Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Flamingo-Bong.jpg?v=1748342347" alt="My Bud Vase Flamingo Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Flamingo Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$99.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase valerie mini bong"
+         data-price="79.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Valerie Mini Bong", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Valerie-Bong.jpg?v=1748342355", "Variants": [{"name": "Standard", "sku": "MY-BUD-VASE-VALERIE-WATER-PIPE", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Valerie-Bong.jpg?v=1748342355"}], "Description": "My Bud Vase Valerie Mini Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Valerie-Bong.jpg?v=1748342355"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Valerie Mini Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Valerie-Bong.jpg?v=1748342355" alt="My Bud Vase Valerie Mini Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Valerie Mini Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$79.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase yemaya mermaid bong"
+         data-price="109.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase \"Yemaya\" Mermaid Bong", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Yemaya-Water-Pipe-Front_14e958f3-7aa9-467b-b848-6b5636cb7a93.jpg?v=1749597772", "Variants": [{"name": "Standard", "sku": "MBV-MERMAID", "price": 109.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Yemaya-Water-Pipe-Front_14e958f3-7aa9-467b-b848-6b5636cb7a93.jpg?v=1749597772"}], "Description": "My Bud Vase Yemaya Mermaid Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Yemaya-Water-Pipe-Front_14e958f3-7aa9-467b-b848-6b5636cb7a93.jpg?v=1749597772"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase &quot;Yemaya&quot; Mermaid Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Yemaya-Water-Pipe-Front_14e958f3-7aa9-467b-b848-6b5636cb7a93.jpg?v=1749597772" alt="My Bud Vase "Yemaya" Mermaid Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase "Yemaya" Mermaid Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$109.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase burmãƒâ«se water pipe"
+         data-price="174.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Burm\u00c3\u0192\u00c2\u00abse Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Burmese-Water-Pipe-4_aac44369-57ec-4280-b585-4ee98eb1b4a5.jpg?v=1749597759", "Variants": [{"name": "Standard", "sku": "MBV-BURMESE", "price": 174.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Burmese-Water-Pipe-4_aac44369-57ec-4280-b585-4ee98eb1b4a5.jpg?v=1749597759"}], "Description": "My Bud Vase Burm\u00c3\u0192\u00c2se Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Burmese-Water-Pipe-4_aac44369-57ec-4280-b585-4ee98eb1b4a5.jpg?v=1749597759"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase BurmÃƒÂ«se Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Burmese-Water-Pipe-4_aac44369-57ec-4280-b585-4ee98eb1b4a5.jpg?v=1749597759" alt="My Bud Vase BurmÃƒÂ«se Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase BurmÃƒÂ«se Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$174.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase pakalolo water pipe"
+         data-price="117.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Pakalolo Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Pakalolo-Water-Pipe-5.jpg?v=1748343071", "Variants": [{"name": "Standard", "sku": "BV-PAKALO", "price": 117.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Pakalolo-Water-Pipe-5.jpg?v=1748343071"}], "Description": "My Bud Vase Pakalolo Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Pakalolo-Water-Pipe-5.jpg?v=1748343071"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Pakalolo Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Pakalolo-Water-Pipe-5.jpg?v=1748343071" alt="My Bud Vase Pakalolo Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Pakalolo Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$117.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="empire glassworks under the sea mini bong"
+         data-price="227.99"
+         data-brand="empire glassworks"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Empire Glassworks Under the Sea Mini Bong", "brand": "Empire Glassworks", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Under_the_Sea_Mini_Bong_19.jpg?v=1748343221", "Variants": [{"name": "Standard", "sku": "1672-K-EMPIRE-GLASSWORKS-UNDER-THE-SEA-BONG", "price": 227.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Under_the_Sea_Mini_Bong_19.jpg?v=1748343221"}], "Description": "Empire Glassworks Under the Sea Mini Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Under_the_Sea_Mini_Bong_19.jpg?v=1748343221"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Under the Sea Mini Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Under_the_Sea_Mini_Bong_19.jpg?v=1748343221" alt="Empire Glassworks Under the Sea Mini Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Empire Glassworks</div>
+            <div class="title">Empire Glassworks Under the Sea Mini Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$227.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="empire glassworks land of ooo mini bong"
+         data-price="188.99"
+         data-brand="empire glassworks"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Empire Glassworks Land of Ooo Mini Bong", "brand": "Empire Glassworks", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Land_of_Ooo_Mini_Bong_1.jpg?v=1749414744", "Variants": [{"name": "Standard", "sku": "EMPIRE-GLASS-LAND-OF-OOO-MINI-BONG", "price": 188.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Land_of_Ooo_Mini_Bong_1.jpg?v=1749414744"}], "Description": "Empire Glassworks Land of Ooo Mini Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Land_of_Ooo_Mini_Bong_1.jpg?v=1749414744"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Land of Ooo Mini Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Land_of_Ooo_Mini_Bong_1.jpg?v=1749414744" alt="Empire Glassworks Land of Ooo Mini Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Empire Glassworks</div>
+            <div class="title">Empire Glassworks Land of Ooo Mini Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$188.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="empire glassworks mushroom party bong"
+         data-price="262.99"
+         data-brand="empire glassworks"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Empire Glassworks Mushroom Party Bong", "brand": "Empire Glassworks", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Mushroom_Party_Bong_2.jpg?v=1748343341", "Variants": [{"name": "Standard", "sku": "EMPIRE-GLASS-MUSHROOM-BONG", "price": 262.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Mushroom_Party_Bong_2.jpg?v=1748343341"}], "Description": "Empire Glassworks Mushroom Party Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Mushroom_Party_Bong_2.jpg?v=1748343341"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Mushroom Party Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Mushroom_Party_Bong_2.jpg?v=1748343341" alt="Empire Glassworks Mushroom Party Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Empire Glassworks</div>
+            <div class="title">Empire Glassworks Mushroom Party Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$262.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="empire glassworks cookie monster sundae mini bong"
+         data-price="218.99"
+         data-brand="empire glassworks"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Empire Glassworks Cookie Monster Sundae Mini Bong", "brand": "Empire Glassworks", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Cookie_Monster_Sundae_Bong_7_32896355-6d2c-4b25-ac5c-44aaf2b6632b.jpg?v=1748343363", "Variants": [{"name": "Standard", "sku": "1635-K-EMPIRE-COOKIE-MONSTER-SUNDAE-BONG", "price": 218.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Cookie_Monster_Sundae_Bong_7_32896355-6d2c-4b25-ac5c-44aaf2b6632b.jpg?v=1748343363"}], "Description": "Empire Glassworks Cookie Monster Sundae Mini Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Cookie_Monster_Sundae_Bong_7_32896355-6d2c-4b25-ac5c-44aaf2b6632b.jpg?v=1748343363"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Cookie Monster Sundae Mini Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Cookie_Monster_Sundae_Bong_7_32896355-6d2c-4b25-ac5c-44aaf2b6632b.jpg?v=1748343363" alt="Empire Glassworks Cookie Monster Sundae Mini Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Empire Glassworks</div>
+            <div class="title">Empire Glassworks Cookie Monster Sundae Mini Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$218.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="empire glassworks mushroom patch bong"
+         data-price="230.99"
+         data-brand="empire glassworks"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Empire Glassworks Mushroom Patch Bong", "brand": "Empire Glassworks", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Mushroom_Patch_Bong_8.jpg?v=1748343456", "Variants": [{"name": "Standard", "sku": "EG-1680", "price": 230.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Mushroom_Patch_Bong_8.jpg?v=1748343456"}], "Description": "Empire Glassworks Mushroom Patch Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Mushroom_Patch_Bong_8.jpg?v=1748343456"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks Mushroom Patch Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Mushroom_Patch_Bong_8.jpg?v=1748343456" alt="Empire Glassworks Mushroom Patch Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Empire Glassworks</div>
+            <div class="title">Empire Glassworks Mushroom Patch Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$230.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase rachel water pipe"
+         data-price="89.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Rachel Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Rachel_Water_Pipe_7.jpg?v=1748343719", "Variants": [{"name": "Standard", "sku": "MBV-RACHEL", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Rachel_Water_Pipe_7.jpg?v=1748343719"}], "Description": "My Bud Vase Rachel Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Rachel_Water_Pipe_7.jpg?v=1748343719"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Rachel Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Rachel_Water_Pipe_7.jpg?v=1748343719" alt="My Bud Vase Rachel Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Rachel Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$89.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase monica water pipe"
+         data-price="89.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Monica Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Monica_Water_Pipe_4_59f2b47b-19c4-47c3-a2ca-63bc2b65069a.jpg?v=1749597642", "Variants": [{"name": "Standard", "sku": "MBV-MONICA", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Monica_Water_Pipe_4_59f2b47b-19c4-47c3-a2ca-63bc2b65069a.jpg?v=1749597642"}], "Description": "My Bud Vase Monica Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Monica_Water_Pipe_4_59f2b47b-19c4-47c3-a2ca-63bc2b65069a.jpg?v=1749597642"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Monica Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Monica_Water_Pipe_4_59f2b47b-19c4-47c3-a2ca-63bc2b65069a.jpg?v=1749597642" alt="My Bud Vase Monica Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Monica Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$89.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase coyote water pipe"
+         data-price="109.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Coyote Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Coyote_Water_Pipe_Bong_3_98003183-a6ea-412e-bc94-4efdbe2ff4b0.jpg?v=1749597554", "Variants": [{"name": "Standard", "sku": "MBV-COYOTE", "price": 109.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Coyote_Water_Pipe_Bong_3_98003183-a6ea-412e-bc94-4efdbe2ff4b0.jpg?v=1749597554"}], "Description": "My Bud Vase Coyote Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Coyote_Water_Pipe_Bong_3_98003183-a6ea-412e-bc94-4efdbe2ff4b0.jpg?v=1749597554"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Coyote Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Coyote_Water_Pipe_Bong_3_98003183-a6ea-412e-bc94-4efdbe2ff4b0.jpg?v=1749597554" alt="My Bud Vase Coyote Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Coyote Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$109.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase phoebe water pipe"
+         data-price="89.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Phoebe Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Phoebe_Water_Pipe_5.jpg?v=1748343790", "Variants": [{"name": "Standard", "sku": "MBV-PHOEBE", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Phoebe_Water_Pipe_5.jpg?v=1748343790"}], "Description": "My Bud Vase Phoebe Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Phoebe_Water_Pipe_5.jpg?v=1748343790"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Phoebe Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Phoebe_Water_Pipe_5.jpg?v=1748343790" alt="My Bud Vase Phoebe Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Phoebe Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$89.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase rose water pipe"
+         data-price="99.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Rose Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Lilac-Rose-Water-Pipe_62ce6ded-4682-4b0c-b7d4-0dc113b64d91.jpg?v=1749597569", "Variants": [{"name": "Lilac", "sku": "MBV-ROSE-LILAC", "price": 99.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Lilac-Rose-Water-Pipe_62ce6ded-4682-4b0c-b7d4-0dc113b64d91.jpg?v=1749597569"}, {"name": "Ivory", "sku": "MBV-ROSE-IVORY", "price": 99.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Lilac-Rose-Water-Pipe_62ce6ded-4682-4b0c-b7d4-0dc113b64d91.jpg?v=1749597569"}, {"name": "Pink", "sku": "MBV-ROSE-PINK", "price": 99.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Lilac-Rose-Water-Pipe_62ce6ded-4682-4b0c-b7d4-0dc113b64d91.jpg?v=1749597569"}], "Description": "My Bud Vase Rose Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Lilac-Rose-Water-Pipe_62ce6ded-4682-4b0c-b7d4-0dc113b64d91.jpg?v=1749597569"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Rose Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My-Bud-Vase-Lilac-Rose-Water-Pipe_62ce6ded-4682-4b0c-b7d4-0dc113b64d91.jpg?v=1749597569" alt="My Bud Vase Rose Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Rose Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$99.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="my bud vase aurora water pipe"
+         data-price="109.99"
+         data-brand="my bud vase"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "My Bud Vase Aurora Water Pipe", "brand": "My Bud Vase", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Bong_Aurora_Water_Pipe_1_a3d3cf95-0d8f-4e10-a1ad-b9df129e05bf.jpg?v=1749597538", "Variants": [{"name": "Standard", "sku": "MBV-AURORA", "price": 109.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Bong_Aurora_Water_Pipe_1_a3d3cf95-0d8f-4e10-a1ad-b9df129e05bf.jpg?v=1749597538"}], "Description": "My Bud Vase Aurora Water Pipe", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Bong_Aurora_Water_Pipe_1_a3d3cf95-0d8f-4e10-a1ad-b9df129e05bf.jpg?v=1749597538"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('My Bud Vase Aurora Water Pipe')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/My_Bud_Vase_Bong_Aurora_Water_Pipe_1_a3d3cf95-0d8f-4e10-a1ad-b9df129e05bf.jpg?v=1749597538" alt="My Bud Vase Aurora Water Pipe" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">My Bud Vase</div>
+            <div class="title">My Bud Vase Aurora Water Pipe</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$109.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="12 triple zong beaker bong"
+         data-price="44.99"
+         data-brand="dyspensr wholesale"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "12\" Triple Zong Beaker Bong", "brand": "Dyspensr Wholesale", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Cali_Connected_12_inch_Zig-Zag_Zong_Beaker_Bong_7_2af7a8a5-e989-4683-b853-5f82ee3cdde9.jpg?v=1749597521", "Variants": [{"name": "Standard", "sku": "LEFT-BU3Z124", "price": 44.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Cali_Connected_12_inch_Zig-Zag_Zong_Beaker_Bong_7_2af7a8a5-e989-4683-b853-5f82ee3cdde9.jpg?v=1749597521"}], "Description": "12 Triple Zong Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Cali_Connected_12_inch_Zig-Zag_Zong_Beaker_Bong_7_2af7a8a5-e989-4683-b853-5f82ee3cdde9.jpg?v=1749597521"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('12&quot; Triple Zong Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Cali_Connected_12_inch_Zig-Zag_Zong_Beaker_Bong_7_2af7a8a5-e989-4683-b853-5f82ee3cdde9.jpg?v=1749597521" alt="12" Triple Zong Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Dyspensr Wholesale</div>
+            <div class="title">12" Triple Zong Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$44.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div></div>
         
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks 8" Hootie\'s Forest Baby Beaker Bong')">
-        <i class="fa-solid fa-link"></i>
+        </div>
+
+        <footer style="padding:50px 48px; border-top:1px solid var(--border); text-align:center; color:var(--muted); font-size:0.8em; letter-spacing:1.5px;">
+            &copy; 2026 PIXIE'S PANTRY &nbsp;|&nbsp; HARDWARE HUB &nbsp;|&nbsp; MISSISSIPPI, USA
+        </footer>
     </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Baby-Beaker-Water-Pipe-Renew-The-Redwood.jpg?v=1748340795" loading="lazy"></div>
-        <div class="brand-badge">Empire Glassworks</div>
-        <div class="title">Empire Glassworks 8" Hootie's Forest Baby Beaker Bong</div>
-        <div class="price">From $231.99</div>
-    </div>
-    <div class="card" onclick="openModal('Empire Glassworks 8" Sunshine Garden Baby Beaker Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks 8" Sunshine Garden Baby Beaker Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Sunshine-Garden-Baby-Beaker-Bong.jpg?v=1748340790" loading="lazy"></div>
-        <div class="brand-badge">Empire Glassworks</div>
-        <div class="title">Empire Glassworks 8" Sunshine Garden Baby Beaker Bong</div>
-        <div class="price">From $271.99</div>
-    </div>
-    <div class="card" onclick="openModal('Empire Glassworks 8" Galaxy Baby Beaker Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks 8" Galaxy Baby Beaker Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Galactic-Baby-Beaker-Bong.jpg?v=1748340784" loading="lazy"></div>
-        <div class="brand-badge">Empire Glassworks</div>
-        <div class="title">Empire Glassworks 8" Galaxy Baby Beaker Bong</div>
-        <div class="price">From $231.99</div>
-    </div>
-    <div class="card" onclick="openModal('Empire Glassworks 8" Under the Sea Baby Beaker Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks 8" Under the Sea Baby Beaker Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Under-The-Sea-Baby-Beaker-Water-Pipe.jpg?v=1748340801" loading="lazy"></div>
-        <div class="brand-badge">Empire Glassworks</div>
-        <div class="title">Empire Glassworks 8" Under the Sea Baby Beaker Bong</div>
-        <div class="price">From $231.99</div>
-    </div>
-    <div class="card" onclick="openModal('Empire Glassworks 14" Beehive Beaker Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks 14" Beehive Beaker Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Beehive-Beaker-Bong.jpg?v=1748341570" loading="lazy"></div>
-        <div class="brand-badge">Empire Glassworks</div>
-        <div class="title">Empire Glassworks 14" Beehive Beaker Bong</div>
-        <div class="price">From $329.99</div>
-    </div>
-    <div class="card" onclick="openModal('Empire Glassworks 14" Hootie\'s Forest Beaker Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks 14" Hootie\'s Forest Beaker Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Renew-the-Redwood-Beaker-Bong.jpg?v=1748342243" loading="lazy"></div>
-        <div class="brand-badge">Empire Glassworks</div>
-        <div class="title">Empire Glassworks 14" Hootie's Forest Beaker Bong</div>
-        <div class="price">From $314.99</div>
-    </div>
-    <div class="card" onclick="openModal('Empire Glassworks 14" Galaxy Beaker Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks 14" Galaxy Beaker Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire-Glassworks-Galactic-Beaker-Bong.jpg?v=1748342822" loading="lazy"></div>
-        <div class="brand-badge">Empire Glassworks</div>
-        <div class="title">Empire Glassworks 14" Galaxy Beaker Bong</div>
-        <div class="price">From $314.99</div>
-    </div>
-    <div class="card" onclick="openModal('Empire Glassworks 14" Under the Sea Beaker Bong')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Empire Glassworks 14" Under the Sea Beaker Bong')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Empire_Glassworks_Aquatics_Water_Pipe.jpg?v=1748343099" loading="lazy"></div>
-        <div class="brand-badge">Empire Glassworks</div>
-        <div class="title">Empire Glassworks 14" Under the Sea Beaker Bong</div>
-        <div class="price">From $314.99</div>
-    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <button onclick="closeModal()" style="position:absolute; top:20px; right:24px; font-size:2em; background:none; border:none; cursor:pointer; color:#aaa; z-index:10; line-height:1;">&times;</button>
+            <div class="modal-img-side">
+                <img id="modal-img" src="" style="max-width:100%; max-height:380px; object-fit:contain;">
+                <div id="modal-gallery" style="display:flex; gap:10px; margin-top:20px; overflow-x:auto; width:100%; justify-content:center; padding-bottom:4px;"></div>
+            </div>
+            <div class="modal-info-side">
+                <div id="modal-brand" style="font-size:0.75em; font-weight:900; color:#bbb; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;"></div>
+                <h2 id="modal-title" style="font-weight:900; font-size:1.9em; line-height:1.1; letter-spacing:-0.5px; margin-bottom:18px;"></h2>
+                <div id="modal-price" style="font-size:2.2em; font-weight:900; margin-bottom:22px;"></div>
+                <div id="modal-variant-container" style="margin-bottom:10px;"></div>
+                <button id="modal-add-btn" class="quick-add-btn" style="width:100%; padding:18px; font-size:1em; margin-top:16px; letter-spacing:1px; text-transform:uppercase; border-radius:10px;">Add to Order</button>
+                <div id="modal-desc-container" style="margin-top:30px; color:#555; font-size:0.95em; line-height:1.8; border-top:1px solid #f0f0f0; padding-top:22px;"></div>
+            </div>
         </div>
     </div>
-    <script src="../js/data.js"></script>
-    <script src="../js/app.js"></script>
+
+    <!-- Floating Cart Button -->
+    <button class="cart-toggle" onclick="toggleCart()">🛒 CART (<span class="cart-count">0</span>)</button>
+
+    <!-- Side Cart Panel -->
+    <div id="cart-panel" class="cart-panel">
+        <div style="padding:28px 30px; background:#fafafa; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; font-size:1em; font-weight:900; letter-spacing:2px; text-transform:uppercase;">Order Sheet</h2>
+            <button onclick="toggleCart()" style="border:none; background:none; font-size:1.8em; cursor:pointer; color:#bbb; line-height:1;">&times;</button>
+        </div>
+        <div id="cart-items" style="flex:1; overflow-y:auto; padding:20px 30px;"></div>
+        <div style="padding:24px 30px; border-top:1px solid #eee; background:#fff;">
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:1.2em; margin-bottom:24px;">
+                <span>Subtotal:</span><span id="cart-total-price">$0.00</span>
+            </div>
+            <!-- FORMSPREE FORM — action URL uses your FORMSPREE_ID -->
+            <form action="https://formspree.io/f/xeoqkzdj" method="POST" id="checkout-form" onsubmit="prepareCheckout(event)">
+                <input type="hidden" name="Order Details" id="order-payload">
+                <input type="text" name="Full Name" placeholder="Full Name *" required class="checkout-input">
+                <input type="email" name="email" placeholder="Email Address *" required class="checkout-input">
+                <input type="text" name="Discord" placeholder="Discord Username (Optional)" class="checkout-input">
+                <input type="text" name="Shipping" placeholder="City, State, Zip *" required class="checkout-input">
+                <input type="text" name="Notes" placeholder="Order notes (optional)" class="checkout-input">
+                <button type="submit" style="width:100%; background:var(--primary); color:#fff; border:none; padding:18px; font-weight:900; border-radius:10px; margin-top:8px; font-size:0.95em; text-transform:uppercase; letter-spacing:1px; cursor:pointer; font-family:inherit;">Submit Order</button>
+            </form>
+            <div id="receipt-container" style="display:none; text-align:center; padding:30px; border:2px dashed #eee; border-radius:14px;">
+                <div style="font-size:2em; margin-bottom:12px;">✅</div>
+                <h4 style="font-weight:900; letter-spacing:1px; margin-bottom:8px;">ORDER SUBMITTED</h4>
+                <p style="font-size:0.88em; color:var(--muted);">Check Discord or Email for follow-up shortly.</p>
+                <button onclick="location.reload()" class="quick-add-btn" style="margin-top:18px; width:100%; padding:14px; border-radius:8px;">Back to Catalog</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function copyDirectLink(name) {
-            const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-            const url = window.location.origin + "/index.html?p=" + slug;
-            navigator.clipboard.writeText(url).then(() => alert("Link Copied!"));
+
+// ── State ──────────────────────────────────────────────────
+let cart = [];
+
+// ── Cart Helpers ────────────────────────────────────────────
+function addToCart(productName, variant) {
+    const existing = cart.find(i => i.name === productName && i.variantName === variant.name);
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({ name: productName, variantName: variant.name, price: variant.price, qty: 1 });
+    }
+    renderCart();
+    showToast("Added: " + productName);
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    renderCart();
+}
+
+function updateQty(index, delta) {
+    cart[index].qty += delta;
+    if (cart[index].qty <= 0) cart.splice(index, 1);
+    renderCart();
+}
+
+function renderCart() {
+    const container = document.getElementById('cart-items');
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    document.querySelectorAll('.cart-count').forEach(el => el.textContent = cart.reduce((s,i) => s+i.qty, 0));
+    document.getElementById('cart-total-price').textContent = '$' + total.toFixed(2);
+
+    if (cart.length === 0) {
+        container.innerHTML = '<p style="color:#aaa; text-align:center; padding:40px 0; font-size:0.9em;">Your cart is empty.</p>';
+        return;
+    }
+
+    container.innerHTML = cart.map((item, i) => `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:18px 0; border-bottom:1px solid #f0f0f0; gap:12px;">
+            <div style="flex:1;">
+                <div style="font-weight:800; font-size:0.9em; line-height:1.3;">${item.name}</div>
+                ${item.variantName !== 'Standard' ? `<div style="font-size:0.78em; color:#aaa; margin-top:3px;">${item.variantName}</div>` : ''}
+                <div style="font-size:0.85em; color:#555; margin-top:6px;">$${item.price.toFixed(2)} each</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button onclick="updateQty(${i}, -1)" style="width:28px; height:28px; border:1px solid #ddd; background:#fff; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center;">−</button>
+                    <span style="font-weight:900; min-width:20px; text-align:center;">${item.qty}</span>
+                    <button onclick="updateQty(${i}, 1)" style="width:28px; height:28px; border:1px solid #ddd; background:#fff; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center;">+</button>
+                </div>
+                <div style="font-weight:900; font-size:0.95em;">$${(item.price * item.qty).toFixed(2)}</div>
+                <button onclick="removeFromCart(${i})" style="border:none; background:none; color:#ccc; cursor:pointer; font-size:0.75em; text-transform:uppercase; letter-spacing:1px;">Remove</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function toggleCart() {
+    document.getElementById('cart-panel').classList.toggle('open');
+}
+
+// ── Modal ───────────────────────────────────────────────────
+function openModal(cardEl) {
+    const raw = cardEl.getAttribute('data-product');
+    const p = JSON.parse(raw.replace(/&#39;/g, "'"));
+    const modal = document.getElementById('product-modal');
+
+    document.getElementById('modal-img').src = p.image;
+    document.getElementById('modal-brand').textContent = p.brand;
+    document.getElementById('modal-title').textContent = p.name;
+    document.getElementById('modal-desc-container').innerHTML = p.Description || '';
+
+    // Gallery
+    const gallery = document.getElementById('modal-gallery');
+    gallery.innerHTML = (p['All Images'] || []).map((img, i) => `
+        <img src="${img}" style="width:60px; height:60px; object-fit:contain; border:2px solid ${i===0?'#111':'#eee'}; border-radius:8px; cursor:pointer; padding:4px;"
+             onclick="document.getElementById('modal-img').src='${img}'; this.parentNode.querySelectorAll('img').forEach(x=>x.style.borderColor='#eee'); this.style.borderColor='#111';">
+    `).join('');
+
+    // Variants
+    const container = document.getElementById('modal-variant-container');
+    const priceEl = document.getElementById('modal-price');
+
+    if (p.Variants.length === 1) {
+        priceEl.textContent = '$' + p.Variants[0].price.toFixed(2);
+        container.innerHTML = '';
+        document.getElementById('modal-add-btn').onclick = () => {
+            addToCart(p.name, p.Variants[0]);
+            closeModal();
+        };
+    } else {
+        priceEl.textContent = '$' + p.Variants[0].price.toFixed(2);
+        container.innerHTML = `
+            <label style="font-size:0.8em; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#aaa; display:block; margin-bottom:10px;">Select Option</label>
+            <select onchange="selectVariant(this.value, ${JSON.stringify(p.Variants).replace(/"/g,'&quot;')})"
+                    style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-weight: 700; font-size: 0.95em; cursor: pointer; outline: none;">
+                ${p.Variants.map((v, i) => `
+                    <option value="${i}">${v.name} - $${v.price.toFixed(2)}</option>
+                `).join('')}
+            </select>`;
+
+        // Store selected variant index on the button
+        let selectedVariant = p.Variants[0];
+        window._modalVariants = p.Variants;
+        window._modalSelectedVariant = selectedVariant;
+
+        document.getElementById('modal-add-btn').onclick = () => {
+            addToCart(p.name, window._modalSelectedVariant || p.Variants[0]);
+            closeModal();
+        };
+    }
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function selectVariant(index, variantsJson) {
+    const variants = typeof variantsJson === 'string' ? JSON.parse(variantsJson) : variantsJson;
+    const v = variants[index];
+    window._modalSelectedVariant = v;
+    document.getElementById('modal-price').textContent = '$' + v.price.toFixed(2);
+    
+    if (v.image && v.image !== "https://placehold.co/400x400/f5f5f5/999?text=No+Image") {
+        document.getElementById('modal-img').src = v.image;
+        document.querySelectorAll('#modal-gallery img').forEach(img => {
+            img.style.borderColor = img.src === v.image ? '#111' : '#eee';
+        });
+    }
+}
+
+function closeModal() {
+    document.getElementById('product-modal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+document.getElementById('product-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// ── Quick Add (single variant) ──────────────────────────────
+function quickAdd(btn) {
+    const card = btn.closest('.card');
+    const raw = card.getAttribute('data-product');
+    const p = JSON.parse(raw.replace(/&#39;/g, "'"));
+    if (p.Variants.length === 1) {
+        addToCart(p.name, p.Variants[0]);
+    } else {
+        openModal(card);
+    }
+}
+
+// ── Filter & Sort ───────────────────────────────────────────
+function applyFilters() {
+    const search = (document.getElementById('searchInput')?.value || '').toLowerCase();
+    const brandFilter = (document.getElementById('brandFilter')?.value || 'all').toLowerCase();
+    const catFilter = (document.getElementById('catFilter')?.value || 'all').toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+        const name = card.dataset.name || '';
+        const brand = card.dataset.brand || '';
+        const cat = card.dataset.cat || '';
+        const matchSearch = name.includes(search) || brand.includes(search);
+        const matchBrand = brandFilter === 'all' || brand === brandFilter;
+        const matchCat = catFilter === 'all' || cat === catFilter;
+        card.style.display = (matchSearch && matchBrand && matchCat) ? 'flex' : 'none';
+    });
+    updateCount();
+}
+
+function updateCount() {
+    const visible = document.querySelectorAll('.card:not([style*="none"])').length;
+    const el = document.getElementById('result-count');
+    if (el) el.textContent = visible + ' products';
+}
+
+function sortGrid() {
+    const val = document.getElementById('sortSelect')?.value;
+    const grid = document.querySelector('.grid');
+    if (!grid || !val) return;
+    const cards = Array.from(grid.querySelectorAll('.card'));
+    cards.sort((a, b) => {
+        if (val === 'price-low') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+        if (val === 'price-high') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+        if (val === 'name-az') return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+        return 0;
+    });
+    cards.forEach(c => grid.appendChild(c));
+}
+
+// ── Toast ───────────────────────────────────────────────────
+function showToast(msg) {
+    const t = document.getElementById('pixies-toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Direct Link ─────────────────────────────────────────────
+function copyDirectLink(name) {
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const url = window.location.href.split('?')[0] + '?p=' + slug;
+    navigator.clipboard?.writeText(url).then(() => showToast('🔗 Link copied!')).catch(() => showToast('Link: ' + url));
+}
+
+// ── Formspree Checkout ──────────────────────────────────────
+function prepareCheckout(e) {
+    e.preventDefault();
+    if (cart.length === 0) { showToast('Your cart is empty!'); return; }
+
+    const orderLines = cart.map(i => `${i.qty}x ${i.name}${i.variantName !== 'Standard' ? ' ('+i.variantName+')' : ''} @ $${i.price.toFixed(2)}`);
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    orderLines.push('---');
+    orderLines.push('SUBTOTAL: $' + total.toFixed(2));
+
+    document.getElementById('order-payload').value = orderLines.join('\n');
+
+    const form = document.getElementById('checkout-form');
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+    }).then(res => {
+        if (res.ok) {
+            form.style.display = 'none';
+            document.getElementById('receipt-container').style.display = 'block';
+            cart = [];
+            renderCart();
+        } else {
+            showToast('⚠️ Submission failed. Please try again.');
         }
+    }).catch(() => showToast('⚠️ Network error. Check your connection.'));
+}
+
+// ── Mobile Nav ──────────────────────────────────────────────
+function toggleMobileNav() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('mobile-overlay');
+    sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = sidebar.classList.contains('mobile-open') ? 'hidden' : '';
+}
+
+// Init
+renderCart();
+
     </script>
 </body>
 </html>

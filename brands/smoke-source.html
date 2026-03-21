@@ -3,309 +3,1899 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixie's Pantry: Buy Group - Smoke Source</title>
-    <meta name="description" content="Shop Smoke Source at absolute wholesale prices. Exclusive Discord Group Buy powered by Dyspensr.">
-    <link rel="stylesheet" href="../css/style.css">
-    
-    <!-- OpenGraph SEO Tags -->
-    <meta property="og:title" content="Smoke Source | Pixie's Pantry">
-    <meta property="og:description" content="Access premium vaporizers and glass at wholesale prices.">
-    <meta property="og:type" content="website">
+    <title>Pixie's Pantry | Smoke Source</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #111;
+            --sidebar-w: 300px;
+            --border: #eaeaea;
+            --muted: #888;
+            --card-radius: 14px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #fff;
+            color: var(--primary);
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; bottom: 0;
+            width: var(--sidebar-w);
+            background: #fafafa;
+            border-right: 1px solid var(--border);
+            padding: 40px 28px;
+            overflow-y: auto;
+            z-index: 900;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-logo {
+            font-weight: 900;
+            font-size: 1.3em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            display: block;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .sidebar-logo span { color: #e8498a; }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.88em;
+            margin-bottom: 28px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .search-box:focus { border-color: var(--primary); }
+
+        .nav-section-label {
+            font-size: 0.65em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #bbb;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin: 24px 0 10px;
+        }
+        .sidebar-link {
+            display: block;
+            padding: 9px 0;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.85em;
+            border-bottom: 1px solid #f5f5f5;
+            transition: all 0.15s;
+        }
+        .sidebar-link:hover {
+            color: var(--primary);
+            padding-left: 6px;
+            font-weight: 700;
+        }
+
+        /* ── Mobile overlay ── */
+        #mobile-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 850;
+        }
+        #mobile-overlay.active { display: block; }
+
+        /* ── Main wrapper ── */
+        .main-wrapper {
+            margin-left: var(--sidebar-w);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .banner {
+            background: var(--primary);
+            color: #fff;
+            padding: 13px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 0.72em;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+
+        /* ── Mobile header ── */
+        .mobile-header {
+            display: none;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 39px;
+            z-index: 499;
+        }
+        .mobile-header-logo {
+            font-weight: 900;
+            font-size: 1.1em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .mobile-header-logo span { color: #e8498a; }
+        .hamburger {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 7px 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* ── Main content ── */
+        .main-content {
+            padding: 55px 48px;
+            flex: 1;
+        }
+
+        /* ── Toolbar ── */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+        .toolbar-left h1 {
+            font-weight: 900;
+            font-size: 2.4em;
+            letter-spacing: -1.5px;
+            line-height: 1;
+        }
+        .toolbar-left p {
+            color: var(--muted);
+            font-size: 0.9em;
+            margin-top: 6px;
+        }
+        .toolbar-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-select {
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.85em;
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+            font-family: inherit;
+        }
+        .filter-select:focus { border-color: var(--primary); }
+
+        /* ── Product Grid ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 28px;
+        }
+
+        /* ── Card ── */
+        .card {
+            position: relative;
+            border: 1px solid #f0f0f0;
+            border-radius: var(--card-radius);
+            padding: 22px;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.165,0.84,0.44,1), box-shadow 0.3s ease, border-color 0.2s;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            /* FIX: removed height:100% which caused stretching in auto-fill grids */
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            border-color: #ddd;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 18px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .card:hover .image-container img { transform: scale(1.04); }
+
+        .brand-badge {
+            font-size: 0.58em;
+            font-weight: 900;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+        }
+        .title {
+            font-weight: 800;
+            font-size: 0.97em;
+            line-height: 1.4;
+            color: var(--primary);
+            flex: 1;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        .price-tag {
+            font-weight: 900;
+            font-size: 1.15em;
+            color: var(--primary);
+        }
+        .quick-add-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.82em;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-family: inherit;
+        }
+        .quick-add-btn:hover { opacity: 0.75; }
+
+        .link-shortcut {
+            position: absolute;
+            top: 14px; right: 14px;
+            background: #fff;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #eee;
+            color: #ccc;
+            z-index: 5;
+            transition: all 0.2s;
+        }
+        .link-shortcut:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* ── Cart button ── */
+        .cart-toggle {
+            position: fixed;
+            bottom: 36px; right: 36px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 16px 26px;
+            border-radius: 40px;
+            font-weight: 900;
+            font-size: 0.9em;
+            cursor: pointer;
+            z-index: 800;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+        .cart-toggle:hover { transform: scale(1.05); }
+
+        /* ── Cart panel ── */
+        .cart-panel {
+            position: fixed;
+            top: 0; right: -480px;
+            width: 440px;
+            max-width: 100vw;
+            height: 100%;
+            background: #fff;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+            z-index: 3000;
+            transition: right 0.45s cubic-bezier(0.165,0.84,0.44,1);
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-panel.open { right: 0; }
+
+        .checkout-input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.9em;
+            font-family: inherit;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .checkout-input:focus { border-color: var(--primary); }
+
+        /* ── Modal ── */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+            padding: 20px;
+        }
+        .modal-content {
+            background: #fff;
+            width: 960px;
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 18px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+        }
+        .modal-img-side {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f8f8;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #f0f0f0;
+        }
+        .modal-info-side {
+            flex: 1;
+            min-width: 300px;
+            padding: 50px 45px;
+            overflow-y: auto;
+        }
+
+        /* ── Toast ── */
+        #pixies-toast {
+            visibility: hidden;
+            min-width: 220px;
+            background: #111;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 14px 22px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-weight: 700;
+            font-size: 0.9em;
+            pointer-events: none;
+        }
+        #pixies-toast.show {
+            visibility: visible;
+            animation: toastIn 0.3s ease, toastOut 0.4s ease 2.6s forwards;
+        }
+        @keyframes toastIn { from { opacity:0; bottom:15px; } to { opacity:1; bottom:30px; } }
+        @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+        /* ── Responsive ── */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 280px;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; }
+            .main-content { padding: 30px 20px; }
+            .mobile-header { display: flex; }
+            .banner { top: 0; }
+            .cart-toggle { bottom: 20px; right: 20px; padding: 14px 20px; }
+            .cart-panel { width: 100vw; right: -100vw; }
+            .modal-content { flex-direction: column; }
+            .modal-img-side { min-width: unset; padding: 30px; max-height: 250px; }
+            .modal-info-side { min-width: unset; padding: 30px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+            .image-container { height: 150px; }
+            .toolbar-left h1 { font-size: 1.8em; }
+        }
+
+        @media (max-width: 480px) {
+            .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .card { padding: 14px; }
+            .image-container { height: 120px; }
+            .title { font-size: 0.85em; }
+            .price-tag { font-size: 1em; }
+            .quick-add-btn { padding: 7px 12px; font-size: 0.75em; }
+        }
+    </style>
 </head>
 <body>
-    
-    <div class="sidebar">
-        <div class="close-btn" onclick="toggleMobileMenu()">×</div>
-        <div class="logo">Pixie's Pantry</div>
-        <div class="search-container mobile-only" style="margin-bottom: 20px;">
-            <span class="search-icon">🔍</span>
-            <input type="text" class="product-search-bar" placeholder="Search products...">
-        </div>
-        <a href="../index.html" class="sidebar-link" style="font-weight:bold; color:#111; background:#f0f0f0; margin-bottom:15px; border-left:4px solid #d4af37;">🏠 HOME / MASTER CATALOG</a><div class="sidebar-section">Advanced Filters</div>
-<div class="filter-group">
-    <div style="font-weight:bold; color:#111; margin-bottom:10px; font-size:0.85em; text-transform:uppercase;">Price</div>
-    <label><input type="checkbox" class="price-filter" value="under50"> Under $50</label>
-    <label><input type="checkbox" class="price-filter" value="50-100"> $50 - $100</label>
-    <label><input type="checkbox" class="price-filter" value="over100"> Over $100</label>
-</div>
-<div class="filter-group">
-    <div style="font-weight:bold; color:#111; margin-bottom:10px; font-size:0.85em; text-transform:uppercase;">Material</div>
-    <label><input type="checkbox" class="mat-filter" value="glass"> Premium Glass</label>
-    <label><input type="checkbox" class="mat-filter" value="silicone"> Silicone</label>
-    <label><input type="checkbox" class="mat-filter" value="metal"> Metal / Alloy</label>
-</div>
-<div class="sidebar-section">Shop By Brand</div><a href="../brands/apex-ancillary.html" class="sidebar-link">Apex Ancillary</a><a href="../brands/blazer.html" class="sidebar-link">Blazer</a><a href="../brands/ccell.html" class="sidebar-link">CCELL</a><a href="../brands/cali-crusher.html" class="sidebar-link">Cali Crusher</a><a href="../brands/chill-steel-pipes.html" class="sidebar-link">Chill Steel Pipes</a><a href="../brands/daze-glass.html" class="sidebar-link">Daze Glass</a><a href="../brands/dr-dabber.html" class="sidebar-link">Dr. Dabber</a><a href="../brands/dynavap.html" class="sidebar-link">DynaVap</a><a href="../brands/dyspensr-wholesale.html" class="sidebar-link">Dyspensr Wholesale</a><a href="../brands/empire-glassworks.html" class="sidebar-link">Empire Glassworks</a><a href="../brands/flower-mill.html" class="sidebar-link">Flower Mill</a><a href="../brands/grav-grav-labs.html" class="sidebar-link">GRAV / Grav Labs</a><a href="../brands/grenco-science.html" class="sidebar-link">Grenco Science</a><a href="../brands/hemper.html" class="sidebar-link">Hemper</a><a href="../brands/honeybee-herb.html" class="sidebar-link">Honeybee Herb</a><a href="../brands/invincibowl.html" class="sidebar-link">Invincibowl</a><a href="../brands/jane-west.html" class="sidebar-link">Jane West</a><a href="../brands/la-pipes.html" class="sidebar-link">LA Pipes</a><a href="../brands/lookah.html" class="sidebar-link">Lookah</a><a href="../brands/mj-arsenal.html" class="sidebar-link">MJ Arsenal</a><a href="../brands/my-bud-vase.html" class="sidebar-link">My Bud Vase</a><a href="../brands/ongrok.html" class="sidebar-link">Ongrok</a><a href="../brands/ooze.html" class="sidebar-link">Ooze</a><a href="../brands/pax.html" class="sidebar-link">PAX</a><a href="../brands/pink-formula.html" class="sidebar-link">Pink Formula</a><a href="../brands/prism-pipes.html" class="sidebar-link">Prism Pipes</a><a href="../brands/puffco.html" class="sidebar-link">Puffco</a><a href="../brands/pulsar.html" class="sidebar-link">Pulsar</a><a href="../brands/raw-rolling-papers.html" class="sidebar-link">RAW Rolling Papers</a><a href="../brands/rhythms-of-life.html" class="sidebar-link">Rhythms of Life</a><a href="../brands/rokin-vapes.html" class="sidebar-link">Rokin Vapes</a><a href="../brands/slx-grinders.html" class="sidebar-link">SLX Grinders</a><a href="../brands/santa-cruz-shredder.html" class="sidebar-link">Santa Cruz Shredder</a><a href="../brands/seshgear.html" class="sidebar-link">SeshGear</a><a href="../brands/sharpstone.html" class="sidebar-link">SharpStone</a><a href="../brands/smoke-source.html" class="sidebar-link">Smoke Source</a><a href="../brands/smokebuddy.html" class="sidebar-link">Smokebuddy</a><a href="../brands/softglass.html" class="sidebar-link">Softglass</a><a href="../brands/stache-products.html" class="sidebar-link">Stache Products</a><a href="../brands/storz-bickel.html" class="sidebar-link">Storz & Bickel</a><a href="../brands/stündenglass.html" class="sidebar-link">Stündenglass</a><a href="../brands/the-kind-pen.html" class="sidebar-link">The Kind Pen</a><a href="../brands/vibes.html" class="sidebar-link">VIBES</a><a href="../brands/wulf-mods.html" class="sidebar-link">Wulf Mods</a><a href="../brands/xvape.html" class="sidebar-link">Xvape</a><a href="../brands/yocan.html" class="sidebar-link">Yocan</a><a href="../brands/zenco.html" class="sidebar-link">Zenco</a><div class="sidebar-section">Shop By Category</div><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/oil-rig.html" class="sidebar-link">Oil Rig</a><a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a><a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a><a href="../categories/rolling-accessories.html" class="sidebar-link">Rolling Accessories</a><a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a>
-    </div>
+    <div id="pixies-toast"></div>
+    <div id="mobile-overlay" onclick="toggleMobileNav()"></div>
 
-    
-    <div class="mobile-header">
-        <div class="hamburger" onclick="toggleMobileMenu()">☰</div>
-        <div class="logo" style="font-size:1.1em; letter-spacing:1px;">Pixie's Pantry</div>
-        <div class="cart-icon" onclick="toggleCart()">🛒 <span class="cart-count">0</span></div>
-    </div>
-    
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <a href="../index.html" class="sidebar-logo">Pixie's <span>Pantry</span></a>
+        <input type="text" id="searchInput" class="search-box" placeholder="Search products, brands..." oninput="applyFilters()">
+        
+        <div class="nav-section-label">Categories</div>
+        <nav><a href="../categories/accessories.html" class="sidebar-link">Accessories</a>
+<a href="../categories/accessory.html" class="sidebar-link">Accessory</a>
+<a href="../categories/adapters-attachments.html" class="sidebar-link">Adapters & Attachments</a>
+<a href="../categories/ash-catcher.html" class="sidebar-link">Ash Catcher</a>
+<a href="../categories/atomizers-coils.html" class="sidebar-link">Atomizers & Coils</a>
+<a href="../categories/banger.html" class="sidebar-link">Banger</a>
+<a href="../categories/beaker-bong.html" class="sidebar-link">Beaker Bong</a>
+<a href="../categories/blunt-wraps-leaf-rolls.html" class="sidebar-link">Blunt Wraps & Leaf Rolls</a>
+<a href="../categories/bong.html" class="sidebar-link">Bong</a>
+<a href="../categories/bongs.html" class="sidebar-link">Bongs</a>
+<a href="../categories/bubblers.html" class="sidebar-link">Bubblers</a>
+<a href="../categories/budsy-water-bottle-bong.html" class="sidebar-link">Budsy Water Bottle Bong</a>
+<a href="../categories/bundle.html" class="sidebar-link">Bundle</a>
+<a href="../categories/complete-base-neckpiece.html" class="sidebar-link">Complete: Base + Neckpiece</a>
+<a href="../categories/concentrate-pipe.html" class="sidebar-link">Concentrate Pipe</a>
+<a href="../categories/cupsy-coffee-cup-bong.html" class="sidebar-link">Cupsy Coffee Cup Bong</a>
+<a href="../categories/dab-rig-oil-rig.html" class="sidebar-link">Dab Rig / Oil Rig</a>
+<a href="../categories/dab-rig-sets.html" class="sidebar-link">Dab Rig Sets</a>
+<a href="../categories/dab-rigs.html" class="sidebar-link">Dab Rigs</a>
+<a href="../categories/dab-straws.html" class="sidebar-link">Dab Straws</a>
+<a href="../categories/dab-tools.html" class="sidebar-link">Dab Tools</a>
+<a href="../categories/desktop-vaporizer.html" class="sidebar-link">Desktop Vaporizer</a>
+<a href="../categories/downstem.html" class="sidebar-link">Downstem</a>
+<a href="../categories/dynavap-bundle.html" class="sidebar-link">DynaVap Bundle</a>
+<a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a>
+<a href="../categories/filters-tips.html" class="sidebar-link">Filters & Tips</a>
+<a href="../categories/glass-cleaning-solution.html" class="sidebar-link">Glass Cleaning Solution</a>
+<a href="../categories/grinder.html" class="sidebar-link">Grinder</a>
+<a href="../categories/grinders.html" class="sidebar-link">Grinders</a>
+<a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a>
+<a href="../categories/kit.html" class="sidebar-link">Kit</a>
+<a href="../categories/lighter.html" class="sidebar-link">Lighter</a>
+<a href="../categories/maintenance.html" class="sidebar-link">Maintenance</a>
+<a href="../categories/mouthpieces-o-rings.html" class="sidebar-link">Mouthpieces & O-Rings</a>
+<a href="../categories/oil-rig.html" class="sidebar-link">Oil Rig</a>
+<a href="../categories/other-vape-parts.html" class="sidebar-link">Other Vape Parts</a>
+<a href="../categories/papers-cones-wraps.html" class="sidebar-link">Papers, Cones & Wraps</a>
+<a href="../categories/part.html" class="sidebar-link">Part</a>
+<a href="../categories/peak-pro.html" class="sidebar-link">Peak PRO</a>
+<a href="../categories/pipes.html" class="sidebar-link">Pipes</a>
+<a href="../categories/pollen-box.html" class="sidebar-link">Pollen Box</a>
+<a href="../categories/pollen-press.html" class="sidebar-link">Pollen Press</a>
+<a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a>
+<a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a>
+<a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-Rolled Cones</a>
+<a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-rolled Cones</a>
+<a href="../categories/recycler.html" class="sidebar-link">Recycler</a>
+<a href="../categories/rolling-accessories.html" class="sidebar-link">Rolling Accessories</a>
+<a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a>
+<a href="../categories/rolling-tips.html" class="sidebar-link">Rolling Tips</a>
+<a href="../categories/rolling-tray.html" class="sidebar-link">Rolling Tray</a>
+<a href="../categories/smoking-accessories.html" class="sidebar-link">Smoking Accessories</a>
+<a href="../categories/spoon.html" class="sidebar-link">Spoon</a>
+<a href="../categories/stand.html" class="sidebar-link">Stand</a>
+<a href="../categories/storage.html" class="sidebar-link">Storage</a>
+<a href="../categories/ted.html" class="sidebar-link">TED</a>
+<a href="../categories/torches.html" class="sidebar-link">Torches</a>
+<a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a>
+<a href="../categories/vaporizer.html" class="sidebar-link">Vaporizer</a>
+<a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a>
+<a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a>
+<a href="../categories/water-pipe.html" class="sidebar-link">Water Pipe</a>
+<a href="../categories/water-pipes.html" class="sidebar-link">Water Pipes</a>
+<a href="../categories/accessory.html" class="sidebar-link">accessory</a>
+<a href="../categories/bong.html" class="sidebar-link">bong</a>
+<a href="../categories/bundle.html" class="sidebar-link">bundle</a>
+<a href="../categories/dab-rig.html" class="sidebar-link">dab rig</a>
+<a href="../categories/downstem.html" class="sidebar-link">downstem</a>
+<a href="../categories/hemp-wick.html" class="sidebar-link">hemp wick</a>
+<a href="../categories/mouthpiece.html" class="sidebar-link">mouthpiece</a>
+<a href="../categories/rolling-tray.html" class="sidebar-link">rolling tray</a>
+<a href="../categories/travel-case.html" class="sidebar-link">travel case</a></nav>
+        <div class="nav-section-label">Brands</div>
+        <nav><a href="../brands/apex-ancillary.html" class="sidebar-link">Apex Ancillary</a>
+<a href="../brands/bic.html" class="sidebar-link">BIC</a>
+<a href="../brands/baked-water.html" class="sidebar-link">Baked Water</a>
+<a href="../brands/blazer.html" class="sidebar-link">Blazer</a>
+<a href="../brands/blazy-susan.html" class="sidebar-link">Blazy Susan</a>
+<a href="../brands/boveda-inc.html" class="sidebar-link">Boveda Inc.</a>
+<a href="../brands/ccell.html" class="sidebar-link">CCELL</a>
+<a href="../brands/cali-crusher.html" class="sidebar-link">Cali Crusher</a>
+<a href="../brands/chill-steel-pipes.html" class="sidebar-link">Chill Steel Pipes</a>
+<a href="../brands/daze-glass.html" class="sidebar-link">Daze Glass</a>
+<a href="../brands/dogg-lbs.html" class="sidebar-link">Dogg Lbs</a>
+<a href="../brands/dr-dabber.html" class="sidebar-link">Dr. Dabber</a>
+<a href="../brands/dynavap.html" class="sidebar-link">DynaVap</a>
+<a href="../brands/dyspensr-wholesale.html" class="sidebar-link">Dyspensr Wholesale</a>
+<a href="../brands/empire-glassworks.html" class="sidebar-link">Empire Glassworks</a>
+<a href="../brands/flower-mill.html" class="sidebar-link">Flower Mill</a>
+<a href="../brands/focus-v.html" class="sidebar-link">Focus V</a>
+<a href="../brands/grav-grav-labs.html" class="sidebar-link">GRAV / Grav Labs</a>
+<a href="../brands/gravitoke.html" class="sidebar-link">GraviToke</a>
+<a href="../brands/grenco-science.html" class="sidebar-link">Grenco Science</a>
+<a href="../brands/grindhouse.html" class="sidebar-link">Grindhouse</a>
+<a href="../brands/hemper.html" class="sidebar-link">Hemper</a>
+<a href="../brands/herb-saver.html" class="sidebar-link">Herb Saver</a>
+<a href="../brands/honeybee-herb.html" class="sidebar-link">Honeybee Herb</a>
+<a href="../brands/human-grade.html" class="sidebar-link">Human Grade</a>
+<a href="../brands/i-tal.html" class="sidebar-link">I-Tal</a>
+<a href="../brands/iolite.html" class="sidebar-link">IOLITE</a>
+<a href="../brands/invincibowl.html" class="sidebar-link">Invincibowl</a>
+<a href="../brands/ispire.html" class="sidebar-link">Ispire</a>
+<a href="../brands/jane-west.html" class="sidebar-link">Jane West</a>
+<a href="../brands/juicy-jays.html" class="sidebar-link">Juicy Jays</a>
+<a href="../brands/k-haring-collection.html" class="sidebar-link">K. Haring Collection</a>
+<a href="../brands/kandypens.html" class="sidebar-link">KandyPens</a>
+<a href="../brands/kannastor.html" class="sidebar-link">Kannastor</a>
+<a href="../brands/kill-your-culture.html" class="sidebar-link">Kill Your Culture</a>
+<a href="../brands/king-palm.html" class="sidebar-link">King Palm</a>
+<a href="../brands/la-pipes.html" class="sidebar-link">LA Pipes</a>
+<a href="../brands/leafly-water-pipes.html" class="sidebar-link">Leafly Water Pipes</a>
+<a href="../brands/lookah.html" class="sidebar-link">Lookah</a>
+<a href="../brands/mj-arsenal.html" class="sidebar-link">MJ Arsenal</a>
+<a href="../brands/marley-natural.html" class="sidebar-link">Marley Natural</a>
+<a href="../brands/micro.html" class="sidebar-link">Micro</a>
+<a href="../brands/moose-labs.html" class="sidebar-link">Moose Labs</a>
+<a href="../brands/my-bud-vase.html" class="sidebar-link">My Bud Vase</a>
+<a href="../brands/openvape.html" class="sidebar-link">O.penVAPE</a>
+<a href="../brands/ocb-rolling-papers.html" class="sidebar-link">OCB Rolling Papers</a>
+<a href="../brands/ongrok.html" class="sidebar-link">Ongrok</a>
+<a href="../brands/ooze.html" class="sidebar-link">Ooze</a>
+<a href="../brands/orange-chronic.html" class="sidebar-link">Orange Chronic</a>
+<a href="../brands/other.html" class="sidebar-link">Other</a>
+<a href="../brands/pax.html" class="sidebar-link">PAX</a>
+<a href="../brands/pink-formula.html" class="sidebar-link">Pink Formula</a>
+<a href="../brands/powerhitter.html" class="sidebar-link">PowerHitter</a>
+<a href="../brands/primo.html" class="sidebar-link">Primo</a>
+<a href="../brands/prism-pipes.html" class="sidebar-link">Prism Pipes</a>
+<a href="../brands/puffco.html" class="sidebar-link">Puffco</a>
+<a href="../brands/pulsar.html" class="sidebar-link">Pulsar</a>
+<a href="../brands/raw-rolling-papers.html" class="sidebar-link">RAW Rolling Papers</a>
+<a href="../brands/ryot.html" class="sidebar-link">RYOT</a>
+<a href="../brands/randys.html" class="sidebar-link">Randy’s</a>
+<a href="../brands/retro-vapes.html" class="sidebar-link">Retro Vapes</a>
+<a href="../brands/rhythms-of-life.html" class="sidebar-link">Rhythms of Life</a>
+<a href="../brands/ritual.html" class="sidebar-link">Ritual</a>
+<a href="../brands/roast-toast.html" class="sidebar-link">Roast & Toast</a>
+<a href="../brands/rokin-vapes.html" class="sidebar-link">Rokin Vapes</a>
+<a href="../brands/roll-it-club.html" class="sidebar-link">Roll It Club</a>
+<a href="../brands/slx-grinders.html" class="sidebar-link">SLX Grinders</a>
+<a href="../brands/santa-cruz-shredder.html" class="sidebar-link">Santa Cruz Shredder</a>
+<a href="../brands/seshgear.html" class="sidebar-link">SeshGear</a>
+<a href="../brands/session-goods.html" class="sidebar-link">Session Goods</a>
+<a href="../brands/sharpstone.html" class="sidebar-link">SharpStone</a>
+<a href="../brands/shine-rolling-papers.html" class="sidebar-link">Shine Rolling Papers</a>
+<a href="../brands/smoke-source.html" class="sidebar-link">Smoke Source</a>
+<a href="../brands/smokebuddy.html" class="sidebar-link">Smokebuddy</a>
+<a href="../brands/snowtree.html" class="sidebar-link">Snowtree</a>
+<a href="../brands/social-smoking.html" class="sidebar-link">Social Smoking</a>
+<a href="../brands/softglass.html" class="sidebar-link">Softglass</a>
+<a href="../brands/stache-products.html" class="sidebar-link">Stache Products</a>
+<a href="../brands/storz-bickel.html" class="sidebar-link">Storz & Bickel</a>
+<a href="../brands/stündenglass.html" class="sidebar-link">Stündenglass</a>
+<a href="../brands/the-kind-pen.html" class="sidebar-link">The Kind Pen</a>
+<a href="../brands/thick-ass-glass.html" class="sidebar-link">Thick Ass Glass</a>
+<a href="../brands/thug-life.html" class="sidebar-link">Thug Life</a>
+<a href="../brands/v-syndicate.html" class="sidebar-link">V Syndicate</a>
+<a href="../brands/vibes.html" class="sidebar-link">VIBES</a>
+<a href="../brands/vapium.html" class="sidebar-link">Vapium</a>
+<a href="../brands/wake-bake.html" class="sidebar-link">Wake & Bake</a>
+<a href="../brands/weedgets.html" class="sidebar-link">Weedgets</a>
+<a href="../brands/white-rhino.html" class="sidebar-link">White Rhino</a>
+<a href="../brands/wulf-mods.html" class="sidebar-link">Wulf Mods</a>
+<a href="../brands/xvape.html" class="sidebar-link">Xvape</a>
+<a href="../brands/yocan.html" class="sidebar-link">Yocan</a>
+<a href="../brands/zenco.html" class="sidebar-link">Zenco</a>
+<a href="../brands/zig-zag.html" class="sidebar-link">Zig-Zag</a></nav>
+        
+    </nav>
+
     <div class="main-wrapper">
-        <div class="banner">DISCORD GROUP BUY SPRINT 001 | FLAT $12 SHIPPING</div>
-        
-        <div class="top-nav">
-            <div class="search-container desktop-only" style="display:none;">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="product-search-bar" placeholder="Search for brands, products, glass...">
-            </div>
-            <div class="cart-icon" onclick="toggleCart()" style="cursor:pointer; font-weight:bold;">🛒 Cart (<span class="cart-count">0</span>)</div>
+        <div class="banner">DISCORD GROUP BUY &nbsp;·&nbsp; FAST SHIPPING FROM MISSISSIPPI</div>
+
+        <!-- Mobile header -->
+        <div class="mobile-header">
+            <div class="mobile-header-logo">Pixie's <span>Pantry</span></div>
+            <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
-        
+
         <div class="main-content">
-            <div style="font-size:0.85em; color:#888; margin-bottom:15px;"><a href="../index.html" style="color:#111; text-decoration:none;">Home</a> / Brands / <strong style="color:#d4af37;">Smoke Source</strong></div>
-            <div class="header" style="border-bottom:none; margin-bottom:20px;">
-                <div><h1 style="font-size:2.8em; color:#111; margin:0;">Smoke Source</h1></div>
+            
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <h1>Smoke Source</h1>
+                <p id="result-count">42 products</p>
             </div>
-    
-        <div class="catalog-toolbar" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-bottom: 30px; background:#fff; padding:15px; border-radius:12px; border:1px solid #f0f0f0; box-shadow:0 5px 15px rgba(0,0,0,0.02);">
-            <div class="search-container" style="flex-grow:1; max-width:400px; min-width:250px; margin:0;">
-                <span class="search-icon" style="left:15px;">🔍</span>
-                <input type="text" class="product-search-bar" placeholder="Search catalog..." style="width:100%; padding:12px 20px 12px 40px; border-radius:25px; border:1px solid #eaeaea; background:#fcfcfc; outline:none; transition:0.3s; font-size:0.95em;">
-            </div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap; flex-grow:1; justify-content:flex-end;">
-                <select id="sort-dropdown" onchange="sortCatalog()" style="padding:12px 20px; border-radius:25px; border:1px solid #eaeaea; background:#fcfcfc; font-weight:600; color:#111; outline:none; cursor:pointer; font-size:0.9em;">
-                    <option value="default">Sort: Featured</option>
-                    <option value="price-asc">Price: Low to High</option>
-                    <option value="price-desc">Price: High to Low</option>
-                    <option value="name-asc">Name: A to Z</option>
+            <div class="toolbar-right">
+                <select id="catFilter" class="filter-select" onchange="applyFilters()">
+                    <option value="all">All Categories</option><option value="Accessories">Accessories</option><option value="Bongs">Bongs</option><option value="Dab Rig / Oil Rig">Dab Rig / Oil Rig</option><option value="Grinder">Grinder</option><option value="Rolling Accessories">Rolling Accessories</option><option value="Water Pipe">Water Pipe</option><option value="bong">bong</option>
                 </select>
-                <button class="mobile-only filter-btn" onclick="toggleMobileMenu()" style="padding:12px 20px; border-radius:25px; border:1px solid #111; background:#111; color:#fff; font-weight:600; cursor:pointer; font-size:0.9em;">⚙️ Filters</button>
+                <select id="sortSelect" class="filter-select" onchange="sortGrid()">
+                    <option value="default">Sort</option>
+                    <option value="price-low">Price: Low → High</option>
+                    <option value="price-high">Price: High → Low</option>
+                    <option value="name-az">Name A–Z</option>
+                </select>
             </div>
         </div>
-    
-        <div class="category-section">
-            <div class="category-header">
-                <h2>Smoke Source</h2>
-                <a href="../brands/smoke-source.html">View All ></a>
-            </div>
-            <div class="grid">
-        
-        
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": "12&quot; Inline Perc Beaker Bong",
-      "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Inline-Perc-Beaker-Bong_c2580bf9-4c12-46aa-acf6-617681bd61fa.jpg?v=1749598494",
-      "description": "Premium hardware verified by Dyspensr.",
-      "brand": {
-        "@type": "Brand",
-        "name": "Smoke Source"
-      },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://vapes.pixiespantryshop.com/index.html?p=12-inline-perc-beaker-bong",
-        "priceCurrency": "USD",
-        "price": "51.99",
-        "itemCondition": "https://schema.org/NewCondition",
-        "availability": "https://schema.org/InStock"
-      }
-    }
-    </script>
-    
-        <div class="card" onclick="openModal('12&quot; Inline Perc Beaker Bong')" data-price="51.99" data-material="glass">
-            
-            <div class="card-top">
-                <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Inline-Perc-Beaker-Bong_c2580bf9-4c12-46aa-acf6-617681bd61fa.jpg?v=1749598494" loading="lazy"></div>
-                <div class="stars">⭐⭐⭐⭐<span>4.7 (153)</span></div>
-                <div class="brand">Smoke Source</div>
-                <h3 class="title">12&quot; Inline Perc Beaker Bong</h3>
-                <div class="variant">1 Option</div>
-            </div>
-            <div class="card-bottom">
-                <div class="price">$51.99</div>
-                <button class="add-btn quick-add-btn" onclick="event.stopPropagation(); addToCart('12&quot; Inline Perc Beaker Bong');">Add</button>
+        <div class="grid"><div class="card"
+         data-name="5.5 barrel dab rig"
+         data-price="59.99"
+         data-brand="smoke source"
+         data-cat="dab rig / oil rig"
+         onclick="openModal(this)"
+         data-product='{"name": "5.5\" Barrel Dab Rig", "brand": "Smoke Source", "category": "Dab Rig / Oil Rig", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Barrel_Dab_Rig_Green_df0985d3-d575-4a55-aaf1-95b0ee6fd848.jpg?v=1749598135", "Variants": [{"name": "Green", "sku": "HHP059-LTGROP", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Barrel_Dab_Rig_Green_df0985d3-d575-4a55-aaf1-95b0ee6fd848.jpg?v=1749598135"}, {"name": "Blue", "sku": "HHP059-BLCL", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Barrel_Dab_Rig_Green_df0985d3-d575-4a55-aaf1-95b0ee6fd848.jpg?v=1749598135"}, {"name": "Purple", "sku": "HHP059-PPCL", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Barrel_Dab_Rig_Green_df0985d3-d575-4a55-aaf1-95b0ee6fd848.jpg?v=1749598135"}, {"name": "Black", "sku": "HHP059-BKOP", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Barrel_Dab_Rig_Green_df0985d3-d575-4a55-aaf1-95b0ee6fd848.jpg?v=1749598135"}, {"name": "White", "sku": "HHP059-WT", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Barrel_Dab_Rig_Green_df0985d3-d575-4a55-aaf1-95b0ee6fd848.jpg?v=1749598135"}, {"name": "Dark Green", "sku": "HHP059-GRCL", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Barrel_Dab_Rig_Green_df0985d3-d575-4a55-aaf1-95b0ee6fd848.jpg?v=1749598135"}], "Description": "5.5 Barrel Dab Rig", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Barrel_Dab_Rig_Green_df0985d3-d575-4a55-aaf1-95b0ee6fd848.jpg?v=1749598135"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('5.5&quot; Barrel Dab Rig')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Barrel_Dab_Rig_Green_df0985d3-d575-4a55-aaf1-95b0ee6fd848.jpg?v=1749598135" alt="5.5" Barrel Dab Rig" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">5.5" Barrel Dab Rig</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$59.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
             </div>
         </div>
-    
-        
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": "Electric Grinder",
-      "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Electric-Grinder.jpg?v=1749466851",
-      "description": "Premium hardware verified by Dyspensr.",
-      "brand": {
-        "@type": "Brand",
-        "name": "Smoke Source"
-      },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://vapes.pixiespantryshop.com/index.html?p=electric-grinder",
-        "priceCurrency": "USD",
-        "price": "33.99",
-        "itemCondition": "https://schema.org/NewCondition",
-        "availability": "https://schema.org/InStock"
-      }
-    }
-    </script>
-    
-        <div class="card" onclick="openModal('Electric Grinder')" data-price="33.99" data-material="metal">
-            
-            <div class="card-top">
-                <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Electric-Grinder.jpg?v=1749466851" loading="lazy"></div>
-                <div class="stars">⭐⭐⭐⭐⭐<span>5.0 (206)</span></div>
-                <div class="brand">Smoke Source</div>
-                <h3 class="title">Electric Grinder</h3>
-                <div class="variant">1 Option</div>
-            </div>
-            <div class="card-bottom">
-                <div class="price">$33.99</div>
-                <button class="add-btn quick-add-btn" onclick="event.stopPropagation(); addToCart('Electric Grinder');">Add</button>
+    </div><div class="card"
+         data-name="4.5 snow globe dab rig"
+         data-price="59.99"
+         data-brand="smoke source"
+         data-cat="dab rig / oil rig"
+         onclick="openModal(this)"
+         data-product='{"name": "4.5\" Snow Globe Dab Rig", "brand": "Smoke Source", "category": "Dab Rig / Oil Rig", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Globe_Dab_Rig_Green_f007daf2-6757-44f5-82e8-116423811bd1.jpg?v=1749598115", "Variants": [{"name": "Green", "sku": "HHP057-GRCL", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Globe_Dab_Rig_Green_f007daf2-6757-44f5-82e8-116423811bd1.jpg?v=1749598115"}, {"name": "Purple", "sku": "HHP057-PPCL", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Globe_Dab_Rig_Green_f007daf2-6757-44f5-82e8-116423811bd1.jpg?v=1749598115"}], "Description": "4.5 Snow Globe Dab Rig", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Globe_Dab_Rig_Green_f007daf2-6757-44f5-82e8-116423811bd1.jpg?v=1749598115"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('4.5&quot; Snow Globe Dab Rig')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Globe_Dab_Rig_Green_f007daf2-6757-44f5-82e8-116423811bd1.jpg?v=1749598115" alt="4.5" Snow Globe Dab Rig" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">4.5" Snow Globe Dab Rig</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$59.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
             </div>
         </div>
-    
+    </div><div class="card"
+         data-name="6.5 stacked cake dab rig"
+         data-price="59.99"
+         data-brand="smoke source"
+         data-cat="dab rig / oil rig"
+         onclick="openModal(this)"
+         data-product='{"name": "6.5\" Stacked Cake Dab Rig", "brand": "Smoke Source", "category": "Dab Rig / Oil Rig", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Stacked_Cake_Dab_Rig_Blue_2f6b0013-295d-4def-a47d-9df81e3e169b.jpg?v=1749598100", "Variants": [{"name": "Blue", "sku": "HHP058-BLCL", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Stacked_Cake_Dab_Rig_Blue_2f6b0013-295d-4def-a47d-9df81e3e169b.jpg?v=1749598100"}, {"name": "White", "sku": "HHP058-WTOP", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Stacked_Cake_Dab_Rig_Blue_2f6b0013-295d-4def-a47d-9df81e3e169b.jpg?v=1749598100"}, {"name": "Purple", "sku": "HHP058-PPCL", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Stacked_Cake_Dab_Rig_Blue_2f6b0013-295d-4def-a47d-9df81e3e169b.jpg?v=1749598100"}, {"name": "Black", "sku": "HHP058-BKOP", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Stacked_Cake_Dab_Rig_Blue_2f6b0013-295d-4def-a47d-9df81e3e169b.jpg?v=1749598100"}, {"name": "Green", "sku": "HHP058-GROP", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Stacked_Cake_Dab_Rig_Blue_2f6b0013-295d-4def-a47d-9df81e3e169b.jpg?v=1749598100"}, {"name": "Dark Green", "sku": "HHP058-GRCL", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Stacked_Cake_Dab_Rig_Blue_2f6b0013-295d-4def-a47d-9df81e3e169b.jpg?v=1749598100"}], "Description": "6.5 Stacked Cake Dab Rig", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Stacked_Cake_Dab_Rig_Blue_2f6b0013-295d-4def-a47d-9df81e3e169b.jpg?v=1749598100"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('6.5&quot; Stacked Cake Dab Rig')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Stacked_Cake_Dab_Rig_Blue_2f6b0013-295d-4def-a47d-9df81e3e169b.jpg?v=1749598100" alt="6.5" Stacked Cake Dab Rig" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">6.5" Stacked Cake Dab Rig</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$59.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
             </div>
         </div>
+    </div><div class="card"
+         data-name="“rolling stoned” mini metal rolling tray (7 x 5)"
+         data-price="24.99"
+         data-brand="smoke source"
+         data-cat="accessories"
+         onclick="openModal(this)"
+         data-product='{"name": "\u201cRolling Stoned\u201d Mini Metal Rolling Tray (7\" x 5\")", "brand": "Smoke Source", "category": "Accessories", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/E4FA9FEA-6ED7-477D-BD4A-239E9294A60A.jpg?v=1749583402", "Variants": [{"name": "Standard", "sku": "1000001906", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/E4FA9FEA-6ED7-477D-BD4A-239E9294A60A.jpg?v=1749583402"}], "Description": "Rolling Stoned Mini Metal Rolling Tray 7 x 5", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/E4FA9FEA-6ED7-477D-BD4A-239E9294A60A.jpg?v=1749583402"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('“Rolling Stoned” Mini Metal Rolling Tray (7&quot; x 5&quot;)')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/E4FA9FEA-6ED7-477D-BD4A-239E9294A60A.jpg?v=1749583402" alt="“Rolling Stoned” Mini Metal Rolling Tray (7" x 5")" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">“Rolling Stoned” Mini Metal Rolling Tray (7" x 5")</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$24.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="limited edition “mary jane monopoly man” rolling tray (7.5 x 6)"
+         data-price="31.99"
+         data-brand="smoke source"
+         data-cat="accessories"
+         onclick="openModal(this)"
+         data-product='{"name": "Limited Edition \u201cMary Jane Monopoly Man\u201d Rolling Tray (7.5\" x 6\")", "brand": "Smoke Source", "category": "Accessories", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/EE5A1C3B-ED5E-43D8-8DCF-56CC7F361B20.jpg?v=1749583399", "Variants": [{"name": "Standard", "sku": "1000001907", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/EE5A1C3B-ED5E-43D8-8DCF-56CC7F361B20.jpg?v=1749583399"}], "Description": "Limited Edition Mary Jane Monopoly Man Rolling Tray 7.5 x 6", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/EE5A1C3B-ED5E-43D8-8DCF-56CC7F361B20.jpg?v=1749583399"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Limited Edition “Mary Jane Monopoly Man” Rolling Tray (7.5&quot; x 6&quot;)')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/EE5A1C3B-ED5E-43D8-8DCF-56CC7F361B20.jpg?v=1749583399" alt="Limited Edition “Mary Jane Monopoly Man” Rolling Tray (7.5" x 6")" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">Limited Edition “Mary Jane Monopoly Man” Rolling Tray (7.5" x 6")</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$31.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="rick & morty limited edition “mini morbid” rolling tray (7.5 x 6)"
+         data-price="31.99"
+         data-brand="smoke source"
+         data-cat="accessories"
+         onclick="openModal(this)"
+         data-product='{"name": "Rick & Morty Limited Edition \u201cMini Morbid\u201d Rolling Tray (7.5\" x 6\")", "brand": "Smoke Source", "category": "Accessories", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/6EC3590C-7442-48E0-994E-7D405B8F3B23.jpg?v=1749583385", "Variants": [{"name": "Standard", "sku": "1000001999", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/6EC3590C-7442-48E0-994E-7D405B8F3B23.jpg?v=1749583385"}], "Description": "Rick  Morty Limited Edition Mini Morbid Rolling Tray 7.5 x 6", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/6EC3590C-7442-48E0-994E-7D405B8F3B23.jpg?v=1749583385"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Rick & Morty Limited Edition “Mini Morbid” Rolling Tray (7.5&quot; x 6&quot;)')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/6EC3590C-7442-48E0-994E-7D405B8F3B23.jpg?v=1749583385" alt="Rick & Morty Limited Edition “Mini Morbid” Rolling Tray (7.5" x 6")" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">Rick & Morty Limited Edition “Mini Morbid” Rolling Tray (7.5" x 6")</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$31.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="silicone joint holder ring"
+         data-price="0.99"
+         data-brand="smoke source"
+         data-cat="rolling accessories"
+         onclick="openModal(this)"
+         data-product='{"name": "Silicone Joint Holder Ring", "brand": "Smoke Source", "category": "Rolling Accessories", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156", "Variants": [{"name": "Black", "sku": "SILICONE-JOINT-HOLDER-RING-Black", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Blue", "sku": "SILICONE-JOINT-HOLDER-RING-Blue", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Lime Green", "sku": "SILICONE-JOINT-HOLDER-RING-Green", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Light Rainbow", "sku": "SILICONE-JOINT-HOLDER-RING-LRainbow", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Purple", "sku": "SILICONE-JOINT-HOLDER-RING-Dark-Purple", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Dark Rainbow", "sku": "SILICONE-JOINT-HOLDER-RING-Rainbow", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Red", "sku": "SILICONE-JOINT-HOLDER-RING-Red", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Yellow", "sku": "SILICONE-JOINT-HOLDER-RING-Yellow", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "White", "sku": "SILICONE-JOINT-HOLDER-RING-White", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Neon Pink", "sku": "SILICONE-JOINT-HOLDER-RING-Neon-Pink", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Neon Green", "sku": "SILICONE-JOINT-HOLDER-RING-Neon-Green", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "USA", "sku": "SILICONE-JOINT-HOLDER-RING-Red-White-Blue", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Pink Lemonade", "sku": "SILICONE-JOINT-HOLDER-RING-Purple-Yellow-White", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Green, Blue & White Mix", "sku": "SILICONE-JOINT-HOLDER-RING-Green-White-Blue", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Green, Yellow & White Mix", "sku": "SILICONE-JOINT-HOLDER-RING-Green-Yellow-White", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}, {"name": "Violet, Red & White Mix", "sku": "SILICONE-JOINT-HOLDER-RING-Purple-Red-White", "price": 0.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"}], "Description": "Silicone Joint Holder Ring", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Silicone Joint Holder Ring')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Silicone_Joint_Holder_Ring.jpg?v=1749583156" alt="Silicone Joint Holder Ring" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">Silicone Joint Holder Ring</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$0.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="6 green houseplant mini bong"
+         data-price="37.99"
+         data-brand="smoke source"
+         data-cat="bongs"
+         onclick="openModal(this)"
+         data-product='{"name": "6\" Green Houseplant Mini Bong", "brand": "Smoke Source", "category": "Bongs", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Houseplant_Mini_Bong_7f299d61-124d-49ca-a936-8d43535c086d.jpg?v=1749598692", "Variants": [{"name": "Standard", "sku": "QS160", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Houseplant_Mini_Bong_7f299d61-124d-49ca-a936-8d43535c086d.jpg?v=1749598692"}], "Description": "6 Green Houseplant Mini Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Houseplant_Mini_Bong_7f299d61-124d-49ca-a936-8d43535c086d.jpg?v=1749598692"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('6&quot; Green Houseplant Mini Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Houseplant_Mini_Bong_7f299d61-124d-49ca-a936-8d43535c086d.jpg?v=1749598692" alt="6" Green Houseplant Mini Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">6" Green Houseplant Mini Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$37.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="freezable cup bong"
+         data-price="33.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Freezable Cup Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Freezable-Cup-Waterpipe.jpg?v=1748341203", "Variants": [{"name": "Pink", "sku": "PP2708PK-I", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Freezable-Cup-Waterpipe.jpg?v=1748341203"}, {"name": "Rasta", "sku": "PP2708RA-I", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Freezable-Cup-Waterpipe.jpg?v=1748341203"}, {"name": "Blue", "sku": "PP2708RWB-I", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Freezable-Cup-Waterpipe.jpg?v=1748341203"}], "Description": "Freezable Cup Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Freezable-Cup-Waterpipe.jpg?v=1748341203"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Freezable Cup Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Freezable-Cup-Waterpipe.jpg?v=1748341203" alt="Freezable Cup Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">Freezable Cup Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$33.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="8 chakra beaker bong"
+         data-price="35.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "8\" Chakra Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Chakra-Beaker-Bong.jpg?v=1748341215", "Variants": [{"name": "Standard", "sku": "PP3179", "price": 35.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Chakra-Beaker-Bong.jpg?v=1748341215"}], "Description": "8 Chakra Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Chakra-Beaker-Bong.jpg?v=1748341215"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('8&quot; Chakra Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Chakra-Beaker-Bong.jpg?v=1748341215" alt="8" Chakra Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">8" Chakra Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$35.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="6 handbell mini bong"
+         data-price="33.99"
+         data-brand="smoke source"
+         data-cat="bongs"
+         onclick="openModal(this)"
+         data-product='{"name": "6\" Handbell Mini Bong", "brand": "Smoke Source", "category": "Bongs", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Handbell-Mini-Water-Pipe.jpg?v=1748341212", "Variants": [{"name": "Green", "sku": "PP3198GR-I", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Handbell-Mini-Water-Pipe.jpg?v=1748341212"}, {"name": "Blue", "sku": "PP3198BL-I", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Handbell-Mini-Water-Pipe.jpg?v=1748341212"}, {"name": "Teal", "sku": "PP3198TE-I", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Handbell-Mini-Water-Pipe.jpg?v=1748341212"}], "Description": "6 Handbell Mini Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Handbell-Mini-Water-Pipe.jpg?v=1748341212"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('6&quot; Handbell Mini Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Handbell-Mini-Water-Pipe.jpg?v=1748341212" alt="6" Handbell Mini Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">6" Handbell Mini Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$33.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="9 beehive 2-in-1 silicone bong & dab straw"
+         data-price="40.99"
+         data-brand="smoke source"
+         data-cat="bongs"
+         onclick="openModal(this)"
+         data-product='{"name": "9\" Beehive 2-in-1 Silicone Bong & Dab Straw", "brand": "Smoke Source", "category": "Bongs", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Beehive-Silicone-Bong-Dab-Straw.jpg?v=1748341228", "Variants": [{"name": "Pink & Green", "sku": "PP2796PKGR-I", "price": 40.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Beehive-Silicone-Bong-Dab-Straw.jpg?v=1748341228"}, {"name": "Yellow & Pink", "sku": "PP2796PKYL-I", "price": 40.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Beehive-Silicone-Bong-Dab-Straw.jpg?v=1748341228"}, {"name": "Rainbow", "sku": "PP2796RB-I", "price": 40.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Beehive-Silicone-Bong-Dab-Straw.jpg?v=1748341228"}, {"name": "Rasta", "sku": "PP2796RA-I", "price": 40.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Beehive-Silicone-Bong-Dab-Straw.jpg?v=1748341228"}], "Description": "9 Beehive 2-in-1 Silicone Bong  Dab Straw", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Beehive-Silicone-Bong-Dab-Straw.jpg?v=1748341228"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('9&quot; Beehive 2-in-1 Silicone Bong & Dab Straw')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Beehive-Silicone-Bong-Dab-Straw.jpg?v=1748341228" alt="9" Beehive 2-in-1 Silicone Bong & Dab Straw" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">9" Beehive 2-in-1 Silicone Bong & Dab Straw</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$40.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="10 seven chakras beaker bong"
+         data-price="40.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "10\" Seven Chakras Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Seven-Chakras-Beaker-Bong.jpg?v=1748341221", "Variants": [{"name": "Standard", "sku": "PP3175", "price": 40.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Seven-Chakras-Beaker-Bong.jpg?v=1748341221"}], "Description": "10 Seven Chakras Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Seven-Chakras-Beaker-Bong.jpg?v=1748341221"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('10&quot; Seven Chakras Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Seven-Chakras-Beaker-Bong.jpg?v=1748341221" alt="10" Seven Chakras Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">10" Seven Chakras Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$40.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="14 clear straight tube bong"
+         data-price="39.99"
+         data-brand="smoke source"
+         data-cat="water pipe"
+         onclick="openModal(this)"
+         data-product='{"name": "14\" Clear Straight Tube Bong", "brand": "Smoke Source", "category": "Water Pipe", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Clear-Straight-Tube-Bong.jpg?v=1748341218", "Variants": [{"name": "Standard", "sku": "PP3169", "price": 39.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Clear-Straight-Tube-Bong.jpg?v=1748341218"}], "Description": "14 Clear Straight Tube Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Clear-Straight-Tube-Bong.jpg?v=1748341218"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('14&quot; Clear Straight Tube Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Clear-Straight-Tube-Bong.jpg?v=1748341218" alt="14" Clear Straight Tube Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">14" Clear Straight Tube Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$39.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="9 wide base beaker bong"
+         data-price="50.99"
+         data-brand="smoke source"
+         data-cat="bongs"
+         onclick="openModal(this)"
+         data-product='{"name": "9\" Wide Base Beaker Bong", "brand": "Smoke Source", "category": "Bongs", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Base-Beaker-Water-Pipe.jpg?v=1748341242", "Variants": [{"name": "Blue", "sku": "PP3227BL-I", "price": 50.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Base-Beaker-Water-Pipe.jpg?v=1748341242"}, {"name": "Pink", "sku": "PP3227PK-I", "price": 50.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Base-Beaker-Water-Pipe.jpg?v=1748341242"}, {"name": "Purple", "sku": "PP3227PU-I", "price": 50.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Base-Beaker-Water-Pipe.jpg?v=1748341242"}], "Description": "9 Wide Base Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Base-Beaker-Water-Pipe.jpg?v=1748341242"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('9&quot; Wide Base Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Base-Beaker-Water-Pipe.jpg?v=1748341242" alt="9" Wide Base Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">9" Wide Base Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$50.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="10 pot leaf beaker bong"
+         data-price="41.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "10\" Pot Leaf Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pot-Leaf-Bong.jpg?v=1748341235", "Variants": [{"name": "Blue", "sku": "PP3171BL-I", "price": 41.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pot-Leaf-Bong.jpg?v=1748341235"}, {"name": "Green", "sku": "PP3171GR-I", "price": 41.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pot-Leaf-Bong.jpg?v=1748341235"}, {"name": "Orange", "sku": "PP3171OR-I", "price": 41.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pot-Leaf-Bong.jpg?v=1748341235"}], "Description": "10 Pot Leaf Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pot-Leaf-Bong.jpg?v=1748341235"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('10&quot; Pot Leaf Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Pot-Leaf-Bong.jpg?v=1748341235" alt="10" Pot Leaf Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">10" Pot Leaf Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$41.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="extendable silicone beaker bong (10 > 21)"
+         data-price="52.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "Extendable Silicone Beaker Bong (10\" > 21\")", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255", "Variants": [{"name": "Black", "sku": "PP1674BK-I", "price": 52.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255"}, {"name": "Green & Blue", "sku": "PP1674GRBL-I", "price": 52.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255"}, {"name": "Blue & Yellow", "sku": "PP1674BLYL-I", "price": 52.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255"}, {"name": "Pink & Green", "sku": "PP1674PK-I", "price": 52.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255"}, {"name": "Rasta", "sku": "PP1674RA-I", "price": 52.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255"}], "Description": "Extendable Silicone Beaker Bong 10  21", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Extendable Silicone Beaker Bong (10&quot; > 21&quot;)')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Extendable-Beaker-Bong.jpg?v=1748341255" alt="Extendable Silicone Beaker Bong (10" > 21")" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">Extendable Silicone Beaker Bong (10" > 21")</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$52.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="12 inline perc beaker bong"
+         data-price="51.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "12\" Inline Perc Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Inline-Perc-Beaker-Bong_c2580bf9-4c12-46aa-acf6-617681bd61fa.jpg?v=1749598494", "Variants": [{"name": "Standard", "sku": "PP3176", "price": 51.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Inline-Perc-Beaker-Bong_c2580bf9-4c12-46aa-acf6-617681bd61fa.jpg?v=1749598494"}], "Description": "12 Inline Perc Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Inline-Perc-Beaker-Bong_c2580bf9-4c12-46aa-acf6-617681bd61fa.jpg?v=1749598494"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('12&quot; Inline Perc Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Inline-Perc-Beaker-Bong_c2580bf9-4c12-46aa-acf6-617681bd61fa.jpg?v=1749598494" alt="12" Inline Perc Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">12" Inline Perc Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$51.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="14 silicone & glass hybrid beaker bong"
+         data-price="54.99"
+         data-brand="smoke source"
+         data-cat="bongs"
+         onclick="openModal(this)"
+         data-product='{"name": "14\" Silicone & Glass Hybrid Beaker Bong", "brand": "Smoke Source", "category": "Bongs", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Silicone-Glass-Hybrid-Beaker.jpg?v=1748341266", "Variants": [{"name": "Green", "sku": "PP2650GR-I", "price": 54.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Silicone-Glass-Hybrid-Beaker.jpg?v=1748341266"}, {"name": "Gray", "sku": "PP2650GY-I", "price": 54.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Silicone-Glass-Hybrid-Beaker.jpg?v=1748341266"}, {"name": "Rasta", "sku": "PP2650RA-I", "price": 54.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Silicone-Glass-Hybrid-Beaker.jpg?v=1748341266"}], "Description": "14 Silicone  Glass Hybrid Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Silicone-Glass-Hybrid-Beaker.jpg?v=1748341266"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('14&quot; Silicone & Glass Hybrid Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Silicone-Glass-Hybrid-Beaker.jpg?v=1748341266" alt="14" Silicone & Glass Hybrid Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">14" Silicone & Glass Hybrid Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$54.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="12 wide honeycomb perc beaker bong"
+         data-price="55.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "12\" Wide Honeycomb Perc Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Honeycomb-Perc-Beaker-Bong.jpg?v=1748341260", "Variants": [{"name": "Standard", "sku": "PP3177", "price": 55.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Honeycomb-Perc-Beaker-Bong.jpg?v=1748341260"}], "Description": "12 Wide Honeycomb Perc Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Honeycomb-Perc-Beaker-Bong.jpg?v=1748341260"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('12&quot; Wide Honeycomb Perc Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Wide-Honeycomb-Perc-Beaker-Bong.jpg?v=1748341260" alt="12" Wide Honeycomb Perc Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">12" Wide Honeycomb Perc Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$55.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="9 mega matrix perc bong"
+         data-price="58.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "9\" Mega Matrix Perc Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mega-Matrix-Perc-Bong.jpg?v=1748341276", "Variants": [{"name": "Light Blue", "sku": "PP3206BL-I", "price": 58.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mega-Matrix-Perc-Bong.jpg?v=1748341276"}, {"name": "Smoke Gray", "sku": "PP3206WH-I", "price": 58.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mega-Matrix-Perc-Bong.jpg?v=1748341276"}, {"name": "White", "sku": "PP3206GY-I", "price": 58.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mega-Matrix-Perc-Bong.jpg?v=1748341276"}], "Description": "9 Mega Matrix Perc Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mega-Matrix-Perc-Bong.jpg?v=1748341276"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('9&quot; Mega Matrix Perc Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mega-Matrix-Perc-Bong.jpg?v=1748341276" alt="9" Mega Matrix Perc Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">9" Mega Matrix Perc Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$58.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="9 matrix perc bong"
+         data-price="56.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "9\" Matrix Perc Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Matrix-Perc-Water-Pipe.jpg?v=1748341271", "Variants": [{"name": "Blue", "sku": "PP3060BL-I", "price": 56.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Matrix-Perc-Water-Pipe.jpg?v=1748341271"}, {"name": "White", "sku": "PP3060WH-I", "price": 56.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Matrix-Perc-Water-Pipe.jpg?v=1748341271"}], "Description": "9 Matrix Perc Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Matrix-Perc-Water-Pipe.jpg?v=1748341271"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('9&quot; Matrix Perc Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Matrix-Perc-Water-Pipe.jpg?v=1748341271" alt="9" Matrix Perc Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">9" Matrix Perc Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$56.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="9 honeycomb perc bong"
+         data-price="60.99"
+         data-brand="smoke source"
+         data-cat="water pipe"
+         onclick="openModal(this)"
+         data-product='{"name": "9\" Honeycomb Perc Bong", "brand": "Smoke Source", "category": "Water Pipe", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Honeycomb-Perc-Straight-Tube.jpg?v=1748341291", "Variants": [{"name": "Black", "sku": "PP3143BK-I", "price": 60.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Honeycomb-Perc-Straight-Tube.jpg?v=1748341291"}, {"name": "Blue", "sku": "PP3143BL-I", "price": 60.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Honeycomb-Perc-Straight-Tube.jpg?v=1748341291"}, {"name": "Green", "sku": "PP3143GR-I", "price": 60.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Honeycomb-Perc-Straight-Tube.jpg?v=1748341291"}, {"name": "Purple", "sku": "PP3143PU-I", "price": 60.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Honeycomb-Perc-Straight-Tube.jpg?v=1748341291"}], "Description": "9 Honeycomb Perc Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Honeycomb-Perc-Straight-Tube.jpg?v=1748341291"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('9&quot; Honeycomb Perc Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Honeycomb-Perc-Straight-Tube.jpg?v=1748341291" alt="9" Honeycomb Perc Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">9" Honeycomb Perc Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$60.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="10 weed leaf beaker bong"
+         data-price="69.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "10\" Weed Leaf Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Weed-Leaf-Beaker.jpg?v=1748341283", "Variants": [{"name": "Blue", "sku": "PP2919BL-I", "price": 69.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Weed-Leaf-Beaker.jpg?v=1748341283"}, {"name": "Gold", "sku": "PP2919GD-I", "price": 69.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Weed-Leaf-Beaker.jpg?v=1748341283"}, {"name": "Rainbow", "sku": "PP2919RB-I", "price": 69.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Weed-Leaf-Beaker.jpg?v=1748341283"}], "Description": "10 Weed Leaf Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Weed-Leaf-Beaker.jpg?v=1748341283"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('10&quot; Weed Leaf Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Weed-Leaf-Beaker.jpg?v=1748341283" alt="10" Weed Leaf Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">10" Weed Leaf Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$69.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="7 black frost beaker bong"
+         data-price="79.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "7\" Black Frost Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Black-Frost-Beaker-Bong.jpg?v=1748341313", "Variants": [{"name": "Teal", "sku": "PP3225BKTE-I", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Black-Frost-Beaker-Bong.jpg?v=1748341313"}, {"name": "Green", "sku": "PP3225BKGR-I", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Black-Frost-Beaker-Bong.jpg?v=1748341313"}, {"name": "Purple", "sku": "PP3225BKPL-I", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Black-Frost-Beaker-Bong.jpg?v=1748341313"}], "Description": "7 Black Frost Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Black-Frost-Beaker-Bong.jpg?v=1748341313"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('7&quot; Black Frost Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Black-Frost-Beaker-Bong.jpg?v=1748341313" alt="7" Black Frost Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">7" Black Frost Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$79.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="6.5 twisted donut recycler bong"
+         data-price="77.99"
+         data-brand="smoke source"
+         data-cat="water pipe"
+         onclick="openModal(this)"
+         data-product='{"name": "6.5\" Twisted Donut Recycler Bong", "brand": "Smoke Source", "category": "Water Pipe", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Donut-Recycler-Bong.jpg?v=1748341308", "Variants": [{"name": "Green", "sku": "PP3147GR-I", "price": 77.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Donut-Recycler-Bong.jpg?v=1748341308"}, {"name": "Pink", "sku": "PP3147PK-I", "price": 77.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Donut-Recycler-Bong.jpg?v=1748341308"}, {"name": "Purple", "sku": "PP3147PU-I", "price": 77.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Donut-Recycler-Bong.jpg?v=1748341308"}], "Description": "6.5 Twisted Donut Recycler Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Donut-Recycler-Bong.jpg?v=1748341308"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('6.5&quot; Twisted Donut Recycler Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Donut-Recycler-Bong.jpg?v=1748341308" alt="6.5" Twisted Donut Recycler Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">6.5" Twisted Donut Recycler Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$77.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="12 hextasy beaker bong"
+         data-price="76.99"
+         data-brand="smoke source"
+         data-cat="bongs"
+         onclick="openModal(this)"
+         data-product='{"name": "12\" Hextasy Beaker Bong", "brand": "Smoke Source", "category": "Bongs", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hextasy-Hexagon-Beaker-Bong.jpg?v=1748341301", "Variants": [{"name": "Blue", "sku": "PP3228BL-I", "price": 76.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hextasy-Hexagon-Beaker-Bong.jpg?v=1748341301"}, {"name": "Green", "sku": "PP3228GR-I", "price": 76.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hextasy-Hexagon-Beaker-Bong.jpg?v=1748341301"}, {"name": "Pink", "sku": "PP3228PK-I", "price": 76.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hextasy-Hexagon-Beaker-Bong.jpg?v=1748341301"}, {"name": "Teal", "sku": "PP3228TE-I", "price": 76.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hextasy-Hexagon-Beaker-Bong.jpg?v=1748341301"}], "Description": "12 Hextasy Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hextasy-Hexagon-Beaker-Bong.jpg?v=1748341301"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('12&quot; Hextasy Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hextasy-Hexagon-Beaker-Bong.jpg?v=1748341301" alt="12" Hextasy Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">12" Hextasy Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$76.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="12 tree perc beaker bong"
+         data-price="79.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "12\" Tree Perc Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Tree-Perc-Beaker-Water-Pipe.jpg?v=1749414522", "Variants": [{"name": "Blue & Orange", "sku": "PP2143BLOR-I", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Tree-Perc-Beaker-Water-Pipe.jpg?v=1749414522"}, {"name": "Green", "sku": "PP2143GR-I", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Tree-Perc-Beaker-Water-Pipe.jpg?v=1749414522"}, {"name": "Black", "sku": "PP2143BK-I", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Tree-Perc-Beaker-Water-Pipe.jpg?v=1749414522"}], "Description": "12 Tree Perc Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Tree-Perc-Beaker-Water-Pipe.jpg?v=1749414522"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('12&quot; Tree Perc Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Tree-Perc-Beaker-Water-Pipe.jpg?v=1749414522" alt="12" Tree Perc Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">12" Tree Perc Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$79.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="14 floral diamond beaker bong"
+         data-price="89.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "14\" Floral Diamond Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340", "Variants": [{"name": "Blue", "sku": "PP2568BL-I", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"}, {"name": "Gold", "sku": "PP2568GD-I", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"}, {"name": "Teal", "sku": "PP2568GR-I", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"}, {"name": "Gray", "sku": "PP2568GY-I", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"}, {"name": "Red", "sku": "PP2568RD-I", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"}, {"name": "White", "sku": "PP2568WH-I", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"}], "Description": "14 Floral Diamond Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('14&quot; Floral Diamond Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Floral-Diamond-Beaker-Bong.jpg?v=1748341340" alt="14" Floral Diamond Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">14" Floral Diamond Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$89.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="14 hemp leaf beaker bong"
+         data-price="85.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "14\" Hemp Leaf Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331", "Variants": [{"name": "Blue", "sku": "PP2569BL-I", "price": 85.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"}, {"name": "Gold", "sku": "PP2569GD-I", "price": 85.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"}, {"name": "Teal", "sku": "PP2569GR-I", "price": 85.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"}, {"name": "Gray", "sku": "PP2569GY-I", "price": 85.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"}, {"name": "Red", "sku": "PP2569RD-I", "price": 85.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"}, {"name": "White", "sku": "PP2569WH-I", "price": 85.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"}], "Description": "14 Hemp Leaf Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('14&quot; Hemp Leaf Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Hemp-Leaf-Beaker.jpg?v=1748341331" alt="14" Hemp Leaf Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">14" Hemp Leaf Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$85.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="17 jellyfish perc bong"
+         data-price="90.99"
+         data-brand="smoke source"
+         data-cat="water pipe"
+         onclick="openModal(this)"
+         data-product='{"name": "17\" Jellyfish Perc Bong", "brand": "Smoke Source", "category": "Water Pipe", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Jellyfish-Double-Chamber-Bong.jpg?v=1748341348", "Variants": [{"name": "Blue", "sku": "PP2635BL-I", "price": 90.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Jellyfish-Double-Chamber-Bong.jpg?v=1748341348"}, {"name": "Green", "sku": "PP2635GR-I", "price": 90.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Jellyfish-Double-Chamber-Bong.jpg?v=1748341348"}, {"name": "Teal", "sku": "PP2635TE-I", "price": 90.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Jellyfish-Double-Chamber-Bong.jpg?v=1748341348"}], "Description": "17 Jellyfish Perc Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Jellyfish-Double-Chamber-Bong.jpg?v=1748341348"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('17&quot; Jellyfish Perc Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Jellyfish-Double-Chamber-Bong.jpg?v=1748341348" alt="17" Jellyfish Perc Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">17" Jellyfish Perc Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$90.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="12 mayan beaker bong"
+         data-price="88.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "12\" Mayan Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mayan-Beaker-Bong.jpg?v=1748341344", "Variants": [{"name": "Standard", "sku": "PP3205", "price": 88.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mayan-Beaker-Bong.jpg?v=1748341344"}], "Description": "12 Mayan Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mayan-Beaker-Bong.jpg?v=1748341344"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('12&quot; Mayan Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Mayan-Beaker-Bong.jpg?v=1748341344" alt="12" Mayan Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">12" Mayan Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$88.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="rooster in a bottle bong"
+         data-price="93.99"
+         data-brand="smoke source"
+         data-cat="bongs"
+         onclick="openModal(this)"
+         data-product='{"name": "Rooster in a Bottle Bong", "brand": "Smoke Source", "category": "Bongs", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rooster-Perc-Bottle-Bong.jpg?v=1748341350", "Variants": [{"name": "Standard", "sku": "PP1319", "price": 93.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rooster-Perc-Bottle-Bong.jpg?v=1748341350"}], "Description": "Rooster in a Bottle Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rooster-Perc-Bottle-Bong.jpg?v=1748341350"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Rooster in a Bottle Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rooster-Perc-Bottle-Bong.jpg?v=1748341350" alt="Rooster in a Bottle Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">Rooster in a Bottle Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$93.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="15.5 glitch straight tube bong"
+         data-price="122.99"
+         data-brand="smoke source"
+         data-cat="water pipe"
+         onclick="openModal(this)"
+         data-product='{"name": "15.5\" Glitch Straight Tube Bong", "brand": "Smoke Source", "category": "Water Pipe", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Glitch-Straight-Tube-Water-Pipe.jpg?v=1748341368", "Variants": [{"name": "Blue", "sku": "PP2767BL-I", "price": 122.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Glitch-Straight-Tube-Water-Pipe.jpg?v=1748341368"}, {"name": "Green", "sku": "PP2767GR-I", "price": 122.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Glitch-Straight-Tube-Water-Pipe.jpg?v=1748341368"}, {"name": "Light Green", "sku": "PP2767LGR-I", "price": 122.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Glitch-Straight-Tube-Water-Pipe.jpg?v=1748341368"}], "Description": "15.5 Glitch Straight Tube Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Glitch-Straight-Tube-Water-Pipe.jpg?v=1748341368"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('15.5&quot; Glitch Straight Tube Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Glitch-Straight-Tube-Water-Pipe.jpg?v=1748341368" alt="15.5" Glitch Straight Tube Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">15.5" Glitch Straight Tube Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$122.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="18 cone perc bong"
+         data-price="122.99"
+         data-brand="smoke source"
+         data-cat="water pipe"
+         onclick="openModal(this)"
+         data-product='{"name": "18\" Cone Perc Bong", "brand": "Smoke Source", "category": "Water Pipe", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Cone-Perc-Straight-Tube-Bong.jpg?v=1748341362", "Variants": [{"name": "Purple", "sku": "PP2768PU-I", "price": 122.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Cone-Perc-Straight-Tube-Bong.jpg?v=1748341362"}, {"name": "Gray", "sku": "PP2768GY-I", "price": 122.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Cone-Perc-Straight-Tube-Bong.jpg?v=1748341362"}, {"name": "Green", "sku": "PP2768SLGR-I", "price": 122.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Cone-Perc-Straight-Tube-Bong.jpg?v=1748341362"}], "Description": "18 Cone Perc Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Cone-Perc-Straight-Tube-Bong.jpg?v=1748341362"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('18&quot; Cone Perc Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Cone-Perc-Straight-Tube-Bong.jpg?v=1748341362" alt="18" Cone Perc Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">18" Cone Perc Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$122.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="11 basic beaker bong"
+         data-price="31.99"
+         data-brand="smoke source"
+         data-cat="bong"
+         onclick="openModal(this)"
+         data-product='{"name": "11\" Basic Beaker Bong", "brand": "Smoke Source", "category": "bong", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Glass_Beaker_Bong_Angle.jpg?v=1748341395", "Variants": [{"name": "Standard", "sku": "CaliConnected-Beaker-Bong-Green-11", "price": 31.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Glass_Beaker_Bong_Angle.jpg?v=1748341395"}], "Description": "11 Basic Beaker Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Glass_Beaker_Bong_Angle.jpg?v=1748341395"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('11&quot; Basic Beaker Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Green_Glass_Beaker_Bong_Angle.jpg?v=1748341395" alt="11" Basic Beaker Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">11" Basic Beaker Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$31.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="6.5 bell base dab rig"
+         data-price="59.99"
+         data-brand="smoke source"
+         data-cat="dab rig / oil rig"
+         onclick="openModal(this)"
+         data-product='{"name": "6.5\" Bell Base Dab Rig", "brand": "Smoke Source", "category": "Dab Rig / Oil Rig", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Oil-Rig-Colored-Base-Mouthpiece.jpg?v=1749597848", "Variants": [{"name": "Onyx (Black)", "sku": "HHP044-ONYX", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Oil-Rig-Colored-Base-Mouthpiece.jpg?v=1749597848"}, {"name": "Sapphire (Blue)", "sku": "HHP044-SAPPHIRE", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Oil-Rig-Colored-Base-Mouthpiece.jpg?v=1749597848"}, {"name": "Jade Green", "sku": "HHP044-JADE", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Oil-Rig-Colored-Base-Mouthpiece.jpg?v=1749597848"}, {"name": "Emerald (Green)", "sku": "HHP044-EMERALD", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Oil-Rig-Colored-Base-Mouthpiece.jpg?v=1749597848"}, {"name": "Frost (White)", "sku": "HHP044-FROST", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Oil-Rig-Colored-Base-Mouthpiece.jpg?v=1749597848"}, {"name": "Amethyst (Purple)", "sku": "HHP044-AMETHYST", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Oil-Rig-Colored-Base-Mouthpiece.jpg?v=1749597848"}], "Description": "6.5 Bell Base Dab Rig", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Oil-Rig-Colored-Base-Mouthpiece.jpg?v=1749597848"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('6.5&quot; Bell Base Dab Rig')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Oil-Rig-Colored-Base-Mouthpiece.jpg?v=1749597848" alt="6.5" Bell Base Dab Rig" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">6.5" Bell Base Dab Rig</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$59.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="6.5 curved body dab rig"
+         data-price="59.99"
+         data-brand="smoke source"
+         data-cat="dab rig / oil rig"
+         onclick="openModal(this)"
+         data-product='{"name": "6.5\" Curved Body Dab Rig", "brand": "Smoke Source", "category": "Dab Rig / Oil Rig", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Curved-Body-Dab-Rig.jpg?v=1749597833", "Variants": [{"name": "Jade Green", "sku": "HHP042-JADE", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Curved-Body-Dab-Rig.jpg?v=1749597833"}, {"name": "Bright Green", "sku": "PP2949-CALI-CONNECTED-MARBLE-MINI-RIG-BONG-Bright-Green", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Curved-Body-Dab-Rig.jpg?v=1749597833"}, {"name": "Frost (White)", "sku": "HHP042-FROST", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Curved-Body-Dab-Rig.jpg?v=1749597833"}, {"name": "Azul (Blue)", "sku": "HHP042-AZUL", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Curved-Body-Dab-Rig.jpg?v=1749597833"}, {"name": "Amethyst (Purple)", "sku": "HHP042-AMETHYST", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Curved-Body-Dab-Rig.jpg?v=1749597833"}, {"name": "Onyx (Black)", "sku": "HHP042-ONYX", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Curved-Body-Dab-Rig.jpg?v=1749597833"}, {"name": "Sage Green (unpictured)", "sku": "HHP042-SAGE", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Curved-Body-Dab-Rig.jpg?v=1749597833"}], "Description": "6.5 Curved Body Dab Rig", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Curved-Body-Dab-Rig.jpg?v=1749597833"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('6.5&quot; Curved Body Dab Rig')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Curved-Body-Dab-Rig.jpg?v=1749597833" alt="6.5" Curved Body Dab Rig" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">6.5" Curved Body Dab Rig</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$59.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="glow in the dark 14 silicone straight tube bong"
+         data-price="45.99"
+         data-brand="smoke source"
+         data-cat="bongs"
+         onclick="openModal(this)"
+         data-product='{"name": "Glow in the Dark 14\" Silicone Straight Tube Bong", "brand": "Smoke Source", "category": "Bongs", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990", "Variants": [{"name": "Alien Overflow", "sku": "GLOW-IN-DARK-SILICONE-BONG-CALI-CONNECTED-1", "price": 45.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"}, {"name": "Full Sleeve", "sku": "GLOW-IN-DARK-SILICONE-BONG-CALI-CONNECTED-2", "price": 45.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"}, {"name": "O&#39;Neal", "sku": "GLOW-IN-DARK-SILICONE-BONG-CALI-CONNECTED-3", "price": 45.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"}, {"name": "Koi", "sku": "GLOW-IN-DARK-SILICONE-BONG-CALI-CONNECTED-4", "price": 45.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"}, {"name": "Cartoon Mash-Up", "sku": "GLOW-IN-DARK-SILICONE-BONG-CALI-CONNECTED-5", "price": 45.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"}, {"name": "Jokers", "sku": "GLOW-IN-DARK-SILICONE-BONG-CALI-CONNECTED-6", "price": 45.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"}, {"name": "Graffiti", "sku": "GLOW-IN-DARK-SILICONE-BONG-CALI-CONNECTED-7", "price": 45.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"}, {"name": "Metallic Dragon", "sku": "GLOW-IN-DARK-SILICONE-BONG-CALI-CONNECTED-8", "price": 45.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"}, {"name": "Skull&#39;d Out (Design Varies)", "sku": "GLOW-IN-DARK-SILICONE-BONG-CALI-CONNECTED-9", "price": 45.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"}, {"name": "Red Eyed Skull", "sku": "GLOW-IN-DARK-SILICONE-BONG-CALI-CONNECTED-10", "price": 45.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"}, {"name": "Fire Skull", "sku": "GLOW-IN-DARK-SILICONE-BONG-CALI-CONNECTED-11", "price": 45.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"}, {"name": "Underwater Skull", "sku": "GLOW-IN-DARK-SILICONE-BONG-CALI-CONNECTED-12", "price": 45.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"}], "Description": "Glow in the Dark 14 Silicone Straight Tube Bong", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Glow in the Dark 14&quot; Silicone Straight Tube Bong')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glow-in-the-Dark-Silicone-Straight-Tube-Water-Pipe-3.jpg?v=1748342990" alt="Glow in the Dark 14" Silicone Straight Tube Bong" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">Glow in the Dark 14" Silicone Straight Tube Bong</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$45.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="mini beaker bong w. helicopter perc"
+         data-price="51.99"
+         data-brand="smoke source"
+         data-cat="accessories"
+         onclick="openModal(this)"
+         data-product='{"name": "Mini Beaker Bong w. Helicopter Perc", "brand": "Smoke Source", "category": "Accessories", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Beaker_Bong_Helicopter_Propeller_Percolator_2.jpg?v=1748343907", "Variants": [{"name": "Green", "sku": "caliconnected-mini-beaker-bong-w-helicopter-perc", "price": 51.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Beaker_Bong_Helicopter_Propeller_Percolator_2.jpg?v=1748343907"}, {"name": "Purple", "sku": "caliconnected-mini-beaker-bong-w-helicopter-perc", "price": 51.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Beaker_Bong_Helicopter_Propeller_Percolator_2.jpg?v=1748343907"}], "Description": "Mini Beaker Bong w. Helicopter Perc", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Beaker_Bong_Helicopter_Propeller_Percolator_2.jpg?v=1748343907"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Mini Beaker Bong w. Helicopter Perc')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected_Beaker_Bong_Helicopter_Propeller_Percolator_2.jpg?v=1748343907" alt="Mini Beaker Bong w. Helicopter Perc" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">Mini Beaker Bong w. Helicopter Perc</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$51.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="dyspensr glass one hitter | 4 | assorted colors | 100ct box"
+         data-price="104.99"
+         data-brand="smoke source"
+         data-cat="accessories"
+         onclick="openModal(this)"
+         data-product='{"name": "Dyspensr Glass One Hitter | 4\" | Assorted Colors | 100ct Box", "brand": "Smoke Source", "category": "Accessories", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glass-Chillum-4-100pc_A-1.jpg?v=1749465055", "Variants": [{"name": "Standard", "sku": "PP4230", "price": 104.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glass-Chillum-4-100pc_A-1.jpg?v=1749465055"}], "Description": "Dyspensr Glass One Hitter  4  Assorted Colors  100ct Box", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glass-Chillum-4-100pc_A-1.jpg?v=1749465055"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Dyspensr Glass One Hitter | 4&quot; | Assorted Colors | 100ct Box')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Glass-Chillum-4-100pc_A-1.jpg?v=1749465055" alt="Dyspensr Glass One Hitter | 4" | Assorted Colors | 100ct Box" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">Dyspensr Glass One Hitter | 4" | Assorted Colors | 100ct Box</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$104.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="electric grinder"
+         data-price="33.99"
+         data-brand="smoke source"
+         data-cat="grinder"
+         onclick="openModal(this)"
+         data-product='{"name": "Electric Grinder", "brand": "Smoke Source", "category": "Grinder", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Electric-Grinder.jpg?v=1749466851", "Variants": [{"name": "Standard", "sku": "GR171", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Electric-Grinder.jpg?v=1749466851"}], "Description": "Electric Grinder", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Electric-Grinder.jpg?v=1749466851"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Electric Grinder')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/CaliConnected-Electric-Grinder.jpg?v=1749466851" alt="Electric Grinder" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smoke Source</div>
+            <div class="title">Electric Grinder</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$33.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div></div>
         
         </div>
-        
-                <footer class="site-footer">
-            <div class="footer-content">
-                <div class="footer-col">
-                    <h3>Pixie's Pantry</h3>
-                    <p style="max-width: 300px;">Curating the absolute highest tier of vaporization and glass hardware. Direct wholesale access, vetted specifically for the community. Elevate your ritual.</p>
-                </div>
-                <div class="footer-col">
-                    <h3>Explore</h3>
-                    <ul>
-                        <li><a href="../index.html">Master Catalog</a></li>
-                        <li><a href="#" onclick="toggleCart(); return false;">View Cart</a></li>
-                        <li><a href="../about.html">Our Philosophy</a></li>
-                        <li><a href="../faq.html">FAQ & Guide</a></li>
-                        <li><a href="https://dyspensr.com" target="_blank">Dyspensr Network</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Client Services</h3>
-                    <ul>
-                        <li><a href="https://discord.gg/pyTSf569" target="_blank">Discord Support (Fastest)</a></li>
-                        <li><a href="mailto:admin@pixies-pantry.com">Email Concierge</a></li>
-                        <li><a href="../shipping.html">Shipping & Delivery</a></li>
-                        <li><a href="../refunds.html">Returns & Exchanges</a></li>
-                        <li><a href="../privacy.html">Privacy & Terms</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Stay Exquisite</h3>
-                    <p>Join the inner circle for exclusive drops and wholesale restocks.</p>
-                    <form class="newsletter-form" action="https://formspree.io/f/xeoqkzdj" method="POST">
-                        <input type="email" name="Newsletter Email" placeholder="Enter your email address" required>
-                        <button type="submit">Subscribe</button>
-                    </form>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 PIXIE'S PANTRY. ALL RIGHTS RESERVED.</p>
-                <div class="footer-socials">
-                    <a href="https://discord.gg/pyTSf569" target="_blank">Discord</a>
-                    <a href="#">Instagram</a>
-                    <a href="#">Twitter</a>
-                </div>
-            </div>
+
+        <footer style="padding:50px 48px; border-top:1px solid var(--border); text-align:center; color:var(--muted); font-size:0.8em; letter-spacing:1.5px;">
+            &copy; 2026 PIXIE'S PANTRY &nbsp;|&nbsp; HARDWARE HUB &nbsp;|&nbsp; MISSISSIPPI, USA
         </footer>
     </div>
-    
-    <div id="cart-panel" class="cart-panel">
-        <div class="cart-header">
-            <h2>Your Cart</h2>
-            <div class="close-btn" onclick="toggleCart()">×</div>
-        </div>
-        <div id="cart-items" style="flex-grow:1; overflow-y:auto;"></div>
-        <div class="cart-footer">
-            <div class="cart-total">Total: <span id="cart-total-price">$0.00</span></div>
-            <form action="https://formspree.io/f/xeoqkzdj" method="POST" id="checkout-form" onsubmit="prepareCheckout(event)">
-                <input type="hidden" name="_cc" value="admin@pixies-pantry.com">
-                <input type="hidden" name="_subject" value="New Group Buy Order!">
-                <input type="hidden" name="Order Details" id="order-payload">
-                <input type="hidden" name="Order Total" id="order-total-payload">
-                
-                <div style="font-size:0.85em; color:#666; margin-bottom:15px; background:#f9f9f9; padding:10px; border-radius:6px; border:1px solid #eee;">
-                    <strong>Privacy Note:</strong> Your information is securely protected and used <em>strictly</em> for shipping this order. We will never spam you or sell your data.
-                </div>
-                
-                <input type="text" name="Full Name" id="c-name" placeholder="Full Name *" required class="checkout-input">
-                <input type="email" name="email" id="c-email" placeholder="Email Address *" required class="checkout-input">
-                <input type="tel" name="Phone Number" id="c-phone" placeholder="Phone Number *" required class="checkout-input">
-                <input type="text" name="Discord Username" id="c-discord" placeholder="Discord Username (Optional)" class="checkout-input">
-                
-                <h4 style="margin:15px 0 5px; font-size:0.9em; color:#111;">Shipping Address</h4>
-                <input type="text" name="Shipping Address" id="c-ship" placeholder="Street Address, City, State, Zip *" required class="checkout-input">
-                
-                <h4 style="margin:15px 0 5px; font-size:0.9em; color:#111;">Billing Address</h4>
-                <label style="font-size:0.8em; display:flex; align-items:center; gap:5px; margin-bottom:10px; cursor:pointer;">
-                    <input type="checkbox" id="same-billing" onchange="toggleBilling()" checked> Same as Shipping
-                </label>
-                <input type="text" name="Billing Address" id="c-bill" placeholder="Street Address, City, State, Zip" class="checkout-input" style="display:none;">
 
-                <button type="submit" class="checkout-btn quick-add-btn" style="background:#d4af37; color:#111; border-color:#d4af37; margin-top:15px; font-size:1em; padding:15px;">Secure Checkout</button>
-            </form>
-            
-            <!-- Receipt Container -->
-            <div id="receipt-container" style="display:none; padding:20px; background:#fff; border:2px dashed #d4af37; border-radius:8px; margin-top:20px;">
-                <h3 style="text-align:center; color:#111; margin-top:0;">Order Receipt</h3>
-                <p style="text-align:center; font-size:0.85em; color:#666;">Thank you! A copy has been sent to your email and admin@pixies-pantry.com.</p>
-                <div id="receipt-body" style="font-family:monospace; font-size:0.85em; white-space:pre-wrap; background:#f4f4f4; padding:15px; border-radius:4px; margin-bottom:15px;"></div>
-                <button onclick="window.print()" class="quick-add-btn" style="width:100%; text-align:center;">🖨️ Print / Save as PDF</button>
-            </div>
-        </div>
-    </div>
-    
+    <!-- Product Modal -->
     <div id="product-modal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">×</span>
-            <div class="modal-body" style="display:flex; flex-wrap:wrap; width:100%;">
-                <div class="modal-img-col">
-                    <img id="modal-img" src="" alt="Product">
-                    <div class="modal-gallery" id="modal-gallery"></div>
-                </div>
-                <div class="modal-info-col">
-                    <!-- Dynamic Badges & Ratings inside Modal -->
-                    <div id="modal-badge-container"></div>
-                    <div id="modal-stars-container" style="margin-bottom:10px;"></div>
-                    
-                    <div class="modal-brand" id="modal-brand"></div>
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:15px;">
-                        <h2 class="modal-title" id="modal-title" style="margin-top:0;"></h2>
-                        <button onclick="shareProduct()" style="background:#f4f4f4; border:1px solid #ddd; border-radius:50%; width:45px; height:45px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:all 0.2s;" title="Share this item">
-                            <span style="font-size:1.2em;">🔗</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Dynamic Scarcity & Compare-At Price -->
-                    <div class="modal-price-wrap">
-                        <span class="modal-price" id="modal-price"></span>
-                        <span class="modal-msrp" id="modal-msrp" style="display:none; text-decoration:line-through; color:#e74c3c; font-size:0.9em; margin-left:15px; font-weight:800;"></span>
-                    </div>
-                    
-                    <div id="modal-scarcity-container" class="scarcity-alert"></div>
-                    
-                    <div id="modal-variant-container"></div>
-                    <div class="modal-desc" id="modal-desc-container"></div>
-                    
-                    <!-- Cross-Sell Upsell -->
-                    <div class="cross-sell-box" id="cross-sell-container" style="display:none;">
-                        <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pink-Formula-Glass-Cleaner-bottle.jpg?v=1748281358" alt="Pink Formula">
-                        <div class="cross-sell-info">
-                            <div class="cross-sell-title">+ Pink Formula Glass Cleaner</div>
-                            <div class="cross-sell-desc">$9.99 (Essential for maintenance)</div>
-                        </div>
-                        <input type="checkbox" id="cross-sell-check" class="cross-sell-checkbox">
-                    </div>
-                    
-                    <button class="modal-add-btn quick-add-btn" id="modal-add-btn" style="padding:15px; font-size:1.2em; background:#111; color:#fff; border:none; margin-top:20px;">Add to Cart</button>
-                </div>
+            <button onclick="closeModal()" style="position:absolute; top:20px; right:24px; font-size:2em; background:none; border:none; cursor:pointer; color:#aaa; z-index:10; line-height:1;">&times;</button>
+            <div class="modal-img-side">
+                <img id="modal-img" src="" style="max-width:100%; max-height:380px; object-fit:contain;">
+                <div id="modal-gallery" style="display:flex; gap:10px; margin-top:20px; overflow-x:auto; width:100%; justify-content:center; padding-bottom:4px;"></div>
+            </div>
+            <div class="modal-info-side">
+                <div id="modal-brand" style="font-size:0.75em; font-weight:900; color:#bbb; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;"></div>
+                <h2 id="modal-title" style="font-weight:900; font-size:1.9em; line-height:1.1; letter-spacing:-0.5px; margin-bottom:18px;"></h2>
+                <div id="modal-price" style="font-size:2.2em; font-weight:900; margin-bottom:22px;"></div>
+                <div id="modal-variant-container" style="margin-bottom:10px;"></div>
+                <button id="modal-add-btn" class="quick-add-btn" style="width:100%; padding:18px; font-size:1em; margin-top:16px; letter-spacing:1px; text-transform:uppercase; border-radius:10px;">Add to Order</button>
+                <div id="modal-desc-container" style="margin-top:30px; color:#555; font-size:0.95em; line-height:1.8; border-top:1px solid #f0f0f0; padding-top:22px;"></div>
             </div>
         </div>
     </div>
+
+    <!-- Floating Cart Button -->
+    <button class="cart-toggle" onclick="toggleCart()">🛒 CART (<span class="cart-count">0</span>)</button>
+
+    <!-- Side Cart Panel -->
+    <div id="cart-panel" class="cart-panel">
+        <div style="padding:28px 30px; background:#fafafa; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; font-size:1em; font-weight:900; letter-spacing:2px; text-transform:uppercase;">Order Sheet</h2>
+            <button onclick="toggleCart()" style="border:none; background:none; font-size:1.8em; cursor:pointer; color:#bbb; line-height:1;">&times;</button>
+        </div>
+        <div id="cart-items" style="flex:1; overflow-y:auto; padding:20px 30px;"></div>
+        <div style="padding:24px 30px; border-top:1px solid #eee; background:#fff;">
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:1.2em; margin-bottom:24px;">
+                <span>Subtotal:</span><span id="cart-total-price">$0.00</span>
+            </div>
+            <!-- FORMSPREE FORM — action URL uses your FORMSPREE_ID -->
+            <form action="https://formspree.io/f/xeoqkzdj" method="POST" id="checkout-form" onsubmit="prepareCheckout(event)">
+                <input type="hidden" name="Order Details" id="order-payload">
+                <input type="text" name="Full Name" placeholder="Full Name *" required class="checkout-input">
+                <input type="email" name="email" placeholder="Email Address *" required class="checkout-input">
+                <input type="text" name="Discord" placeholder="Discord Username (Optional)" class="checkout-input">
+                <input type="text" name="Shipping" placeholder="City, State, Zip *" required class="checkout-input">
+                <input type="text" name="Notes" placeholder="Order notes (optional)" class="checkout-input">
+                <button type="submit" style="width:100%; background:var(--primary); color:#fff; border:none; padding:18px; font-weight:900; border-radius:10px; margin-top:8px; font-size:0.95em; text-transform:uppercase; letter-spacing:1px; cursor:pointer; font-family:inherit;">Submit Order</button>
+            </form>
+            <div id="receipt-container" style="display:none; text-align:center; padding:30px; border:2px dashed #eee; border-radius:14px;">
+                <div style="font-size:2em; margin-bottom:12px;">✅</div>
+                <h4 style="font-weight:900; letter-spacing:1px; margin-bottom:8px;">ORDER SUBMITTED</h4>
+                <p style="font-size:0.88em; color:var(--muted);">Check Discord or Email for follow-up shortly.</p>
+                <button onclick="location.reload()" class="quick-add-btn" style="margin-top:18px; width:100%; padding:14px; border-radius:8px;">Back to Catalog</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+// ── State ──────────────────────────────────────────────────
+let cart = [];
+
+// ── Cart Helpers ────────────────────────────────────────────
+function addToCart(productName, variant) {
+    const existing = cart.find(i => i.name === productName && i.variantName === variant.name);
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({ name: productName, variantName: variant.name, price: variant.price, qty: 1 });
+    }
+    renderCart();
+    showToast("Added: " + productName);
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    renderCart();
+}
+
+function updateQty(index, delta) {
+    cart[index].qty += delta;
+    if (cart[index].qty <= 0) cart.splice(index, 1);
+    renderCart();
+}
+
+function renderCart() {
+    const container = document.getElementById('cart-items');
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    document.querySelectorAll('.cart-count').forEach(el => el.textContent = cart.reduce((s,i) => s+i.qty, 0));
+    document.getElementById('cart-total-price').textContent = '$' + total.toFixed(2);
+
+    if (cart.length === 0) {
+        container.innerHTML = '<p style="color:#aaa; text-align:center; padding:40px 0; font-size:0.9em;">Your cart is empty.</p>';
+        return;
+    }
+
+    container.innerHTML = cart.map((item, i) => `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:18px 0; border-bottom:1px solid #f0f0f0; gap:12px;">
+            <div style="flex:1;">
+                <div style="font-weight:800; font-size:0.9em; line-height:1.3;">${item.name}</div>
+                ${item.variantName !== 'Standard' ? `<div style="font-size:0.78em; color:#aaa; margin-top:3px;">${item.variantName}</div>` : ''}
+                <div style="font-size:0.85em; color:#555; margin-top:6px;">$${item.price.toFixed(2)} each</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button onclick="updateQty(${i}, -1)" style="width:28px; height:28px; border:1px solid #ddd; background:#fff; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center;">−</button>
+                    <span style="font-weight:900; min-width:20px; text-align:center;">${item.qty}</span>
+                    <button onclick="updateQty(${i}, 1)" style="width:28px; height:28px; border:1px solid #ddd; background:#fff; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center;">+</button>
+                </div>
+                <div style="font-weight:900; font-size:0.95em;">$${(item.price * item.qty).toFixed(2)}</div>
+                <button onclick="removeFromCart(${i})" style="border:none; background:none; color:#ccc; cursor:pointer; font-size:0.75em; text-transform:uppercase; letter-spacing:1px;">Remove</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function toggleCart() {
+    document.getElementById('cart-panel').classList.toggle('open');
+}
+
+// ── Modal ───────────────────────────────────────────────────
+function openModal(cardEl) {
+    const raw = cardEl.getAttribute('data-product');
+    const p = JSON.parse(raw.replace(/&#39;/g, "'"));
+    const modal = document.getElementById('product-modal');
+
+    document.getElementById('modal-img').src = p.image;
+    document.getElementById('modal-brand').textContent = p.brand;
+    document.getElementById('modal-title').textContent = p.name;
+    document.getElementById('modal-desc-container').innerHTML = p.Description || '';
+
+    // Gallery
+    const gallery = document.getElementById('modal-gallery');
+    gallery.innerHTML = (p['All Images'] || []).map((img, i) => `
+        <img src="${img}" style="width:60px; height:60px; object-fit:contain; border:2px solid ${i===0?'#111':'#eee'}; border-radius:8px; cursor:pointer; padding:4px;"
+             onclick="document.getElementById('modal-img').src='${img}'; this.parentNode.querySelectorAll('img').forEach(x=>x.style.borderColor='#eee'); this.style.borderColor='#111';">
+    `).join('');
+
+    // Variants
+    const container = document.getElementById('modal-variant-container');
+    const priceEl = document.getElementById('modal-price');
+
+    if (p.Variants.length === 1) {
+        priceEl.textContent = '$' + p.Variants[0].price.toFixed(2);
+        container.innerHTML = '';
+        document.getElementById('modal-add-btn').onclick = () => {
+            addToCart(p.name, p.Variants[0]);
+            closeModal();
+        };
+    } else {
+        priceEl.textContent = '$' + p.Variants[0].price.toFixed(2);
+        container.innerHTML = `
+            <label style="font-size:0.8em; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#aaa; display:block; margin-bottom:10px;">Select Option</label>
+            <select onchange="selectVariant(this.value, ${JSON.stringify(p.Variants).replace(/"/g,'&quot;')})"
+                    style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-weight: 700; font-size: 0.95em; cursor: pointer; outline: none;">
+                ${p.Variants.map((v, i) => `
+                    <option value="${i}">${v.name} - $${v.price.toFixed(2)}</option>
+                `).join('')}
+            </select>`;
+
+        // Store selected variant index on the button
+        let selectedVariant = p.Variants[0];
+        window._modalVariants = p.Variants;
+        window._modalSelectedVariant = selectedVariant;
+
+        document.getElementById('modal-add-btn').onclick = () => {
+            addToCart(p.name, window._modalSelectedVariant || p.Variants[0]);
+            closeModal();
+        };
+    }
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function selectVariant(index, variantsJson) {
+    const variants = typeof variantsJson === 'string' ? JSON.parse(variantsJson) : variantsJson;
+    const v = variants[index];
+    window._modalSelectedVariant = v;
+    document.getElementById('modal-price').textContent = '$' + v.price.toFixed(2);
     
-    <script src="../js/data.js"></script>
-    <script src="../js/app.js"></script>
+    if (v.image && v.image !== "https://placehold.co/400x400/f5f5f5/999?text=No+Image") {
+        document.getElementById('modal-img').src = v.image;
+        document.querySelectorAll('#modal-gallery img').forEach(img => {
+            img.style.borderColor = img.src === v.image ? '#111' : '#eee';
+        });
+    }
+}
+
+function closeModal() {
+    document.getElementById('product-modal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+document.getElementById('product-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// ── Quick Add (single variant) ──────────────────────────────
+function quickAdd(btn) {
+    const card = btn.closest('.card');
+    const raw = card.getAttribute('data-product');
+    const p = JSON.parse(raw.replace(/&#39;/g, "'"));
+    if (p.Variants.length === 1) {
+        addToCart(p.name, p.Variants[0]);
+    } else {
+        openModal(card);
+    }
+}
+
+// ── Filter & Sort ───────────────────────────────────────────
+function applyFilters() {
+    const search = (document.getElementById('searchInput')?.value || '').toLowerCase();
+    const brandFilter = (document.getElementById('brandFilter')?.value || 'all').toLowerCase();
+    const catFilter = (document.getElementById('catFilter')?.value || 'all').toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+        const name = card.dataset.name || '';
+        const brand = card.dataset.brand || '';
+        const cat = card.dataset.cat || '';
+        const matchSearch = name.includes(search) || brand.includes(search);
+        const matchBrand = brandFilter === 'all' || brand === brandFilter;
+        const matchCat = catFilter === 'all' || cat === catFilter;
+        card.style.display = (matchSearch && matchBrand && matchCat) ? 'flex' : 'none';
+    });
+    updateCount();
+}
+
+function updateCount() {
+    const visible = document.querySelectorAll('.card:not([style*="none"])').length;
+    const el = document.getElementById('result-count');
+    if (el) el.textContent = visible + ' products';
+}
+
+function sortGrid() {
+    const val = document.getElementById('sortSelect')?.value;
+    const grid = document.querySelector('.grid');
+    if (!grid || !val) return;
+    const cards = Array.from(grid.querySelectorAll('.card'));
+    cards.sort((a, b) => {
+        if (val === 'price-low') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+        if (val === 'price-high') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+        if (val === 'name-az') return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+        return 0;
+    });
+    cards.forEach(c => grid.appendChild(c));
+}
+
+// ── Toast ───────────────────────────────────────────────────
+function showToast(msg) {
+    const t = document.getElementById('pixies-toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Direct Link ─────────────────────────────────────────────
+function copyDirectLink(name) {
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const url = window.location.href.split('?')[0] + '?p=' + slug;
+    navigator.clipboard?.writeText(url).then(() => showToast('🔗 Link copied!')).catch(() => showToast('Link: ' + url));
+}
+
+// ── Formspree Checkout ──────────────────────────────────────
+function prepareCheckout(e) {
+    e.preventDefault();
+    if (cart.length === 0) { showToast('Your cart is empty!'); return; }
+
+    const orderLines = cart.map(i => `${i.qty}x ${i.name}${i.variantName !== 'Standard' ? ' ('+i.variantName+')' : ''} @ $${i.price.toFixed(2)}`);
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    orderLines.push('---');
+    orderLines.push('SUBTOTAL: $' + total.toFixed(2));
+
+    document.getElementById('order-payload').value = orderLines.join('\n');
+
+    const form = document.getElementById('checkout-form');
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+    }).then(res => {
+        if (res.ok) {
+            form.style.display = 'none';
+            document.getElementById('receipt-container').style.display = 'block';
+            cart = [];
+            renderCart();
+        } else {
+            showToast('⚠️ Submission failed. Please try again.');
+        }
+    }).catch(() => showToast('⚠️ Network error. Check your connection.'));
+}
+
+// ── Mobile Nav ──────────────────────────────────────────────
+function toggleMobileNav() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('mobile-overlay');
+    sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = sidebar.classList.contains('mobile-open') ? 'hidden' : '';
+}
+
+// Init
+renderCart();
+
+    </script>
 </body>
 </html>
-    

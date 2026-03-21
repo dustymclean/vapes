@@ -1,398 +1,1681 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixie's Pantry | Vaporizer Pen</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: sans-serif; background: #fff; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; padding: 20px; }
-        .card { position: relative; border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .card img { max-width: 100%; height: 160px; object-fit: contain; }
-        .brand-badge { font-size: 0.7em; color: #aaa; text-transform: uppercase; margin-top: 10px; }
-        .title { font-weight: bold; margin: 5px 0; font-size: 0.9em; height: 2.4em; overflow: hidden; }
-        .price { font-weight: 800; color: #111; }
-        
-        /* The Link Shortcut Icon */
-        .link-shortcut {
-            position: absolute; top: 10px; right: 10px; background: #fff; width: 30px; height: 30px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 0.8em; color: #888; border: 1px solid #eee; z-index: 5; transition: 0.2s;
+        :root {
+            --primary: #111;
+            --sidebar-w: 300px;
+            --border: #eaeaea;
+            --muted: #888;
+            --card-radius: 14px;
         }
-        .link-shortcut:hover { background: #111; color: #fff; border-color: #111; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #fff;
+            color: var(--primary);
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; bottom: 0;
+            width: var(--sidebar-w);
+            background: #fafafa;
+            border-right: 1px solid var(--border);
+            padding: 40px 28px;
+            overflow-y: auto;
+            z-index: 900;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-logo {
+            font-weight: 900;
+            font-size: 1.3em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            display: block;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .sidebar-logo span { color: #e8498a; }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.88em;
+            margin-bottom: 28px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .search-box:focus { border-color: var(--primary); }
+
+        .nav-section-label {
+            font-size: 0.65em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #bbb;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin: 24px 0 10px;
+        }
+        .sidebar-link {
+            display: block;
+            padding: 9px 0;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.85em;
+            border-bottom: 1px solid #f5f5f5;
+            transition: all 0.15s;
+        }
+        .sidebar-link:hover {
+            color: var(--primary);
+            padding-left: 6px;
+            font-weight: 700;
+        }
+
+        /* ── Mobile overlay ── */
+        #mobile-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 850;
+        }
+        #mobile-overlay.active { display: block; }
+
+        /* ── Main wrapper ── */
+        .main-wrapper {
+            margin-left: var(--sidebar-w);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .banner {
+            background: var(--primary);
+            color: #fff;
+            padding: 13px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 0.72em;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+
+        /* ── Mobile header ── */
+        .mobile-header {
+            display: none;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 39px;
+            z-index: 499;
+        }
+        .mobile-header-logo {
+            font-weight: 900;
+            font-size: 1.1em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .mobile-header-logo span { color: #e8498a; }
+        .hamburger {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 7px 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* ── Main content ── */
+        .main-content {
+            padding: 55px 48px;
+            flex: 1;
+        }
+
+        /* ── Toolbar ── */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+        .toolbar-left h1 {
+            font-weight: 900;
+            font-size: 2.4em;
+            letter-spacing: -1.5px;
+            line-height: 1;
+        }
+        .toolbar-left p {
+            color: var(--muted);
+            font-size: 0.9em;
+            margin-top: 6px;
+        }
+        .toolbar-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-select {
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.85em;
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+            font-family: inherit;
+        }
+        .filter-select:focus { border-color: var(--primary); }
+
+        /* ── Product Grid ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 28px;
+        }
+
+        /* ── Card ── */
+        .card {
+            position: relative;
+            border: 1px solid #f0f0f0;
+            border-radius: var(--card-radius);
+            padding: 22px;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.165,0.84,0.44,1), box-shadow 0.3s ease, border-color 0.2s;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            /* FIX: removed height:100% which caused stretching in auto-fill grids */
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            border-color: #ddd;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 18px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .card:hover .image-container img { transform: scale(1.04); }
+
+        .brand-badge {
+            font-size: 0.58em;
+            font-weight: 900;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+        }
+        .title {
+            font-weight: 800;
+            font-size: 0.97em;
+            line-height: 1.4;
+            color: var(--primary);
+            flex: 1;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        .price-tag {
+            font-weight: 900;
+            font-size: 1.15em;
+            color: var(--primary);
+        }
+        .quick-add-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.82em;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-family: inherit;
+        }
+        .quick-add-btn:hover { opacity: 0.75; }
+
+        .link-shortcut {
+            position: absolute;
+            top: 14px; right: 14px;
+            background: #fff;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #eee;
+            color: #ccc;
+            z-index: 5;
+            transition: all 0.2s;
+        }
+        .link-shortcut:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* ── Cart button ── */
+        .cart-toggle {
+            position: fixed;
+            bottom: 36px; right: 36px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 16px 26px;
+            border-radius: 40px;
+            font-weight: 900;
+            font-size: 0.9em;
+            cursor: pointer;
+            z-index: 800;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+        .cart-toggle:hover { transform: scale(1.05); }
+
+        /* ── Cart panel ── */
+        .cart-panel {
+            position: fixed;
+            top: 0; right: -480px;
+            width: 440px;
+            max-width: 100vw;
+            height: 100%;
+            background: #fff;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+            z-index: 3000;
+            transition: right 0.45s cubic-bezier(0.165,0.84,0.44,1);
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-panel.open { right: 0; }
+
+        .checkout-input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.9em;
+            font-family: inherit;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .checkout-input:focus { border-color: var(--primary); }
+
+        /* ── Modal ── */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+            padding: 20px;
+        }
+        .modal-content {
+            background: #fff;
+            width: 960px;
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 18px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+        }
+        .modal-img-side {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f8f8;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #f0f0f0;
+        }
+        .modal-info-side {
+            flex: 1;
+            min-width: 300px;
+            padding: 50px 45px;
+            overflow-y: auto;
+        }
+
+        /* ── Toast ── */
+        #pixies-toast {
+            visibility: hidden;
+            min-width: 220px;
+            background: #111;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 14px 22px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-weight: 700;
+            font-size: 0.9em;
+            pointer-events: none;
+        }
+        #pixies-toast.show {
+            visibility: visible;
+            animation: toastIn 0.3s ease, toastOut 0.4s ease 2.6s forwards;
+        }
+        @keyframes toastIn { from { opacity:0; bottom:15px; } to { opacity:1; bottom:30px; } }
+        @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+        /* ── Responsive ── */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 280px;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; }
+            .main-content { padding: 30px 20px; }
+            .mobile-header { display: flex; }
+            .banner { top: 0; }
+            .cart-toggle { bottom: 20px; right: 20px; padding: 14px 20px; }
+            .cart-panel { width: 100vw; right: -100vw; }
+            .modal-content { flex-direction: column; }
+            .modal-img-side { min-width: unset; padding: 30px; max-height: 250px; }
+            .modal-info-side { min-width: unset; padding: 30px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+            .image-container { height: 150px; }
+            .toolbar-left h1 { font-size: 1.8em; }
+        }
+
+        @media (max-width: 480px) {
+            .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .card { padding: 14px; }
+            .image-container { height: 120px; }
+            .title { font-size: 0.85em; }
+            .price-tag { font-size: 1em; }
+            .quick-add-btn { padding: 7px 12px; font-size: 0.75em; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <nav style="padding: 20px 0;"><a href="../index.html">← Master Catalog</a></nav>
-        <h1>Vaporizer Pen</h1>
-        <div class="grid">
+    <div id="pixies-toast"></div>
+    <div id="mobile-overlay" onclick="toggleMobileNav()"></div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <a href="../index.html" class="sidebar-logo">Pixie's <span>Pantry</span></a>
+        <input type="text" id="searchInput" class="search-box" placeholder="Search products, brands..." oninput="applyFilters()">
+        
+        <div class="nav-section-label">Categories</div>
+        <nav><a href="../categories/accessories.html" class="sidebar-link">Accessories</a>
+<a href="../categories/accessory.html" class="sidebar-link">Accessory</a>
+<a href="../categories/adapters-attachments.html" class="sidebar-link">Adapters & Attachments</a>
+<a href="../categories/ash-catcher.html" class="sidebar-link">Ash Catcher</a>
+<a href="../categories/atomizers-coils.html" class="sidebar-link">Atomizers & Coils</a>
+<a href="../categories/banger.html" class="sidebar-link">Banger</a>
+<a href="../categories/beaker-bong.html" class="sidebar-link">Beaker Bong</a>
+<a href="../categories/blunt-wraps-leaf-rolls.html" class="sidebar-link">Blunt Wraps & Leaf Rolls</a>
+<a href="../categories/bong.html" class="sidebar-link">Bong</a>
+<a href="../categories/bongs.html" class="sidebar-link">Bongs</a>
+<a href="../categories/bubblers.html" class="sidebar-link">Bubblers</a>
+<a href="../categories/budsy-water-bottle-bong.html" class="sidebar-link">Budsy Water Bottle Bong</a>
+<a href="../categories/bundle.html" class="sidebar-link">Bundle</a>
+<a href="../categories/complete-base-neckpiece.html" class="sidebar-link">Complete: Base + Neckpiece</a>
+<a href="../categories/concentrate-pipe.html" class="sidebar-link">Concentrate Pipe</a>
+<a href="../categories/cupsy-coffee-cup-bong.html" class="sidebar-link">Cupsy Coffee Cup Bong</a>
+<a href="../categories/dab-rig-oil-rig.html" class="sidebar-link">Dab Rig / Oil Rig</a>
+<a href="../categories/dab-rig-sets.html" class="sidebar-link">Dab Rig Sets</a>
+<a href="../categories/dab-rigs.html" class="sidebar-link">Dab Rigs</a>
+<a href="../categories/dab-straws.html" class="sidebar-link">Dab Straws</a>
+<a href="../categories/dab-tools.html" class="sidebar-link">Dab Tools</a>
+<a href="../categories/desktop-vaporizer.html" class="sidebar-link">Desktop Vaporizer</a>
+<a href="../categories/downstem.html" class="sidebar-link">Downstem</a>
+<a href="../categories/dynavap-bundle.html" class="sidebar-link">DynaVap Bundle</a>
+<a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a>
+<a href="../categories/filters-tips.html" class="sidebar-link">Filters & Tips</a>
+<a href="../categories/glass-cleaning-solution.html" class="sidebar-link">Glass Cleaning Solution</a>
+<a href="../categories/grinder.html" class="sidebar-link">Grinder</a>
+<a href="../categories/grinders.html" class="sidebar-link">Grinders</a>
+<a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a>
+<a href="../categories/kit.html" class="sidebar-link">Kit</a>
+<a href="../categories/lighter.html" class="sidebar-link">Lighter</a>
+<a href="../categories/maintenance.html" class="sidebar-link">Maintenance</a>
+<a href="../categories/mouthpieces-o-rings.html" class="sidebar-link">Mouthpieces & O-Rings</a>
+<a href="../categories/oil-rig.html" class="sidebar-link">Oil Rig</a>
+<a href="../categories/other-vape-parts.html" class="sidebar-link">Other Vape Parts</a>
+<a href="../categories/papers-cones-wraps.html" class="sidebar-link">Papers, Cones & Wraps</a>
+<a href="../categories/part.html" class="sidebar-link">Part</a>
+<a href="../categories/peak-pro.html" class="sidebar-link">Peak PRO</a>
+<a href="../categories/pipes.html" class="sidebar-link">Pipes</a>
+<a href="../categories/pollen-box.html" class="sidebar-link">Pollen Box</a>
+<a href="../categories/pollen-press.html" class="sidebar-link">Pollen Press</a>
+<a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a>
+<a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a>
+<a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-Rolled Cones</a>
+<a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-rolled Cones</a>
+<a href="../categories/recycler.html" class="sidebar-link">Recycler</a>
+<a href="../categories/rolling-accessories.html" class="sidebar-link">Rolling Accessories</a>
+<a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a>
+<a href="../categories/rolling-tips.html" class="sidebar-link">Rolling Tips</a>
+<a href="../categories/rolling-tray.html" class="sidebar-link">Rolling Tray</a>
+<a href="../categories/smoking-accessories.html" class="sidebar-link">Smoking Accessories</a>
+<a href="../categories/spoon.html" class="sidebar-link">Spoon</a>
+<a href="../categories/stand.html" class="sidebar-link">Stand</a>
+<a href="../categories/storage.html" class="sidebar-link">Storage</a>
+<a href="../categories/ted.html" class="sidebar-link">TED</a>
+<a href="../categories/torches.html" class="sidebar-link">Torches</a>
+<a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a>
+<a href="../categories/vaporizer.html" class="sidebar-link">Vaporizer</a>
+<a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a>
+<a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a>
+<a href="../categories/water-pipe.html" class="sidebar-link">Water Pipe</a>
+<a href="../categories/water-pipes.html" class="sidebar-link">Water Pipes</a>
+<a href="../categories/accessory.html" class="sidebar-link">accessory</a>
+<a href="../categories/bong.html" class="sidebar-link">bong</a>
+<a href="../categories/bundle.html" class="sidebar-link">bundle</a>
+<a href="../categories/dab-rig.html" class="sidebar-link">dab rig</a>
+<a href="../categories/downstem.html" class="sidebar-link">downstem</a>
+<a href="../categories/hemp-wick.html" class="sidebar-link">hemp wick</a>
+<a href="../categories/mouthpiece.html" class="sidebar-link">mouthpiece</a>
+<a href="../categories/rolling-tray.html" class="sidebar-link">rolling tray</a>
+<a href="../categories/travel-case.html" class="sidebar-link">travel case</a></nav>
+        <div class="nav-section-label">Brands</div>
+        <nav><a href="../brands/apex-ancillary.html" class="sidebar-link">Apex Ancillary</a>
+<a href="../brands/bic.html" class="sidebar-link">BIC</a>
+<a href="../brands/baked-water.html" class="sidebar-link">Baked Water</a>
+<a href="../brands/blazer.html" class="sidebar-link">Blazer</a>
+<a href="../brands/blazy-susan.html" class="sidebar-link">Blazy Susan</a>
+<a href="../brands/boveda-inc.html" class="sidebar-link">Boveda Inc.</a>
+<a href="../brands/ccell.html" class="sidebar-link">CCELL</a>
+<a href="../brands/cali-crusher.html" class="sidebar-link">Cali Crusher</a>
+<a href="../brands/chill-steel-pipes.html" class="sidebar-link">Chill Steel Pipes</a>
+<a href="../brands/daze-glass.html" class="sidebar-link">Daze Glass</a>
+<a href="../brands/dogg-lbs.html" class="sidebar-link">Dogg Lbs</a>
+<a href="../brands/dr-dabber.html" class="sidebar-link">Dr. Dabber</a>
+<a href="../brands/dynavap.html" class="sidebar-link">DynaVap</a>
+<a href="../brands/dyspensr-wholesale.html" class="sidebar-link">Dyspensr Wholesale</a>
+<a href="../brands/empire-glassworks.html" class="sidebar-link">Empire Glassworks</a>
+<a href="../brands/flower-mill.html" class="sidebar-link">Flower Mill</a>
+<a href="../brands/focus-v.html" class="sidebar-link">Focus V</a>
+<a href="../brands/grav-grav-labs.html" class="sidebar-link">GRAV / Grav Labs</a>
+<a href="../brands/gravitoke.html" class="sidebar-link">GraviToke</a>
+<a href="../brands/grenco-science.html" class="sidebar-link">Grenco Science</a>
+<a href="../brands/grindhouse.html" class="sidebar-link">Grindhouse</a>
+<a href="../brands/hemper.html" class="sidebar-link">Hemper</a>
+<a href="../brands/herb-saver.html" class="sidebar-link">Herb Saver</a>
+<a href="../brands/honeybee-herb.html" class="sidebar-link">Honeybee Herb</a>
+<a href="../brands/human-grade.html" class="sidebar-link">Human Grade</a>
+<a href="../brands/i-tal.html" class="sidebar-link">I-Tal</a>
+<a href="../brands/iolite.html" class="sidebar-link">IOLITE</a>
+<a href="../brands/invincibowl.html" class="sidebar-link">Invincibowl</a>
+<a href="../brands/ispire.html" class="sidebar-link">Ispire</a>
+<a href="../brands/jane-west.html" class="sidebar-link">Jane West</a>
+<a href="../brands/juicy-jays.html" class="sidebar-link">Juicy Jays</a>
+<a href="../brands/k-haring-collection.html" class="sidebar-link">K. Haring Collection</a>
+<a href="../brands/kandypens.html" class="sidebar-link">KandyPens</a>
+<a href="../brands/kannastor.html" class="sidebar-link">Kannastor</a>
+<a href="../brands/kill-your-culture.html" class="sidebar-link">Kill Your Culture</a>
+<a href="../brands/king-palm.html" class="sidebar-link">King Palm</a>
+<a href="../brands/la-pipes.html" class="sidebar-link">LA Pipes</a>
+<a href="../brands/leafly-water-pipes.html" class="sidebar-link">Leafly Water Pipes</a>
+<a href="../brands/lookah.html" class="sidebar-link">Lookah</a>
+<a href="../brands/mj-arsenal.html" class="sidebar-link">MJ Arsenal</a>
+<a href="../brands/marley-natural.html" class="sidebar-link">Marley Natural</a>
+<a href="../brands/micro.html" class="sidebar-link">Micro</a>
+<a href="../brands/moose-labs.html" class="sidebar-link">Moose Labs</a>
+<a href="../brands/my-bud-vase.html" class="sidebar-link">My Bud Vase</a>
+<a href="../brands/openvape.html" class="sidebar-link">O.penVAPE</a>
+<a href="../brands/ocb-rolling-papers.html" class="sidebar-link">OCB Rolling Papers</a>
+<a href="../brands/ongrok.html" class="sidebar-link">Ongrok</a>
+<a href="../brands/ooze.html" class="sidebar-link">Ooze</a>
+<a href="../brands/orange-chronic.html" class="sidebar-link">Orange Chronic</a>
+<a href="../brands/other.html" class="sidebar-link">Other</a>
+<a href="../brands/pax.html" class="sidebar-link">PAX</a>
+<a href="../brands/pink-formula.html" class="sidebar-link">Pink Formula</a>
+<a href="../brands/powerhitter.html" class="sidebar-link">PowerHitter</a>
+<a href="../brands/primo.html" class="sidebar-link">Primo</a>
+<a href="../brands/prism-pipes.html" class="sidebar-link">Prism Pipes</a>
+<a href="../brands/puffco.html" class="sidebar-link">Puffco</a>
+<a href="../brands/pulsar.html" class="sidebar-link">Pulsar</a>
+<a href="../brands/raw-rolling-papers.html" class="sidebar-link">RAW Rolling Papers</a>
+<a href="../brands/ryot.html" class="sidebar-link">RYOT</a>
+<a href="../brands/randys.html" class="sidebar-link">Randy’s</a>
+<a href="../brands/retro-vapes.html" class="sidebar-link">Retro Vapes</a>
+<a href="../brands/rhythms-of-life.html" class="sidebar-link">Rhythms of Life</a>
+<a href="../brands/ritual.html" class="sidebar-link">Ritual</a>
+<a href="../brands/roast-toast.html" class="sidebar-link">Roast & Toast</a>
+<a href="../brands/rokin-vapes.html" class="sidebar-link">Rokin Vapes</a>
+<a href="../brands/roll-it-club.html" class="sidebar-link">Roll It Club</a>
+<a href="../brands/slx-grinders.html" class="sidebar-link">SLX Grinders</a>
+<a href="../brands/santa-cruz-shredder.html" class="sidebar-link">Santa Cruz Shredder</a>
+<a href="../brands/seshgear.html" class="sidebar-link">SeshGear</a>
+<a href="../brands/session-goods.html" class="sidebar-link">Session Goods</a>
+<a href="../brands/sharpstone.html" class="sidebar-link">SharpStone</a>
+<a href="../brands/shine-rolling-papers.html" class="sidebar-link">Shine Rolling Papers</a>
+<a href="../brands/smoke-source.html" class="sidebar-link">Smoke Source</a>
+<a href="../brands/smokebuddy.html" class="sidebar-link">Smokebuddy</a>
+<a href="../brands/snowtree.html" class="sidebar-link">Snowtree</a>
+<a href="../brands/social-smoking.html" class="sidebar-link">Social Smoking</a>
+<a href="../brands/softglass.html" class="sidebar-link">Softglass</a>
+<a href="../brands/stache-products.html" class="sidebar-link">Stache Products</a>
+<a href="../brands/storz-bickel.html" class="sidebar-link">Storz & Bickel</a>
+<a href="../brands/stündenglass.html" class="sidebar-link">Stündenglass</a>
+<a href="../brands/the-kind-pen.html" class="sidebar-link">The Kind Pen</a>
+<a href="../brands/thick-ass-glass.html" class="sidebar-link">Thick Ass Glass</a>
+<a href="../brands/thug-life.html" class="sidebar-link">Thug Life</a>
+<a href="../brands/v-syndicate.html" class="sidebar-link">V Syndicate</a>
+<a href="../brands/vibes.html" class="sidebar-link">VIBES</a>
+<a href="../brands/vapium.html" class="sidebar-link">Vapium</a>
+<a href="../brands/wake-bake.html" class="sidebar-link">Wake & Bake</a>
+<a href="../brands/weedgets.html" class="sidebar-link">Weedgets</a>
+<a href="../brands/white-rhino.html" class="sidebar-link">White Rhino</a>
+<a href="../brands/wulf-mods.html" class="sidebar-link">Wulf Mods</a>
+<a href="../brands/xvape.html" class="sidebar-link">Xvape</a>
+<a href="../brands/yocan.html" class="sidebar-link">Yocan</a>
+<a href="../brands/zenco.html" class="sidebar-link">Zenco</a>
+<a href="../brands/zig-zag.html" class="sidebar-link">Zig-Zag</a></nav>
+        
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="banner">DISCORD GROUP BUY &nbsp;·&nbsp; FAST SHIPPING FROM MISSISSIPPI</div>
+
+        <!-- Mobile header -->
+        <div class="mobile-header">
+            <div class="mobile-header-logo">Pixie's <span>Pantry</span></div>
+            <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+
+        <div class="main-content">
             
-    <div class="card" onclick="openModal('Puffco Pivot Dab Pen')">
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <h1>Vaporizer Pen</h1>
+                <p id="result-count">32 products</p>
+            </div>
+            <div class="toolbar-right">
+                <select id="brandFilter" class="filter-select" onchange="applyFilters()">
+                    <option value="all">All Brands</option><option value="Dr. Dabber">Dr. Dabber</option><option value="Grenco Science">Grenco Science</option><option value="KandyPens">KandyPens</option><option value="Ooze">Ooze</option><option value="Puffco">Puffco</option><option value="Pulsar">Pulsar</option><option value="Rokin Vapes">Rokin Vapes</option><option value="Stache Products">Stache Products</option><option value="The Kind Pen">The Kind Pen</option><option value="Wulf Mods">Wulf Mods</option><option value="Yocan">Yocan</option>
+                </select>
+                <select id="sortSelect" class="filter-select" onchange="sortGrid()">
+                    <option value="default">Sort</option>
+                    <option value="price-low">Price: Low → High</option>
+                    <option value="price-high">Price: High → Low</option>
+                    <option value="name-az">Name A–Z</option>
+                </select>
+            </div>
+        </div>
+        <div class="grid"><div class="card"
+         data-name="puffco pivot dab pen"
+         data-price="157.99"
+         data-brand="puffco"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Puffco Pivot Dab Pen", "brand": "Puffco", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ProxyOnly_0000_Pivot_-Onyx_-Font-Facing_-Light-On.jpg?v=1749414969", "Variants": [{"name": "Onyx", "sku": "PC-PIVOT-ON", "price": 157.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ProxyOnly_0000_Pivot_-Onyx_-Font-Facing_-Light-On.jpg?v=1749414969"}, {"name": "Slate", "sku": "None", "price": 157.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ProxyOnly_0000_Pivot_-Onyx_-Font-Facing_-Light-On.jpg?v=1749414969"}, {"name": "Mocha", "sku": "Puffco-Pivot-Mocha", "price": 157.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ProxyOnly_0000_Pivot_-Onyx_-Font-Facing_-Light-On.jpg?v=1749414969"}], "Description": "Puffco Pivot Dab Pen", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ProxyOnly_0000_Pivot_-Onyx_-Font-Facing_-Light-On.jpg?v=1749414969"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Puffco Pivot Dab Pen')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ProxyOnly_0000_Pivot_-Onyx_-Font-Facing_-Light-On.jpg?v=1749414969" alt="Puffco Pivot Dab Pen" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Puffco</div>
+            <div class="title">Puffco Pivot Dab Pen</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$157.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="the grateful dead x g pen dash vaporizer"
+         data-price="79.99"
+         data-brand="grenco science"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "The Grateful Dead x G Pen Dash Vaporizer", "brand": "Grenco Science", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Grateful-Dead-G-Pen-Dash-Vaporizer.jpg?v=1748595784", "Variants": [{"name": "Standard", "sku": "GPD-001-AMGD", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Grateful-Dead-G-Pen-Dash-Vaporizer.jpg?v=1748595784"}], "Description": "The Grateful Dead x G Pen Dash Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Grateful-Dead-G-Pen-Dash-Vaporizer.jpg?v=1748595784"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('The Grateful Dead x G Pen Dash Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Grateful-Dead-G-Pen-Dash-Vaporizer.jpg?v=1748595784" alt="The Grateful Dead x G Pen Dash Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Grenco Science</div>
+            <div class="title">The Grateful Dead x G Pen Dash Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$79.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="grenco science g pen dash+ vaporizer"
+         data-price="157.99"
+         data-brand="grenco science"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Grenco Science G Pen Dash+ Vaporizer", "brand": "Grenco Science", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Dash-Plus-Vaporizer.jpg?v=1748595911", "Variants": [{"name": "Standard", "sku": "GPD-001-AMZZ", "price": 157.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Dash-Plus-Vaporizer.jpg?v=1748595911"}], "Description": "Grenco Science G Pen Dash Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Dash-Plus-Vaporizer.jpg?v=1748595911"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Grenco Science G Pen Dash+ Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Dash-Plus-Vaporizer.jpg?v=1748595911" alt="Grenco Science G Pen Dash+ Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Grenco Science</div>
+            <div class="title">Grenco Science G Pen Dash+ Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$157.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="kind pen premium slim oil vaporizer"
+         data-price="22.99"
+         data-brand="the kind pen"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Kind Pen Premium Slim Oil Vaporizer", "brand": "The Kind Pen", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Premium-Slim-Oil-Vape-Pen.jpg?v=1748595921", "Variants": [{"name": "Gold", "sku": "655295788463", "price": 22.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Premium-Slim-Oil-Vape-Pen.jpg?v=1748595921"}, {"name": "Gun Metal", "sku": "638339793487", "price": 22.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Premium-Slim-Oil-Vape-Pen.jpg?v=1748595921"}, {"name": "Iridescent", "sku": "655295788807", "price": 22.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Premium-Slim-Oil-Vape-Pen.jpg?v=1748595921"}, {"name": "Rose Gold", "sku": "680270855700", "price": 22.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Premium-Slim-Oil-Vape-Pen.jpg?v=1748595921"}, {"name": "Silver", "sku": "640213997638", "price": 22.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Premium-Slim-Oil-Vape-Pen.jpg?v=1748595921"}], "Description": "Kind Pen Premium Slim Oil Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Premium-Slim-Oil-Vape-Pen.jpg?v=1748595921"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Kind Pen Premium Slim Oil Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Premium-Slim-Oil-Vape-Pen.jpg?v=1748595921" alt="Kind Pen Premium Slim Oil Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">The Kind Pen</div>
+            <div class="title">Kind Pen Premium Slim Oil Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$22.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="the kind pen premium slim wax vaporizer pen"
+         data-price="22.99"
+         data-brand="the kind pen"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "The Kind Pen Premium Slim Wax Vaporizer Pen", "brand": "The Kind Pen", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Premium-Slim-Wax-Vaporizer-Pen.jpg?v=1748595976", "Variants": [{"name": "Gun Metal", "sku": "640213997621", "price": 22.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Premium-Slim-Wax-Vaporizer-Pen.jpg?v=1748595976"}, {"name": "Silver", "sku": "634211905146", "price": 22.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Premium-Slim-Wax-Vaporizer-Pen.jpg?v=1748595976"}], "Description": "The Kind Pen Premium Slim Wax Vaporizer Pen", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Premium-Slim-Wax-Vaporizer-Pen.jpg?v=1748595976"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('The Kind Pen Premium Slim Wax Vaporizer Pen')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Premium-Slim-Wax-Vaporizer-Pen.jpg?v=1748595976" alt="The Kind Pen Premium Slim Wax Vaporizer Pen" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">The Kind Pen</div>
+            <div class="title">The Kind Pen Premium Slim Wax Vaporizer Pen</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$22.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="the kind pen lobi dab pen vaporizer"
+         data-price="59.99"
+         data-brand="the kind pen"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "The Kind Pen Lobi Dab Pen Vaporizer", "brand": "The Kind Pen", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Lobi-Wax-Pen.jpg?v=1748596005", "Variants": [{"name": "Black", "sku": "684753865323", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Lobi-Wax-Pen.jpg?v=1748596005"}, {"name": "Black/Silver", "sku": "684753865347", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Lobi-Wax-Pen.jpg?v=1748596005"}, {"name": "Green/Gold", "sku": "684753865330", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Lobi-Wax-Pen.jpg?v=1748596005"}, {"name": "Pink/Gold", "sku": "684753865392", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Lobi-Wax-Pen.jpg?v=1748596005"}, {"name": "Rainbow", "sku": "684753865361", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Lobi-Wax-Pen.jpg?v=1748596005"}, {"name": "Rose Gold", "sku": "684753865408", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Lobi-Wax-Pen.jpg?v=1748596005"}, {"name": "Blue", "sku": "684753865354", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Lobi-Wax-Pen.jpg?v=1748596005"}, {"name": "Red", "sku": "684753865378", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Lobi-Wax-Pen.jpg?v=1748596005"}], "Description": "The Kind Pen Lobi Dab Pen Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Lobi-Wax-Pen.jpg?v=1748596005"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('The Kind Pen Lobi Dab Pen Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Lobi-Wax-Pen.jpg?v=1748596005" alt="The Kind Pen Lobi Dab Pen Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">The Kind Pen</div>
+            <div class="title">The Kind Pen Lobi Dab Pen Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$59.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="the kind pen weezy vaporizer"
+         data-price="38.99"
+         data-brand="the kind pen"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "The Kind Pen Weezy Vaporizer", "brand": "The Kind Pen", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989", "Variants": [{"name": "Gold", "sku": "684753864166", "price": 38.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989"}, {"name": "Iridescent", "sku": "684753864135", "price": 38.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989"}, {"name": "Orange", "sku": "684753864159", "price": 38.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989"}, {"name": "Silver", "sku": "684753864128", "price": 38.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989"}, {"name": "Black", "sku": "684753864081", "price": 38.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989"}, {"name": "Blue", "sku": "684753864098", "price": 38.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989"}, {"name": "Green", "sku": "684753864111", "price": 38.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989"}, {"name": "Purple", "sku": "684753864142", "price": 38.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989"}, {"name": "Red", "sku": "684753864104", "price": 38.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989"}], "Description": "The Kind Pen Weezy Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('The Kind Pen Weezy Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989" alt="The Kind Pen Weezy Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">The Kind Pen</div>
+            <div class="title">The Kind Pen Weezy Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$38.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="tyson 2.0 x g pen dash vaporizer"
+         data-price="89.99"
+         data-brand="grenco science"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Tyson 2.0 x G Pen Dash Vaporizer", "brand": "Grenco Science", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Tyson-G-Pen-Dash-Vaporizer.jpg?v=1748596349", "Variants": [{"name": "Standard", "sku": "WHG-007521", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Tyson-G-Pen-Dash-Vaporizer.jpg?v=1748596349"}], "Description": "Tyson 2.0 x G Pen Dash Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Tyson-G-Pen-Dash-Vaporizer.jpg?v=1748596349"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Tyson 2.0 x G Pen Dash Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Tyson-G-Pen-Dash-Vaporizer.jpg?v=1748596349" alt="Tyson 2.0 x G Pen Dash Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Grenco Science</div>
+            <div class="title">Tyson 2.0 x G Pen Dash Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$89.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="wulf mods orbit wax vaporizer pen"
+         data-price="63.99"
+         data-brand="wulf mods"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Wulf Mods Orbit Wax Vaporizer Pen", "brand": "Wulf Mods", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365", "Variants": [{"name": "Black & Green", "sku": "WF-ORB-BG", "price": 63.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365"}, {"name": "Black & Red", "sku": "WF-ORB-BR", "price": 63.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365"}, {"name": "Black & White", "sku": "WF-ORB-BW", "price": 63.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365"}, {"name": "Rainbow", "sku": "WF-ORB-FC", "price": 63.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365"}, {"name": "Teal & Black", "sku": "WF-ORB-TB", "price": 63.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365"}, {"name": "Pink & Black", "sku": "wulf-mods-orbit-wax-vaporizer-pen", "price": 63.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365"}, {"name": "Purple & Black", "sku": "WF-ORB-PB", "price": 63.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365"}, {"name": "White & Red", "sku": "WF-ORB-WR", "price": 63.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365"}, {"name": "White & Black", "sku": "WF-ORB-WB", "price": 63.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365"}], "Description": "Wulf Mods Orbit Wax Vaporizer Pen", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Wulf Mods Orbit Wax Vaporizer Pen')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365" alt="Wulf Mods Orbit Wax Vaporizer Pen" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Wulf Mods</div>
+            <div class="title">Wulf Mods Orbit Wax Vaporizer Pen</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$63.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="wulf mods flora vaporizer"
+         data-price="59.99"
+         data-brand="wulf mods"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Wulf Mods Flora Vaporizer", "brand": "Wulf Mods", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405", "Variants": [{"name": "Black", "sku": "WF-FLORA-BK", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405"}, {"name": "Black & Green", "sku": "WF-FLORA-BG", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405"}, {"name": "Black & Red", "sku": "WF-FLORA-BR", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405"}, {"name": "Black & White", "sku": "WF-FLORA-BW", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405"}, {"name": "White & Black", "sku": "WF-FLORA-WB", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405"}, {"name": "White & Red", "sku": "WF-FLORA-WR", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405"}, {"name": "Teal & Black", "sku": "WF-FLORA-TB", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405"}, {"name": "Purple & Black", "sku": "WF-FLORA-PB", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405"}, {"name": "Pink & Black", "sku": "WF-FLORA-PKBK", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405"}, {"name": "Rainbow", "sku": "WF-FLORA-FC", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405"}, {"name": "Silver", "sku": "WF-FLORA-SL", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405"}], "Description": "Wulf Mods Flora Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Wulf Mods Flora Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405" alt="Wulf Mods Flora Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Wulf Mods</div>
+            <div class="title">Wulf Mods Flora Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$59.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="yocan cubex concentrate vaporizer pen"
+         data-price="37.99"
+         data-brand="yocan"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Yocan Cubex Concentrate Vaporizer Pen", "brand": "Yocan", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Cubex-Vape-Pen.jpg?v=1748596461", "Variants": [{"name": "Black", "sku": "YO-CUBEX-BK", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Cubex-Vape-Pen.jpg?v=1748596461"}, {"name": "Blue", "sku": "YO-CUBEX-BL", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Cubex-Vape-Pen.jpg?v=1748596461"}, {"name": "Green", "sku": "YO-CUBEX-GN", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Cubex-Vape-Pen.jpg?v=1748596461"}, {"name": "White", "sku": "YO-CUBEX-SL", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Cubex-Vape-Pen.jpg?v=1748596461"}, {"name": "Violet", "sku": "YO-CUBEX-VL", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Cubex-Vape-Pen.jpg?v=1748596461"}], "Description": "Yocan Cubex Concentrate Vaporizer Pen", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Cubex-Vape-Pen.jpg?v=1748596461"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Yocan Cubex Concentrate Vaporizer Pen')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Cubex-Vape-Pen.jpg?v=1748596461" alt="Yocan Cubex Concentrate Vaporizer Pen" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Yocan</div>
+            <div class="title">Yocan Cubex Concentrate Vaporizer Pen</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$37.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="ooze pronto nectar collector vaporizer"
+         data-price="44.99"
+         data-brand="ooze"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Ooze Pronto Nectar Collector Vaporizer", "brand": "Ooze", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Pronto-Electronic-Wax-Straw.jpg?v=1748596594", "Variants": [{"name": "Black", "sku": "OZ-PNT-BK", "price": 44.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Pronto-Electronic-Wax-Straw.jpg?v=1748596594"}, {"name": "Gold", "sku": "OZ-PNT-GD", "price": 44.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Pronto-Electronic-Wax-Straw.jpg?v=1748596594"}, {"name": "Silver", "sku": "OZ-PNT-SL", "price": 44.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Pronto-Electronic-Wax-Straw.jpg?v=1748596594"}, {"name": "Rainbow", "sku": "OZ-PNT-RB", "price": 44.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Pronto-Electronic-Wax-Straw.jpg?v=1748596594"}], "Description": "Ooze Pronto Nectar Collector Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Pronto-Electronic-Wax-Straw.jpg?v=1748596594"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Ooze Pronto Nectar Collector Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Pronto-Electronic-Wax-Straw.jpg?v=1748596594" alt="Ooze Pronto Nectar Collector Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Ooze</div>
+            <div class="title">Ooze Pronto Nectar Collector Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$44.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="rokin stinger nectar collector vaporizer"
+         data-price="79.99"
+         data-brand="rokin vapes"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Rokin Stinger Nectar Collector Vaporizer", "brand": "Rokin Vapes", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Stinger-Nectar-Collector-Vaporizer.jpg?v=1748596654", "Variants": [{"name": "Black", "sku": "Stinger Kit - Matte Black", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Stinger-Nectar-Collector-Vaporizer.jpg?v=1748596654"}, {"name": "Multicolor", "sku": "Stinger Kit - Multicolor", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Stinger-Nectar-Collector-Vaporizer.jpg?v=1748596654"}], "Description": "Rokin Stinger Nectar Collector Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Stinger-Nectar-Collector-Vaporizer.jpg?v=1748596654"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Rokin Stinger Nectar Collector Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Stinger-Nectar-Collector-Vaporizer.jpg?v=1748596654" alt="Rokin Stinger Nectar Collector Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Rokin Vapes</div>
+            <div class="title">Rokin Stinger Nectar Collector Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$79.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="pulsar micro dose vaporizer pen"
+         data-price="53.99"
+         data-brand="pulsar"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Pulsar Micro Dose Vaporizer Pen", "brand": "Pulsar", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Micro-Dose-Vaporizer-Pen.jpg?v=1748596785", "Variants": [{"name": "Standard", "sku": "V639GM-I", "price": 53.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Micro-Dose-Vaporizer-Pen.jpg?v=1748596785"}], "Description": "Pulsar Micro Dose Vaporizer Pen", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Micro-Dose-Vaporizer-Pen.jpg?v=1748596785"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Pulsar Micro Dose Vaporizer Pen')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Micro-Dose-Vaporizer-Pen.jpg?v=1748596785" alt="Pulsar Micro Dose Vaporizer Pen" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Pulsar</div>
+            <div class="title">Pulsar Micro Dose Vaporizer Pen</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$53.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="ooze duplex dual extract vaporizer kit"
+         data-price="49.99"
+         data-brand="ooze"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Ooze Duplex Dual Extract Vaporizer Kit", "brand": "Ooze", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Duplex-Dual-Extract_Vaporizer.jpg?v=1748596909", "Variants": [{"name": "Black", "sku": "OOZ-DUP-BK", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Duplex-Dual-Extract_Vaporizer.jpg?v=1748596909"}, {"name": "White", "sku": "OOZ-DUP-WH", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Duplex-Dual-Extract_Vaporizer.jpg?v=1748596909"}, {"name": "Gold", "sku": "OOZ-DUP-GD", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Duplex-Dual-Extract_Vaporizer.jpg?v=1748596909"}, {"name": "Silver", "sku": "OOZ-DUP-SL", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Duplex-Dual-Extract_Vaporizer.jpg?v=1748596909"}, {"name": "Rainbow", "sku": "OOZ-DUP-RB", "price": 59.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Duplex-Dual-Extract_Vaporizer.jpg?v=1748596909"}], "Description": "Ooze Duplex Dual Extract Vaporizer Kit", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Duplex-Dual-Extract_Vaporizer.jpg?v=1748596909"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Ooze Duplex Dual Extract Vaporizer Kit')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Duplex-Dual-Extract_Vaporizer.jpg?v=1748596909" alt="Ooze Duplex Dual Extract Vaporizer Kit" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Ooze</div>
+            <div class="title">Ooze Duplex Dual Extract Vaporizer Kit</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$49.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="grenco science g pen elite ii vaporizer"
+         data-price="218.99"
+         data-brand="grenco science"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Grenco Science G Pen Elite II Vaporizer", "brand": "Grenco Science", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Elite-2-Vaporizer.jpg?v=1748596976", "Variants": [{"name": "Standard", "sku": "G-Pen-Elite-2-Vaporizer", "price": 218.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Elite-2-Vaporizer.jpg?v=1748596976"}], "Description": "Grenco Science G Pen Elite II Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Elite-2-Vaporizer.jpg?v=1748596976"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Grenco Science G Pen Elite II Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Elite-2-Vaporizer.jpg?v=1748596976" alt="Grenco Science G Pen Elite II Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Grenco Science</div>
+            <div class="title">Grenco Science G Pen Elite II Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$218.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="stache products connectar nectar collector vaporizer"
+         data-price="21.99"
+         data-brand="stache products"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Stache Products ConNectar Nectar Collector Vaporizer", "brand": "Stache Products", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ConNectar-Nectar-Collector-Vaporizer-Attachment.jpg?v=1748597035", "Variants": [{"name": "Black", "sku": "10CON01", "price": 21.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ConNectar-Nectar-Collector-Vaporizer-Attachment.jpg?v=1748597035"}, {"name": "Blue", "sku": "10CON02", "price": 21.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ConNectar-Nectar-Collector-Vaporizer-Attachment.jpg?v=1748597035"}, {"name": "Red", "sku": "10CON04", "price": 21.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ConNectar-Nectar-Collector-Vaporizer-Attachment.jpg?v=1748597035"}, {"name": "Green", "sku": "10CON03", "price": 21.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ConNectar-Nectar-Collector-Vaporizer-Attachment.jpg?v=1748597035"}, {"name": "Limited Edition - Onyx", "sku": "60CON20", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ConNectar-Nectar-Collector-Vaporizer-Attachment.jpg?v=1748597035"}, {"name": "Limited Edition - Rainbow", "sku": "60CON18", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ConNectar-Nectar-Collector-Vaporizer-Attachment.jpg?v=1748597035"}, {"name": "Limited Edition - Gold", "sku": "60CON15", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ConNectar-Nectar-Collector-Vaporizer-Attachment.jpg?v=1748597035"}], "Description": "Stache Products ConNectar Nectar Collector Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ConNectar-Nectar-Collector-Vaporizer-Attachment.jpg?v=1748597035"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Stache Products ConNectar Nectar Collector Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ConNectar-Nectar-Collector-Vaporizer-Attachment.jpg?v=1748597035" alt="Stache Products ConNectar Nectar Collector Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Stache Products</div>
+            <div class="title">Stache Products ConNectar Nectar Collector Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$21.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="lemonnade x g pen micro+ vaporizer"
+         data-price="89.99"
+         data-brand="grenco science"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Lemonnade x G Pen Micro+ Vaporizer", "brand": "Grenco Science", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Lemonnade-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597143", "Variants": [{"name": "Standard", "sku": "LEMONADE-YELLOW-G-PEN-MICRO-PLUS-VAPE", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Lemonnade-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597143"}], "Description": "Lemonnade x G Pen Micro Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Lemonnade-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597143"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Lemonnade x G Pen Micro+ Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Lemonnade-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597143" alt="Lemonnade x G Pen Micro+ Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Grenco Science</div>
+            <div class="title">Lemonnade x G Pen Micro+ Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$89.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="cookies x g pen micro+ vaporizer"
+         data-price="89.99"
+         data-brand="grenco science"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Cookies x G Pen Micro+ Vaporizer", "brand": "Grenco Science", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Cookies-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597170", "Variants": [{"name": "Standard", "sku": "GS-GP-MICRO-CKS", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Cookies-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597170"}], "Description": "Cookies x G Pen Micro Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Cookies-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597170"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Cookies x G Pen Micro+ Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Cookies-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597170" alt="Cookies x G Pen Micro+ Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Grenco Science</div>
+            <div class="title">Cookies x G Pen Micro+ Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$89.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="dr. greenthumbâ€™s x g pen micro+ vaporizer"
+         data-price="89.99"
+         data-brand="grenco science"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Dr. Greenthumb\u00e2\u20ac\u2122s x G Pen Micro+ Vaporizer", "brand": "Grenco Science", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Dr-Greenthumbs-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597157", "Variants": [{"name": "Standard", "sku": "DR-GREENTHUMBS-GREEN-G-PEN-MICRO-PLUS-VAPE", "price": 89.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Dr-Greenthumbs-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597157"}], "Description": "Dr. Greenthumb\u00e2s x G Pen Micro Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Dr-Greenthumbs-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597157"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Dr. Greenthumbâ€™s x G Pen Micro+ Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Dr-Greenthumbs-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597157" alt="Dr. Greenthumbâ€™s x G Pen Micro+ Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Grenco Science</div>
+            <div class="title">Dr. Greenthumbâ€™s x G Pen Micro+ Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$89.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="wulf x yocan evolve maxxx 3 in 1 dab pen"
+         data-price="79.99"
+         data-brand="wulf mods"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Wulf x Yocan Evolve Maxxx 3 in 1 Dab Pen", "brand": "Wulf Mods", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267", "Variants": [{"name": "Black & Green", "sku": "WF-MAXX-BG", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267"}, {"name": "Black & Red", "sku": "WF-MAXX-BR", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267"}, {"name": "Black & White", "sku": "WF-MAXX-BW", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267"}, {"name": "Purple & Black", "sku": "WF-MAXX-PB", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267"}, {"name": "Pink & Black", "sku": "WF-MAXX-PKB", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267"}, {"name": "Teal & Black", "sku": "WF-MAXX-TB", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267"}, {"name": "White & Black", "sku": "WF-MAXX-WB", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267"}, {"name": "White & Red", "sku": "WF-MAXX-WR", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267"}, {"name": "Rainbow", "sku": "WF-MAXX-RB", "price": 79.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267"}], "Description": "Wulf x Yocan Evolve Maxxx 3 in 1 Dab Pen", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Wulf x Yocan Evolve Maxxx 3 in 1 Dab Pen')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267" alt="Wulf x Yocan Evolve Maxxx 3 in 1 Dab Pen" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Wulf Mods</div>
+            <div class="title">Wulf x Yocan Evolve Maxxx 3 in 1 Dab Pen</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$79.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="kandypens crystal 2 vaporizer 🍯"
+         data-price="235.99"
+         data-brand="kandypens"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "KandyPens Crystal 2 Vaporizer \ud83c\udf6f", "brand": "KandyPens", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/KandyPens-Crystal-2-Vaporizer-Black.jpg?v=1748597633", "Variants": [{"name": "Black", "sku": "KANDYPENS-CRYSTAL-2-VAPE-Black", "price": 235.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/KandyPens-Crystal-2-Vaporizer-Black.jpg?v=1748597633"}, {"name": "White", "sku": "KANDYPENS-CRYSTAL-2-VAPE-White", "price": 235.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/KandyPens-Crystal-2-Vaporizer-Black.jpg?v=1748597633"}, {"name": "Rainbow Chrome", "sku": "KANDYPENS-CRYSTAL-2-VAPE-Rainbow", "price": 235.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/KandyPens-Crystal-2-Vaporizer-Black.jpg?v=1748597633"}, {"name": "Stainless Steel", "sku": "KANDYPENS-CRYSTAL-2-VAPE-Stainless", "price": 235.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/KandyPens-Crystal-2-Vaporizer-Black.jpg?v=1748597633"}], "Description": "KandyPens Crystal 2 Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/KandyPens-Crystal-2-Vaporizer-Black.jpg?v=1748597633"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('KandyPens Crystal 2 Vaporizer 🍯')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/KandyPens-Crystal-2-Vaporizer-Black.jpg?v=1748597633" alt="KandyPens Crystal 2 Vaporizer 🍯" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">KandyPens</div>
+            <div class="title">KandyPens Crystal 2 Vaporizer 🍯</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$235.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="yocan regen concentrate vaporizer pen"
+         data-price="37.99"
+         data-brand="yocan"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Yocan Regen Concentrate Vaporizer Pen", "brand": "Yocan", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Regen-Vaporizer-Pen.jpg?v=1748597849", "Variants": [{"name": "Black", "sku": "TW-YOCAN-REGEN-VAPORIZER-PEN-Black", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Regen-Vaporizer-Pen.jpg?v=1748597849"}, {"name": "Blue", "sku": "TW-YOCAN-REGEN-VAPORIZER-PEN-Blue", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Regen-Vaporizer-Pen.jpg?v=1748597849"}, {"name": "Grey", "sku": "TW-YOCAN-REGEN-VAPORIZER-PEN-Gray", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Regen-Vaporizer-Pen.jpg?v=1748597849"}, {"name": "Apple Green", "sku": "TW-YOCAN-REGEN-VAPORIZER-PEN-Green", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Regen-Vaporizer-Pen.jpg?v=1748597849"}, {"name": "Light Red", "sku": "YOCAN-REGEN-VAPORIZER-PEN-Red", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Regen-Vaporizer-Pen.jpg?v=1748597849"}, {"name": "Stainless Steel", "sku": "TW-YOCAN-REGEN-VAPORIZER-PEN-Stainless-Steel", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Regen-Vaporizer-Pen.jpg?v=1748597849"}], "Description": "Yocan Regen Concentrate Vaporizer Pen", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Regen-Vaporizer-Pen.jpg?v=1748597849"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Yocan Regen Concentrate Vaporizer Pen')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Regen-Vaporizer-Pen.jpg?v=1748597849" alt="Yocan Regen Concentrate Vaporizer Pen" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Yocan</div>
+            <div class="title">Yocan Regen Concentrate Vaporizer Pen</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$37.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="yocan hit dry herb vaporizer"
+         data-price="49.99"
+         data-brand="yocan"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Yocan HIT Dry Herb Vaporizer", "brand": "Yocan", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-HIT-Vaporizer.jpg?v=1748597873", "Variants": [{"name": "Sky Blue", "sku": "YOCAN-HIT-VAPORIZER-Sky-Blue", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-HIT-Vaporizer.jpg?v=1748597873"}, {"name": "Silver", "sku": "YOCAN-HIT-VAPORIZER-Silver", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-HIT-Vaporizer.jpg?v=1748597873"}, {"name": "Red", "sku": "YOCAN-HIT-VAPORIZER-Red", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-HIT-Vaporizer.jpg?v=1748597873"}, {"name": "Champagne", "sku": "YOCAN-HIT-VAPORIZER-Champagne-Gold", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-HIT-Vaporizer.jpg?v=1748597873"}, {"name": "Black", "sku": "YOCAN-HIT-VAPORIZER-Black", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-HIT-Vaporizer.jpg?v=1748597873"}], "Description": "Yocan HIT Dry Herb Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-HIT-Vaporizer.jpg?v=1748597873"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Yocan HIT Dry Herb Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-HIT-Vaporizer.jpg?v=1748597873" alt="Yocan HIT Dry Herb Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Yocan</div>
+            <div class="title">Yocan HIT Dry Herb Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$49.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="kind pen variable voltage vaporizer"
+         data-price="25.99"
+         data-brand="the kind pen"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Kind Pen Variable Voltage Vaporizer", "brand": "The Kind Pen", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975", "Variants": [{"name": "Black/Gold", "sku": "684753864456", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}, {"name": "Gray", "sku": "684753864487", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}, {"name": "Green/Gold", "sku": "684753864494", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}, {"name": "Orange", "sku": "684753864517", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}, {"name": "Purple", "sku": "684753864524", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}, {"name": "Red", "sku": "684753864463", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}, {"name": "Teal", "sku": "684753864500", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}, {"name": "White/Gold", "sku": "684753864470", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}, {"name": "Gold", "sku": "655295788449", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}, {"name": "Gun Metal Black", "sku": "634211905207", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}, {"name": "iridescent", "sku": "655295788531", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}, {"name": "Rose Gold", "sku": "680270855694", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}, {"name": "Silver", "sku": "634211905214", "price": 25.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"}], "Description": "Kind Pen Variable Voltage Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Kind Pen Variable Voltage Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975" alt="Kind Pen Variable Voltage Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">The Kind Pen</div>
+            <div class="title">Kind Pen Variable Voltage Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$25.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="grenco science g pen dash vaporizer"
+         data-price="74.99"
+         data-brand="grenco science"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Grenco Science G Pen Dash Vaporizer", "brand": "Grenco Science", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Dash-Vaporizer-1.jpg?v=1748598128", "Variants": [{"name": "Standard", "sku": "CC-GS-GP-DASH : GS-GP-DASH-BLK", "price": 74.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Dash-Vaporizer-1.jpg?v=1748598128"}], "Description": "Grenco Science G Pen Dash Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Dash-Vaporizer-1.jpg?v=1748598128"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Grenco Science G Pen Dash Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Dash-Vaporizer-1.jpg?v=1748598128" alt="Grenco Science G Pen Dash Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Grenco Science</div>
+            <div class="title">Grenco Science G Pen Dash Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$74.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="puffco plus v2 wax vaporizer pen"
+         data-price="99.99"
+         data-brand="puffco"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Puffco Plus V2 Wax Vaporizer Pen", "brand": "Puffco", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Puffco-Plus-Wax-Vaporizer-Pen.jpg?v=1748598216", "Variants": [{"name": "Standard", "sku": "TW-PUFFCO-PLUS-V2-VAPE-PEN", "price": 99.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Puffco-Plus-Wax-Vaporizer-Pen.jpg?v=1748598216"}], "Description": "Puffco Plus V2 Wax Vaporizer Pen", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Puffco-Plus-Wax-Vaporizer-Pen.jpg?v=1748598216"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Puffco Plus V2 Wax Vaporizer Pen')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Puffco-Plus-Wax-Vaporizer-Pen.jpg?v=1748598216" alt="Puffco Plus V2 Wax Vaporizer Pen" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Puffco</div>
+            <div class="title">Puffco Plus V2 Wax Vaporizer Pen</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$99.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="yocan magneto wax vaporizer 🍯"
+         data-price="33.99"
+         data-brand="yocan"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Yocan Magneto Wax Vaporizer \ud83c\udf6f", "brand": "Yocan", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Magneto-Black.jpg?v=1748598985", "Variants": [{"name": "Black", "sku": "yocan-magneto-wax-vaporizer", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Magneto-Black.jpg?v=1748598985"}, {"name": "Silver", "sku": "yocan-magneto-wax-vaporizer", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Magneto-Black.jpg?v=1748598985"}, {"name": "Champagne Gold", "sku": "yocan-magneto-wax-vaporizer", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Magneto-Black.jpg?v=1748598985"}, {"name": "Sakura Pink", "sku": "yocan-magneto-wax-vaporizer", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Magneto-Black.jpg?v=1748598985"}, {"name": "Light Blue", "sku": "yocan-magneto-wax-vaporizer", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Magneto-Black.jpg?v=1748598985"}, {"name": "Sea Blue", "sku": "yocan-magneto-wax-vaporizer", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Magneto-Black.jpg?v=1748598985"}, {"name": "Camouflage", "sku": "yocan-magneto-wax-vaporizer", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Magneto-Black.jpg?v=1748598985"}, {"name": "Rasta", "sku": "yocan-magneto-wax-vaporizer", "price": 33.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Magneto-Black.jpg?v=1748598985"}], "Description": "Yocan Magneto Wax Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Magneto-Black.jpg?v=1748598985"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Yocan Magneto Wax Vaporizer 🍯')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Magneto-Black.jpg?v=1748598985" alt="Yocan Magneto Wax Vaporizer 🍯" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Yocan</div>
+            <div class="title">Yocan Magneto Wax Vaporizer 🍯</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$33.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="yocan evolve plus vaporizer pen 🍯"
+         data-price="37.99"
+         data-brand="yocan"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Yocan Evolve Plus Vaporizer Pen \ud83c\udf6f", "brand": "Yocan", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011", "Variants": [{"name": "Black", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}, {"name": "Silver", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}, {"name": "Sakura Pink", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}, {"name": "Apple Green", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}, {"name": "Champagne Gold", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}, {"name": "Azure Green", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}, {"name": "Camouflage", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}, {"name": "Rainbow", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}, {"name": "Rasta", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}, {"name": "Gold", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}, {"name": "Limited Edition A", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}, {"name": "Midnight", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}, {"name": "Purple", "sku": "yocan-evolve-plus-vaporizer-pen", "price": 37.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"}], "Description": "Yocan Evolve Plus Vaporizer Pen", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Yocan Evolve Plus Vaporizer Pen 🍯')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011" alt="Yocan Evolve Plus Vaporizer Pen 🍯" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Yocan</div>
+            <div class="title">Yocan Evolve Plus Vaporizer Pen 🍯</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$37.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="yocan evolve plus xl wax vaporizer"
+         data-price="43.99"
+         data-brand="yocan"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Yocan Evolve Plus XL Wax Vaporizer", "brand": "Yocan", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132", "Variants": [{"name": "Black", "sku": "YOCAN-EVOLVE-PLUS-XL-VAPE-Black", "price": 43.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132"}, {"name": "Silver", "sku": "YOCAN-EVOLVE-PLUS-XL-VAPE-Silver", "price": 43.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132"}, {"name": "Sea Blue", "sku": "YOCAN-EVOLVE-PLUS-XL-VAPE-White", "price": 43.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132"}, {"name": "Light Blue", "sku": "yocan-evolve-plus-xl-wax-vaporizer", "price": 43.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132"}, {"name": "Champagne Gold", "sku": "YOCAN-EVOLVE-PLUS-XL-VAPE-Gold", "price": 43.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132"}, {"name": "Sakura Pink", "sku": "YOCAN-EVOLVE-PLUS-XL-VAPE-Rose", "price": 43.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132"}, {"name": "Rainbow", "sku": "yocan-evolve-plus-xl-wax-vaporizer", "price": 43.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132"}, {"name": "Rasta", "sku": "yocan-evolve-plus-xl-wax-vaporizer", "price": 43.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132"}, {"name": "Camouflage", "sku": "yocan-evolve-plus-xl-wax-vaporizer", "price": 43.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132"}, {"name": "Midnight Edition", "sku": "yocan-evolve-plus-xl-wax-vaporizer", "price": 43.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132"}], "Description": "Yocan Evolve Plus XL Wax Vaporizer", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Yocan Evolve Plus XL Wax Vaporizer')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132" alt="Yocan Evolve Plus XL Wax Vaporizer" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Yocan</div>
+            <div class="title">Yocan Evolve Plus XL Wax Vaporizer</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$43.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="yocan evolve-d vape pen 🌿"
+         data-price="73.99"
+         data-brand="yocan"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Yocan Evolve-D Vape Pen \ud83c\udf3f", "brand": "Yocan", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-D-Champagne-Gold.jpg?v=1748599237", "Variants": [{"name": "Black", "sku": "yocan-evolve-d-vape-pen", "price": 73.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-D-Champagne-Gold.jpg?v=1748599237"}, {"name": "Silver", "sku": "yocan-evolve-d-vape-pen", "price": 73.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-D-Champagne-Gold.jpg?v=1748599237"}, {"name": "Champagne Gold", "sku": "yocan-evolve-d-vape-pen", "price": 73.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-D-Champagne-Gold.jpg?v=1748599237"}, {"name": "Sakura Pink", "sku": "yocan-evolve-d-vape-pen", "price": 73.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-D-Champagne-Gold.jpg?v=1748599237"}, {"name": "Azure Green", "sku": "yocan-evolve-d-vape-pen", "price": 73.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-D-Champagne-Gold.jpg?v=1748599237"}, {"name": "Apple Green", "sku": "yocan-evolve-d-vape-pen", "price": 73.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-D-Champagne-Gold.jpg?v=1748599237"}], "Description": "Yocan Evolve-D Vape Pen", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-D-Champagne-Gold.jpg?v=1748599237"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Yocan Evolve-D Vape Pen 🌿')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-D-Champagne-Gold.jpg?v=1748599237" alt="Yocan Evolve-D Vape Pen 🌿" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Yocan</div>
+            <div class="title">Yocan Evolve-D Vape Pen 🌿</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$73.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="dr. dabber light wax vaporizer pen"
+         data-price="49.99"
+         data-brand="dr. dabber"
+         data-cat="vaporizer pen"
+         onclick="openModal(this)"
+         data-product='{"name": "Dr. Dabber Light Wax Vaporizer Pen", "brand": "Dr. Dabber", "category": "Vaporizer Pen", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/745D8CED-6B3C-4438-9F91-13DCF958224A.jpg?v=1748599560", "Variants": [{"name": "Standard", "sku": "RESTRICTED-CC-DRD-LIGHT : DRD-LIGHT-BLK", "price": 49.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/745D8CED-6B3C-4438-9F91-13DCF958224A.jpg?v=1748599560"}], "Description": "Dr. Dabber Light Wax Vaporizer Pen", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/745D8CED-6B3C-4438-9F91-13DCF958224A.jpg?v=1748599560"]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Dr. Dabber Light Wax Vaporizer Pen')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/745D8CED-6B3C-4438-9F91-13DCF958224A.jpg?v=1748599560" alt="Dr. Dabber Light Wax Vaporizer Pen" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Dr. Dabber</div>
+            <div class="title">Dr. Dabber Light Wax Vaporizer Pen</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$49.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div></div>
         
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Puffco Pivot Dab Pen')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ProxyOnly_0000_Pivot_-Onyx_-Font-Facing_-Light-On.jpg?v=1749414969" loading="lazy"></div>
-        <div class="brand-badge">Puffco</div>
-        <div class="title">Puffco Pivot Dab Pen</div>
-        <div class="price">From $157.99</div>
-    </div>
-    <div class="card" onclick="openModal('The Grateful Dead x G Pen Dash Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('The Grateful Dead x G Pen Dash Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Grateful-Dead-G-Pen-Dash-Vaporizer.jpg?v=1748595784" loading="lazy"></div>
-        <div class="brand-badge">Grenco Science</div>
-        <div class="title">The Grateful Dead x G Pen Dash Vaporizer</div>
-        <div class="price">From $79.99</div>
-    </div>
-    <div class="card" onclick="openModal('Grenco Science G Pen Dash+ Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Grenco Science G Pen Dash+ Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Dash-Plus-Vaporizer.jpg?v=1748595911" loading="lazy"></div>
-        <div class="brand-badge">Grenco Science</div>
-        <div class="title">Grenco Science G Pen Dash+ Vaporizer</div>
-        <div class="price">From $157.99</div>
-    </div>
-    <div class="card" onclick="openModal('Kind Pen Premium Slim Oil Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Kind Pen Premium Slim Oil Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Premium-Slim-Oil-Vape-Pen.jpg?v=1748595921" loading="lazy"></div>
-        <div class="brand-badge">The Kind Pen</div>
-        <div class="title">Kind Pen Premium Slim Oil Vaporizer</div>
-        <div class="price">From $22.99</div>
-    </div>
-    <div class="card" onclick="openModal('The Kind Pen Premium Slim Wax Vaporizer Pen')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('The Kind Pen Premium Slim Wax Vaporizer Pen')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Premium-Slim-Wax-Vaporizer-Pen.jpg?v=1748595976" loading="lazy"></div>
-        <div class="brand-badge">The Kind Pen</div>
-        <div class="title">The Kind Pen Premium Slim Wax Vaporizer Pen</div>
-        <div class="price">From $22.99</div>
-    </div>
-    <div class="card" onclick="openModal('The Kind Pen Lobi Dab Pen Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('The Kind Pen Lobi Dab Pen Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kind-Pen-Lobi-Wax-Pen.jpg?v=1748596005" loading="lazy"></div>
-        <div class="brand-badge">The Kind Pen</div>
-        <div class="title">The Kind Pen Lobi Dab Pen Vaporizer</div>
-        <div class="price">From $59.99</div>
-    </div>
-    <div class="card" onclick="openModal('The Kind Pen Weezy Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('The Kind Pen Weezy Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Weezy-Wax-Pen.jpg?v=1748595989" loading="lazy"></div>
-        <div class="brand-badge">The Kind Pen</div>
-        <div class="title">The Kind Pen Weezy Vaporizer</div>
-        <div class="price">From $38.99</div>
-    </div>
-    <div class="card" onclick="openModal('Tyson 2.0 x G Pen Dash Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Tyson 2.0 x G Pen Dash Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Tyson-G-Pen-Dash-Vaporizer.jpg?v=1748596349" loading="lazy"></div>
-        <div class="brand-badge">Grenco Science</div>
-        <div class="title">Tyson 2.0 x G Pen Dash Vaporizer</div>
-        <div class="price">From $89.99</div>
-    </div>
-    <div class="card" onclick="openModal('Wulf Mods Orbit Wax Vaporizer Pen')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Wulf Mods Orbit Wax Vaporizer Pen')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Orbit-Wax-Vape.jpg?v=1748596365" loading="lazy"></div>
-        <div class="brand-badge">Wulf Mods</div>
-        <div class="title">Wulf Mods Orbit Wax Vaporizer Pen</div>
-        <div class="price">From $63.99</div>
-    </div>
-    <div class="card" onclick="openModal('Wulf Mods Flora Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Wulf Mods Flora Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Mods-Flora-Handheld-Vaporizer-Pen.jpg?v=1748596405" loading="lazy"></div>
-        <div class="brand-badge">Wulf Mods</div>
-        <div class="title">Wulf Mods Flora Vaporizer</div>
-        <div class="price">From $59.99</div>
-    </div>
-    <div class="card" onclick="openModal('Yocan Cubex Concentrate Vaporizer Pen')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Yocan Cubex Concentrate Vaporizer Pen')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Cubex-Vape-Pen.jpg?v=1748596461" loading="lazy"></div>
-        <div class="brand-badge">Yocan</div>
-        <div class="title">Yocan Cubex Concentrate Vaporizer Pen</div>
-        <div class="price">From $37.99</div>
-    </div>
-    <div class="card" onclick="openModal('Ooze Pronto Nectar Collector Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Ooze Pronto Nectar Collector Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Pronto-Electronic-Wax-Straw.jpg?v=1748596594" loading="lazy"></div>
-        <div class="brand-badge">Ooze</div>
-        <div class="title">Ooze Pronto Nectar Collector Vaporizer</div>
-        <div class="price">From $44.99</div>
-    </div>
-    <div class="card" onclick="openModal('Rokin Stinger Nectar Collector Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Rokin Stinger Nectar Collector Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Rokin-Stinger-Nectar-Collector-Vaporizer.jpg?v=1748596654" loading="lazy"></div>
-        <div class="brand-badge">Rokin Vapes</div>
-        <div class="title">Rokin Stinger Nectar Collector Vaporizer</div>
-        <div class="price">From $79.99</div>
-    </div>
-    <div class="card" onclick="openModal('Pulsar Micro Dose Vaporizer Pen')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Pulsar Micro Dose Vaporizer Pen')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Pulsar-Micro-Dose-Vaporizer-Pen.jpg?v=1748596785" loading="lazy"></div>
-        <div class="brand-badge">Pulsar</div>
-        <div class="title">Pulsar Micro Dose Vaporizer Pen</div>
-        <div class="price">From $53.99</div>
-    </div>
-    <div class="card" onclick="openModal('Ooze Duplex Dual Extract Vaporizer Kit')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Ooze Duplex Dual Extract Vaporizer Kit')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Ooze-Duplex-Dual-Extract_Vaporizer.jpg?v=1748596909" loading="lazy"></div>
-        <div class="brand-badge">Ooze</div>
-        <div class="title">Ooze Duplex Dual Extract Vaporizer Kit</div>
-        <div class="price">From $49.99</div>
-    </div>
-    <div class="card" onclick="openModal('Grenco Science G Pen Elite II Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Grenco Science G Pen Elite II Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Elite-2-Vaporizer.jpg?v=1748596976" loading="lazy"></div>
-        <div class="brand-badge">Grenco Science</div>
-        <div class="title">Grenco Science G Pen Elite II Vaporizer</div>
-        <div class="price">From $218.99</div>
-    </div>
-    <div class="card" onclick="openModal('Stache Products ConNectar Nectar Collector Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Stache Products ConNectar Nectar Collector Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/ConNectar-Nectar-Collector-Vaporizer-Attachment.jpg?v=1748597035" loading="lazy"></div>
-        <div class="brand-badge">Stache Products</div>
-        <div class="title">Stache Products ConNectar Nectar Collector Vaporizer</div>
-        <div class="price">From $21.99</div>
-    </div>
-    <div class="card" onclick="openModal('Lemonnade x G Pen Micro+ Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Lemonnade x G Pen Micro+ Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Lemonnade-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597143" loading="lazy"></div>
-        <div class="brand-badge">Grenco Science</div>
-        <div class="title">Lemonnade x G Pen Micro+ Vaporizer</div>
-        <div class="price">From $89.99</div>
-    </div>
-    <div class="card" onclick="openModal('Cookies x G Pen Micro+ Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Cookies x G Pen Micro+ Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Cookies-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597170" loading="lazy"></div>
-        <div class="brand-badge">Grenco Science</div>
-        <div class="title">Cookies x G Pen Micro+ Vaporizer</div>
-        <div class="price">From $89.99</div>
-    </div>
-    <div class="card" onclick="openModal('Dr. Greenthumbâ€™s x G Pen Micro+ Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Dr. Greenthumbâ€™s x G Pen Micro+ Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Dr-Greenthumbs-G-Pen-Micro-Plus-Vaporizer.jpg?v=1748597157" loading="lazy"></div>
-        <div class="brand-badge">Grenco Science</div>
-        <div class="title">Dr. Greenthumbâ€™s x G Pen Micro+ Vaporizer</div>
-        <div class="price">From $89.99</div>
-    </div>
-    <div class="card" onclick="openModal('Wulf x Yocan Evolve Maxxx 3 in 1 Dab Pen')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Wulf x Yocan Evolve Maxxx 3 in 1 Dab Pen')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Wulf-Yocan-Evolve-Maxxx-Dab_Pen.jpg?v=1748597267" loading="lazy"></div>
-        <div class="brand-badge">Wulf Mods</div>
-        <div class="title">Wulf x Yocan Evolve Maxxx 3 in 1 Dab Pen</div>
-        <div class="price">From $79.99</div>
-    </div>
-    <div class="card" onclick="openModal('KandyPens Crystal 2 Vaporizer 🍯')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('KandyPens Crystal 2 Vaporizer 🍯')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/KandyPens-Crystal-2-Vaporizer-Black.jpg?v=1748597633" loading="lazy"></div>
-        <div class="brand-badge">KandyPens</div>
-        <div class="title">KandyPens Crystal 2 Vaporizer 🍯</div>
-        <div class="price">From $235.99</div>
-    </div>
-    <div class="card" onclick="openModal('Yocan Regen Concentrate Vaporizer Pen')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Yocan Regen Concentrate Vaporizer Pen')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Regen-Vaporizer-Pen.jpg?v=1748597849" loading="lazy"></div>
-        <div class="brand-badge">Yocan</div>
-        <div class="title">Yocan Regen Concentrate Vaporizer Pen</div>
-        <div class="price">From $37.99</div>
-    </div>
-    <div class="card" onclick="openModal('Yocan HIT Dry Herb Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Yocan HIT Dry Herb Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-HIT-Vaporizer.jpg?v=1748597873" loading="lazy"></div>
-        <div class="brand-badge">Yocan</div>
-        <div class="title">Yocan HIT Dry Herb Vaporizer</div>
-        <div class="price">From $49.99</div>
-    </div>
-    <div class="card" onclick="openModal('Kind Pen Variable Voltage Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Kind Pen Variable Voltage Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The-Kind-Pen-Variable-Voltage-Battery.jpg?v=1748597975" loading="lazy"></div>
-        <div class="brand-badge">The Kind Pen</div>
-        <div class="title">Kind Pen Variable Voltage Vaporizer</div>
-        <div class="price">From $25.99</div>
-    </div>
-    <div class="card" onclick="openModal('Grenco Science G Pen Dash Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Grenco Science G Pen Dash Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Grenco-Science-G-Pen-Dash-Vaporizer-1.jpg?v=1748598128" loading="lazy"></div>
-        <div class="brand-badge">Grenco Science</div>
-        <div class="title">Grenco Science G Pen Dash Vaporizer</div>
-        <div class="price">From $74.99</div>
-    </div>
-    <div class="card" onclick="openModal('Puffco Plus V2 Wax Vaporizer Pen')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Puffco Plus V2 Wax Vaporizer Pen')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Puffco-Plus-Wax-Vaporizer-Pen.jpg?v=1748598216" loading="lazy"></div>
-        <div class="brand-badge">Puffco</div>
-        <div class="title">Puffco Plus V2 Wax Vaporizer Pen</div>
-        <div class="price">From $99.99</div>
-    </div>
-    <div class="card" onclick="openModal('Yocan Magneto Wax Vaporizer 🍯')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Yocan Magneto Wax Vaporizer 🍯')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Magneto-Black.jpg?v=1748598985" loading="lazy"></div>
-        <div class="brand-badge">Yocan</div>
-        <div class="title">Yocan Magneto Wax Vaporizer 🍯</div>
-        <div class="price">From $33.99</div>
-    </div>
-    <div class="card" onclick="openModal('Yocan Evolve Plus Vaporizer Pen 🍯')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Yocan Evolve Plus Vaporizer Pen 🍯')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-Silver.jpg?v=1748599011" loading="lazy"></div>
-        <div class="brand-badge">Yocan</div>
-        <div class="title">Yocan Evolve Plus Vaporizer Pen 🍯</div>
-        <div class="price">From $37.99</div>
-    </div>
-    <div class="card" onclick="openModal('Yocan Evolve Plus XL Wax Vaporizer')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Yocan Evolve Plus XL Wax Vaporizer')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-Plus-XL-Sea-Blue.jpg?v=1748599132" loading="lazy"></div>
-        <div class="brand-badge">Yocan</div>
-        <div class="title">Yocan Evolve Plus XL Wax Vaporizer</div>
-        <div class="price">From $43.99</div>
-    </div>
-    <div class="card" onclick="openModal('Yocan Evolve-D Vape Pen 🌿')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Yocan Evolve-D Vape Pen 🌿')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Yocan-Evolve-D-Champagne-Gold.jpg?v=1748599237" loading="lazy"></div>
-        <div class="brand-badge">Yocan</div>
-        <div class="title">Yocan Evolve-D Vape Pen 🌿</div>
-        <div class="price">From $73.99</div>
-    </div>
-    <div class="card" onclick="openModal('Dr. Dabber Light Wax Vaporizer Pen')">
-        
-    <div class="link-shortcut" title="Copy Direct Link" 
-         onclick="event.stopPropagation(); copyDirectLink('Dr. Dabber Light Wax Vaporizer Pen')">
-        <i class="fa-solid fa-link"></i>
-    </div>
-        <div class="image-container"><img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/745D8CED-6B3C-4438-9F91-13DCF958224A.jpg?v=1748599560" loading="lazy"></div>
-        <div class="brand-badge">Dr. Dabber</div>
-        <div class="title">Dr. Dabber Light Wax Vaporizer Pen</div>
-        <div class="price">From $49.99</div>
-    </div>
+        </div>
+
+        <footer style="padding:50px 48px; border-top:1px solid var(--border); text-align:center; color:var(--muted); font-size:0.8em; letter-spacing:1.5px;">
+            &copy; 2026 PIXIE'S PANTRY &nbsp;|&nbsp; HARDWARE HUB &nbsp;|&nbsp; MISSISSIPPI, USA
+        </footer>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <button onclick="closeModal()" style="position:absolute; top:20px; right:24px; font-size:2em; background:none; border:none; cursor:pointer; color:#aaa; z-index:10; line-height:1;">&times;</button>
+            <div class="modal-img-side">
+                <img id="modal-img" src="" style="max-width:100%; max-height:380px; object-fit:contain;">
+                <div id="modal-gallery" style="display:flex; gap:10px; margin-top:20px; overflow-x:auto; width:100%; justify-content:center; padding-bottom:4px;"></div>
+            </div>
+            <div class="modal-info-side">
+                <div id="modal-brand" style="font-size:0.75em; font-weight:900; color:#bbb; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;"></div>
+                <h2 id="modal-title" style="font-weight:900; font-size:1.9em; line-height:1.1; letter-spacing:-0.5px; margin-bottom:18px;"></h2>
+                <div id="modal-price" style="font-size:2.2em; font-weight:900; margin-bottom:22px;"></div>
+                <div id="modal-variant-container" style="margin-bottom:10px;"></div>
+                <button id="modal-add-btn" class="quick-add-btn" style="width:100%; padding:18px; font-size:1em; margin-top:16px; letter-spacing:1px; text-transform:uppercase; border-radius:10px;">Add to Order</button>
+                <div id="modal-desc-container" style="margin-top:30px; color:#555; font-size:0.95em; line-height:1.8; border-top:1px solid #f0f0f0; padding-top:22px;"></div>
+            </div>
         </div>
     </div>
-    <script src="../js/data.js"></script>
-    <script src="../js/app.js"></script>
+
+    <!-- Floating Cart Button -->
+    <button class="cart-toggle" onclick="toggleCart()">🛒 CART (<span class="cart-count">0</span>)</button>
+
+    <!-- Side Cart Panel -->
+    <div id="cart-panel" class="cart-panel">
+        <div style="padding:28px 30px; background:#fafafa; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; font-size:1em; font-weight:900; letter-spacing:2px; text-transform:uppercase;">Order Sheet</h2>
+            <button onclick="toggleCart()" style="border:none; background:none; font-size:1.8em; cursor:pointer; color:#bbb; line-height:1;">&times;</button>
+        </div>
+        <div id="cart-items" style="flex:1; overflow-y:auto; padding:20px 30px;"></div>
+        <div style="padding:24px 30px; border-top:1px solid #eee; background:#fff;">
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:1.2em; margin-bottom:24px;">
+                <span>Subtotal:</span><span id="cart-total-price">$0.00</span>
+            </div>
+            <!-- FORMSPREE FORM — action URL uses your FORMSPREE_ID -->
+            <form action="https://formspree.io/f/xeoqkzdj" method="POST" id="checkout-form" onsubmit="prepareCheckout(event)">
+                <input type="hidden" name="Order Details" id="order-payload">
+                <input type="text" name="Full Name" placeholder="Full Name *" required class="checkout-input">
+                <input type="email" name="email" placeholder="Email Address *" required class="checkout-input">
+                <input type="text" name="Discord" placeholder="Discord Username (Optional)" class="checkout-input">
+                <input type="text" name="Shipping" placeholder="City, State, Zip *" required class="checkout-input">
+                <input type="text" name="Notes" placeholder="Order notes (optional)" class="checkout-input">
+                <button type="submit" style="width:100%; background:var(--primary); color:#fff; border:none; padding:18px; font-weight:900; border-radius:10px; margin-top:8px; font-size:0.95em; text-transform:uppercase; letter-spacing:1px; cursor:pointer; font-family:inherit;">Submit Order</button>
+            </form>
+            <div id="receipt-container" style="display:none; text-align:center; padding:30px; border:2px dashed #eee; border-radius:14px;">
+                <div style="font-size:2em; margin-bottom:12px;">✅</div>
+                <h4 style="font-weight:900; letter-spacing:1px; margin-bottom:8px;">ORDER SUBMITTED</h4>
+                <p style="font-size:0.88em; color:var(--muted);">Check Discord or Email for follow-up shortly.</p>
+                <button onclick="location.reload()" class="quick-add-btn" style="margin-top:18px; width:100%; padding:14px; border-radius:8px;">Back to Catalog</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function copyDirectLink(name) {
-            const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-            const url = window.location.origin + "/index.html?p=" + slug;
-            navigator.clipboard.writeText(url).then(() => alert("Link Copied!"));
+
+// ── State ──────────────────────────────────────────────────
+let cart = [];
+
+// ── Cart Helpers ────────────────────────────────────────────
+function addToCart(productName, variant) {
+    const existing = cart.find(i => i.name === productName && i.variantName === variant.name);
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({ name: productName, variantName: variant.name, price: variant.price, qty: 1 });
+    }
+    renderCart();
+    showToast("Added: " + productName);
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    renderCart();
+}
+
+function updateQty(index, delta) {
+    cart[index].qty += delta;
+    if (cart[index].qty <= 0) cart.splice(index, 1);
+    renderCart();
+}
+
+function renderCart() {
+    const container = document.getElementById('cart-items');
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    document.querySelectorAll('.cart-count').forEach(el => el.textContent = cart.reduce((s,i) => s+i.qty, 0));
+    document.getElementById('cart-total-price').textContent = '$' + total.toFixed(2);
+
+    if (cart.length === 0) {
+        container.innerHTML = '<p style="color:#aaa; text-align:center; padding:40px 0; font-size:0.9em;">Your cart is empty.</p>';
+        return;
+    }
+
+    container.innerHTML = cart.map((item, i) => `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:18px 0; border-bottom:1px solid #f0f0f0; gap:12px;">
+            <div style="flex:1;">
+                <div style="font-weight:800; font-size:0.9em; line-height:1.3;">${item.name}</div>
+                ${item.variantName !== 'Standard' ? `<div style="font-size:0.78em; color:#aaa; margin-top:3px;">${item.variantName}</div>` : ''}
+                <div style="font-size:0.85em; color:#555; margin-top:6px;">$${item.price.toFixed(2)} each</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button onclick="updateQty(${i}, -1)" style="width:28px; height:28px; border:1px solid #ddd; background:#fff; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center;">−</button>
+                    <span style="font-weight:900; min-width:20px; text-align:center;">${item.qty}</span>
+                    <button onclick="updateQty(${i}, 1)" style="width:28px; height:28px; border:1px solid #ddd; background:#fff; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center;">+</button>
+                </div>
+                <div style="font-weight:900; font-size:0.95em;">$${(item.price * item.qty).toFixed(2)}</div>
+                <button onclick="removeFromCart(${i})" style="border:none; background:none; color:#ccc; cursor:pointer; font-size:0.75em; text-transform:uppercase; letter-spacing:1px;">Remove</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function toggleCart() {
+    document.getElementById('cart-panel').classList.toggle('open');
+}
+
+// ── Modal ───────────────────────────────────────────────────
+function openModal(cardEl) {
+    const raw = cardEl.getAttribute('data-product');
+    const p = JSON.parse(raw.replace(/&#39;/g, "'"));
+    const modal = document.getElementById('product-modal');
+
+    document.getElementById('modal-img').src = p.image;
+    document.getElementById('modal-brand').textContent = p.brand;
+    document.getElementById('modal-title').textContent = p.name;
+    document.getElementById('modal-desc-container').innerHTML = p.Description || '';
+
+    // Gallery
+    const gallery = document.getElementById('modal-gallery');
+    gallery.innerHTML = (p['All Images'] || []).map((img, i) => `
+        <img src="${img}" style="width:60px; height:60px; object-fit:contain; border:2px solid ${i===0?'#111':'#eee'}; border-radius:8px; cursor:pointer; padding:4px;"
+             onclick="document.getElementById('modal-img').src='${img}'; this.parentNode.querySelectorAll('img').forEach(x=>x.style.borderColor='#eee'); this.style.borderColor='#111';">
+    `).join('');
+
+    // Variants
+    const container = document.getElementById('modal-variant-container');
+    const priceEl = document.getElementById('modal-price');
+
+    if (p.Variants.length === 1) {
+        priceEl.textContent = '$' + p.Variants[0].price.toFixed(2);
+        container.innerHTML = '';
+        document.getElementById('modal-add-btn').onclick = () => {
+            addToCart(p.name, p.Variants[0]);
+            closeModal();
+        };
+    } else {
+        priceEl.textContent = '$' + p.Variants[0].price.toFixed(2);
+        container.innerHTML = `
+            <label style="font-size:0.8em; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#aaa; display:block; margin-bottom:10px;">Select Option</label>
+            <select onchange="selectVariant(this.value, ${JSON.stringify(p.Variants).replace(/"/g,'&quot;')})"
+                    style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-weight: 700; font-size: 0.95em; cursor: pointer; outline: none;">
+                ${p.Variants.map((v, i) => `
+                    <option value="${i}">${v.name} - $${v.price.toFixed(2)}</option>
+                `).join('')}
+            </select>`;
+
+        // Store selected variant index on the button
+        let selectedVariant = p.Variants[0];
+        window._modalVariants = p.Variants;
+        window._modalSelectedVariant = selectedVariant;
+
+        document.getElementById('modal-add-btn').onclick = () => {
+            addToCart(p.name, window._modalSelectedVariant || p.Variants[0]);
+            closeModal();
+        };
+    }
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function selectVariant(index, variantsJson) {
+    const variants = typeof variantsJson === 'string' ? JSON.parse(variantsJson) : variantsJson;
+    const v = variants[index];
+    window._modalSelectedVariant = v;
+    document.getElementById('modal-price').textContent = '$' + v.price.toFixed(2);
+    
+    if (v.image && v.image !== "https://placehold.co/400x400/f5f5f5/999?text=No+Image") {
+        document.getElementById('modal-img').src = v.image;
+        document.querySelectorAll('#modal-gallery img').forEach(img => {
+            img.style.borderColor = img.src === v.image ? '#111' : '#eee';
+        });
+    }
+}
+
+function closeModal() {
+    document.getElementById('product-modal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+document.getElementById('product-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// ── Quick Add (single variant) ──────────────────────────────
+function quickAdd(btn) {
+    const card = btn.closest('.card');
+    const raw = card.getAttribute('data-product');
+    const p = JSON.parse(raw.replace(/&#39;/g, "'"));
+    if (p.Variants.length === 1) {
+        addToCart(p.name, p.Variants[0]);
+    } else {
+        openModal(card);
+    }
+}
+
+// ── Filter & Sort ───────────────────────────────────────────
+function applyFilters() {
+    const search = (document.getElementById('searchInput')?.value || '').toLowerCase();
+    const brandFilter = (document.getElementById('brandFilter')?.value || 'all').toLowerCase();
+    const catFilter = (document.getElementById('catFilter')?.value || 'all').toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+        const name = card.dataset.name || '';
+        const brand = card.dataset.brand || '';
+        const cat = card.dataset.cat || '';
+        const matchSearch = name.includes(search) || brand.includes(search);
+        const matchBrand = brandFilter === 'all' || brand === brandFilter;
+        const matchCat = catFilter === 'all' || cat === catFilter;
+        card.style.display = (matchSearch && matchBrand && matchCat) ? 'flex' : 'none';
+    });
+    updateCount();
+}
+
+function updateCount() {
+    const visible = document.querySelectorAll('.card:not([style*="none"])').length;
+    const el = document.getElementById('result-count');
+    if (el) el.textContent = visible + ' products';
+}
+
+function sortGrid() {
+    const val = document.getElementById('sortSelect')?.value;
+    const grid = document.querySelector('.grid');
+    if (!grid || !val) return;
+    const cards = Array.from(grid.querySelectorAll('.card'));
+    cards.sort((a, b) => {
+        if (val === 'price-low') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+        if (val === 'price-high') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+        if (val === 'name-az') return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+        return 0;
+    });
+    cards.forEach(c => grid.appendChild(c));
+}
+
+// ── Toast ───────────────────────────────────────────────────
+function showToast(msg) {
+    const t = document.getElementById('pixies-toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Direct Link ─────────────────────────────────────────────
+function copyDirectLink(name) {
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const url = window.location.href.split('?')[0] + '?p=' + slug;
+    navigator.clipboard?.writeText(url).then(() => showToast('🔗 Link copied!')).catch(() => showToast('Link: ' + url));
+}
+
+// ── Formspree Checkout ──────────────────────────────────────
+function prepareCheckout(e) {
+    e.preventDefault();
+    if (cart.length === 0) { showToast('Your cart is empty!'); return; }
+
+    const orderLines = cart.map(i => `${i.qty}x ${i.name}${i.variantName !== 'Standard' ? ' ('+i.variantName+')' : ''} @ $${i.price.toFixed(2)}`);
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    orderLines.push('---');
+    orderLines.push('SUBTOTAL: $' + total.toFixed(2));
+
+    document.getElementById('order-payload').value = orderLines.join('\n');
+
+    const form = document.getElementById('checkout-form');
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+    }).then(res => {
+        if (res.ok) {
+            form.style.display = 'none';
+            document.getElementById('receipt-container').style.display = 'block';
+            cart = [];
+            renderCart();
+        } else {
+            showToast('⚠️ Submission failed. Please try again.');
         }
+    }).catch(() => showToast('⚠️ Network error. Check your connection.'));
+}
+
+// ── Mobile Nav ──────────────────────────────────────────────
+function toggleMobileNav() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('mobile-overlay');
+    sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = sidebar.classList.contains('mobile-open') ? 'hidden' : '';
+}
+
+// Init
+renderCart();
+
     </script>
 </body>
 </html>
