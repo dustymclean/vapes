@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Pixie's Pantry</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Exact same styling as signup for visual consistency */
+        :root { --primary: #111; --sidebar-w: 260px; --border: #eaeaea; --muted: #888; --accent: #8a2be2; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fff; color: var(--primary); margin: 0; }
+        .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: var(--sidebar-w); background: #fafafa; border-right: 1px solid var(--border); padding: 40px 28px; overflow-y: auto; }
+        .sidebar-logo { font-size: 22px; font-weight: 700; color: #000; text-decoration: none; display: block; margin-bottom: 30px; }
+        .sidebar-logo span { font-weight: 300; color: var(--muted); }
+        .nav-section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); letter-spacing: 1px; margin: 25px 0 12px 0; }
+        .sidebar-link { display: block; padding: 8px 0; color: #444; text-decoration: none; font-size: 14px; }
+        .main-wrapper { margin-left: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; }
+        .main-content { padding: 80px 50px; max-width: 600px; }
+        .input-box { margin-bottom: 20px; }
+        .input-box label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
+        .input-box input { width: 100%; border: 1px solid var(--border); padding: 12px; border-radius: 8px; }
+        .btn-action { background: #000; color: #fff; border: none; padding: 15px; border-radius: 8px; font-weight: 700; width: 100%; cursor: pointer; }
+        .btn-action:hover { background: var(--accent); }
+        .signup-prompt { margin-top: 40px; text-align: center; border-top: 1px solid var(--border); padding-top: 30px; }
+        .signup-prompt a { font-size: 20px; font-weight: 900; color: #000; text-decoration: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <a href="index.html" class="sidebar-logo">Pixie's <span>Pantry</span></a>
+        <div class="nav-section-label">Information</div>
+        <a href="about.html" class="sidebar-link">Our Philosophy</a>
+        <a href="faq.html" class="sidebar-link">FAQ & Guide</a>
+        <div class="nav-section-label">Legal</div>
+        <a href="privacy.html" class="sidebar-link">Privacy Policy</a>
+    </aside>
+
+    <div class="main-wrapper">
+        <main class="main-content">
+            <h1 style="font-weight:900; letter-spacing:-1.5px;">Welcome Back</h1>
+            <p style="color:var(--muted); margin-bottom:40px;">Sign in to access your pantry profile.</p>
+            <form id="loginForm">
+                <div class="input-box"><label>Email Address</label><input type="email" id="l_email" required></div>
+                <div class="input-box"><label>Password</label><input type="password" id="l_pass" required></div>
+                <button type="submit" class="btn-action" id="l_btn">Login to Account</button>
+            </form>
+            <div id="fb" style="margin-top:20px; font-size:14px; display:none; text-align:center;"></div>
+            <div class="signup-prompt"><a href="signup.html">Need an account? Sign Up</a></div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('l_btn');
+            const fb = document.getElementById('fb');
+            btn.disabled = true; fb.style.display = "block"; fb.innerText = "Authenticating...";
+
+            try {
+                const res = await fetch('https://vapes.pixiespantryshop.com/api/v1/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        email: document.getElementById('l_email').value,
+                        password: document.getElementById('l_pass').value
+                    })
+                });
+                if (res.ok) {
+                    fb.style.color = "green"; fb.innerText = "Success. Returning to shop...";
+                    setTimeout(() => { window.location.href = "index.html"; }, 1500);
+                } else { throw new Error("Invalid credentials."); }
+            } catch (err) { btn.disabled = false; fb.style.color = "red"; fb.innerText = err.message; }
+        });
+    </script>
+</body>
+</html>
