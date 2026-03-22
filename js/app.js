@@ -1,4 +1,3 @@
-
 let cart = JSON.parse(localStorage.getItem('pixies_cart')) || [];
 let currentModalProduct = null;
 
@@ -133,13 +132,15 @@ function prepareCheckout(e) {
     // Build FormData
     const formData = new FormData(document.getElementById('checkout-form'));
 
-    // Submit via AJAX
-    fetch('https://formspree.io/f/xeoqkzdj', {
+    // 1. Submit via AJAX to Formspree (Primary Checkout Flow)
+    fetch('https://discord.com/api/webhooks/1485061335577399480/PMlUzf9BNYHij-PR0MjEcDmmI4l9E8FYPEneOr3VEV3PdOoz1wgTmsG_VaHqaV9RRjtu', {
         method: 'POST',
-        body: formData,
         headers: {
-            'Accept': 'application/json'
-        }
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            content: `🚨 **NEW ORDER RECEIVED** 🚨\n\`\`\`text\n${orderText}\n\`\`\``
+        })
     }).then(response => {
         if(response.ok) {
             // Success, clear cart
@@ -152,6 +153,17 @@ function prepareCheckout(e) {
     }).catch(error => {
         alert("Network error. Please try again.");
     });
+
+    // 2. Submit via AJAX to Discord Webhook (Background Notification)
+    fetch('https://discord.com/api/webhooks/1485061335577399480/PMlUzf9BNYHij-PR0MjEcDmmI4l9E8FYPEneOr3VEV3PdOoz1wgTmsG_VaHqaV9RRjtu', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            content: `🚨 **NEW ORDER RECEIVED** 🚨\n\`\`\`text\n${orderText}\n\`\`\``
+        })
+    }).catch(error => console.error('Discord Webhook Error:', error));
 }
 
 function openModal(title) {
@@ -335,49 +347,47 @@ function initSearch() {
     });
 }
 
-
-    // ADVANCED SIDEBAR FILTERING
-    const checkboxes = document.querySelectorAll('.price-filter, .mat-filter');
-    checkboxes.forEach(cb => {
-        cb.addEventListener('change', function() {
-            // Gather active filters
-            const activePrices = Array.from(document.querySelectorAll('.price-filter:checked')).map(e => e.value);
-            const activeMats = Array.from(document.querySelectorAll('.mat-filter:checked')).map(e => e.value);
+// ADVANCED SIDEBAR FILTERING
+const checkboxes = document.querySelectorAll('.price-filter, .mat-filter');
+checkboxes.forEach(cb => {
+    cb.addEventListener('change', function() {
+        // Gather active filters
+        const activePrices = Array.from(document.querySelectorAll('.price-filter:checked')).map(e => e.value);
+        const activeMats = Array.from(document.querySelectorAll('.mat-filter:checked')).map(e => e.value);
+        
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            const price = parseFloat(card.getAttribute('data-price') || 0);
+            const mat = card.getAttribute('data-material') || "";
             
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                const price = parseFloat(card.getAttribute('data-price') || 0);
-                const mat = card.getAttribute('data-material') || "";
-                
-                let pricePass = true;
-                if(activePrices.length > 0) {
-                    pricePass = false;
-                    if(activePrices.includes('under50') && price < 50) pricePass = true;
-                    if(activePrices.includes('50-100') && price >= 50 && price <= 100) pricePass = true;
-                    if(activePrices.includes('over100') && price > 100) pricePass = true;
-                }
-                
-                let matPass = true;
-                if(activeMats.length > 0) {
-                    matPass = activeMats.includes(mat);
-                }
-                
-                if(pricePass && matPass) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+            let pricePass = true;
+            if(activePrices.length > 0) {
+                pricePass = false;
+                if(activePrices.includes('under50') && price < 50) pricePass = true;
+                if(activePrices.includes('50-100') && price >= 50 && price <= 100) pricePass = true;
+                if(activePrices.includes('over100') && price > 100) pricePass = true;
+            }
             
-            // Hide empty sections
-            const sections = document.querySelectorAll('.category-section');
-            sections.forEach(sec => {
-                const visibleCards = sec.querySelectorAll('.card[style="display: flex;"], .card:not([style*="display: none"])');
-                sec.style.display = visibleCards.length > 0 ? 'block' : 'none';
-            });
+            let matPass = true;
+            if(activeMats.length > 0) {
+                matPass = activeMats.includes(mat);
+            }
+            
+            if(pricePass && matPass) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        // Hide empty sections
+        const sections = document.querySelectorAll('.category-section');
+        sections.forEach(sec => {
+            const visibleCards = sec.querySelectorAll('.card[style="display: flex;"], .card:not([style*="display: none"])');
+            sec.style.display = visibleCards.length > 0 ? 'block' : 'none';
         });
     });
-
+});
 
 // DEEP LINKING TO OPEN MODAL ON LOAD
 function checkDeepLink() {
@@ -396,7 +406,6 @@ document.addEventListener('DOMContentLoaded', () => {
     checkDeepLink();
     initSearch();
 });
-
 
 function toggleBilling() {
     const isSame = document.getElementById('same-billing').checked;
@@ -428,7 +437,6 @@ function shareProduct() {
     }
 }
 
-
 function sortCatalog() {
     const val = document.getElementById('sort-dropdown').value;
     const sections = document.querySelectorAll('.category-section');
@@ -454,4 +462,3 @@ function sortCatalog() {
         cardsArray.forEach(card => grid.appendChild(card));
     });
 }
-
