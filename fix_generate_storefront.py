@@ -1123,6 +1123,9 @@ def generate_storefront():
             for b in sorted_brands
         ])
         info_html = f'''
+        <a href="{prefix}login.html" class="sidebar-link">Log In</a>
+        <a href="{prefix}signup.html" class="sidebar-link">Sign Up</a>
+        <a href="{prefix}forgot-password.html" class="sidebar-link">Forgot Password</a>
         <a href="{prefix}about.html" class="sidebar-link">Our Philosophy</a>
         <a href="{prefix}faq.html" class="sidebar-link">FAQ & Guide</a>
         <a href="{prefix}shipping.html" class="sidebar-link">Shipping & Delivery</a>
