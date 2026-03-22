@@ -933,64 +933,173 @@ def generate_storefront():
     start_time = time.time()
     ensure_dirs()
 
+    
     grouped_products = {}
     master_cats = set()
     master_brands = set()
     total_variations = 0
 
-    if not os.path.exists(CSV_PATH):
-        print(f"❌ CSV NOT FOUND at: {CSV_PATH}")
-        print("   Make sure Dyspensr_Master_Catalog_Priced.csv is on your Desktop.")
-        return
-
-    with open(CSV_PATH, "r", encoding="utf-8") as f:
-        reader = list(csv.DictReader(f))
-        for row in reader:
-            try:
-                retail = float(row.get("Your Retail Price", 0) or 0)
-                if retail <= 0:
-                    continue
-                if row.get("Status", "").strip().lower() == "hidden":
-                    continue
-
+    print("Loading CSV for configuration...")
+    csv_db = {}
+    product_names = {}
+    if os.path.exists(CSV_PATH):
+        with open(CSV_PATH, "r", encoding="utf-8") as f:
+            reader = list(csv.DictReader(f))
+            for row in reader:
+                sku = row.get("SKU", "").strip()
                 title = row.get("Product Name", "").strip()
-                if not title:
-                    continue
+                var = row.get("Variant", "").strip()
+                
+                if len(title) > 10:
+                    product_names[title] = True
+                    
+                if not sku or sku.lower() == "none": 
+                    import hashlib
+                    sku = "GEN-" + hashlib.md5((title + var).encode()).hexdigest()[:8].upper()
+                
+                status = row.get("Status", "").strip() or "Active"
+                price = row.get("Your Retail Price", "")
+                cat = row.get("Product Type", "Accessories").strip()
+                if not cat: cat = "Accessories"
+                csv_db[sku] = {
+                    "Status": status,
+                    "Price": price,
+                    "Category": cat,
+                    "Brand": row.get("Brand", "Premium").strip() or "Premium",
+                    "Specs": row.get("Search Tags", ""),
+                    "Featured": row.get("Featured", "No")
+                }
 
-                cat = (row.get("Product Type", "") or "Accessories").strip() or "Accessories"
-                brand = (row.get("Brand", "") or "Premium").strip() or "Premium"
-                img = (row.get("Image URL", "") or "").strip() or "https://placehold.co/400x400/f5f5f5/999?text=No+Image"
+    print("Fetching live data from Dyspensr...")
+    import urllib.request
+    page = 1
+    has_more = True
 
-                master_cats.add(cat)
-                master_brands.add(brand)
+    def is_color_variant(name):
+        name_lower = name.lower()
+        color_words = ['black', 'white', 'red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'silver', 'gold', 'grey', 'gray', 'clear', 'color:', 'glow', 'matte', 'metallic', 'wood', 'rainbow', 'tie dye', 'color']
+        for cw in color_words:
+            if cw in name_lower: return True
+        return False
 
-                if title not in grouped_products:
-                    grouped_products[title] = {
-                        "name": title,
-                        "brand": brand,
-                        "category": cat,
-                        "image": img,
-                        "Variants": [],
-                        "Description": row.get("Body (HTML)", row.get("Meta Description", "")).replace('"', '&quot;'),
-                        "All Images": [img]
-                    }
+    while has_more:
+        url = f"https://dyspensr.com/products.json?limit=250&page={page}"
+        try:
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req, timeout=15) as response:
+                data = json.loads(response.read().decode())
+            
+            if not data.get("products"):
+                has_more = False
+                break
+                
+            for p in data["products"]:
+                title = (p.get("title") or "").strip()
+                body_html = p.get("body_html") or ""
+                tags_list = p.get("tags", [])
+                tags = ", ".join(tags_list)
+                
+                base_images = [img.get("src", "") for img in p.get("images", []) if img.get("src")]
+                primary_image = base_images[0] if base_images else "https://placehold.co/400x400/f5f5f5/999?text=No+Image"
+                
+                for v in p.get("variants", []):
+                    if not v.get("available", False):
+                        continue
+                        
+                    v_title = (v.get("title") or "").strip()
+                    if v_title == "Default Title": v_title = ""
+                    
+                    sku = (v.get("sku") or "").strip()
+                    if not sku:
+                        import hashlib 
+                        sku = "GEN-" + hashlib.md5((title + v_title).encode()).hexdigest()[:8].upper()
+                    
+                    csv_item = csv_db.get(sku)
+                    if not csv_item: continue
+                    if str(csv_item["Status"]).strip().lower() == "hidden": continue
+                    
+                    price_str = csv_item["Price"]
+                    if not price_str: continue
+                    try:
+                        p_val = float(price_str)
+                        if p_val <= 0: continue
+                    except: continue
+                    
+                    v_img_obj = v.get("featured_image")
+                    v_img = v_img_obj.get("src") if v_img_obj else primary_image
+                    
+                    is_color = is_color_variant(v_title) or not v_title
+                    prod_title = title if is_color else f"{title} - {v_title}"
+                    variant_name = v_title if is_color else "Default Option"
+                    if not variant_name: variant_name = "Default Option"
 
-                if img not in grouped_products[title]["All Images"]:
-                    grouped_products[title]["All Images"].append(img)
+                    cat = csv_item["Category"]
+                    brand = csv_item["Brand"]
+                    master_cats.add(cat)
+                    master_brands.add(brand)
 
-                variant_name = (row.get("Variant", "") or "Standard").strip() or "Standard"
-                grouped_products[title]["Variants"].append({
-                    "name": variant_name,
-                    "sku": row.get("SKU", ""),
-                    "price": retail,
-                    "image": img
-                })
-                total_variations += 1
+                    if prod_title not in grouped_products:
+                        specs_raw = csv_item["Specs"] or tags
+                        
+                        html_desc = ""
+                        if body_html and len(body_html.strip()) > 10:
+                            html_desc = f'<div class="original-desc" style="margin-bottom: 20px;">{body_html}</div>'
 
-            except Exception as ex:
-                print(f"  ⚠️  Skipping row: {ex}")
-                continue
+                        spec_list = [s.strip() for s in specs_raw.split(',') if s.strip() and "TAG" not in s.upper() and "SALE ELIGIBLE" not in s.upper()]
+                        spec_bullets = "".join([f"<li><strong>{s}</strong></li>" for s in spec_list[:6]]) if spec_list else "<li>Premium construction and strict quality tolerances.</li>"
+                        
+                        clean_desc = f'''
+                        {html_desc}
+                        <p>The <strong>{prod_title}</strong> is a highly vetted addition to the <em>{cat}</em> lineup. Selected specifically for the Pixie's Pantry Group Buy, this piece was evaluated for material quality, performance consistency, and long-term durability.</p>
+                        <p>We bypass retail markups to bring you hardware that merges high-end lifestyle aesthetics with pure functional engineering. There is no marketing fluff here—just the exact specifications you need to make an informed upgrade to your setup.</p>
+                        <h4 style='margin-top:15px; margin-bottom:5px; color:#d4af37; text-transform:uppercase; letter-spacing:1px; font-size:0.9em;'>Audited Specifications:</h4>
+                        <ul style='margin-top:0; padding-left:20px; font-size:0.9em; color:#555;'>
+                            {spec_bullets}
+                        </ul>
+                        '''
+                        
+                        for name in product_names.keys():
+                            if name != prod_title and name in clean_desc:
+                                safe_name = name.replace("'", "\'")
+                                link = f'<a href="javascript:void(0)" onclick="searchExactProduct(\'' + safe_name + '\')" style="color:#d4af37; text-decoration:underline; font-weight:bold;">' + name + '</a>'
+                                clean_desc = clean_desc.replace(name, link)
+                        
+                        all_images = list(dict.fromkeys(base_images + ([v_img] if v_img else [])))
+                        if not all_images or all_images[0] == "": all_images = [primary_image]
+                        
+                        grouped_products[prod_title] = {
+                            "name": prod_title,
+                            "brand": brand,
+                            "category": cat,
+                            "Description": clean_desc,
+                            "Specs": specs_raw.replace("SALE ELIGIBLE", "").replace("Misc Imports Tag 2", ""),
+                            "Featured": csv_item["Featured"],
+                            "All Images": all_images,
+                            "image": v_img if not is_color else primary_image,
+                            "Variants": []
+                        }
+                    
+                    variant_exists = False
+                    for existing_v in grouped_products[prod_title]["Variants"]:
+                        if existing_v["name"] == variant_name and existing_v["sku"] == sku:
+                            variant_exists = True
+                            break
+                            
+                    if not variant_exists:
+                        grouped_products[prod_title]["Variants"].append({
+                            "name": variant_name,
+                            "sku": sku,
+                            "price": p_val,
+                            "image": v_img
+                        })
+                        total_variations += 1
 
+            page += 1
+            time.sleep(0.1)
+        except Exception as e:
+            print(f"Error fetching page {page}: {e}")
+            break
+            
     if not grouped_products:
         print("❌ No valid products found in CSV. Check column names:")
         print("   Required: 'Product Name', 'Your Retail Price', 'Brand', 'Product Type', 'Image URL'")
