@@ -133,14 +133,12 @@ function prepareCheckout(e) {
     const formData = new FormData(document.getElementById('checkout-form'));
 
     // 1. Submit via AJAX to Formspree (Primary Checkout Flow)
-    fetch('https://discord.com/api/webhooks/1485061335577399480/PMlUzf9BNYHij-PR0MjEcDmmI4l9E8FYPEneOr3VEV3PdOoz1wgTmsG_VaHqaV9RRjtu', {
+    fetch('https://formspree.io/f/xeoqkzdj', {
         method: 'POST',
+        body: formData,
         headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            content: `🚨 **NEW ORDER RECEIVED** 🚨\n\`\`\`text\n${orderText}\n\`\`\``
-        })
+            'Accept': 'application/json'
+        }
     }).then(response => {
         if(response.ok) {
             // Success, clear cart
