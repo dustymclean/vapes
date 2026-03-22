@@ -961,6 +961,9 @@ def generate_storefront():
                 price = row.get("Your Retail Price", "")
                 cat = row.get("Product Type", "Accessories").strip()
                 if not cat: cat = "Accessories"
+                brand = row.get("Brand", "Premium").strip() or "Premium"
+                master_cats.add(cat)
+                master_brands.add(brand)
                 csv_db[sku] = {
                     "Status": status,
                     "Price": price,
@@ -1229,7 +1232,43 @@ def generate_storefront():
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("Hardware Hub", index_content, build_sidebar(False), False))
 
+
+    # ── Static Pages ─────────────────────────────────────────
+    static_pages = {
+        "about.html": "Our Philosophy",
+        "faq.html": "FAQ & Guide",
+        "shipping.html": "Shipping & Delivery",
+        "refunds.html": "Returns & Exchanges",
+        "privacy.html": "Privacy & Terms",
+    }
+    for page_name, title in static_pages.items():
+        file_path = os.path.join(BASE_DIR, page_name)
+        if os.path.exists(file_path):
+            with open(file_path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+            
+            in_content = False
+            content_lines = []
+            for line in lines:
+                if '<footer class="site-footer">' in line or '<footer class="site-footer" style="margin-top: 80px;' in line:
+                    break
+                if in_content:
+                    content_lines.append(line)
+                if '<div class="main-content">' in line:
+                    in_content = True
+            
+            content = "".join(content_lines).strip()
+            # remove closing div if it exists at the end
+            if content.endswith("</div>"):
+                content = content[:-6].strip()
+                
+            new_html = get_layout(title, content, build_sidebar(False), False)
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(new_html)
+            print(f"  📄 Static Page: {page_name} updated.")
+
     duration = time.time() - start_time
+
     print(f"\n✅ BUILD COMPLETE")
     print(f"   {len(all_products)} unique products | {total_variations} total variations")
     print(f"   {len(sorted_cats)} category pages | {len(sorted_brands)} brand pages")

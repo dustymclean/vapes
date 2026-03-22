@@ -331,7 +331,7 @@
             position: fixed;
             top: 0; right: -480px;
             width: 440px;
-            max-width: 400px; max-width: 100vw;
+            max-width: 100vw;
             height: 100%;
             background: #fff;
             box-shadow: -10px 0 40px rgba(0,0,0,0.1);
@@ -461,7 +461,7 @@
             .mobile-header { display: flex; }
             .banner { top: 0; }
             .cart-toggle { bottom: 20px; right: 20px; padding: 14px 20px; }
-            .cart-panel { width: 400px; max-width: 100vw; right: -110vw; }
+            .cart-panel { width: 100vw; right: -100vw; }
             .modal-content { flex-direction: column; }
             .modal-img-side { min-width: unset; padding: 30px; max-height: 250px; }
             .modal-info-side { min-width: unset; padding: 30px; }
@@ -688,11 +688,11 @@
         <div class="toolbar">
             <div class="toolbar-left">
                 <h1>Pollen Press</h1>
-                <p id="result-count">2 products</p>
+                <p id="result-count">0 products</p>
             </div>
             <div class="toolbar-right">
                 <select id="brandFilter" class="filter-select" onchange="applyFilters()">
-                    <option value="all">All Brands</option><option value="Kannastor">Kannastor</option>
+                    <option value="all">All Brands</option>
                 </select>
                 <select id="sortSelect" class="filter-select" onchange="sortGrid()">
                     <option value="default">Sort</option>
@@ -702,51 +702,7 @@
                 </select>
             </div>
         </div>
-        <div class="grid"><div class="card"
-         data-name="kannastor 18mm pollen press"
-         data-price="24.99"
-         data-brand="kannastor"
-         data-cat="pollen press"
-         onclick="openModal(this)"
-         data-product='{"name": "Kannastor 18mm Pollen Press", "brand": "Kannastor", "category": "Pollen Press", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kannastor_18mm_Pollen_Press_7_c06203e6-d98a-451a-ad02-0d90fe460787.jpg?v=1749467680", "Variants": [{"name": "Standard", "sku": "KANNASTOR-POLLEN-PRESS-18", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kannastor_18mm_Pollen_Press_7_c06203e6-d98a-451a-ad02-0d90fe460787.jpg?v=1749467680"}], "Description": "Kannastor 18mm Pollen Press", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kannastor_18mm_Pollen_Press_7_c06203e6-d98a-451a-ad02-0d90fe460787.jpg?v=1749467680"]}'>
-        <div class="link-shortcut" title="Copy Direct Link"
-             onclick="event.stopPropagation(); copyDirectLink('Kannastor 18mm Pollen Press')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-        </div>
-        <div class="image-container">
-            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kannastor_18mm_Pollen_Press_7_c06203e6-d98a-451a-ad02-0d90fe460787.jpg?v=1749467680" alt="Kannastor 18mm Pollen Press" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
-        </div>
-        <div class="card-info">
-            <div class="brand-badge">Kannastor</div>
-            <div class="title">Kannastor 18mm Pollen Press</div>
-            <div class="card-footer-row">
-                <div class="price-tag">$24.99</div>
-                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
-            </div>
-        </div>
-    </div><div class="card"
-         data-name="kannastor 14mm pollen press"
-         data-price="18.99"
-         data-brand="kannastor"
-         data-cat="pollen press"
-         onclick="openModal(this)"
-         data-product='{"name": "Kannastor 14mm Pollen Press", "brand": "Kannastor", "category": "Pollen Press", "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kannastor_14mm_Pollen_Press_4_e736946a-de39-43f6-81e7-c23d627ca7c7.jpg?v=1749467698", "Variants": [{"name": "Standard", "sku": "KANNASTOR-POLLEN-PRESS-14", "price": 18.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kannastor_14mm_Pollen_Press_4_e736946a-de39-43f6-81e7-c23d627ca7c7.jpg?v=1749467698"}], "Description": "Kannastor 14mm Pollen Press", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kannastor_14mm_Pollen_Press_4_e736946a-de39-43f6-81e7-c23d627ca7c7.jpg?v=1749467698"]}'>
-        <div class="link-shortcut" title="Copy Direct Link"
-             onclick="event.stopPropagation(); copyDirectLink('Kannastor 14mm Pollen Press')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-        </div>
-        <div class="image-container">
-            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Kannastor_14mm_Pollen_Press_4_e736946a-de39-43f6-81e7-c23d627ca7c7.jpg?v=1749467698" alt="Kannastor 14mm Pollen Press" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
-        </div>
-        <div class="card-info">
-            <div class="brand-badge">Kannastor</div>
-            <div class="title">Kannastor 14mm Pollen Press</div>
-            <div class="card-footer-row">
-                <div class="price-tag">$18.99</div>
-                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
-            </div>
-        </div>
-    </div></div>
+        <div class="grid"></div>
         
         </div>
 
