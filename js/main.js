@@ -327,6 +327,23 @@
             cards.forEach(c => grid.appendChild(c));
         };
 
+        
+        // -- AGE GATE --
+        (function() {
+            const overlay = document.getElementById('age-gate-overlay');
+            if (!overlay) return;
+            if (localStorage.getItem('pixies_age_verified') === 'true') {
+                overlay.style.display = 'none';
+            }
+        })();
+        window.ageGateEnter = function() {
+            localStorage.setItem('pixies_age_verified', 'true');
+            document.getElementById('age-gate-overlay').style.display = 'none';
+        };
+        window.ageGateDeny = function() {
+            window.location.href = 'https://www.google.com';
+        };
+
         // Setup initial UI
         updateCart();
         
