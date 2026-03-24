@@ -313,6 +313,15 @@ def generate_site():
         .footer-content { grid-template-columns: 1fr; gap: 40px; }
     }
 
+    
+    /* Banner */
+    .banner { background: #000; color: #fff; text-align: center; padding: 10px; font-size: 11px; font-weight: 900; letter-spacing: 2px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; text-transform: uppercase; border-bottom: 2px solid var(--gold); }
+    .banner a { color: var(--gold); text-decoration: none; transition: 0.3s; }
+    .banner a:hover { color: #fff; }
+    .sidebar { top: 36px; /* Offset for banner */ }
+    .main-wrapper { margin-top: 36px; /* Offset for banner */ }
+    @media (max-width: 900px) { .sidebar { top: 0; } }
+
     /* Floating Cart */
     .cart-float { position: fixed; bottom: 30px; right: 30px; background: #000; color: #fff; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 900; transition: transform 0.2s; border: 2px solid var(--gold); }
     .cart-float:hover { transform: scale(1.05); }
@@ -871,6 +880,7 @@ def generate_site():
     <link rel="stylesheet" href="{depth}css/style.css">
 </head>
 <body>
+    <div class="banner">JOIN THE DISCORD FOR EXCLUSIVE WHOLESALE PRICING &nbsp;·&nbsp; <a href="https://discord.gg/dm8deA2u" target="_blank">DISCORD.GG/DM8DEa2U</a></div>
     {sidebar}
     <div class="main-wrapper">
         <main class="main-content">
@@ -942,6 +952,7 @@ def generate_site():
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="banner">JOIN THE DISCORD FOR EXCLUSIVE WHOLESALE PRICING &nbsp;·&nbsp; <a href="https://discord.gg/dm8deA2u" target="_blank">DISCORD.GG/DM8DEa2U</a></div>
     {sidebar}
     <div class="main-wrapper">
         <main class="main-content" style="max-width: 800px;">
@@ -1048,6 +1059,7 @@ def generate_site():
     </style>
 </head>
 <body>
+    <div class="banner">JOIN THE DISCORD FOR EXCLUSIVE WHOLESALE PRICING &nbsp;·&nbsp; <a href="https://discord.gg/dm8deA2u" target="_blank">DISCORD.GG/DM8DEa2U</a></div>
     {sidebar}
     <div class="main-wrapper">
         <main class="main-content">
