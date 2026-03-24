@@ -2,45 +2,698 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Smokebuddy | Pixie's Pantry</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixie's Pantry | Smokebuddy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #111;
+            --sidebar-w: 300px;
+            --border: #eaeaea;
+            --muted: #888;
+            --card-radius: 14px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #fff;
+            color: var(--primary);
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; bottom: 0;
+            width: var(--sidebar-w);
+            background: #fafafa;
+            border-right: 1px solid var(--border);
+            padding: 40px 28px;
+            overflow-y: auto;
+            z-index: 900;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-logo {
+            font-weight: 900;
+            font-size: 1.3em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            display: block;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .sidebar-logo span { color: #e8498a; }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.88em;
+            margin-bottom: 28px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .search-box:focus { border-color: var(--primary); }
+
+        .nav-section-label {
+            font-size: 0.65em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #bbb;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin: 24px 0 10px;
+        }
+        .sidebar-link {
+            display: block;
+            padding: 9px 0;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.85em;
+            border-bottom: 1px solid #f5f5f5;
+            transition: all 0.15s;
+        }
+        .sidebar-link:hover {
+            color: var(--primary);
+            padding-left: 6px;
+            font-weight: 700;
+        }
+
+        /* ── Mobile overlay ── */
+        #mobile-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 850;
+        }
+        #mobile-overlay.active { display: block; }
+
+        /* ── Main wrapper ── */
+        .main-wrapper {
+            margin-left: var(--sidebar-w);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .banner {
+            background: var(--primary);
+            color: #fff;
+            padding: 13px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 0.72em;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+
+        /* ── Mobile header ── */
+        .mobile-header {
+            display: none;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 39px;
+            z-index: 499;
+        }
+        .mobile-header-logo {
+            font-weight: 900;
+            font-size: 1.1em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .mobile-header-logo span { color: #e8498a; }
+        .hamburger {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 7px 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* ── Main content ── */
+        .main-content {
+            padding: 55px 48px;
+            flex: 1;
+        }
+
+        /* ── Toolbar ── */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+        .toolbar-left h1 {
+            font-weight: 900;
+            font-size: 2.4em;
+            letter-spacing: -1.5px;
+            line-height: 1;
+        }
+        .toolbar-left p {
+            color: var(--muted);
+            font-size: 0.9em;
+            margin-top: 6px;
+        }
+        .toolbar-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-select {
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.85em;
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+            font-family: inherit;
+        }
+        .filter-select:focus { border-color: var(--primary); }
+
+        /* ── Product Grid ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 28px;
+        }
+
+        /* ── Card ── */
+        .card {
+            position: relative;
+            border: 1px solid #f0f0f0;
+            border-radius: var(--card-radius);
+            padding: 22px;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.165,0.84,0.44,1), box-shadow 0.3s ease, border-color 0.2s;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            /* FIX: removed height:100% which caused stretching in auto-fill grids */
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            border-color: #ddd;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 18px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .card:hover .image-container img { transform: scale(1.04); }
+
+        .brand-badge {
+            font-size: 0.58em;
+            font-weight: 900;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+        }
+        .title {
+            font-weight: 800;
+            font-size: 0.97em;
+            line-height: 1.4;
+            color: var(--primary);
+            flex: 1;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        .price-tag {
+            font-weight: 900;
+            font-size: 1.15em;
+            color: var(--primary);
+        }
+        .quick-add-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.82em;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-family: inherit;
+        }
+        .quick-add-btn:hover { opacity: 0.75; }
+
+        .link-shortcut {
+            position: absolute;
+            top: 14px; right: 14px;
+            background: #fff;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #eee;
+            color: #ccc;
+            z-index: 5;
+            transition: all 0.2s;
+        }
+        .link-shortcut:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* ── Cart button ── */
+        .cart-toggle {
+            position: fixed;
+            bottom: 36px; right: 36px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 16px 26px;
+            border-radius: 40px;
+            font-weight: 900;
+            font-size: 0.9em;
+            cursor: pointer;
+            z-index: 800;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+        .cart-toggle:hover { transform: scale(1.05); }
+
+        /* ── Cart panel ── */
+        .cart-panel {
+            position: fixed;
+            top: 0; right: -480px;
+            width: 440px;
+            max-width: 100vw;
+            height: 100%;
+            background: #fff;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+            z-index: 3000;
+            transition: right 0.45s cubic-bezier(0.165,0.84,0.44,1);
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-panel.open { right: 0; }
+
+        .checkout-input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.9em;
+            font-family: inherit;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .checkout-input:focus { border-color: var(--primary); }
+
+        /* ── Modal ── */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+            padding: 20px;
+        }
+        .modal-content {
+            background: #fff;
+            width: 960px;
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 18px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+        }
+        .modal-img-side {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f8f8;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #f0f0f0;
+        }
+        .modal-info-side {
+            flex: 1;
+            min-width: 300px;
+            padding: 50px 45px;
+            overflow-y: auto;
+        }
+
+        /* ── Toast ── */
+        #pixies-toast {
+            visibility: hidden;
+            min-width: 220px;
+            background: #111;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 14px 22px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-weight: 700;
+            font-size: 0.9em;
+            pointer-events: none;
+        }
+        #pixies-toast.show {
+            visibility: visible;
+            animation: toastIn 0.3s ease, toastOut 0.4s ease 2.6s forwards;
+        }
+        @keyframes toastIn { from { opacity:0; bottom:15px; } to { opacity:1; bottom:30px; } }
+        @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+        /* ── Footer ── */
+        .site-footer { background-color: #000 !important; color: #fff !important; padding: 80px 50px 30px !important; margin-top: 80px !important; border-top: none !important; font-family: 'Helvetica Neue', Arial, sans-serif; }
+        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 50px; max-width: 1400px; margin: 0 auto; border-bottom: 1px solid #222; padding-bottom: 60px; }
+        .footer-col h3 { color: #fff !important; font-size: 0.75em !important; text-transform: uppercase; letter-spacing: 2px !important; font-weight: 600 !important; margin-bottom: 25px !important; border-bottom: none !important; }
+        .footer-col p { color: #888 !important; font-size: 0.9em !important; line-height: 1.8 !important; margin-bottom: 10px; }
+        .footer-col ul { list-style: none; padding: 0; margin: 0; }
+        .footer-col ul li { margin-bottom: 15px !important; }
+        .footer-col ul li a { color: #888 !important; text-decoration: none !important; font-size: 0.9em !important; transition: 0.3s; }
+        .footer-col ul li a:hover { color: #d4af37 !important; padding-left: 5px; }
+        .newsletter-form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+        .newsletter-form input { padding: 15px; background: #111; border: 1px solid #333; color: #fff; border-radius: 6px; outline: none; }
+        .newsletter-form input:focus { border-color: #d4af37; }
+        .newsletter-form button { padding: 15px; background: #d4af37; color: #111; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .newsletter-form button:hover { background: #fff; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 30px auto 0; font-size: 0.75em; color: #666; letter-spacing: 1px; }
+        .footer-socials { display: flex; gap: 20px; }
+        .footer-socials a { color: #888; text-decoration: none; text-transform: uppercase; font-weight: bold; transition: 0.3s; }
+        .footer-socials a:hover { color: #d4af37; }
+        @media (max-width: 992px) {
+            .site-footer { padding: 60px 30px 30px !important; }
+            .footer-content { grid-template-columns: 1fr 1fr; gap: 40px; }
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+        }
+        @media (max-width: 600px) {
+            .footer-content { grid-template-columns: 1fr; gap: 40px; }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+                width: 280px;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; }
+            .main-content { padding: 30px 20px; }
+            .mobile-header { display: flex; }
+            .banner { top: 0; }
+            .cart-toggle { bottom: 20px; right: 20px; padding: 14px 20px; }
+            .cart-panel { width: 100vw; right: -100vw; }
+            .modal-content { flex-direction: column; }
+            .modal-img-side { min-width: unset; padding: 30px; max-height: 250px; }
+            .modal-info-side { min-width: unset; padding: 30px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+            .image-container { height: 150px; }
+            .toolbar-left h1 { font-size: 1.8em; }
+        }
+
+        @media (max-width: 480px) {
+            .grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .card { padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+            .image-container { height: 110px; margin-bottom: 8px; }
+            .title { font-size: 0.8em; line-height: 1.3; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+            .price-tag { font-size: 0.9em; font-weight: 900; }
+            .quick-add-btn { padding: 8px; font-size: 0.8em; width: 100%; border-radius: 6px; margin-top: 6px; }
+            .card-footer-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .sidebar { width: 260px; }
+            .mobile-header { padding: 12px 15px; }
+            .mobile-header-logo { font-size: 1.1em; }
+        }
+    </style>
 </head>
 <body>
-    <div class="banner">JOIN THE DISCORD FOR EXCLUSIVE WHOLESALE PRICING &nbsp;·&nbsp; <a href="https://discord.gg/dm8deA2u" target="_blank">DISCORD.GG/DM8DEa2U</a></div>
-    
-        <aside class="sidebar">
-            <a href="../index.html" class="sidebar-logo">Pixie's Pantry</a>
-            <div class="sidebar-tagline">Vape & Smoke Accessories</div>
-            
-            <input type="text" id="searchInput" class="search-box" placeholder="Search catalog..." onkeyup="applyFilters()">
-            
-            <a href="../index.html" class="sidebar-link">All Products</a>
-        <div class="sidebar-section">Shop By Brand</div><a href="../brands/apex-ancillary.html" class="sidebar-link">Apex Ancillary</a><a href="../brands/bic.html" class="sidebar-link">BIC</a><a href="../brands/baked-water.html" class="sidebar-link">Baked Water</a><a href="../brands/blazer.html" class="sidebar-link">Blazer</a><a href="../brands/blazy-susan.html" class="sidebar-link">Blazy Susan</a><a href="../brands/boveda-inc.html" class="sidebar-link">Boveda Inc.</a><a href="../brands/ccell.html" class="sidebar-link">CCELL</a><a href="../brands/cali-crusher.html" class="sidebar-link">Cali Crusher</a><a href="../brands/chill-steel-pipes.html" class="sidebar-link">Chill Steel Pipes</a><a href="../brands/daze-glass.html" class="sidebar-link">Daze Glass</a><a href="../brands/dogg-lbs.html" class="sidebar-link">Dogg Lbs</a><a href="../brands/dr-dabber.html" class="sidebar-link">Dr. Dabber</a><a href="../brands/dynavap.html" class="sidebar-link">DynaVap</a><a href="../brands/dyspensr-wholesale.html" class="sidebar-link">Dyspensr Wholesale</a><a href="../brands/empire-glassworks.html" class="sidebar-link">Empire Glassworks</a><a href="../brands/flower-mill.html" class="sidebar-link">Flower Mill</a><a href="../brands/grav-grav-labs.html" class="sidebar-link">GRAV / Grav Labs</a><a href="../brands/gravitoke.html" class="sidebar-link">GraviToke</a><a href="../brands/grenco-science.html" class="sidebar-link">Grenco Science</a><a href="../brands/grindhouse.html" class="sidebar-link">Grindhouse</a><a href="../brands/hemper.html" class="sidebar-link">Hemper</a><a href="../brands/herb-saver.html" class="sidebar-link">Herb Saver</a><a href="../brands/honeybee-herb.html" class="sidebar-link">Honeybee Herb</a><a href="../brands/human-grade.html" class="sidebar-link">Human Grade</a><a href="../brands/i-tal.html" class="sidebar-link">I-Tal</a><a href="../brands/invincibowl.html" class="sidebar-link">Invincibowl</a><a href="../brands/jane-west.html" class="sidebar-link">Jane West</a><a href="../brands/juicy-jays.html" class="sidebar-link">Juicy Jays</a><a href="../brands/k-haring-collection.html" class="sidebar-link">K. Haring Collection</a><a href="../brands/kandypens.html" class="sidebar-link">KandyPens</a><a href="../brands/king-palm.html" class="sidebar-link">King Palm</a><a href="../brands/la-pipes.html" class="sidebar-link">LA Pipes</a><a href="../brands/lookah.html" class="sidebar-link">Lookah</a><a href="../brands/mj-arsenal.html" class="sidebar-link">MJ Arsenal</a><a href="../brands/marley-natural.html" class="sidebar-link">Marley Natural</a><a href="../brands/my-bud-vase.html" class="sidebar-link">My Bud Vase</a><a href="../brands/openvape.html" class="sidebar-link">O.penVAPE</a><a href="../brands/ocb-rolling-papers.html" class="sidebar-link">OCB Rolling Papers</a><a href="../brands/ongrok.html" class="sidebar-link">Ongrok</a><a href="../brands/ooze.html" class="sidebar-link">Ooze</a><a href="../brands/orange-chronic.html" class="sidebar-link">Orange Chronic</a><a href="../brands/other.html" class="sidebar-link">Other</a><a href="../brands/pax.html" class="sidebar-link">PAX</a><a href="../brands/pink-formula.html" class="sidebar-link">Pink Formula</a><a href="../brands/primo.html" class="sidebar-link">Primo</a><a href="../brands/prism-pipes.html" class="sidebar-link">Prism Pipes</a><a href="../brands/puffco.html" class="sidebar-link">Puffco</a><a href="../brands/pulsar.html" class="sidebar-link">Pulsar</a><a href="../brands/raw-rolling-papers.html" class="sidebar-link">RAW Rolling Papers</a><a href="../brands/rhythms-of-life.html" class="sidebar-link">Rhythms of Life</a><a href="../brands/ritual.html" class="sidebar-link">Ritual</a><a href="../brands/roast-toast.html" class="sidebar-link">Roast & Toast</a><a href="../brands/rokin-vapes.html" class="sidebar-link">Rokin Vapes</a><a href="../brands/slx-grinders.html" class="sidebar-link">SLX Grinders</a><a href="../brands/santa-cruz-shredder.html" class="sidebar-link">Santa Cruz Shredder</a><a href="../brands/seshgear.html" class="sidebar-link">SeshGear</a><a href="../brands/sharpstone.html" class="sidebar-link">SharpStone</a><a href="../brands/smoke-source.html" class="sidebar-link">Smoke Source</a><a href="../brands/smokebuddy.html" class="sidebar-link">Smokebuddy</a><a href="../brands/snowtree.html" class="sidebar-link">Snowtree</a><a href="../brands/softglass.html" class="sidebar-link">Softglass</a><a href="../brands/stache-products.html" class="sidebar-link">Stache Products</a><a href="../brands/storz-bickel.html" class="sidebar-link">Storz & Bickel</a><a href="../brands/stündenglass.html" class="sidebar-link">Stündenglass</a><a href="../brands/the-kind-pen.html" class="sidebar-link">The Kind Pen</a><a href="../brands/thug-life.html" class="sidebar-link">Thug Life</a><a href="../brands/vibes.html" class="sidebar-link">VIBES</a><a href="../brands/vapium.html" class="sidebar-link">Vapium</a><a href="../brands/wulf-mods.html" class="sidebar-link">Wulf Mods</a><a href="../brands/xvape.html" class="sidebar-link">Xvape</a><a href="../brands/yocan.html" class="sidebar-link">Yocan</a><a href="../brands/zenco.html" class="sidebar-link">Zenco</a><a href="../brands/zig-zag.html" class="sidebar-link">Zig-Zag</a><div class="sidebar-section">Shop By Category</div><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/adapters-attachments.html" class="sidebar-link">Adapters & Attachments</a><a href="../categories/ash-catcher.html" class="sidebar-link">Ash Catcher</a><a href="../categories/atomizers-coils.html" class="sidebar-link">Atomizers & Coils</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/dab-rig-oil-rig.html" class="sidebar-link">Dab Rig / Oil Rig</a><a href="../categories/dab-rig-sets.html" class="sidebar-link">Dab Rig Sets</a><a href="../categories/dab-rigs.html" class="sidebar-link">Dab Rigs</a><a href="../categories/dab-straws.html" class="sidebar-link">Dab Straws</a><a href="../categories/dab-tools.html" class="sidebar-link">Dab Tools</a><a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/grinders.html" class="sidebar-link">Grinders</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/mouthpieces-o-rings.html" class="sidebar-link">Mouthpieces & O-Rings</a><a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a><a href="../categories/water-pipe.html" class="sidebar-link">Water Pipe</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/dab-rigs.html" class="sidebar-link">Dab Rigs</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/banger.html" class="sidebar-link">Banger</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/bubblers.html" class="sidebar-link">Bubblers</a><a href="../categories/dab-rigs.html" class="sidebar-link">Dab Rigs</a><a href="../categories/bong.html" class="sidebar-link">bong</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/complete-base-neckpiece.html" class="sidebar-link">Complete: Base + Neckpiece</a><a href="../categories/downstem.html" class="sidebar-link">Downstem</a><a href="../categories/storage.html" class="sidebar-link">Storage</a><a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a><a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-rolled Cones</a><a href="../categories/rolling-accessories.html" class="sidebar-link">Rolling Accessories</a><a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a><a href="../categories/rolling-tips.html" class="sidebar-link">Rolling Tips</a><a href="../categories/rolling-tray.html" class="sidebar-link">Rolling Tray</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/dynavap-bundle.html" class="sidebar-link">DynaVap Bundle</a><a href="../categories/kit.html" class="sidebar-link">Kit</a><a href="../categories/maintenance.html" class="sidebar-link">Maintenance</a><a href="../categories/part.html" class="sidebar-link">Part</a><a href="../categories/storage.html" class="sidebar-link">Storage</a><a href="../categories/ted.html" class="sidebar-link">TED</a><a href="../categories/vaporizer.html" class="sidebar-link">Vaporizer</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/water-pipe.html" class="sidebar-link">Water Pipe</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/bubblers.html" class="sidebar-link">Bubblers</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/papers-cones-wraps.html" class="sidebar-link">Papers, Cones & Wraps</a><a href="../categories/smoking-accessories.html" class="sidebar-link">Smoking Accessories</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a><a href="../categories/blunt-wraps-leaf-rolls.html" class="sidebar-link">Blunt Wraps & Leaf Rolls</a><a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/pipes.html" class="sidebar-link">Pipes</a><a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-rolled Cones</a><a href="../categories/storage.html" class="sidebar-link">Storage</a><a href="../categories/water-pipe.html" class="sidebar-link">Water Pipe</a><a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-Rolled Cones</a><a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-rolled Cones</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/dab-tools.html" class="sidebar-link">Dab Tools</a><a href="../categories/stand.html" class="sidebar-link">Stand</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a><a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/desktop-vaporizer.html" class="sidebar-link">Desktop Vaporizer</a><a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/beaker-bong.html" class="sidebar-link">Beaker Bong</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/bubblers.html" class="sidebar-link">Bubblers</a><a href="../categories/concentrate-pipe.html" class="sidebar-link">Concentrate Pipe</a><a href="../categories/dab-rig-sets.html" class="sidebar-link">Dab Rig Sets</a><a href="../categories/dab-rigs.html" class="sidebar-link">Dab Rigs</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/dab-rig.html" class="sidebar-link">dab rig</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/torches.html" class="sidebar-link">Torches</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/bubblers.html" class="sidebar-link">Bubblers</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/vaporizer.html" class="sidebar-link">Vaporizer</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/bubblers.html" class="sidebar-link">Bubblers</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/dab-rig-oil-rig.html" class="sidebar-link">Dab Rig / Oil Rig</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/water-pipe.html" class="sidebar-link">Water Pipe</a><a href="../categories/water-pipes.html" class="sidebar-link">Water Pipes</a><a href="../categories/bong.html" class="sidebar-link">bong</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/beaker-bong.html" class="sidebar-link">Beaker Bong</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a><a href="../categories/bong.html" class="sidebar-link">bong</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a><a href="../categories/glass-cleaning-solution.html" class="sidebar-link">Glass Cleaning Solution</a><a href="../categories/spoon.html" class="sidebar-link">Spoon</a><a href="../categories/downstem.html" class="sidebar-link">downstem</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/bundle.html" class="sidebar-link">Bundle</a><a href="../categories/bong.html" class="sidebar-link">bong</a><a href="../categories/bundle.html" class="sidebar-link">bundle</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/bongs.html" class="sidebar-link">Bongs</a><a href="../categories/bubblers.html" class="sidebar-link">Bubblers</a><a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a><a href="../categories/oil-rig.html" class="sidebar-link">Oil Rig</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/rolling-accessories.html" class="sidebar-link">Rolling Accessories</a><a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a><a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a><a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a><a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-rolled Cones</a><a href="../categories/hemp-wick.html" class="sidebar-link">hemp wick</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/bong.html" class="sidebar-link">bong</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a><a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a><a href="../categories/accessories.html" class="sidebar-link">Accessories</a><a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a><a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a><a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a><a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a><a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a><a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/grinder.html" class="sidebar-link">Grinder</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a><a href="../categories/accessory.html" class="sidebar-link">Accessory</a>
-            <div class="sidebar-community">
-                <h4>Power in Numbers</h4>
-                <p>Joining our Discord helps us demonstrate community engagement to distributors, unlocking cheaper wholesale prices that we pass directly to you.</p>
-                <a href="../community.html" class="link">Learn more</a>
-                <a href="https://discord.gg/dm8deA2u" target="_blank" class="btn" style="background: var(--gold); color: #000; padding: 8px; font-size: 11px; width: 100%; box-sizing: border-box;">Join the Mission</a>
-            </div>
+    <div id="pixies-toast"></div>
+    <div id="mobile-overlay" onclick="toggleMobileNav()"></div>
 
-            <div class="sidebar-footer">
-                <a href="../login.html" class="sidebar-link">Log In</a>
-                <a href="../signup.html" class="sidebar-link">Sign Up</a>
-            </div>
-        </aside>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <a href="../index.html" class="sidebar-logo">Pixie's <span>Pantry</span></a>
+        <input type="text" id="searchInput" class="search-box" placeholder="Search products, brands..." oninput="applyFilters()">
         
+        <div class="nav-section-label">Information</div>
+        <nav>
+        <a href="../login.html" class="sidebar-link">Log In</a>
+        <a href="../signup.html" class="sidebar-link">Sign Up</a>
+        <a href="../forgot-password.html" class="sidebar-link">Forgot Password</a>
+        <a href="../about.html" class="sidebar-link">Our Philosophy</a>
+        <a href="../faq.html" class="sidebar-link">FAQ & Guide</a>
+        <a href="../shipping.html" class="sidebar-link">Shipping & Delivery</a>
+        <a href="../refunds.html" class="sidebar-link">Returns & Exchanges</a>
+        <a href="../privacy.html" class="sidebar-link">Privacy & Terms</a>
+        </nav>
+        <div class="nav-section-label">Categories</div>
+        <nav><a href="../categories/accessories.html" class="sidebar-link">Accessories</a>
+<a href="../categories/accessory.html" class="sidebar-link">Accessory</a>
+<a href="../categories/adapters-attachments.html" class="sidebar-link">Adapters & Attachments</a>
+<a href="../categories/ash-catcher.html" class="sidebar-link">Ash Catcher</a>
+<a href="../categories/atomizers-coils.html" class="sidebar-link">Atomizers & Coils</a>
+<a href="../categories/banger.html" class="sidebar-link">Banger</a>
+<a href="../categories/beaker-bong.html" class="sidebar-link">Beaker Bong</a>
+<a href="../categories/blunt-wraps-leaf-rolls.html" class="sidebar-link">Blunt Wraps & Leaf Rolls</a>
+<a href="../categories/bong.html" class="sidebar-link">Bong</a>
+<a href="../categories/bongs.html" class="sidebar-link">Bongs</a>
+<a href="../categories/bubblers.html" class="sidebar-link">Bubblers</a>
+<a href="../categories/budsy-water-bottle-bong.html" class="sidebar-link">Budsy Water Bottle Bong</a>
+<a href="../categories/bundle.html" class="sidebar-link">Bundle</a>
+<a href="../categories/complete-base-neckpiece.html" class="sidebar-link">Complete: Base + Neckpiece</a>
+<a href="../categories/concentrate-pipe.html" class="sidebar-link">Concentrate Pipe</a>
+<a href="../categories/cupsy-coffee-cup-bong.html" class="sidebar-link">Cupsy Coffee Cup Bong</a>
+<a href="../categories/dab-rig-oil-rig.html" class="sidebar-link">Dab Rig / Oil Rig</a>
+<a href="../categories/dab-rig-sets.html" class="sidebar-link">Dab Rig Sets</a>
+<a href="../categories/dab-rigs.html" class="sidebar-link">Dab Rigs</a>
+<a href="../categories/dab-straws.html" class="sidebar-link">Dab Straws</a>
+<a href="../categories/dab-tools.html" class="sidebar-link">Dab Tools</a>
+<a href="../categories/desktop-vaporizer.html" class="sidebar-link">Desktop Vaporizer</a>
+<a href="../categories/downstem.html" class="sidebar-link">Downstem</a>
+<a href="../categories/dynavap-bundle.html" class="sidebar-link">DynaVap Bundle</a>
+<a href="../categories/electric-rig-e-nail.html" class="sidebar-link">Electric Rig / E-Nail</a>
+<a href="../categories/filters-tips.html" class="sidebar-link">Filters & Tips</a>
+<a href="../categories/glass-cleaning-solution.html" class="sidebar-link">Glass Cleaning Solution</a>
+<a href="../categories/grinder.html" class="sidebar-link">Grinder</a>
+<a href="../categories/grinders.html" class="sidebar-link">Grinders</a>
+<a href="../categories/hand-pipes.html" class="sidebar-link">Hand Pipes</a>
+<a href="../categories/kit.html" class="sidebar-link">Kit</a>
+<a href="../categories/lighter.html" class="sidebar-link">Lighter</a>
+<a href="../categories/maintenance.html" class="sidebar-link">Maintenance</a>
+<a href="../categories/mouthpieces-o-rings.html" class="sidebar-link">Mouthpieces & O-Rings</a>
+<a href="../categories/oil-rig.html" class="sidebar-link">Oil Rig</a>
+<a href="../categories/other-vape-parts.html" class="sidebar-link">Other Vape Parts</a>
+<a href="../categories/papers-cones-wraps.html" class="sidebar-link">Papers, Cones & Wraps</a>
+<a href="../categories/part.html" class="sidebar-link">Part</a>
+<a href="../categories/peak-pro.html" class="sidebar-link">Peak PRO</a>
+<a href="../categories/pipes.html" class="sidebar-link">Pipes</a>
+<a href="../categories/pollen-box.html" class="sidebar-link">Pollen Box</a>
+<a href="../categories/pollen-press.html" class="sidebar-link">Pollen Press</a>
+<a href="../categories/portable-vaporizer.html" class="sidebar-link">Portable Vaporizer</a>
+<a href="../categories/pre-rolled.html" class="sidebar-link">Pre-Rolled</a>
+<a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-Rolled Cones</a>
+<a href="../categories/pre-rolled-cones.html" class="sidebar-link">Pre-rolled Cones</a>
+<a href="../categories/recycler.html" class="sidebar-link">Recycler</a>
+<a href="../categories/rolling-accessories.html" class="sidebar-link">Rolling Accessories</a>
+<a href="../categories/rolling-papers.html" class="sidebar-link">Rolling Papers</a>
+<a href="../categories/rolling-tips.html" class="sidebar-link">Rolling Tips</a>
+<a href="../categories/rolling-tray.html" class="sidebar-link">Rolling Tray</a>
+<a href="../categories/smoking-accessories.html" class="sidebar-link">Smoking Accessories</a>
+<a href="../categories/spoon.html" class="sidebar-link">Spoon</a>
+<a href="../categories/stand.html" class="sidebar-link">Stand</a>
+<a href="../categories/storage.html" class="sidebar-link">Storage</a>
+<a href="../categories/ted.html" class="sidebar-link">TED</a>
+<a href="../categories/torches.html" class="sidebar-link">Torches</a>
+<a href="../categories/vape-battery-for-cartridges.html" class="sidebar-link">Vape Battery for Cartridges</a>
+<a href="../categories/vaporizer.html" class="sidebar-link">Vaporizer</a>
+<a href="../categories/vaporizer-pen.html" class="sidebar-link">Vaporizer Pen</a>
+<a href="../categories/vaporizers.html" class="sidebar-link">Vaporizers</a>
+<a href="../categories/water-pipe.html" class="sidebar-link">Water Pipe</a>
+<a href="../categories/water-pipes.html" class="sidebar-link">Water Pipes</a>
+<a href="../categories/accessory.html" class="sidebar-link">accessory</a>
+<a href="../categories/bong.html" class="sidebar-link">bong</a>
+<a href="../categories/bundle.html" class="sidebar-link">bundle</a>
+<a href="../categories/dab-rig.html" class="sidebar-link">dab rig</a>
+<a href="../categories/downstem.html" class="sidebar-link">downstem</a>
+<a href="../categories/hemp-wick.html" class="sidebar-link">hemp wick</a>
+<a href="../categories/mouthpiece.html" class="sidebar-link">mouthpiece</a>
+<a href="../categories/rolling-tray.html" class="sidebar-link">rolling tray</a>
+<a href="../categories/travel-case.html" class="sidebar-link">travel case</a></nav>
+        <div class="nav-section-label">Brands</div>
+        <nav><a href="../brands/apex-ancillary.html" class="sidebar-link">Apex Ancillary</a>
+<a href="../brands/bic.html" class="sidebar-link">BIC</a>
+<a href="../brands/baked-water.html" class="sidebar-link">Baked Water</a>
+<a href="../brands/blazer.html" class="sidebar-link">Blazer</a>
+<a href="../brands/blazy-susan.html" class="sidebar-link">Blazy Susan</a>
+<a href="../brands/boveda-inc.html" class="sidebar-link">Boveda Inc.</a>
+<a href="../brands/ccell.html" class="sidebar-link">CCELL</a>
+<a href="../brands/cali-crusher.html" class="sidebar-link">Cali Crusher</a>
+<a href="../brands/chill-steel-pipes.html" class="sidebar-link">Chill Steel Pipes</a>
+<a href="../brands/daze-glass.html" class="sidebar-link">Daze Glass</a>
+<a href="../brands/dogg-lbs.html" class="sidebar-link">Dogg Lbs</a>
+<a href="../brands/dr-dabber.html" class="sidebar-link">Dr. Dabber</a>
+<a href="../brands/dynavap.html" class="sidebar-link">DynaVap</a>
+<a href="../brands/dyspensr-wholesale.html" class="sidebar-link">Dyspensr Wholesale</a>
+<a href="../brands/empire-glassworks.html" class="sidebar-link">Empire Glassworks</a>
+<a href="../brands/flower-mill.html" class="sidebar-link">Flower Mill</a>
+<a href="../brands/focus-v.html" class="sidebar-link">Focus V</a>
+<a href="../brands/grav-grav-labs.html" class="sidebar-link">GRAV / Grav Labs</a>
+<a href="../brands/gravitoke.html" class="sidebar-link">GraviToke</a>
+<a href="../brands/grenco-science.html" class="sidebar-link">Grenco Science</a>
+<a href="../brands/grindhouse.html" class="sidebar-link">Grindhouse</a>
+<a href="../brands/hemper.html" class="sidebar-link">Hemper</a>
+<a href="../brands/herb-saver.html" class="sidebar-link">Herb Saver</a>
+<a href="../brands/honeybee-herb.html" class="sidebar-link">Honeybee Herb</a>
+<a href="../brands/human-grade.html" class="sidebar-link">Human Grade</a>
+<a href="../brands/i-tal.html" class="sidebar-link">I-Tal</a>
+<a href="../brands/iolite.html" class="sidebar-link">IOLITE</a>
+<a href="../brands/invincibowl.html" class="sidebar-link">Invincibowl</a>
+<a href="../brands/ispire.html" class="sidebar-link">Ispire</a>
+<a href="../brands/jane-west.html" class="sidebar-link">Jane West</a>
+<a href="../brands/juicy-jays.html" class="sidebar-link">Juicy Jays</a>
+<a href="../brands/k-haring-collection.html" class="sidebar-link">K. Haring Collection</a>
+<a href="../brands/kandypens.html" class="sidebar-link">KandyPens</a>
+<a href="../brands/kannastor.html" class="sidebar-link">Kannastor</a>
+<a href="../brands/kill-your-culture.html" class="sidebar-link">Kill Your Culture</a>
+<a href="../brands/king-palm.html" class="sidebar-link">King Palm</a>
+<a href="../brands/la-pipes.html" class="sidebar-link">LA Pipes</a>
+<a href="../brands/leafly-water-pipes.html" class="sidebar-link">Leafly Water Pipes</a>
+<a href="../brands/lookah.html" class="sidebar-link">Lookah</a>
+<a href="../brands/mj-arsenal.html" class="sidebar-link">MJ Arsenal</a>
+<a href="../brands/marley-natural.html" class="sidebar-link">Marley Natural</a>
+<a href="../brands/micro.html" class="sidebar-link">Micro</a>
+<a href="../brands/moose-labs.html" class="sidebar-link">Moose Labs</a>
+<a href="../brands/my-bud-vase.html" class="sidebar-link">My Bud Vase</a>
+<a href="../brands/openvape.html" class="sidebar-link">O.penVAPE</a>
+<a href="../brands/ocb-rolling-papers.html" class="sidebar-link">OCB Rolling Papers</a>
+<a href="../brands/ongrok.html" class="sidebar-link">Ongrok</a>
+<a href="../brands/ooze.html" class="sidebar-link">Ooze</a>
+<a href="../brands/orange-chronic.html" class="sidebar-link">Orange Chronic</a>
+<a href="../brands/other.html" class="sidebar-link">Other</a>
+<a href="../brands/pax.html" class="sidebar-link">PAX</a>
+<a href="../brands/pink-formula.html" class="sidebar-link">Pink Formula</a>
+<a href="../brands/powerhitter.html" class="sidebar-link">PowerHitter</a>
+<a href="../brands/primo.html" class="sidebar-link">Primo</a>
+<a href="../brands/prism-pipes.html" class="sidebar-link">Prism Pipes</a>
+<a href="../brands/puffco.html" class="sidebar-link">Puffco</a>
+<a href="../brands/pulsar.html" class="sidebar-link">Pulsar</a>
+<a href="../brands/raw-rolling-papers.html" class="sidebar-link">RAW Rolling Papers</a>
+<a href="../brands/ryot.html" class="sidebar-link">RYOT</a>
+<a href="../brands/randys.html" class="sidebar-link">Randy’s</a>
+<a href="../brands/retro-vapes.html" class="sidebar-link">Retro Vapes</a>
+<a href="../brands/rhythms-of-life.html" class="sidebar-link">Rhythms of Life</a>
+<a href="../brands/ritual.html" class="sidebar-link">Ritual</a>
+<a href="../brands/roast-toast.html" class="sidebar-link">Roast & Toast</a>
+<a href="../brands/rokin-vapes.html" class="sidebar-link">Rokin Vapes</a>
+<a href="../brands/roll-it-club.html" class="sidebar-link">Roll It Club</a>
+<a href="../brands/slx-grinders.html" class="sidebar-link">SLX Grinders</a>
+<a href="../brands/santa-cruz-shredder.html" class="sidebar-link">Santa Cruz Shredder</a>
+<a href="../brands/seshgear.html" class="sidebar-link">SeshGear</a>
+<a href="../brands/session-goods.html" class="sidebar-link">Session Goods</a>
+<a href="../brands/sharpstone.html" class="sidebar-link">SharpStone</a>
+<a href="../brands/shine-rolling-papers.html" class="sidebar-link">Shine Rolling Papers</a>
+<a href="../brands/smoke-source.html" class="sidebar-link">Smoke Source</a>
+<a href="../brands/smokebuddy.html" class="sidebar-link">Smokebuddy</a>
+<a href="../brands/snowtree.html" class="sidebar-link">Snowtree</a>
+<a href="../brands/social-smoking.html" class="sidebar-link">Social Smoking</a>
+<a href="../brands/softglass.html" class="sidebar-link">Softglass</a>
+<a href="../brands/stache-products.html" class="sidebar-link">Stache Products</a>
+<a href="../brands/storz-bickel.html" class="sidebar-link">Storz & Bickel</a>
+<a href="../brands/stündenglass.html" class="sidebar-link">Stündenglass</a>
+<a href="../brands/the-kind-pen.html" class="sidebar-link">The Kind Pen</a>
+<a href="../brands/thick-ass-glass.html" class="sidebar-link">Thick Ass Glass</a>
+<a href="../brands/thug-life.html" class="sidebar-link">Thug Life</a>
+<a href="../brands/v-syndicate.html" class="sidebar-link">V Syndicate</a>
+<a href="../brands/vibes.html" class="sidebar-link">VIBES</a>
+<a href="../brands/vapium.html" class="sidebar-link">Vapium</a>
+<a href="../brands/wake-bake.html" class="sidebar-link">Wake & Bake</a>
+<a href="../brands/weedgets.html" class="sidebar-link">Weedgets</a>
+<a href="../brands/white-rhino.html" class="sidebar-link">White Rhino</a>
+<a href="../brands/wulf-mods.html" class="sidebar-link">Wulf Mods</a>
+<a href="../brands/xvape.html" class="sidebar-link">Xvape</a>
+<a href="../brands/yocan.html" class="sidebar-link">Yocan</a>
+<a href="../brands/zenco.html" class="sidebar-link">Zenco</a>
+<a href="../brands/zig-zag.html" class="sidebar-link">Zig-Zag</a></nav>
+        
+    </nav>
+
     <div class="main-wrapper">
-        <main class="main-content">
+        <div class="banner">DISCORD GROUP BUY &nbsp;·&nbsp; FAST SHIPPING FROM MISSISSIPPI</div>
+
+        <!-- Mobile header -->
+        <div class="mobile-header">
+            <div class="mobile-header-logo">Pixie's <span>Pantry</span></div>
+            <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+
+        <div class="main-content">
             
         <div class="toolbar">
             <div class="toolbar-left">
-                <h1 class="page-title" style="margin:0;">Smokebuddy</h1>
-                <p id="result-count">6 products</p>
+                <h1>Smokebuddy</h1>
+                <p id="result-count">5 products</p>
             </div>
             <div class="toolbar-right">
-                <select id="brandFilter" class="filter-select" onchange="applyFilters()">
-                    <option value="all">All Brands</option><option value="Smokebuddy">Smokebuddy</option>
-                </select>
                 <select id="catFilter" class="filter-select" onchange="applyFilters()">
                     <option value="all">All Categories</option><option value="Accessories">Accessories</option>
                 </select>
@@ -52,70 +705,120 @@
                 </select>
             </div>
         </div>
+        <div class="grid"><div class="card"
+         data-name="smoke buddy junior sploof air filter"
+         data-price="24.99"
+         data-brand="smokebuddy"
+         data-cat="accessories"
+         onclick="openModal(this)"
+         data-product='{"name": "Smoke Buddy Junior Sploof Air Filter", "brand": "Smokebuddy", "category": "Accessories", "Description": "\n                        <div class=\"original-desc\" style=\"margin-bottom: 20px;\"><p>Looking for a way to hide that smell? Meet the Smoke Buddy Junior! By utilizing an advanced air filter, this portable device is perfect for eliminating any type of unwanted smell or odor. The Smoke Buddy Junior is an environmentally friendly product that keeps secondhand smoke away from friends, family, and neighbors. Its compact and lightweight design makes it small enough to fit inside your pocket, and it&#39;s perfect for travel or storing discreetly. This new \"Junior\" version of the Smoke Buddy makes it easier than ever to transport and use discreetly.</p>\n<p><img alt=\"Smoke Buddy Junior Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/4ADA3A3C-7D4D-41D5-A0DF-A8781F8AB5C3_large.png?v=1541000105\"></p>\n<h3><b><i>Get Connected:</i></b></h3>\n<p>Smoke Buddy Junior Sploof\u00a0Air Filter<br>Controls\u00a0Second-Hand Smoke<br>Environmentally Safe\u00a0Design<br>Pocket-Friendly Junior Size<br>Estimated at 600+ Uses\u00a0<br>Compact &amp; Travel-Friendly<br>Personal Handheld Air Filter<br>Included Travel Caps for Storage<br>Magically Removes Smoke &amp;\u00a0Odor<br>Keeps Second Hand Smoke Discreet<br></p></div>\n                        <p>The <strong>Smoke Buddy Junior Sploof Air Filter</strong> is a highly vetted addition to the <em>Accessories</em> lineup. Selected specifically for the Pixie&#39;s Pantry Group Buy, this piece was evaluated for material quality, performance consistency, and long-term durability.</p>\n                        <p>We bypass retail markups to bring you hardware that merges high-end lifestyle aesthetics with pure functional engineering. There is no marketing fluff here\u2014just the exact specifications you need to make an informed upgrade to your setup.</p>\n                        <h4 style=&#39;margin-top:15px; margin-bottom:5px; color:#d4af37; text-transform:uppercase; letter-spacing:1px; font-size:0.9em;&#39;>Audited Specifications:</h4>\n                        <ul style=&#39;margin-top:0; padding-left:20px; font-size:0.9em; color:#555;&#39;>\n                            <li><strong>Air Filter/Sploof</strong></li><li><strong>all</strong></li><li><strong>Ships From CaliConnected</strong></li><li><strong>Ships From CaliConnected & SEO Active</strong></li><li><strong>Switch inventory</strong></li>\n                        </ul>\n                        ", "Specs": "Air Filter/Sploof, all, Ships From CaliConnected, Ships From CaliConnected & SEO Active, Switch inventory", "Featured": "", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_5.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_5_2.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7_2.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Junior-Sploof-Air-Filter-Eco-Green.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Junior-Sploof-Air-Filter-Eco-White.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SmokeBuddy_Smoke_Buddy_Junior_Sploof_2.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SmokeBuddy_Smoke_Buddy_Junior_Sploof_4.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SmokeBuddy_Smoke_Buddy_Junior_Sploof_5.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_6.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_8.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_6_2.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_0.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_2.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_3.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_4.jpg?v=1758215072"], "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_5.jpg?v=1758215072", "Variants": [{"name": "Black", "sku": "AF58 : AF58BK", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_0.jpg?v=1758215072"}, {"name": "Lime Green", "sku": "AF58 : AF58LGR", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_2.jpg?v=1758215071"}, {"name": "Purple", "sku": "AF58 : AF58PU", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_6.jpg?v=1758215072"}, {"name": "Red", "sku": "AF58 : AF58RD", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_4.jpg?v=1758215072"}, {"name": "Glow in the Dark White", "sku": "AF158 : AF158WHSM", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_6_2.jpg?v=1758215071"}]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Smoke Buddy Junior Sploof Air Filter')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_5.jpg?v=1758215072" alt="Smoke Buddy Junior Sploof Air Filter" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smokebuddy</div>
+            <div class="title">Smoke Buddy Junior Sploof Air Filter</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$24.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="smoke buddy junior sploof air filter - teal"
+         data-price="24.99"
+         data-brand="smokebuddy"
+         data-cat="accessories"
+         onclick="openModal(this)"
+         data-product='{"name": "Smoke Buddy Junior Sploof Air Filter - Teal", "brand": "Smokebuddy", "category": "Accessories", "Description": "\n                        <div class=\"original-desc\" style=\"margin-bottom: 20px;\"><p>Looking for a way to hide that smell? Meet the Smoke Buddy Junior! By utilizing an advanced air filter, this portable device is perfect for eliminating any type of unwanted smell or odor. The Smoke Buddy Junior is an environmentally friendly product that keeps secondhand smoke away from friends, family, and neighbors. Its compact and lightweight design makes it small enough to fit inside your pocket, and it&#39;s perfect for travel or storing discreetly. This new \"Junior\" version of the Smoke Buddy makes it easier than ever to transport and use discreetly.</p>\n<p><img alt=\"Smoke Buddy Junior Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/4ADA3A3C-7D4D-41D5-A0DF-A8781F8AB5C3_large.png?v=1541000105\"></p>\n<h3><b><i>Get Connected:</i></b></h3>\n<p>Smoke Buddy Junior Sploof\u00a0Air Filter<br>Controls\u00a0Second-Hand Smoke<br>Environmentally Safe\u00a0Design<br>Pocket-Friendly Junior Size<br>Estimated at 600+ Uses\u00a0<br>Compact &amp; Travel-Friendly<br>Personal Handheld Air Filter<br>Included Travel Caps for Storage<br>Magically Removes Smoke &amp;\u00a0Odor<br>Keeps Second Hand Smoke Discreet<br></p></div>\n                        <p>The <strong><a href=\"javascript:void(0)\" onclick=\"searchExactProduct(&#39;Smoke Buddy Junior Sploof Air Filter&#39;)\" style=\"color:#d4af37; text-decoration:underline; font-weight:bold;\">Smoke Buddy Junior Sploof Air Filter</a> - Teal</strong> is a highly vetted addition to the <em>Accessories</em> lineup. Selected specifically for the Pixie&#39;s Pantry Group Buy, this piece was evaluated for material quality, performance consistency, and long-term durability.</p>\n                        <p>We bypass retail markups to bring you hardware that merges high-end lifestyle aesthetics with pure functional engineering. There is no marketing fluff here\u2014just the exact specifications you need to make an informed upgrade to your setup.</p>\n                        <h4 style=&#39;margin-top:15px; margin-bottom:5px; color:#d4af37; text-transform:uppercase; letter-spacing:1px; font-size:0.9em;&#39;>Audited Specifications:</h4>\n                        <ul style=&#39;margin-top:0; padding-left:20px; font-size:0.9em; color:#555;&#39;>\n                            <li><strong>Air Filter/Sploof</strong></li><li><strong>all</strong></li><li><strong>Ships From CaliConnected</strong></li><li><strong>Ships From CaliConnected & SEO Active</strong></li><li><strong>Switch inventory</strong></li>\n                        </ul>\n                        ", "Specs": "Air Filter/Sploof, all, Ships From CaliConnected, Ships From CaliConnected & SEO Active, Switch inventory", "Featured": "", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_5.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_5_2.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7_2.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Junior-Sploof-Air-Filter-Eco-Green.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Junior-Sploof-Air-Filter-Eco-White.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SmokeBuddy_Smoke_Buddy_Junior_Sploof_2.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SmokeBuddy_Smoke_Buddy_Junior_Sploof_4.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SmokeBuddy_Smoke_Buddy_Junior_Sploof_5.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_6.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_8.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_6_2.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_0.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_2.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_3.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_4.jpg?v=1758215072"], "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7.jpg?v=1758215072", "Variants": [{"name": "Default Option", "sku": "AF58 : AF58TE", "price": 24.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7.jpg?v=1758215072"}]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('Smoke Buddy Junior Sploof Air Filter - Teal')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7.jpg?v=1758215072" alt="Smoke Buddy Junior Sploof Air Filter - Teal" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smokebuddy</div>
+            <div class="title">Smoke Buddy Junior Sploof Air Filter - Teal</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$24.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="the original smoke buddy sploof air filter"
+         data-price="32.99"
+         data-brand="smokebuddy"
+         data-cat="accessories"
+         onclick="openModal(this)"
+         data-product='{"name": "The Original Smoke Buddy Sploof Air Filter", "brand": "Smokebuddy", "category": "Accessories", "Description": "\n                        <div class=\"original-desc\" style=\"margin-bottom: 20px;\"><p>Looking for a way to hide that smell? Meet the Smoke Buddy! By utilizing an advanced air filter, this portable device is perfect for eliminating any type of unwanted smell or odor related to your extracurricular activities. The Smoke Buddy Air Filter is an environmentally friendly product that keeps second-hand smoke away from friends, family, and neighbors. It&#39;s compact and lightweight design makes it small enough to fit inside your pocket and it&#39;s perfect for travel or storing discreetly.<br><b><i></i></b></p>\n<p><img alt=\"Smoke Buddy Professional Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/B8B9AB8E-F6EB-440C-9954-D07489706185_large.jpeg?v=1541000434\"></p>\n<h3><b><i>Get Connected:</i></b></h3>\n<p>The Original Smoke Buddy Sploof<br>Keeps Second Hand Smoke Away<br>Environmentally Friendly Product<br>Controls\u00a0Second-Hand Smoke<br>Estimated at 600+ Uses\u00a0<br>Compact &amp; Travel-Friendly<br>Magically Removes Smoke &amp;\u00a0Odor<br>Travel Caps Included for Discreet Storage</p>\n<p><img alt=\"Camo Smoke Buddy Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/5B65A4E4-A1B3-43A2-BDA0-6ABF948FD017_large.jpeg?v=1541000417\"></p></div>\n                        <p>The <strong>The Original Smoke Buddy Sploof Air Filter</strong> is a highly vetted addition to the <em>Accessories</em> lineup. Selected specifically for the Pixie&#39;s Pantry Group Buy, this piece was evaluated for material quality, performance consistency, and long-term durability.</p>\n                        <p>We bypass retail markups to bring you hardware that merges high-end lifestyle aesthetics with pure functional engineering. There is no marketing fluff here\u2014just the exact specifications you need to make an informed upgrade to your setup.</p>\n                        <h4 style=&#39;margin-top:15px; margin-bottom:5px; color:#d4af37; text-transform:uppercase; letter-spacing:1px; font-size:0.9em;&#39;>Audited Specifications:</h4>\n                        <ul style=&#39;margin-top:0; padding-left:20px; font-size:0.9em; color:#555;&#39;>\n                            <li><strong>Air Filter/Sploof</strong></li><li><strong>all</strong></li><li><strong>Ships From CaliConnected</strong></li><li><strong>Ships From CaliConnected & SEO Active</strong></li><li><strong>Switch inventory</strong></li>\n                        </ul>\n                        ", "Specs": "Air Filter/Sploof, all, Ships From CaliConnected, Ships From CaliConnected & SEO Active, Switch inventory", "Featured": "", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smokebuddy_Original_Personal_Air_Filter_Las_Vegas.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Lime-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_6.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Evil.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-White.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Personal_Air_Filter_Camo.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070"], "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smokebuddy_Original_Personal_Air_Filter_Las_Vegas.jpg?v=1758215070", "Variants": [{"name": "Wood", "sku": "AF36 : AF36WD", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4.jpg?v=1758215070"}, {"name": "Tie Dye", "sku": "AF36 : AF36TD", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_6.jpg?v=1758215069"}, {"name": "Lime Green", "sku": "AF36 : AF36LGR", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Lime-Green.jpg?v=1758215070"}, {"name": "Pink", "sku": "AF36 : AF36PK", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4_2.jpg?v=1758215069"}, {"name": "Purple", "sku": "AF36 : AF36PU", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_5.jpg?v=1758215070"}]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('The Original Smoke Buddy Sploof Air Filter')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smokebuddy_Original_Personal_Air_Filter_Las_Vegas.jpg?v=1758215070" alt="The Original Smoke Buddy Sploof Air Filter" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smokebuddy</div>
+            <div class="title">The Original Smoke Buddy Sploof Air Filter</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$32.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="the original smoke buddy sploof air filter - grenade"
+         data-price="32.99"
+         data-brand="smokebuddy"
+         data-cat="accessories"
+         onclick="openModal(this)"
+         data-product='{"name": "The Original Smoke Buddy Sploof Air Filter - Grenade", "brand": "Smokebuddy", "category": "Accessories", "Description": "\n                        <div class=\"original-desc\" style=\"margin-bottom: 20px;\"><p>Looking for a way to hide that smell? Meet the Smoke Buddy! By utilizing an advanced air filter, this portable device is perfect for eliminating any type of unwanted smell or odor related to your extracurricular activities. The Smoke Buddy Air Filter is an environmentally friendly product that keeps second-hand smoke away from friends, family, and neighbors. It&#39;s compact and lightweight design makes it small enough to fit inside your pocket and it&#39;s perfect for travel or storing discreetly.<br><b><i></i></b></p>\n<p><img alt=\"Smoke Buddy Professional Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/B8B9AB8E-F6EB-440C-9954-D07489706185_large.jpeg?v=1541000434\"></p>\n<h3><b><i>Get Connected:</i></b></h3>\n<p>The Original Smoke Buddy Sploof<br>Keeps Second Hand Smoke Away<br>Environmentally Friendly Product<br>Controls\u00a0Second-Hand Smoke<br>Estimated at 600+ Uses\u00a0<br>Compact &amp; Travel-Friendly<br>Magically Removes Smoke &amp;\u00a0Odor<br>Travel Caps Included for Discreet Storage</p>\n<p><img alt=\"Camo Smoke Buddy Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/5B65A4E4-A1B3-43A2-BDA0-6ABF948FD017_large.jpeg?v=1541000417\"></p></div>\n                        <p>The <strong><a href=\"javascript:void(0)\" onclick=\"searchExactProduct(&#39;The Original Smoke Buddy Sploof Air Filter&#39;)\" style=\"color:#d4af37; text-decoration:underline; font-weight:bold;\">The Original Smoke Buddy Sploof Air Filter</a> - Grenade</strong> is a highly vetted addition to the <em>Accessories</em> lineup. Selected specifically for the Pixie&#39;s Pantry Group Buy, this piece was evaluated for material quality, performance consistency, and long-term durability.</p>\n                        <p>We bypass retail markups to bring you hardware that merges high-end lifestyle aesthetics with pure functional engineering. There is no marketing fluff here\u2014just the exact specifications you need to make an informed upgrade to your setup.</p>\n                        <h4 style=&#39;margin-top:15px; margin-bottom:5px; color:#d4af37; text-transform:uppercase; letter-spacing:1px; font-size:0.9em;&#39;>Audited Specifications:</h4>\n                        <ul style=&#39;margin-top:0; padding-left:20px; font-size:0.9em; color:#555;&#39;>\n                            <li><strong>Air Filter/Sploof</strong></li><li><strong>all</strong></li><li><strong>Ships From CaliConnected</strong></li><li><strong>Ships From CaliConnected & SEO Active</strong></li><li><strong>Switch inventory</strong></li>\n                        </ul>\n                        ", "Specs": "Air Filter/Sploof, all, Ships From CaliConnected, Ships From CaliConnected & SEO Active, Switch inventory", "Featured": "", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smokebuddy_Original_Personal_Air_Filter_Las_Vegas.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Lime-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_6.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Evil.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-White.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Personal_Air_Filter_Camo.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070"], "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070", "Variants": [{"name": "Default Option", "sku": "AF36 : AF36GRD", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070"}]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('The Original Smoke Buddy Sploof Air Filter - Grenade')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070" alt="The Original Smoke Buddy Sploof Air Filter - Grenade" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smokebuddy</div>
+            <div class="title">The Original Smoke Buddy Sploof Air Filter - Grenade</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$32.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div><div class="card"
+         data-name="the original smoke buddy sploof air filter - teal"
+         data-price="32.99"
+         data-brand="smokebuddy"
+         data-cat="accessories"
+         onclick="openModal(this)"
+         data-product='{"name": "The Original Smoke Buddy Sploof Air Filter - Teal", "brand": "Smokebuddy", "category": "Accessories", "Description": "\n                        <div class=\"original-desc\" style=\"margin-bottom: 20px;\"><p>Looking for a way to hide that smell? Meet the Smoke Buddy! By utilizing an advanced air filter, this portable device is perfect for eliminating any type of unwanted smell or odor related to your extracurricular activities. The Smoke Buddy Air Filter is an environmentally friendly product that keeps second-hand smoke away from friends, family, and neighbors. It&#39;s compact and lightweight design makes it small enough to fit inside your pocket and it&#39;s perfect for travel or storing discreetly.<br><b><i></i></b></p>\n<p><img alt=\"Smoke Buddy Professional Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/B8B9AB8E-F6EB-440C-9954-D07489706185_large.jpeg?v=1541000434\"></p>\n<h3><b><i>Get Connected:</i></b></h3>\n<p>The Original Smoke Buddy Sploof<br>Keeps Second Hand Smoke Away<br>Environmentally Friendly Product<br>Controls\u00a0Second-Hand Smoke<br>Estimated at 600+ Uses\u00a0<br>Compact &amp; Travel-Friendly<br>Magically Removes Smoke &amp;\u00a0Odor<br>Travel Caps Included for Discreet Storage</p>\n<p><img alt=\"Camo Smoke Buddy Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/5B65A4E4-A1B3-43A2-BDA0-6ABF948FD017_large.jpeg?v=1541000417\"></p></div>\n                        <p>The <strong><a href=\"javascript:void(0)\" onclick=\"searchExactProduct(&#39;The Original Smoke Buddy Sploof Air Filter&#39;)\" style=\"color:#d4af37; text-decoration:underline; font-weight:bold;\">The Original Smoke Buddy Sploof Air Filter</a> - Teal</strong> is a highly vetted addition to the <em>Accessories</em> lineup. Selected specifically for the Pixie&#39;s Pantry Group Buy, this piece was evaluated for material quality, performance consistency, and long-term durability.</p>\n                        <p>We bypass retail markups to bring you hardware that merges high-end lifestyle aesthetics with pure functional engineering. There is no marketing fluff here\u2014just the exact specifications you need to make an informed upgrade to your setup.</p>\n                        <h4 style=&#39;margin-top:15px; margin-bottom:5px; color:#d4af37; text-transform:uppercase; letter-spacing:1px; font-size:0.9em;&#39;>Audited Specifications:</h4>\n                        <ul style=&#39;margin-top:0; padding-left:20px; font-size:0.9em; color:#555;&#39;>\n                            <li><strong>Air Filter/Sploof</strong></li><li><strong>all</strong></li><li><strong>Ships From CaliConnected</strong></li><li><strong>Ships From CaliConnected & SEO Active</strong></li><li><strong>Switch inventory</strong></li>\n                        </ul>\n                        ", "Specs": "Air Filter/Sploof, all, Ships From CaliConnected, Ships From CaliConnected & SEO Active, Switch inventory", "Featured": "", "All Images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smokebuddy_Original_Personal_Air_Filter_Las_Vegas.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Lime-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_6.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Evil.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-White.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Personal_Air_Filter_Camo.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070"], "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070", "Variants": [{"name": "Default Option", "sku": "AF36 : AF36TE", "price": 32.99, "image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070"}]}'>
+        <div class="link-shortcut" title="Copy Direct Link"
+             onclick="event.stopPropagation(); copyDirectLink('The Original Smoke Buddy Sploof Air Filter - Teal')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="image-container">
+            <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070" alt="The Original Smoke Buddy Sploof Air Filter - Teal" loading="lazy" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=No+Image'">
+        </div>
+        <div class="card-info">
+            <div class="brand-badge">Smokebuddy</div>
+            <div class="title">The Original Smoke Buddy Sploof Air Filter - Teal</div>
+            <div class="card-footer-row">
+                <div class="price-tag">$32.99</div>
+                <button class="quick-add-btn" onclick="event.stopPropagation(); quickAdd(this)">Add</button>
+            </div>
+        </div>
+    </div></div>
         
-            <div class="grid">
-            <div class="card" onclick="openModal('smoke-buddy-junior-sploof-air-filter')" data-name="smoke buddy junior sploof air filter" data-brand="Smokebuddy" data-cat="Accessories" data-price="24.99">
-                <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_5.jpg?v=1758215072" alt="Smoke Buddy Junior Sploof Air Filter" class="card-img" loading="lazy">
-                <div class="card-body">
-                    <div class="card-brand">Smokebuddy</div>
-                    <h3 class="card-title">Smoke Buddy Junior Sploof Air Filter</h3>
-                    <div class="card-price">$24.99</div>
-                    <span class="btn btn-outline" style="width:100%;box-sizing:border-box;">View Details</span>
-                </div>
-            </div>
-            
-            <div class="card" onclick="openModal('smoke-buddy-junior-sploof-air-filter-teal')" data-name="smoke buddy junior sploof air filter - teal" data-brand="Smokebuddy" data-cat="Accessories" data-price="24.99">
-                <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7.jpg?v=1758215072" alt="Smoke Buddy Junior Sploof Air Filter - Teal" class="card-img" loading="lazy">
-                <div class="card-body">
-                    <div class="card-brand">Smokebuddy</div>
-                    <h3 class="card-title">Smoke Buddy Junior Sploof Air Filter - Teal</h3>
-                    <div class="card-price">$24.99</div>
-                    <span class="btn btn-outline" style="width:100%;box-sizing:border-box;">View Details</span>
-                </div>
-            </div>
-            
-            <div class="card" onclick="openModal('the-original-smoke-buddy-sploof-air-filter')" data-name="the original smoke buddy sploof air filter" data-brand="Smokebuddy" data-cat="Accessories" data-price="32.99">
-                <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smokebuddy_Original_Personal_Air_Filter_Las_Vegas.jpg?v=1758215070" alt="The Original Smoke Buddy Sploof Air Filter" class="card-img" loading="lazy">
-                <div class="card-body">
-                    <div class="card-brand">Smokebuddy</div>
-                    <h3 class="card-title">The Original Smoke Buddy Sploof Air Filter</h3>
-                    <div class="card-price">$32.99</div>
-                    <span class="btn btn-outline" style="width:100%;box-sizing:border-box;">View Details</span>
-                </div>
-            </div>
-            
-            <div class="card" onclick="openModal('the-original-smoke-buddy-sploof-air-filter-camo')" data-name="the original smoke buddy sploof air filter - camo" data-brand="Smokebuddy" data-cat="Accessories" data-price="32.99">
-                <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Personal_Air_Filter_Camo.jpg?v=1758215070" alt="The Original Smoke Buddy Sploof Air Filter - Camo" class="card-img" loading="lazy">
-                <div class="card-body">
-                    <div class="card-brand">Smokebuddy</div>
-                    <h3 class="card-title">The Original Smoke Buddy Sploof Air Filter - Camo</h3>
-                    <div class="card-price">$32.99</div>
-                    <span class="btn btn-outline" style="width:100%;box-sizing:border-box;">View Details</span>
-                </div>
-            </div>
-            
-            <div class="card" onclick="openModal('the-original-smoke-buddy-sploof-air-filter-grenade')" data-name="the original smoke buddy sploof air filter - grenade" data-brand="Smokebuddy" data-cat="Accessories" data-price="32.99">
-                <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070" alt="The Original Smoke Buddy Sploof Air Filter - Grenade" class="card-img" loading="lazy">
-                <div class="card-body">
-                    <div class="card-brand">Smokebuddy</div>
-                    <h3 class="card-title">The Original Smoke Buddy Sploof Air Filter - Grenade</h3>
-                    <div class="card-price">$32.99</div>
-                    <span class="btn btn-outline" style="width:100%;box-sizing:border-box;">View Details</span>
-                </div>
-            </div>
-            
-            <div class="card" onclick="openModal('the-original-smoke-buddy-sploof-air-filter-teal')" data-name="the original smoke buddy sploof air filter - teal" data-brand="Smokebuddy" data-cat="Accessories" data-price="32.99">
-                <img src="https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070" alt="The Original Smoke Buddy Sploof Air Filter - Teal" class="card-img" loading="lazy">
-                <div class="card-body">
-                    <div class="card-brand">Smokebuddy</div>
-                    <h3 class="card-title">The Original Smoke Buddy Sploof Air Filter - Teal</h3>
-                    <div class="card-price">$32.99</div>
-                    <span class="btn btn-outline" style="width:100%;box-sizing:border-box;">View Details</span>
-                </div>
-            </div>
-            </div>
-        </main>
-        
+        </div>
+
         <footer class="site-footer">
             <div class="footer-content">
                 <div class="footer-col">
@@ -126,15 +829,16 @@
                     <h3>Explore</h3>
                     <ul>
                         <li><a href="../index.html">Master Catalog</a></li>
-                        <li><a href="javascript:void(0)" onclick="document.getElementById('cart-float').click()">View Cart</a></li>
-                        <li><a href="../community.html">Community Pricing</a></li>
+                        <li><a href="#" onclick="toggleCart(); return false;">View Cart</a></li>
+                        <li><a href="../about.html">Our Philosophy</a></li>
+                        <li><a href="../faq.html">FAQ & Guide</a></li>
                         <li><a href="https://dyspensr.com" target="_blank">Dyspensr Network</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h3>Client Services</h3>
                     <ul>
-                        <li><a href="https://discord.gg/dm8deA2u" target="_blank">Discord Support (Fastest)</a></li>
+                        <li><a href="https://discord.gg/pyTSf569" target="_blank">Discord Support (Fastest)</a></li>
                         <li><a href="mailto:admin@pixies-pantry.com">Email Concierge</a></li>
                         <li><a href="../shipping.html">Shipping & Delivery</a></li>
                         <li><a href="../refunds.html">Returns & Exchanges</a></li>
@@ -146,97 +850,321 @@
                     <p>Join the inner circle for exclusive drops and wholesale restocks.</p>
                     <form class="newsletter-form" action="https://formspree.io/f/xeoqkzdj" method="POST">
                         <input type="email" name="Newsletter Email" placeholder="Enter your email address" required>
-                        <button type="submit">Subscribe</button>
+                        <button type="submit" style="color: black !important;">Subscribe</button>
                     </form>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 PIXIE'S PANTRY. ALL RIGHTS RESERVED.</p>
                 <div class="footer-socials">
-                    <a href="https://discord.gg/dm8deA2u" target="_blank">Discord</a>
+                    <a href="https://discord.gg/pyTSf569" target="_blank">Discord</a>
                     <a href="#">Instagram</a>
                     <a href="#">Twitter</a>
                 </div>
             </div>
         </footer>
-
     </div>
-    
-        <!-- Global Cart Button -->
-        <div class="cart-float" id="cart-float" title="View Cart">
-            🛒<div class="cart-badge" id="cart-badge">0</div>
-        </div>
-        
-        <!-- Cart Slide-out / Modal -->
-        <div class="modal-overlay" id="cart-overlay">
-            <div class="modal cart-modal">
-                <button class="modal-close" id="cart-close">&times;</button>
-                <h2 class="modal-title" style="margin-bottom: 5px;">Your Shopping Cart</h2>
-                <div class="cart-items-container" id="cart-items-container">
-                    <!-- JS injects cart items here -->
-                </div>
-                <div class="cart-total-row">
-                    <span>Total</span>
-                    <span id="cart-total">$0.00</span>
-                </div>
-                <button class="btn" id="proceed-checkout-btn" style="width: 100%; padding: 15px; font-size: 16px;">Proceed to Checkout</button>
-            </div>
-        </div>
 
-        <!-- Product Modal -->
-        <div class="modal-overlay" id="modal-overlay">
-            <div class="modal">
-                <button class="modal-close" id="modal-close">&times;</button>
-                <div class="modal-left">
-                    <img src="" alt="Product" class="modal-main-img" id="m-img">
-                </div>
-                <div class="modal-right">
-                    <div class="modal-brand" id="m-brand">Brand</div>
-                    <h2 class="modal-title" id="m-title">Product Name</h2>
-                    <div class="modal-price" id="m-price">$0.00</div>
-                    <div class="modal-desc" id="m-desc"></div>
-                    
-                    <div class="variant-label" id="v-label">Options</div>
-                    <div class="swatch-group" id="swatches"></div>
-                    
-                    <button class="btn modal-buy-btn" id="add-to-cart-btn">Add to Cart</button>
-                </div>
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <button onclick="closeModal()" style="position:absolute; top:20px; right:24px; font-size:2em; background:none; border:none; cursor:pointer; color:#aaa; z-index:10; line-height:1;">&times;</button>
+            <div class="modal-img-side">
+                <img id="modal-img" src="" style="max-width:100%; max-height:380px; object-fit:contain;">
+                <div id="modal-gallery" style="display:flex; gap:10px; margin-top:20px; overflow-x:auto; width:100%; justify-content:center; padding-bottom:4px;"></div>
+            </div>
+            <div class="modal-info-side">
+                <div id="modal-brand" style="font-size:0.75em; font-weight:900; color:#bbb; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;"></div>
+                <h2 id="modal-title" style="font-weight:900; font-size:1.9em; line-height:1.1; letter-spacing:-0.5px; margin-bottom:18px;"></h2>
+                <div id="modal-price" style="font-size:2.2em; font-weight:900; margin-bottom:22px;"></div>
+                <div id="modal-variant-container" style="margin-bottom:10px;"></div>
+                <button id="modal-add-btn" class="quick-add-btn" style="width:100%; padding:18px; font-size:1em; margin-top:16px; letter-spacing:1px; text-transform:uppercase; border-radius:10px;">Add to Order</button>
+                <div id="modal-desc-container" style="margin-top:30px; color:#555; font-size:0.95em; line-height:1.8; border-top:1px solid #f0f0f0; padding-top:22px;"></div>
             </div>
         </div>
-        
-        <!-- Checkout Modal -->
-        <div class="modal-overlay" id="checkout-overlay">
-            <div class="modal" style="max-width: 500px; flex-direction: column; padding: 40px;">
-                <button class="modal-close" id="checkout-close">&times;</button>
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h2 class="modal-title" style="margin-bottom: 5px; color: #cc0000; font-size: 20px;">🚨 COMPLETE PAYMENT TO FINALIZE 🚨</h2>
-                    <p style="font-size: 13px; font-weight: bold; color: #555;">Orders are not processed until payment clears.</p>
-                </div>
-                <h2 class="modal-title" style="margin-bottom: 5px;">Secure Checkout</h2>
-                <div id="checkout-item-desc" style="margin-bottom: 25px; color: #444;"></div>
-                <form id="checkout-form">
-                    <div class="input-box"><label>Full Name *</label><input type="text" id="c_name" required></div>
-                    <div class="input-box"><label>Email Address *</label><input type="email" id="c_email" required></div>
-                    <div style="display: flex; gap: 15px;">
-                        <div class="input-box" style="flex: 1;"><label>Phone Number *</label><input type="tel" id="c_phone" required></div>
-                        <div class="input-box" style="flex: 1;"><label>Discord Username (Optional)</label><input type="text" id="c_discord" placeholder="e.g. user#1234"></div>
-                    </div>
-                    <div class="input-box">
-                        <label>Shipping Address *</label>
-                        <input type="text" id="c_address" placeholder="Street Address" required style="margin-bottom: 10px;">
-                        <div style="display: flex; gap: 10px;">
-                            <input type="text" id="c_city" placeholder="City" required style="flex: 2;">
-                            <input type="text" id="c_state" placeholder="State" required style="flex: 1;">
-                            <input type="text" id="c_zip" placeholder="ZIP" required style="flex: 1;">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn" style="width: 100%; margin-top: 15px; font-size: 15px; padding: 15px;" id="c_submit">Submit Order</button>
-                </form>
-                <div id="checkout-feedback" style="margin-top: 15px; font-size: 14px; font-weight: bold; text-align: center; display: none;"></div>
+    </div>
+
+    <!-- Floating Cart Button -->
+    <button class="cart-toggle" onclick="toggleCart()">🛒 CART (<span class="cart-count">0</span>)</button>
+
+    <!-- Side Cart Panel -->
+    <div id="cart-panel" class="cart-panel">
+        <div style="padding:28px 30px; background:#fafafa; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; font-size:1em; font-weight:900; letter-spacing:2px; text-transform:uppercase;">Order Sheet</h2>
+            <button onclick="toggleCart()" style="border:none; background:none; font-size:1.8em; cursor:pointer; color:#bbb; line-height:1;">&times;</button>
+        </div>
+        <div id="cart-items" style="flex:1; overflow-y:auto; padding:20px 30px;"></div>
+        <div style="padding:24px 30px; border-top:1px solid #eee; background:#fff;">
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:1.2em; margin-bottom:24px;">
+                <span>Subtotal:</span><span id="cart-total-price">$0.00</span>
+            </div>
+            <!-- FORMSPREE FORM — action URL uses your FORMSPREE_ID -->
+            <form action="https://formspree.io/f/xeoqkzdj" method="POST" id="checkout-form" onsubmit="prepareCheckout(event)">
+                <input type="hidden" name="Order Details" id="order-payload">
+                <input type="text" name="Full Name" placeholder="Full Name *" required class="checkout-input">
+                <input type="email" name="email" placeholder="Email Address *" required class="checkout-input">
+                <input type="text" name="Discord" placeholder="Discord Username (Optional)" class="checkout-input">
+                <input type="text" name="Shipping" placeholder="City, State, Zip *" required class="checkout-input">
+                <input type="text" name="Notes" placeholder="Order notes (optional)" class="checkout-input">
+                <button type="submit" style="width:100%; background:var(--primary); color:#fff; border:none; padding:18px; font-weight:900; border-radius:10px; margin-top:8px; font-size:0.95em; text-transform:uppercase; letter-spacing:1px; cursor:pointer; font-family:inherit;">Submit Order</button>
+            </form>
+            <div id="receipt-container" style="display:none; text-align:center; padding:30px; border:2px dashed #eee; border-radius:14px;">
+                <div style="font-size:2em; margin-bottom:12px;">✅</div>
+                <h4 style="font-weight:900; letter-spacing:1px; margin-bottom:8px;">ORDER SUBMITTED</h4>
+                <p style="font-size:0.88em; color:var(--muted);">Check Discord or Email for follow-up shortly.</p>
+                <button onclick="location.reload()" class="quick-add-btn" style="margin-top:18px; width:100%; padding:14px; border-radius:8px;">Back to Catalog</button>
             </div>
         </div>
-        
-    <script>window.productsData = {"smoke-buddy-junior-sploof-air-filter": {"handle": "smoke-buddy-junior-sploof-air-filter", "brand": "Smokebuddy", "product_type": "Accessories", "title": "Smoke Buddy Junior Sploof Air Filter", "body_html": "\n                        <div class=\"original-desc\" style=\"margin-bottom: 20px;\"><p>Looking for a way to hide that smell? Meet the Smoke Buddy Junior! By utilizing an advanced air filter, this portable device is perfect for eliminating any type of unwanted smell or odor. The Smoke Buddy Junior is an environmentally friendly product that keeps secondhand smoke away from friends, family, and neighbors. Its compact and lightweight design makes it small enough to fit inside your pocket, and it's perfect for travel or storing discreetly. This new \"Junior\" version of the Smoke Buddy makes it easier than ever to transport and use discreetly.</p>\n<p><img alt=\"Smoke Buddy Junior Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/4ADA3A3C-7D4D-41D5-A0DF-A8781F8AB5C3_large.png?v=1541000105\"></p>\n<h3><b><i>Get Connected:</i></b></h3>\n<p>Smoke Buddy Junior Sploof\u00a0Air Filter<br>Controls\u00a0Second-Hand Smoke<br>Environmentally Safe\u00a0Design<br>Pocket-Friendly Junior Size<br>Estimated at 600+ Uses\u00a0<br>Compact &amp; Travel-Friendly<br>Personal Handheld Air Filter<br>Included Travel Caps for Storage<br>Magically Removes Smoke &amp;\u00a0Odor<br>Keeps Second Hand Smoke Discreet<br></p></div>\n                        <p>The <strong>Smoke Buddy Junior Sploof Air Filter</strong> is a highly vetted addition to the <em>Accessories</em> lineup. Selected specifically for the Pixie's Pantry Group Buy, this piece was evaluated for material quality, performance consistency, and long-term durability.</p>\n                        <p>We bypass retail markups to bring you hardware that merges high-end lifestyle aesthetics with pure functional engineering. There is no marketing fluff here\u2014just the exact specifications you need to make an informed upgrade to your setup.</p>\n                        <h4 style='margin-top:15px; margin-bottom:5px; color:#d4af37; text-transform:uppercase; letter-spacing:1px; font-size:0.9em;'>Audited Specifications:</h4>\n                        <ul style='margin-top:0; padding-left:20px; font-size:0.9em; color:#555;'>\n                            <li><strong>Air Filter/Sploof</strong></li><li><strong>all</strong></li><li><strong>Ships From CaliConnected</strong></li><li><strong>Ships From CaliConnected & SEO Active</strong></li><li><strong>Switch inventory</strong></li>\n                        </ul>\n                        ", "options": [{"name": "Options", "values": ["Black", "Lime Green", "Purple", "Red", "Glow in the Dark White"]}], "in_stock_variants": [{"variant_id": "AF58 : AF58BK", "option1_name": "Options", "option1_value": "Black", "price": 24.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_0.jpg?v=1758215072"}, {"variant_id": "AF58 : AF58LGR", "option1_name": "Options", "option1_value": "Lime Green", "price": 24.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_2.jpg?v=1758215071"}, {"variant_id": "AF58 : AF58PU", "option1_name": "Options", "option1_value": "Purple", "price": 24.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_6.jpg?v=1758215072"}, {"variant_id": "AF58 : AF58RD", "option1_name": "Options", "option1_value": "Red", "price": 24.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_4.jpg?v=1758215072"}, {"variant_id": "AF158 : AF158WHSM", "option1_name": "Options", "option1_value": "Glow in the Dark White", "price": 24.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_6_2.jpg?v=1758215071"}], "all_images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_5.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_5_2.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7_2.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Junior-Sploof-Air-Filter-Eco-Green.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Junior-Sploof-Air-Filter-Eco-White.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SmokeBuddy_Smoke_Buddy_Junior_Sploof_2.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SmokeBuddy_Smoke_Buddy_Junior_Sploof_4.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SmokeBuddy_Smoke_Buddy_Junior_Sploof_5.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_6.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_8.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_6_2.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_0.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_2.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_3.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_4.jpg?v=1758215072"], "featured_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_5.jpg?v=1758215072", "min_price": 24.99}, "smoke-buddy-junior-sploof-air-filter-teal": {"handle": "smoke-buddy-junior-sploof-air-filter-teal", "brand": "Smokebuddy", "product_type": "Accessories", "title": "Smoke Buddy Junior Sploof Air Filter - Teal", "body_html": "\n                        <div class=\"original-desc\" style=\"margin-bottom: 20px;\"><p>Looking for a way to hide that smell? Meet the Smoke Buddy Junior! By utilizing an advanced air filter, this portable device is perfect for eliminating any type of unwanted smell or odor. The Smoke Buddy Junior is an environmentally friendly product that keeps secondhand smoke away from friends, family, and neighbors. Its compact and lightweight design makes it small enough to fit inside your pocket, and it's perfect for travel or storing discreetly. This new \"Junior\" version of the Smoke Buddy makes it easier than ever to transport and use discreetly.</p>\n<p><img alt=\"Smoke Buddy Junior Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/4ADA3A3C-7D4D-41D5-A0DF-A8781F8AB5C3_large.png?v=1541000105\"></p>\n<h3><b><i>Get Connected:</i></b></h3>\n<p>Smoke Buddy Junior Sploof\u00a0Air Filter<br>Controls\u00a0Second-Hand Smoke<br>Environmentally Safe\u00a0Design<br>Pocket-Friendly Junior Size<br>Estimated at 600+ Uses\u00a0<br>Compact &amp; Travel-Friendly<br>Personal Handheld Air Filter<br>Included Travel Caps for Storage<br>Magically Removes Smoke &amp;\u00a0Odor<br>Keeps Second Hand Smoke Discreet<br></p></div>\n                        <p>The <strong>Smoke Buddy Junior Sploof Air Filter - Teal</strong> is a highly vetted addition to the <em>Accessories</em> lineup. Selected specifically for the Pixie's Pantry Group Buy, this piece was evaluated for material quality, performance consistency, and long-term durability.</p>\n                        <p>We bypass retail markups to bring you hardware that merges high-end lifestyle aesthetics with pure functional engineering. There is no marketing fluff here\u2014just the exact specifications you need to make an informed upgrade to your setup.</p>\n                        <h4 style='margin-top:15px; margin-bottom:5px; color:#d4af37; text-transform:uppercase; letter-spacing:1px; font-size:0.9em;'>Audited Specifications:</h4>\n                        <ul style='margin-top:0; padding-left:20px; font-size:0.9em; color:#555;'>\n                            <li><strong>Air Filter/Sploof</strong></li><li><strong>all</strong></li><li><strong>Ships From CaliConnected</strong></li><li><strong>Ships From CaliConnected & SEO Active</strong></li><li><strong>Switch inventory</strong></li>\n                        </ul>\n                        ", "options": [{"name": "Options", "values": ["Default Option"]}], "in_stock_variants": [{"variant_id": "AF58 : AF58TE", "option1_name": "Options", "option1_value": "Default Option", "price": 24.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7.jpg?v=1758215072"}], "all_images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_5.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_5_2.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7_2.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Junior-Sploof-Air-Filter-Eco-Green.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Junior-Sploof-Air-Filter-Eco-White.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SmokeBuddy_Smoke_Buddy_Junior_Sploof_2.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SmokeBuddy_Smoke_Buddy_Junior_Sploof_4.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/SmokeBuddy_Smoke_Buddy_Junior_Sploof_5.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_6.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_8.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_6_2.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_0.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_2.jpg?v=1758215071", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_3.jpg?v=1758215072", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_4.jpg?v=1758215072"], "featured_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Junior_Sploof_Air_Filter_7.jpg?v=1758215072", "min_price": 24.99}, "the-original-smoke-buddy-sploof-air-filter": {"handle": "the-original-smoke-buddy-sploof-air-filter", "brand": "Smokebuddy", "product_type": "Accessories", "title": "The Original Smoke Buddy Sploof Air Filter", "body_html": "\n                        <div class=\"original-desc\" style=\"margin-bottom: 20px;\"><p>Looking for a way to hide that smell? Meet the Smoke Buddy! By utilizing an advanced air filter, this portable device is perfect for eliminating any type of unwanted smell or odor related to your extracurricular activities. The Smoke Buddy Air Filter is an environmentally friendly product that keeps second-hand smoke away from friends, family, and neighbors. It's compact and lightweight design makes it small enough to fit inside your pocket and it's perfect for travel or storing discreetly.<br><b><i></i></b></p>\n<p><img alt=\"Smoke Buddy Professional Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/B8B9AB8E-F6EB-440C-9954-D07489706185_large.jpeg?v=1541000434\"></p>\n<h3><b><i>Get Connected:</i></b></h3>\n<p>The Original Smoke Buddy Sploof<br>Keeps Second Hand Smoke Away<br>Environmentally Friendly Product<br>Controls\u00a0Second-Hand Smoke<br>Estimated at 600+ Uses\u00a0<br>Compact &amp; Travel-Friendly<br>Magically Removes Smoke &amp;\u00a0Odor<br>Travel Caps Included for Discreet Storage</p>\n<p><img alt=\"Camo Smoke Buddy Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/5B65A4E4-A1B3-43A2-BDA0-6ABF948FD017_large.jpeg?v=1541000417\"></p></div>\n                        <p>The <strong>The Original Smoke Buddy Sploof Air Filter</strong> is a highly vetted addition to the <em>Accessories</em> lineup. Selected specifically for the Pixie's Pantry Group Buy, this piece was evaluated for material quality, performance consistency, and long-term durability.</p>\n                        <p>We bypass retail markups to bring you hardware that merges high-end lifestyle aesthetics with pure functional engineering. There is no marketing fluff here\u2014just the exact specifications you need to make an informed upgrade to your setup.</p>\n                        <h4 style='margin-top:15px; margin-bottom:5px; color:#d4af37; text-transform:uppercase; letter-spacing:1px; font-size:0.9em;'>Audited Specifications:</h4>\n                        <ul style='margin-top:0; padding-left:20px; font-size:0.9em; color:#555;'>\n                            <li><strong>Air Filter/Sploof</strong></li><li><strong>all</strong></li><li><strong>Ships From CaliConnected</strong></li><li><strong>Ships From CaliConnected & SEO Active</strong></li><li><strong>Switch inventory</strong></li>\n                        </ul>\n                        ", "options": [{"name": "Options", "values": ["Wood", "Tie Dye", "Lime Green", "Pink", "Purple"]}], "in_stock_variants": [{"variant_id": "AF36 : AF36WD", "option1_name": "Options", "option1_value": "Wood", "price": 32.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4.jpg?v=1758215070"}, {"variant_id": "AF36 : AF36TD", "option1_name": "Options", "option1_value": "Tie Dye", "price": 32.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_6.jpg?v=1758215069"}, {"variant_id": "AF36 : AF36LGR", "option1_name": "Options", "option1_value": "Lime Green", "price": 32.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Lime-Green.jpg?v=1758215070"}, {"variant_id": "AF36 : AF36PK", "option1_name": "Options", "option1_value": "Pink", "price": 32.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4_2.jpg?v=1758215069"}, {"variant_id": "AF36 : AF36PU", "option1_name": "Options", "option1_value": "Purple", "price": 32.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_5.jpg?v=1758215070"}], "all_images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smokebuddy_Original_Personal_Air_Filter_Las_Vegas.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Lime-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_6.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Evil.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-White.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Personal_Air_Filter_Camo.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070"], "featured_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smokebuddy_Original_Personal_Air_Filter_Las_Vegas.jpg?v=1758215070", "min_price": 32.99}, "the-original-smoke-buddy-sploof-air-filter-camo": {"handle": "the-original-smoke-buddy-sploof-air-filter-camo", "brand": "Smokebuddy", "product_type": "Accessories", "title": "The Original Smoke Buddy Sploof Air Filter - Camo", "body_html": "\n                        <div class=\"original-desc\" style=\"margin-bottom: 20px;\"><p>Looking for a way to hide that smell? Meet the Smoke Buddy! By utilizing an advanced air filter, this portable device is perfect for eliminating any type of unwanted smell or odor related to your extracurricular activities. The Smoke Buddy Air Filter is an environmentally friendly product that keeps second-hand smoke away from friends, family, and neighbors. It's compact and lightweight design makes it small enough to fit inside your pocket and it's perfect for travel or storing discreetly.<br><b><i></i></b></p>\n<p><img alt=\"Smoke Buddy Professional Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/B8B9AB8E-F6EB-440C-9954-D07489706185_large.jpeg?v=1541000434\"></p>\n<h3><b><i>Get Connected:</i></b></h3>\n<p>The Original Smoke Buddy Sploof<br>Keeps Second Hand Smoke Away<br>Environmentally Friendly Product<br>Controls\u00a0Second-Hand Smoke<br>Estimated at 600+ Uses\u00a0<br>Compact &amp; Travel-Friendly<br>Magically Removes Smoke &amp;\u00a0Odor<br>Travel Caps Included for Discreet Storage</p>\n<p><img alt=\"Camo Smoke Buddy Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/5B65A4E4-A1B3-43A2-BDA0-6ABF948FD017_large.jpeg?v=1541000417\"></p></div>\n                        <p>The <strong>The Original Smoke Buddy Sploof Air Filter - Camo</strong> is a highly vetted addition to the <em>Accessories</em> lineup. Selected specifically for the Pixie's Pantry Group Buy, this piece was evaluated for material quality, performance consistency, and long-term durability.</p>\n                        <p>We bypass retail markups to bring you hardware that merges high-end lifestyle aesthetics with pure functional engineering. There is no marketing fluff here\u2014just the exact specifications you need to make an informed upgrade to your setup.</p>\n                        <h4 style='margin-top:15px; margin-bottom:5px; color:#d4af37; text-transform:uppercase; letter-spacing:1px; font-size:0.9em;'>Audited Specifications:</h4>\n                        <ul style='margin-top:0; padding-left:20px; font-size:0.9em; color:#555;'>\n                            <li><strong>Air Filter/Sploof</strong></li><li><strong>all</strong></li><li><strong>Ships From CaliConnected</strong></li><li><strong>Ships From CaliConnected & SEO Active</strong></li><li><strong>Switch inventory</strong></li>\n                        </ul>\n                        ", "options": [{"name": "Options", "values": ["Default Option"]}], "in_stock_variants": [{"variant_id": "AF36 : AF36CA", "option1_name": "Options", "option1_value": "Default Option", "price": 32.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Personal_Air_Filter_Camo.jpg?v=1758215070"}], "all_images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smokebuddy_Original_Personal_Air_Filter_Las_Vegas.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Lime-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_6.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Evil.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-White.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Personal_Air_Filter_Camo.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070"], "featured_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Personal_Air_Filter_Camo.jpg?v=1758215070", "min_price": 32.99}, "the-original-smoke-buddy-sploof-air-filter-grenade": {"handle": "the-original-smoke-buddy-sploof-air-filter-grenade", "brand": "Smokebuddy", "product_type": "Accessories", "title": "The Original Smoke Buddy Sploof Air Filter - Grenade", "body_html": "\n                        <div class=\"original-desc\" style=\"margin-bottom: 20px;\"><p>Looking for a way to hide that smell? Meet the Smoke Buddy! By utilizing an advanced air filter, this portable device is perfect for eliminating any type of unwanted smell or odor related to your extracurricular activities. The Smoke Buddy Air Filter is an environmentally friendly product that keeps second-hand smoke away from friends, family, and neighbors. It's compact and lightweight design makes it small enough to fit inside your pocket and it's perfect for travel or storing discreetly.<br><b><i></i></b></p>\n<p><img alt=\"Smoke Buddy Professional Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/B8B9AB8E-F6EB-440C-9954-D07489706185_large.jpeg?v=1541000434\"></p>\n<h3><b><i>Get Connected:</i></b></h3>\n<p>The Original Smoke Buddy Sploof<br>Keeps Second Hand Smoke Away<br>Environmentally Friendly Product<br>Controls\u00a0Second-Hand Smoke<br>Estimated at 600+ Uses\u00a0<br>Compact &amp; Travel-Friendly<br>Magically Removes Smoke &amp;\u00a0Odor<br>Travel Caps Included for Discreet Storage</p>\n<p><img alt=\"Camo Smoke Buddy Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/5B65A4E4-A1B3-43A2-BDA0-6ABF948FD017_large.jpeg?v=1541000417\"></p></div>\n                        <p>The <strong>The Original Smoke Buddy Sploof Air Filter - Grenade</strong> is a highly vetted addition to the <em>Accessories</em> lineup. Selected specifically for the Pixie's Pantry Group Buy, this piece was evaluated for material quality, performance consistency, and long-term durability.</p>\n                        <p>We bypass retail markups to bring you hardware that merges high-end lifestyle aesthetics with pure functional engineering. There is no marketing fluff here\u2014just the exact specifications you need to make an informed upgrade to your setup.</p>\n                        <h4 style='margin-top:15px; margin-bottom:5px; color:#d4af37; text-transform:uppercase; letter-spacing:1px; font-size:0.9em;'>Audited Specifications:</h4>\n                        <ul style='margin-top:0; padding-left:20px; font-size:0.9em; color:#555;'>\n                            <li><strong>Air Filter/Sploof</strong></li><li><strong>all</strong></li><li><strong>Ships From CaliConnected</strong></li><li><strong>Ships From CaliConnected & SEO Active</strong></li><li><strong>Switch inventory</strong></li>\n                        </ul>\n                        ", "options": [{"name": "Options", "values": ["Default Option"]}], "in_stock_variants": [{"variant_id": "AF36 : AF36GRD", "option1_name": "Options", "option1_value": "Default Option", "price": 32.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070"}], "all_images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smokebuddy_Original_Personal_Air_Filter_Las_Vegas.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Lime-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_6.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Evil.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-White.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Personal_Air_Filter_Camo.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070"], "featured_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070", "min_price": 32.99}, "the-original-smoke-buddy-sploof-air-filter-teal": {"handle": "the-original-smoke-buddy-sploof-air-filter-teal", "brand": "Smokebuddy", "product_type": "Accessories", "title": "The Original Smoke Buddy Sploof Air Filter - Teal", "body_html": "\n                        <div class=\"original-desc\" style=\"margin-bottom: 20px;\"><p>Looking for a way to hide that smell? Meet the Smoke Buddy! By utilizing an advanced air filter, this portable device is perfect for eliminating any type of unwanted smell or odor related to your extracurricular activities. The Smoke Buddy Air Filter is an environmentally friendly product that keeps second-hand smoke away from friends, family, and neighbors. It's compact and lightweight design makes it small enough to fit inside your pocket and it's perfect for travel or storing discreetly.<br><b><i></i></b></p>\n<p><img alt=\"Smoke Buddy Professional Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/B8B9AB8E-F6EB-440C-9954-D07489706185_large.jpeg?v=1541000434\"></p>\n<h3><b><i>Get Connected:</i></b></h3>\n<p>The Original Smoke Buddy Sploof<br>Keeps Second Hand Smoke Away<br>Environmentally Friendly Product<br>Controls\u00a0Second-Hand Smoke<br>Estimated at 600+ Uses\u00a0<br>Compact &amp; Travel-Friendly<br>Magically Removes Smoke &amp;\u00a0Odor<br>Travel Caps Included for Discreet Storage</p>\n<p><img alt=\"Camo Smoke Buddy Sploof\" src=\"//cdn.shopify.com/s/files/1/0010/3134/0085/files/5B65A4E4-A1B3-43A2-BDA0-6ABF948FD017_large.jpeg?v=1541000417\"></p></div>\n                        <p>The <strong>The Original Smoke Buddy Sploof Air Filter - Teal</strong> is a highly vetted addition to the <em>Accessories</em> lineup. Selected specifically for the Pixie's Pantry Group Buy, this piece was evaluated for material quality, performance consistency, and long-term durability.</p>\n                        <p>We bypass retail markups to bring you hardware that merges high-end lifestyle aesthetics with pure functional engineering. There is no marketing fluff here\u2014just the exact specifications you need to make an informed upgrade to your setup.</p>\n                        <h4 style='margin-top:15px; margin-bottom:5px; color:#d4af37; text-transform:uppercase; letter-spacing:1px; font-size:0.9em;'>Audited Specifications:</h4>\n                        <ul style='margin-top:0; padding-left:20px; font-size:0.9em; color:#555;'>\n                            <li><strong>Air Filter/Sploof</strong></li><li><strong>all</strong></li><li><strong>Ships From CaliConnected</strong></li><li><strong>Ships From CaliConnected & SEO Active</strong></li><li><strong>Switch inventory</strong></li>\n                        </ul>\n                        ", "options": [{"name": "Options", "values": ["Default Option"]}], "in_stock_variants": [{"variant_id": "AF36 : AF36TE", "option1_name": "Options", "option1_value": "Default Option", "price": 32.99, "variant_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070"}], "all_images": ["https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smokebuddy_Original_Personal_Air_Filter_Las_Vegas.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4_2.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_0.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_8_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Lime-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_6.jpg?v=1758215069", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_7.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_2.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke_Buddy_Grenade.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Evil.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-White.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/Smoke-Buddy-Air-Filter-Eco-Green.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Personal_Air_Filter_Camo.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_Smoke_Buddy_Sploof_5.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_4.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_3.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_6.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_9.jpg?v=1758215070", "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070"], "featured_image": "https://cdn.shopify.com/s/files/1/0568/2780/5886/files/The_Original_SmokeBuddy_Sploof_Air_Filter_1.jpg?v=1758215070", "min_price": 32.99}};</script>
-    <script src="../js/main.js"></script>
+    </div>
+
+    <script>
+
+// ── State ──────────────────────────────────────────────────
+let cart = [];
+
+// ── Cart Helpers ────────────────────────────────────────────
+function addToCart(productName, variant) {
+    const existing = cart.find(i => i.name === productName && i.variantName === variant.name);
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({ name: productName, variantName: variant.name, price: variant.price, qty: 1 });
+    }
+    renderCart();
+    showToast("Added: " + productName);
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    renderCart();
+}
+
+function updateQty(index, delta) {
+    cart[index].qty += delta;
+    if (cart[index].qty <= 0) cart.splice(index, 1);
+    renderCart();
+}
+
+function renderCart() {
+    const container = document.getElementById('cart-items');
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    document.querySelectorAll('.cart-count').forEach(el => el.textContent = cart.reduce((s,i) => s+i.qty, 0));
+    document.getElementById('cart-total-price').textContent = '$' + total.toFixed(2);
+
+    if (cart.length === 0) {
+        container.innerHTML = '<p style="color:#aaa; text-align:center; padding:40px 0; font-size:0.9em;">Your cart is empty.</p>';
+        return;
+    }
+
+    container.innerHTML = cart.map((item, i) => `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:18px 0; border-bottom:1px solid #f0f0f0; gap:12px;">
+            <div style="flex:1;">
+                <div style="font-weight:800; font-size:0.9em; line-height:1.3;">${item.name}</div>
+                ${item.variantName !== 'Standard' ? `<div style="font-size:0.78em; color:#aaa; margin-top:3px;">${item.variantName}</div>` : ''}
+                <div style="font-size:0.85em; color:#555; margin-top:6px;">$${item.price.toFixed(2)} each</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button onclick="updateQty(${i}, -1)" style="width:28px; height:28px; border:1px solid #ddd; background:#fff; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center;">−</button>
+                    <span style="font-weight:900; min-width:20px; text-align:center;">${item.qty}</span>
+                    <button onclick="updateQty(${i}, 1)" style="width:28px; height:28px; border:1px solid #ddd; background:#fff; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center;">+</button>
+                </div>
+                <div style="font-weight:900; font-size:0.95em;">$${(item.price * item.qty).toFixed(2)}</div>
+                <button onclick="removeFromCart(${i})" style="border:none; background:none; color:#ccc; cursor:pointer; font-size:0.75em; text-transform:uppercase; letter-spacing:1px;">Remove</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function toggleCart() {
+    document.getElementById('cart-panel').classList.toggle('open');
+}
+
+// ── Modal ───────────────────────────────────────────────────
+function openModal(cardEl) {
+    const raw = cardEl.getAttribute('data-product');
+    const p = JSON.parse(raw.replace(/&#39;/g, "'"));
+    const modal = document.getElementById('product-modal');
+
+    document.getElementById('modal-img').src = p.image;
+    document.getElementById('modal-brand').textContent = p.brand;
+    document.getElementById('modal-title').textContent = p.name;
+    document.getElementById('modal-desc-container').innerHTML = p.Description || '';
+
+    // Gallery
+    const gallery = document.getElementById('modal-gallery');
+    gallery.innerHTML = (p['All Images'] || []).map((img, i) => `
+        <img src="${img}" style="width:60px; height:60px; object-fit:contain; border:2px solid ${i===0?'#111':'#eee'}; border-radius:8px; cursor:pointer; padding:4px;"
+             onclick="document.getElementById('modal-img').src='${img}'; this.parentNode.querySelectorAll('img').forEach(x=>x.style.borderColor='#eee'); this.style.borderColor='#111';">
+    `).join('');
+
+    // Variants
+    const container = document.getElementById('modal-variant-container');
+    const priceEl = document.getElementById('modal-price');
+
+    if (p.Variants.length === 1) {
+        priceEl.textContent = '$' + p.Variants[0].price.toFixed(2);
+        container.innerHTML = '';
+        document.getElementById('modal-add-btn').onclick = () => {
+            addToCart(p.name, p.Variants[0]);
+            closeModal();
+        };
+    } else {
+        priceEl.textContent = '$' + p.Variants[0].price.toFixed(2);
+        container.innerHTML = `
+            <label style="font-size:0.8em; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#aaa; display:block; margin-bottom:10px;">Select Option</label>
+            <select onchange="selectVariant(this.value, ${JSON.stringify(p.Variants).replace(/"/g,'&quot;')})"
+                    style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-weight: 700; font-size: 0.95em; cursor: pointer; outline: none;">
+                ${p.Variants.map((v, i) => `
+                    <option value="${i}">${v.name} - $${v.price.toFixed(2)}</option>
+                `).join('')}
+            </select>`;
+
+        // Store selected variant index on the button
+        let selectedVariant = p.Variants[0];
+        window._modalVariants = p.Variants;
+        window._modalSelectedVariant = selectedVariant;
+
+        document.getElementById('modal-add-btn').onclick = () => {
+            addToCart(p.name, window._modalSelectedVariant || p.Variants[0]);
+            closeModal();
+        };
+    }
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function selectVariant(index, variantsJson) {
+    const variants = typeof variantsJson === 'string' ? JSON.parse(variantsJson) : variantsJson;
+    const v = variants[index];
+    window._modalSelectedVariant = v;
+    document.getElementById('modal-price').textContent = '$' + v.price.toFixed(2);
+    
+    if (v.image && v.image !== "https://placehold.co/400x400/f5f5f5/999?text=No+Image") {
+        document.getElementById('modal-img').src = v.image;
+        document.querySelectorAll('#modal-gallery img').forEach(img => {
+            img.style.borderColor = img.src === v.image ? '#111' : '#eee';
+        });
+    }
+}
+
+function closeModal() {
+    document.getElementById('product-modal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+document.getElementById('product-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// ── Quick Add (single variant) ──────────────────────────────
+function quickAdd(btn) {
+    const card = btn.closest('.card');
+    const raw = card.getAttribute('data-product');
+    const p = JSON.parse(raw.replace(/&#39;/g, "'"));
+    if (p.Variants.length === 1) {
+        addToCart(p.name, p.Variants[0]);
+    } else {
+        openModal(card);
+    }
+}
+
+// ── Filter & Sort ───────────────────────────────────────────
+function applyFilters() {
+    const search = (document.getElementById('searchInput')?.value || '').toLowerCase();
+    const brandFilter = (document.getElementById('brandFilter')?.value || 'all').toLowerCase();
+    const catFilter = (document.getElementById('catFilter')?.value || 'all').toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+        const name = card.dataset.name || '';
+        const brand = card.dataset.brand || '';
+        const cat = card.dataset.cat || '';
+        const matchSearch = name.includes(search) || brand.includes(search);
+        const matchBrand = brandFilter === 'all' || brand === brandFilter;
+        const matchCat = catFilter === 'all' || cat === catFilter;
+        card.style.display = (matchSearch && matchBrand && matchCat) ? 'flex' : 'none';
+    });
+    updateCount();
+}
+
+function updateCount() {
+    const visible = document.querySelectorAll('.card:not([style*="none"])').length;
+    const el = document.getElementById('result-count');
+    if (el) el.textContent = visible + ' products';
+}
+
+function sortGrid() {
+    const val = document.getElementById('sortSelect')?.value;
+    const grid = document.querySelector('.grid');
+    if (!grid || !val) return;
+    const cards = Array.from(grid.querySelectorAll('.card'));
+    cards.sort((a, b) => {
+        if (val === 'price-low') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+        if (val === 'price-high') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+        if (val === 'name-az') return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+        return 0;
+    });
+    cards.forEach(c => grid.appendChild(c));
+}
+
+// ── Toast ───────────────────────────────────────────────────
+function showToast(msg) {
+    const t = document.getElementById('pixies-toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Direct Link ─────────────────────────────────────────────
+function copyDirectLink(name) {
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const url = window.location.href.split('?')[0] + '?p=' + slug;
+    navigator.clipboard?.writeText(url).then(() => showToast('🔗 Link copied!')).catch(() => showToast('Link: ' + url));
+}
+
+// ── Formspree Checkout ──────────────────────────────────────
+function prepareCheckout(e) {
+    e.preventDefault();
+    if (cart.length === 0) { showToast('Your cart is empty!'); return; }
+
+    const orderLines = cart.map(i => `${i.qty}x ${i.name}${i.variantName !== 'Standard' ? ' ('+i.variantName+')' : ''} @ $${i.price.toFixed(2)}`);
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    orderLines.push('---');
+    orderLines.push('SUBTOTAL: $' + total.toFixed(2));
+
+    document.getElementById('order-payload').value = orderLines.join('\n');
+
+    const form = document.getElementById('checkout-form');
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+    }).then(res => {
+        if (res.ok) {
+            form.style.display = 'none';
+            document.getElementById('receipt-container').style.display = 'block';
+            cart = [];
+            renderCart();
+        } else {
+            showToast('⚠️ Submission failed. Please try again.');
+        }
+    }).catch(() => showToast('⚠️ Network error. Check your connection.'));
+}
+
+// ── Mobile Nav ──────────────────────────────────────────────
+function toggleMobileNav() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('mobile-overlay');
+    sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = sidebar.classList.contains('mobile-open') ? 'hidden' : '';
+}
+
+// Init
+renderCart();
+
+    </script>
 </body>
 </html>
