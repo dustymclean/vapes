@@ -239,6 +239,23 @@ def generate_site():
     .btn-danger { background: #ff4444; color: #fff; }
     .btn-danger:hover { background: #cc0000; }
     
+    
+    /* Search & Toolbar */
+    .search-box { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 20px; outline: none; font-family: inherit; }
+    .search-box:focus { border-color: var(--primary); }
+    .toolbar { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+    .toolbar-left h1 { margin: 0 0 5px; }
+    .toolbar-left p { margin: 0; color: var(--muted); font-size: 14px; }
+    .toolbar-right { display: flex; gap: 10px; }
+    .filter-select { padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; background: #fff; cursor: pointer; outline: none; }
+    .filter-select:focus { border-color: var(--primary); }
+    
+    @media (max-width: 900px) {
+        .toolbar { flex-direction: column; align-items: flex-start; gap: 15px; }
+        .toolbar-right { width: 100%; flex-wrap: wrap; }
+        .filter-select { flex: 1; }
+    }
+
     /* Input box for forms */
     .input-box { margin-bottom: 15px; text-align: left; }
     .input-box label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; }
@@ -586,6 +603,51 @@ def generate_site():
             }
         };
         
+        // 
+        // -- 4. SEARCH & FILTER LOGIC --
+        window.applyFilters = function() {
+            const searchInput = document.getElementById('searchInput');
+            const search = (searchInput ? searchInput.value : '').toLowerCase();
+            const brandFilter = document.getElementById('brandFilter') ? document.getElementById('brandFilter').value : 'all';
+            const catFilter = document.getElementById('catFilter') ? document.getElementById('catFilter').value : 'all';
+            
+            let visibleCount = 0;
+            document.querySelectorAll('.card').forEach(card => {
+                const name = card.dataset.name || '';
+                const brand = card.dataset.brand || '';
+                const cat = card.dataset.cat || '';
+                
+                const matchSearch = name.includes(search) || brand.includes(search);
+                const matchBrand = (brandFilter === 'all') || (brand === brandFilter);
+                const matchCat = (catFilter === 'all') || (cat === catFilter);
+                
+                if (matchSearch && matchBrand && matchCat) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            const countEl = document.getElementById('result-count');
+            if (countEl) countEl.textContent = visibleCount + ' products';
+        };
+        
+        window.sortGrid = function() {
+            const val = document.getElementById('sortSelect')?.value;
+            const grid = document.querySelector('.grid');
+            if (!grid || !val || val === 'default') return;
+            
+            const cards = Array.from(grid.querySelectorAll('.card'));
+            cards.sort((a, b) => {
+                if (val === 'price-low') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+                if (val === 'price-high') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+                if (val === 'name-az') return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+                return 0;
+            });
+            cards.forEach(c => grid.appendChild(c));
+        };
+
         // Setup initial UI
         updateCart();
         
@@ -603,6 +665,8 @@ def generate_site():
         <aside class="sidebar">
             <a href="{depth}index.html" class="sidebar-logo">Pixie's Pantry</a>
             <div class="sidebar-tagline">Vape & Smoke Accessories</div>
+            
+            <input type="text" id="searchInput" class="search-box" placeholder="Search catalog..." onkeyup="applyFilters()">
             
             <a href="{depth}index.html" class="sidebar-link">All Products</a>
         """
@@ -719,13 +783,44 @@ def generate_site():
         products_dict = {p["handle"]: p for p in product_list}
         json_data = json.dumps(products_dict)
         
+        # Build Filter Dropdowns dynamically
+        unique_brands = sorted(list(set(p['brand'] for p in product_list if p.get('brand'))))
+        unique_cats = sorted(list(set(p['product_type'] for p in product_list if p.get('product_type'))))
+        
+        brand_opts = "".join([f'<option value="{b}">{b}</option>' for b in unique_brands])
+        cat_opts = "".join([f'<option value="{c}">{c}</option>' for c in unique_cats])
+        
+        toolbar = f"""
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <h1 class="page-title" style="margin:0;">{title}</h1>
+                <p id="result-count">{len(product_list)} products</p>
+            </div>
+            <div class="toolbar-right">
+                <select id="brandFilter" class="filter-select" onchange="applyFilters()">
+                    <option value="all">All Brands</option>{brand_opts}
+                </select>
+                <select id="catFilter" class="filter-select" onchange="applyFilters()">
+                    <option value="all">All Categories</option>{cat_opts}
+                </select>
+                <select id="sortSelect" class="filter-select" onchange="sortGrid()">
+                    <option value="default">Sort</option>
+                    <option value="price-low">Price: Low → High</option>
+                    <option value="price-high">Price: High → Low</option>
+                    <option value="name-az">Name A–Z</option>
+                </select>
+            </div>
+        </div>
+        """
+        
         grid_html = '<div class="grid">'
         for p in product_list:
             img = p.get("featured_image") or (p.get("all_images")[0] if p.get("all_images") else "")
             price = p.get("min_price", 0)
             handle = p["handle"]
+            safe_name = p['title'].lower().replace('"', '&quot;')
             grid_html += f"""
-            <div class="card" onclick="openModal('{handle}')">
+            <div class="card" onclick="openModal('{handle}')" data-name="{safe_name}" data-brand="{p['brand']}" data-cat="{p['product_type']}" data-price="{price}">
                 <img src="{img}" alt="{p['title']}" class="card-img" loading="lazy">
                 <div class="card-body">
                     <div class="card-brand">{p['brand']}</div>
@@ -750,8 +845,7 @@ def generate_site():
     {sidebar}
     <div class="main-wrapper">
         <main class="main-content">
-            <h1 class="page-title">{title}</h1>
-            <div class="page-subtitle">{subtitle}</div>
+            {toolbar}
             {grid_html}
         </main>
     </div>

@@ -282,6 +282,51 @@
             }
         };
         
+        // 
+        // -- 4. SEARCH & FILTER LOGIC --
+        window.applyFilters = function() {
+            const searchInput = document.getElementById('searchInput');
+            const search = (searchInput ? searchInput.value : '').toLowerCase();
+            const brandFilter = document.getElementById('brandFilter') ? document.getElementById('brandFilter').value : 'all';
+            const catFilter = document.getElementById('catFilter') ? document.getElementById('catFilter').value : 'all';
+            
+            let visibleCount = 0;
+            document.querySelectorAll('.card').forEach(card => {
+                const name = card.dataset.name || '';
+                const brand = card.dataset.brand || '';
+                const cat = card.dataset.cat || '';
+                
+                const matchSearch = name.includes(search) || brand.includes(search);
+                const matchBrand = (brandFilter === 'all') || (brand === brandFilter);
+                const matchCat = (catFilter === 'all') || (cat === catFilter);
+                
+                if (matchSearch && matchBrand && matchCat) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            const countEl = document.getElementById('result-count');
+            if (countEl) countEl.textContent = visibleCount + ' products';
+        };
+        
+        window.sortGrid = function() {
+            const val = document.getElementById('sortSelect')?.value;
+            const grid = document.querySelector('.grid');
+            if (!grid || !val || val === 'default') return;
+            
+            const cards = Array.from(grid.querySelectorAll('.card'));
+            cards.sort((a, b) => {
+                if (val === 'price-low') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+                if (val === 'price-high') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+                if (val === 'name-az') return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+                return 0;
+            });
+            cards.forEach(c => grid.appendChild(c));
+        };
+
         // Setup initial UI
         updateCart();
         

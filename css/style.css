@@ -37,6 +37,23 @@
     .btn-danger { background: #ff4444; color: #fff; }
     .btn-danger:hover { background: #cc0000; }
     
+    
+    /* Search & Toolbar */
+    .search-box { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 20px; outline: none; font-family: inherit; }
+    .search-box:focus { border-color: var(--primary); }
+    .toolbar { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+    .toolbar-left h1 { margin: 0 0 5px; }
+    .toolbar-left p { margin: 0; color: var(--muted); font-size: 14px; }
+    .toolbar-right { display: flex; gap: 10px; }
+    .filter-select { padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; background: #fff; cursor: pointer; outline: none; }
+    .filter-select:focus { border-color: var(--primary); }
+    
+    @media (max-width: 900px) {
+        .toolbar { flex-direction: column; align-items: flex-start; gap: 15px; }
+        .toolbar-right { width: 100%; flex-wrap: wrap; }
+        .filter-select { flex: 1; }
+    }
+
     /* Input box for forms */
     .input-box { margin-bottom: 15px; text-align: left; }
     .input-box label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; }
