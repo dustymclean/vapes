@@ -848,7 +848,8 @@ def generate_site():
         for b, cats in categories.items():
             for cat in sorted(cats.keys()):
                 if not cat: continue
-                html += f'<a href="{depth}categories/{slugify(cat)}.html" class="sidebar-link">{cat}</a>'
+                if len(cats[cat]) > 0: # Only add category if it contains products
+                    html += f'<a href="{depth}categories/{slugify(cat)}.html" class="sidebar-link">{cat}</a>'
                 
         html += f"""
             <div class="sidebar-community">
